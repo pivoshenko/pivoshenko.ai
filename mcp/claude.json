@@ -2,26 +2,61 @@
   "mcpServers": {
     "logfire": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://logfire-eu.pydantic.dev/mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://logfire-eu.pydantic.dev/mcp"
+      ]
     },
     "notion": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.notion.com/mcp"
+      ]
     },
     "linear": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.linear.app/mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.linear.app/mcp"
+      ]
     },
     "github": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://api.githubcopilot.com/mcp"],
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://api.githubcopilot.com/mcp"
+      ],
       "env": {
         "GITHUB_PAT_TOKEN": "${GITHUB_PAT_TOKEN}"
       }
     },
+    "vercel": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.vercel.com"
+      ]
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.cloudflare.com/mcp"
+      ]
+    },
     "obsidian": {
       "command": "npx",
-      "args": ["@mauricio.wolff/mcp-obsidian@latest", "<vault_path>"]
+      "args": [
+        "@mauricio.wolff/mcp-obsidian@latest",
+        "<TODO_YOUR_VAULT_PATH>"
+      ]
     }
   }
 }
