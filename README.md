@@ -1,3 +1,8 @@
 # pivoshenko.ai
 
-pivoshenko's AI agents workspace: MCP configs, skills, agents and automation hooks.
+- [pivoshenko.ai](#pivoshenkoai)
+  - [Overview](#overview)
+
+## Overview
+
+pivoshenko's AI agents workspace for MCPS, skills and agents.

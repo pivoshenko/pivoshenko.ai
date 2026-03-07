@@ -55,7 +55,7 @@
       "command": "npx",
       "args": [
         "@mauricio.wolff/mcp-obsidian@latest",
-        "<TODO_YOUR_VAULT_PATH>"
+        "<TODO_OBSIDIAN_VAULT_PATH>"
       ]
     }
   }
