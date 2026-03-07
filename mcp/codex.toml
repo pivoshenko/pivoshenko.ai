@@ -22,4 +22,4 @@ url = "https://mcp.cloudflare.com/mcp"
 
 [mcp_servers.obsidian]
 command = "npx"
-args = ["@mauricio.wolff/mcp-obsidian@latest", "<TODO_YOUR_VAULT_PATH>"]
+args = ["@mauricio.wolff/mcp-obsidian@latest", "<TODO_OBSIDIAN_VAULT_PATH>"]
