@@ -9,3 +9,15 @@ skills:
     skills:
       - doc-coauthoring
       - frontend-design
+
+  - source: https://github.com/ferdinandobons/startup-skill
+    skills:
+      - startup-design
+      - startup-competitors
+      - startup-positioning
+      - startup-pitch
+
+  - source: https://github.com/openai/skills
+    skills:
+      - name: jupyter-notebook
+        path: skills/.curated
