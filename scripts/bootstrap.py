@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-"""
-Bootstrap skills from skills.config.yaml using local paths or raw GitHub downloads.
-"""
+"""Bootstrap skills from skills.config.yaml using local paths or GitHub tarballs."""
 
 from __future__ import annotations
 
+import io
 import os
 import re
 import sys
@@ -14,11 +13,11 @@ import shutil
 import typing
 import hashlib
 import pathlib
+import tarfile
 import argparse
 import datetime as dt
 import dataclasses
 import urllib.error
-import urllib.parse
 import urllib.request
 
 
@@ -30,6 +29,7 @@ RUNS_DIR = AI_HOME / "runs"
 INDENT_SKILLS_ITEM = 2
 INDENT_SKILL_FIELD = 4
 INDENT_SKILL_LIST_ITEM = 6
+INDENT_SKILL_LIST_FIELD = 8
 
 BANNER_LINES = [
     "           ░██                                 ░██                              ░██                                 ░██",  # noqa: E501
@@ -48,13 +48,31 @@ TERMINAL_COLOR_GREEN = "\x1b[32m"
 TERMINAL_COLOR_YELLOW = "\x1b[33m"
 TERMINAL_COLOR_RED = "\x1b[31m"
 TERMINAL_COLOR_RESET = "\x1b[0m"
+STATUS_COLORS = {
+    "failed": TERMINAL_COLOR_RED,
+    "installed": TERMINAL_COLOR_GREEN,
+    "removed": TERMINAL_COLOR_RED,
+    "updated": TERMINAL_COLOR_GREEN,
+    "unchanged": TERMINAL_COLOR_YELLOW,
+    "would_remove": TERMINAL_COLOR_RED,
+    "would_install": TERMINAL_COLOR_GREEN,
+    "would_update": TERMINAL_COLOR_GREEN,
+}
 
 DEFAULT_TIMEOUT_SECONDS = 30
 DOWNLOAD_TIMEOUT_SECONDS = 120
 HASH_CHUNK_BYTES = 1024 * 1024
 RUNS_TO_KEEP = 5
+MIN_ARCHIVE_PATH_PARTS = 2
 
-type RequestedSkills = str | list[str]
+
+@dataclasses.dataclass(frozen=True, slots=True)
+class SkillTarget:
+    name: str
+    path: str | None = None
+
+
+type RequestedSkills = str | list[SkillTarget]
 type JsonDict = dict[str, typing.Any]
 type SourceHandle = "LocalSource | RemoteSource"
 
@@ -84,54 +102,56 @@ class GitHubRepo:
             return f"https://github.com/{self.owner}/{self.repo}/tree/{self.branch}/{clean_path}"
         return f"https://github.com/{self.owner}/{self.repo}/tree/{self.branch}"
 
-    def raw_url(self, path: str) -> str:
-        clean_path = path.strip("/")
+    def archive_url(self) -> str:
         return (
-            f"https://raw.githubusercontent.com/{self.owner}/{self.repo}/{self.branch}/{clean_path}"
+            f"https://codeload.github.com/{self.owner}/{self.repo}/tar.gz/refs/heads/{self.branch}"
         )
 
 
 @dataclasses.dataclass(slots=True)
 class LocalSource:
     source_raw: str
+    root_dir: pathlib.Path
     available: dict[str, pathlib.Path]
     revision: str = "local"
 
-    def selected_skills(self, requested: RequestedSkills) -> list[str]:
-        return select_skill_names(self.available.keys(), requested)
+    def selected_skills(self, requested: RequestedSkills) -> list[SkillTarget]:
+        return select_skill_targets(self.available.keys(), requested)
 
     def stage_skill(
         self,
-        skill_name: str,
+        skill: SkillTarget,
         _stage_dir: pathlib.Path,
     ) -> pathlib.Path | None:
-        return self.available.get(skill_name)
+        if skill.path:
+            return resolve_skill_target_path(self.root_dir, skill)
+        return self.available.get(skill.name)
 
 
 @dataclasses.dataclass(slots=True)
 class RemoteSource:
     source_raw: str
     repo: GitHubRepo
-    available: dict[str, str]
+    root_dir: pathlib.Path
+    available: dict[str, pathlib.Path]
 
     @property
     def revision(self) -> str:
         return f"branch:{self.repo.branch}"
 
-    def selected_skills(self, requested: RequestedSkills) -> list[str]:
-        return select_skill_names(self.available.keys(), requested)
+    def selected_skills(self, requested: RequestedSkills) -> list[SkillTarget]:
+        return select_skill_targets(self.available.keys(), requested)
 
-    def stage_skill(self, skill_name: str, stage_dir: pathlib.Path) -> pathlib.Path | None:
-        skill_root = self.available.get(skill_name)
-        if skill_root is None:
-            return None
-        download_remote_skill(self.repo, skill_root, stage_dir)
-        return stage_dir
+    def stage_skill(self, skill: SkillTarget, _stage_dir: pathlib.Path) -> pathlib.Path | None:
+        if skill.path:
+            return resolve_skill_target_path(self.root_dir, skill)
+        return self.available.get(skill.name)
 
 
 @dataclasses.dataclass(slots=True)
 class Counters:
     installed: int = 0
+    removed: int = 0
     updated: int = 0
     unchanged: int = 0
     failed: int = 0
@@ -139,6 +159,9 @@ class Counters:
     def add_status(self, status: str) -> None:
         if status == "installed":
             self.installed += 1
+            return
+        if status in {"removed", "would_remove"}:
+            self.removed += 1
             return
         if status == "updated":
             self.updated += 1
@@ -165,6 +188,8 @@ class RunContext:
     logger: Logger
     actions: list[JsonDict]
     counters: Counters
+    desired_destinations: set[pathlib.Path]
+    desired_state_keys: set[str]
 
 
 class Logger:
@@ -179,7 +204,7 @@ class Logger:
             handle.write(line + "\n")
 
         if self.verbose:
-            print(f"{terminal_prefix(level)} {message}")
+            print(f"{terminal_prefix(level)} {colorize_terminal_message(message)}")
 
 
 def utc_now() -> str:
@@ -194,6 +219,10 @@ def empty_state() -> JsonDict:
     return {"version": 1, "skills": {}, "last_run": None}
 
 
+def skill_state_key(source_raw: str, skill_name: str) -> str:
+    return f"{source_raw}::{skill_name}"
+
+
 def terminal_prefix(level: str) -> str:
     color = TERMINAL_COLOR_RESET
     match level.upper():
@@ -204,6 +233,36 @@ def terminal_prefix(level: str) -> str:
         case "ERROR":
             color = TERMINAL_COLOR_RED
     return f"{color}[bootstrap]{TERMINAL_COLOR_RESET}"
+
+
+def colorize_terminal_message(message: str) -> str:
+    if message.startswith("Summary: "):
+        return colorize_summary_message(message)
+
+    head, separator, tail = message.rpartition(": ")
+    status = tail if separator else message
+    color = STATUS_COLORS.get(status)
+    if color is None:
+        return message
+    colored_status = f"{color}{status}{TERMINAL_COLOR_RESET}"
+    if not separator:
+        return colored_status
+    return f"{head}{separator}{colored_status}"
+
+
+def colorize_summary_message(message: str) -> str:
+    prefix = "Summary: "
+    colored_parts: list[str] = []
+
+    for part in message.removeprefix(prefix).split(", "):
+        name, separator, value = part.partition("=")
+        color = STATUS_COLORS.get(name)
+        if color is None or not separator:
+            colored_parts.append(part)
+            continue
+        colored_parts.append(f"{name}={color}{value}{TERMINAL_COLOR_RESET}")
+
+    return prefix + ", ".join(colored_parts)
 
 
 def print_banner() -> None:
@@ -239,22 +298,57 @@ def config_lines(config_path: pathlib.Path) -> list[tuple[int, str]]:
     return lines
 
 
-def parse_skill_name_list(
+def parse_skill_target(
     lines: list[tuple[int, str]],
     start: int,
-) -> tuple[int, list[str]]:
-    selected: list[str] = []
+) -> tuple[int, SkillTarget]:
+    indent, text = lines[start]
+    if indent != INDENT_SKILL_LIST_ITEM or not text.startswith("- "):
+        msg = f"Expected '- <skill-name>' under skills, got: {text}"
+        raise ValueError(msg)
+
+    payload = text[2:].strip()
+    if ":" not in payload:
+        return start + 1, SkillTarget(name=parse_scalar(payload))
+
+    entry: dict[str, str] = {}
+    key, value = split_key_value(payload)
+    entry[key] = parse_scalar(value)
+
+    index = start + 1
+    while index < len(lines):
+        child_indent, child_text = lines[index]
+        if child_indent <= INDENT_SKILL_LIST_ITEM:
+            break
+        if child_indent != INDENT_SKILL_LIST_FIELD:
+            msg = f"Unexpected indentation in skill item: {child_text}"
+            raise ValueError(msg)
+        key, value = split_key_value(child_text)
+        entry[key] = parse_scalar(value)
+        index += 1
+
+    name = entry.get("name", "").strip()
+    path = entry.get("path", "").strip() or None
+    if not name:
+        msg = "Skill item mappings must include `name`."
+        raise ValueError(msg)
+
+    return index, SkillTarget(name=name, path=path)
+
+
+def parse_skill_list(
+    lines: list[tuple[int, str]],
+    start: int,
+) -> tuple[int, list[SkillTarget]]:
+    selected: list[SkillTarget] = []
     index = start
 
     while index < len(lines):
-        list_indent, list_text = lines[index]
+        list_indent, _list_text = lines[index]
         if list_indent <= INDENT_SKILL_FIELD:
             break
-        if list_indent != INDENT_SKILL_LIST_ITEM or not list_text.startswith("- "):
-            msg = f"Expected '- <skill-name>' under skills, got: {list_text}"
-            raise ValueError(msg)
-        selected.append(parse_scalar(list_text[2:]))
-        index += 1
+        index, target = parse_skill_target(lines, index)
+        selected.append(target)
 
     return index, selected
 
@@ -286,7 +380,7 @@ def parse_source_block(lines: list[tuple[int, str]], start: int) -> tuple[int, S
             index += 1
             continue
 
-        index, selected = parse_skill_name_list(lines, index + 1)
+        index, selected = parse_skill_list(lines, index + 1)
         entry["skills"] = selected
 
     source = str(entry.get("source", "")).strip()
@@ -297,7 +391,7 @@ def parse_source_block(lines: list[tuple[int, str]], start: int) -> tuple[int, S
         msg = "Each source entry must include `source` and `skills`."
         raise ValueError(msg)
     if requested != "*" and not isinstance(requested, list):
-        msg = "`skills` must be '*' or a list of skill names."
+        msg = "`skills` must be '*' or a list of skill names or mappings."
         raise ValueError(msg)
 
     return index, SourceSpec(source=source, skills=requested, branch=branch_raw)
@@ -354,25 +448,47 @@ def is_remote_source(source: str) -> bool:
 
 def is_wildcard_requested(requested: RequestedSkills) -> bool:
     return requested == "*" or (
-        isinstance(requested, list) and any(str(item).strip() == "*" for item in requested)
+        isinstance(requested, list) and any(item.name.strip() == "*" for item in requested)
     )
 
 
-def requested_names(requested: RequestedSkills) -> list[str]:
+def requested_targets(requested: RequestedSkills) -> list[SkillTarget]:
     if requested == "*":
         return []
     if isinstance(requested, list):
-        return [str(item) for item in requested]
-    return [str(requested)]
+        return requested
+    return [SkillTarget(name=str(requested))]
 
 
-def select_skill_names(
+def select_skill_targets(
     available_names: typing.Iterable[str],
     requested: RequestedSkills,
-) -> list[str]:
+) -> list[SkillTarget]:
     if is_wildcard_requested(requested):
-        return sorted(set(available_names))
-    return requested_names(requested)
+        return [SkillTarget(name=name) for name in sorted(set(available_names))]
+    return requested_targets(requested)
+
+
+def resolve_skill_target_path(source_root: pathlib.Path, skill: SkillTarget) -> pathlib.Path | None:
+    if not skill.path:
+        return None
+
+    path_value = pathlib.Path(skill.path)
+    if path_value.is_absolute() or any(part in {"", ".", ".."} for part in path_value.parts):
+        msg = f"Invalid skill path for '{skill.name}': {skill.path}"
+        raise ValueError(msg)
+
+    base_path = source_root / path_value
+    candidates = [
+        base_path / skill.name,
+        base_path,
+    ]
+
+    for candidate in candidates:
+        if candidate.is_dir() and (candidate / "SKILL.md").is_file():
+            return candidate
+
+    return None
 
 
 def github_headers() -> dict[str, str]:
@@ -390,10 +506,6 @@ def http_get_bytes(url: str, timeout: int = DEFAULT_TIMEOUT_SECONDS) -> bytes:
     request = urllib.request.Request(url, headers=github_headers())  # noqa: S310
     with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310
         return response.read()
-
-
-def http_get_text(url: str, timeout: int = DEFAULT_TIMEOUT_SECONDS) -> str:
-    return http_get_bytes(url, timeout=timeout).decode("utf-8", errors="replace")
 
 
 def parse_github_repo(source: str) -> tuple[str, str] | None:
@@ -427,82 +539,6 @@ def resolve_github_branch(owner: str, repo: str, configured_branch: str | None) 
     raise ValueError(msg)
 
 
-def list_github_dir(github_repo: GitHubRepo, dir_path: str) -> tuple[list[str], list[str]]:
-    page = http_get_text(github_repo.tree_url(dir_path))
-    prefix = dir_path.strip("/")
-    prefix_with_separator = f"{prefix}/" if prefix else ""
-
-    pattern = (
-        rf'href="/{re.escape(github_repo.owner)}/{re.escape(github_repo.repo)}/'
-        rf'(tree|blob)/{re.escape(github_repo.branch)}/([^"#?]+)"'
-    )
-
-    directories: set[str] = set()
-    files: set[str] = set()
-
-    for kind, raw_path in re.findall(pattern, page):
-        decoded = urllib.parse.unquote(raw_path).strip("/")
-        if prefix_with_separator:
-            if not decoded.startswith(prefix_with_separator):
-                continue
-            decoded = decoded[len(prefix_with_separator) :]
-        if not decoded or "/" in decoded:
-            continue
-        if kind == "tree":
-            directories.add(decoded)
-        else:
-            files.add(decoded)
-
-    return sorted(directories), sorted(files)
-
-
-def raw_file_exists(github_repo: GitHubRepo, file_path: str) -> bool:
-    try:
-        _ = http_get_bytes(github_repo.raw_url(file_path))
-    except urllib.error.URLError:
-        return False
-    return True
-
-
-def resolve_skill_root(github_repo: GitHubRepo, skill_name: str) -> str | None:
-    for root in (f"skills/{skill_name}", skill_name):
-        if raw_file_exists(github_repo, f"{root}/SKILL.md"):
-            return root
-    return None
-
-
-def discover_remote_skills(github_repo: GitHubRepo) -> dict[str, str]:
-    discovered: dict[str, str] = {}
-
-    for base_path in ("skills", ""):
-        try:
-            subdirectories, _ = list_github_dir(github_repo, base_path)
-        except urllib.error.URLError:
-            continue
-
-        for subdirectory in subdirectories:
-            if not base_path and subdirectory == "skills":
-                continue
-            root = f"{base_path}/{subdirectory}".strip("/")
-            if raw_file_exists(github_repo, f"{root}/SKILL.md"):
-                discovered[subdirectory] = root
-
-    return discovered
-
-
-def list_skill_files(github_repo: GitHubRepo, skill_root: str) -> list[str]:
-    files: set[str] = set()
-    queue = [skill_root.strip("/")]
-
-    while queue:
-        current = queue.pop()
-        subdirectories, subfiles = list_github_dir(github_repo, current)
-        files.update(f"{current}/{file_name}" for file_name in subfiles)
-        queue.extend(f"{current}/{subdirectory}" for subdirectory in subdirectories)
-
-    return sorted(files)
-
-
 def discover_local_skills(source_dir: pathlib.Path) -> dict[str, pathlib.Path]:
     discovered: dict[str, pathlib.Path] = {}
 
@@ -531,37 +567,66 @@ def hash_directory(directory: pathlib.Path) -> str:
     return digest.hexdigest()
 
 
-def download_remote_skill(
-    github_repo: GitHubRepo,
-    skill_root: str,
-    target_dir: pathlib.Path,
-) -> None:
-    remote_files = list_skill_files(github_repo, skill_root)
-    if not remote_files:
-        msg = f"No files found for remote skill root: {skill_root}"
+def archive_member_path(name: str) -> pathlib.PurePosixPath | None:
+    parts = pathlib.PurePosixPath(name).parts
+    if len(parts) < MIN_ARCHIVE_PATH_PARTS:
+        return None
+
+    relative_parts = parts[1:]
+    if any(part in {"", ".", ".."} for part in relative_parts):
+        msg = f"Unsafe archive member path: {name}"
         raise ValueError(msg)
 
-    normalized_root = skill_root.strip("/")
-    root_prefix = f"{normalized_root}/"
+    return pathlib.PurePosixPath(*relative_parts)
 
+
+def extract_repo_archive(archive_bytes: bytes, target_dir: pathlib.Path) -> pathlib.Path:
     if target_dir.exists():
         shutil.rmtree(target_dir)
     target_dir.mkdir(parents=True, exist_ok=True)
+    resolved_root = target_dir.resolve()
 
-    has_skill_markdown = False
-    for remote_path in remote_files:
-        relative_path = remote_path.removeprefix(root_prefix)
-        has_skill_markdown |= relative_path == "SKILL.md"
+    with tarfile.open(fileobj=io.BytesIO(archive_bytes), mode="r:gz") as archive:
+        wrote_files = False
 
-        destination_file = target_dir / relative_path
-        destination_file.parent.mkdir(parents=True, exist_ok=True)
-        destination_file.write_bytes(
-            http_get_bytes(github_repo.raw_url(remote_path), timeout=DOWNLOAD_TIMEOUT_SECONDS),
-        )
+        for member in archive.getmembers():
+            relative_path = archive_member_path(member.name)
+            if relative_path is None:
+                continue
 
-    if not has_skill_markdown:
-        msg = f"Missing SKILL.md in remote skill root: {skill_root}"
+            destination_path = target_dir / pathlib.Path(relative_path)
+            resolved_target = destination_path.resolve()
+            if resolved_root not in resolved_target.parents and resolved_target != resolved_root:
+                msg = f"Archive extraction escaped target dir: {member.name}"
+                raise ValueError(msg)
+
+            if member.isdir():
+                destination_path.mkdir(parents=True, exist_ok=True)
+                continue
+
+            if not member.isfile():
+                continue
+
+            extracted = archive.extractfile(member)
+            if extracted is None:
+                msg = f"Unable to read archive member: {member.name}"
+                raise ValueError(msg)
+
+            destination_path.parent.mkdir(parents=True, exist_ok=True)
+            destination_path.write_bytes(extracted.read())
+            destination_path.chmod(member.mode & 0o777)
+            wrote_files = True
+
+    if not wrote_files:
+        msg = "Downloaded archive did not contain any files"
         raise ValueError(msg)
+
+    return target_dir
+
+
+def download_repo_archive(github_repo: GitHubRepo, target_dir: pathlib.Path) -> pathlib.Path:
+    archive_bytes = http_get_bytes(github_repo.archive_url(), timeout=DOWNLOAD_TIMEOUT_SECONDS)
+    return extract_repo_archive(archive_bytes, target_dir)
 
 
 def copy_skill(source_dir: pathlib.Path, destination_dir: pathlib.Path) -> None:
@@ -587,7 +652,7 @@ def sync_skill(
 ) -> tuple[str, str]:
     destination_dir = destination / request.skill_name
     skill_hash = hash_directory(request.source_dir)
-    state_key = f"{request.source_raw}::{request.skill_name}"
+    state_key = skill_state_key(request.source_raw, request.skill_name)
     previous = state["skills"].get(state_key)
 
     if previous is not None and previous.get("hash") == skill_hash and destination_dir.exists():
@@ -646,7 +711,7 @@ def prune_old_runs(runs_dir: pathlib.Path, keep: int = RUNS_TO_KEEP) -> None:
 def create_source_handle(
     spec: SourceSpec,
     config_dir: pathlib.Path,
-    logger: Logger,
+    remote_stage_dir: pathlib.Path,
 ) -> SourceHandle:
     if not is_remote_source(spec.source):
         source_path = resolve_path(spec.source, config_dir)
@@ -656,7 +721,11 @@ def create_source_handle(
         if not source_path.is_dir():
             msg = "local source exists but is not a directory"
             raise ValueError(msg)
-        return LocalSource(source_raw=spec.source, available=discover_local_skills(source_path))
+        return LocalSource(
+            source_raw=spec.source,
+            root_dir=source_path,
+            available=discover_local_skills(source_path),
+        )
 
     repo_ref = parse_github_repo(spec.source)
     if repo_ref is None:
@@ -665,23 +734,72 @@ def create_source_handle(
 
     owner, repo = repo_ref
     branch = resolve_github_branch(owner, repo, spec.branch)
-    logger.log("INFO", f"{spec.source}: branch={branch}")
     github_repo = GitHubRepo(owner=owner, repo=repo, branch=branch)
-
-    if is_wildcard_requested(spec.skills):
-        available = discover_remote_skills(github_repo)
-    else:
-        available = {}
-        for skill_name in requested_names(spec.skills):
-            skill_root = resolve_skill_root(github_repo, skill_name)
-            if skill_root is not None:
-                available[skill_name] = skill_root
-
-    return RemoteSource(source_raw=spec.source, repo=github_repo, available=available)
+    extracted_repo_dir = download_repo_archive(github_repo, remote_stage_dir)
+    available = discover_local_skills(extracted_repo_dir)
+    return RemoteSource(
+        source_raw=spec.source,
+        repo=github_repo,
+        root_dir=extracted_repo_dir,
+        available=available,
+    )
 
 
 def append_action(actions: list[JsonDict], **payload: object) -> None:
     actions.append(dict(payload))
+
+
+def path_within(root: pathlib.Path, target: pathlib.Path) -> bool:
+    resolved_root = root.resolve()
+    resolved_target = target.resolve()
+    return resolved_target == resolved_root or resolved_root in resolved_target.parents
+
+
+def remove_path(path: pathlib.Path) -> None:
+    if path.is_dir():
+        shutil.rmtree(path)
+        return
+    if path.exists():
+        path.unlink()
+
+
+def remove_stale_skills(context: RunContext) -> None:
+    for state_key, entry in list(context.state["skills"].items()):
+        if state_key in context.desired_state_keys:
+            continue
+
+        skill_name = str(entry.get("skill", "unknown-skill"))
+        destination_raw = str(entry.get("destination", "")).strip()
+        destination_path = pathlib.Path(destination_raw).expanduser()
+        if not destination_raw:
+            destination_path = context.destination / skill_name
+
+        if destination_path in context.desired_destinations:
+            if not context.dry_run:
+                context.state["skills"].pop(state_key, None)
+            continue
+
+        if not path_within(context.destination, destination_path):
+            context.logger.log(
+                "WARN",
+                f"{skill_name}: skipped stale state outside destination",
+            )
+            continue
+
+        status = "would_remove" if context.dry_run else "removed"
+        if not context.dry_run:
+            remove_path(destination_path)
+            context.state["skills"].pop(state_key, None)
+
+        context.counters.add_status(status)
+        context.logger.log("INFO", f"{skill_name}: {status}")
+        append_action(
+            context.actions,
+            destination=str(destination_path),
+            skill=skill_name,
+            source=str(entry.get("source", "")),
+            status=status,
+        )
 
 
 def process_source(
@@ -690,9 +808,14 @@ def process_source(
     context: RunContext,
 ) -> None:
     context.logger.log("INFO", f"Sync source {spec.source}")
+    stage_root = context.run_dir / f"source-{index:02d}-{short_hash(spec.source, 10)}"
 
     try:
-        source_handle = create_source_handle(spec, context.config_dir, context.logger)
+        source_handle = create_source_handle(
+            spec,
+            context.config_dir,
+            stage_root / "repo",
+        )
     except (urllib.error.URLError, ValueError) as exc:
         context.counters.failed += 1
         context.logger.log("ERROR", f"{spec.source}: {exc}")
@@ -705,17 +828,19 @@ def process_source(
         append_action(context.actions, source=spec.source, status="empty_selection", skills=[])
         return
 
-    stage_root = context.run_dir / f"source-{index:02d}-{short_hash(spec.source, 10)}"
-    for skill_name in selected_skills:
+    for skill in selected_skills:
+        context.desired_state_keys.add(skill_state_key(spec.source, skill.name))
+        context.desired_destinations.add(context.destination / skill.name)
+
         try:
-            source_dir = source_handle.stage_skill(skill_name, stage_root / skill_name)
+            source_dir = source_handle.stage_skill(skill, stage_root / skill.name)
         except (urllib.error.URLError, ValueError) as exc:
             context.counters.failed += 1
             context.logger.log("ERROR", f"{spec.source}: {exc}")
             append_action(
                 context.actions,
                 source=spec.source,
-                skill=skill_name,
+                skill=skill.name,
                 status="download_failed",
                 error=str(exc),
             )
@@ -723,13 +848,19 @@ def process_source(
 
         if source_dir is None:
             context.counters.failed += 1
-            context.logger.log("ERROR", f"{spec.source}: skill '{skill_name}' was not found")
-            append_action(context.actions, source=spec.source, skill=skill_name, status="not_found")
+            context.logger.log("ERROR", f"{spec.source}: skill '{skill.name}' was not found")
+            append_action(
+                context.actions,
+                source=spec.source,
+                skill=skill.name,
+                path=skill.path,
+                status="not_found",
+            )
             continue
 
         request = SyncRequest(
             source_raw=spec.source,
-            skill_name=skill_name,
+            skill_name=skill.name,
             source_dir=source_dir,
             source_revision=source_handle.revision,
         )
@@ -741,11 +872,12 @@ def process_source(
         )
         context.counters.add_status(status)
 
-        context.logger.log("INFO", f"{skill_name}: {status}")
+        context.logger.log("INFO", f"{skill.name}: {status}")
         append_action(
             context.actions,
             source=spec.source,
-            skill=skill_name,
+            skill=skill.name,
+            path=skill.path,
             status=status,
             hash=skill_hash,
             source_revision=source_handle.revision,
@@ -779,10 +911,14 @@ def bootstrap(
         logger=logger,
         actions=actions,
         counters=counters,
+        desired_destinations=set(),
+        desired_state_keys=set(),
     )
 
     for index, spec in enumerate(config.sources, start=1):
         process_source(spec, index, context)
+
+    remove_stale_skills(context)
 
     finished_at = utc_now()
     report = {
@@ -807,6 +943,7 @@ def bootstrap(
         "INFO",
         "Summary: "
         f"installed={counters.installed}, "
+        f"removed={counters.removed}, "
         f"updated={counters.updated}, "
         f"unchanged={counters.unchanged}, "
         f"failed={counters.failed}",
@@ -822,9 +959,15 @@ def bootstrap(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install/update skills from skills.config.yaml")
     parser.add_argument(
-        "--config",
+        "configpath",
+        nargs="?",
         default="skills.config.yaml",
         help="Path to skills config YAML (default: skills.config.yaml)",
+    )
+    parser.add_argument(
+        "--config",
+        dest="configpath_flag",
+        help="Deprecated alias for configpath",
     )
     parser.add_argument(
         "--dry-run",
@@ -836,12 +979,15 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print fewer logs to stdout (still writes the log file)",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.configpath_flag:
+        args.configpath = args.configpath_flag
+    return args
 
 
 def main() -> int:
     args = parse_args()
-    config_path = pathlib.Path(args.config).expanduser().resolve()
+    config_path = pathlib.Path(args.configpath).expanduser().resolve()
     if not config_path.exists():
         print(f"{terminal_prefix('ERROR')} Config file not found: {config_path}")
         return 2
