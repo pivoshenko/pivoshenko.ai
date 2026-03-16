@@ -21,3 +21,11 @@ skills:
     skills:
       - name: jupyter-notebook
         path: skills/.curated
+
+  - source: https://github.com/vercel-labs/next-skills
+    skills: "*"
+
+  - source: https://github.com/vercel-labs/agent-skills
+    skills:
+      - web-design-guidelines
+      - deploy-to-vercel
