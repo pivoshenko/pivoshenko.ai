@@ -11,4 +11,10 @@
 
 ## Overview
 
-pivoshenko's AI agents workspace for MCPS, skills and agents.
+pivoshenko's AI agents workspace for MCPs, skills and agents.
+
+Skills are synced with [kasetto](https://github.com/pivoshenko/kasetto):
+
+```shell
+kst sync
+```
