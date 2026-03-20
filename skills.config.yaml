@@ -1,4 +1,4 @@
-destination: claude-code
+agent: claude-code
 
 skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai
