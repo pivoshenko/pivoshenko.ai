@@ -1,5 +1,4 @@
-# Codex https://developers.openai.com/codex/skills
-destination: ~/.agents/skills
+destination: claude-code
 
 skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai

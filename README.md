@@ -13,8 +13,8 @@
 
 pivoshenko's AI agents workspace for MCPs, skills and agents.
 
-Skills are synced with [kasetto](https://github.com/pivoshenko/kasetto):
+Skills are synced with [Kasetto](https://github.com/pivoshenko/kasetto):
 
 ```shell
-kst sync
+kst sync --config https://raw.githubusercontent.com/pivoshenko/pivoshenko.ai/refs/heads/main/skills.config.yaml
 ```
