@@ -1,4 +1,7 @@
-agent: claude-code
+agent:
+  - claude-code
+  - cursor
+  - codex
 
 skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai
