@@ -31,3 +31,10 @@ skills:
     skills:
       - web-design-guidelines
       - deploy-to-vercel
+
+  - source: https://github.com/shepsci/kaggle-skill
+    skills: "*"
+
+mcps:
+  - source: https://github.com/shepsci/kaggle-skill
+    mcps: "*"
