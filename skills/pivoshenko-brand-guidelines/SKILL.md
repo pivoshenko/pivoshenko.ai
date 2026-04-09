@@ -18,7 +18,7 @@ Use this skill to keep output aligned with the established pivoshenko style.
 ## Default Rules
 
 - Keep style minimal, technical, and practical.
-- Prefer monospace-first UI (`Geist Mono` style) and compact density.
+- Prefer monospace-first UI (`JetBrains Mono` style) and compact density.
 - Use neutral stone surfaces for product UI; add accent colors only with intent.
 - Keep copy factual and direct; avoid hype and marketing-style language.
 - Preserve dark/light parity with subtle transitions.
