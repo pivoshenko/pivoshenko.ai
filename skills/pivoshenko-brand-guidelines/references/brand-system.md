@@ -39,7 +39,7 @@
 
 ### Primary Typeface Direction
 
-- Monospace-first presentation (`Geist Mono` style).
+- Monospace-first presentation (`JetBrains Mono` style).
 - Keep sans available for fallback/system but preserve mono identity in UI.
 
 ### Text Roles
