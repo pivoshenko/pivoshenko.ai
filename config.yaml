@@ -1,7 +1,6 @@
 agent:
   - claude-code
-  - cursor
-  - codex
+  - opencode
 
 skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai
