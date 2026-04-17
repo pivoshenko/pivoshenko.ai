@@ -34,6 +34,9 @@ skills:
   - source: https://github.com/shepsci/kaggle-skill
     skills: "*"
 
+  - source: https://github.com/actionbook/rust-skills
+    skills: "*"
+
 mcps:
   - source: https://github.com/shepsci/kaggle-skill
     mcps: "*"
