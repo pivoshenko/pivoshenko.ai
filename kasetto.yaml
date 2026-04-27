@@ -10,6 +10,8 @@ skills:
     skills:
       - doc-coauthoring
       - frontend-design
+      - pdf
+      - skill-creator
 
   - source: https://github.com/ferdinandobons/startup-skill
     skills:
