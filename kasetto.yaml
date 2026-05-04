@@ -20,11 +20,6 @@ skills:
       - startup-positioning
       - startup-pitch
 
-  - source: https://github.com/openai/skills
-    skills:
-      - name: jupyter-notebook
-        path: skills/.curated
-
   - source: https://github.com/vercel-labs/next-skills
     skills: "*"
 
