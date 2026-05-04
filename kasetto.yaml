@@ -36,8 +36,7 @@ skills:
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
-    mcps:
-      - github
+    mcps: "*"
 
   - source: https://github.com/shepsci/kaggle-skill
     mcps: "*"
