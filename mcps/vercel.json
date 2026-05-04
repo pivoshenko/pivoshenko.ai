@@ -2,7 +2,10 @@
   "mcpServers": {
     "vercel": {
       "url": "https://mcp.vercel.com",
-      "type": "http"
+      "type": "http",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      }
     }
   }
 }
