@@ -11,6 +11,7 @@ skills:
       - doc-coauthoring
       - frontend-design
       - pdf
+      - pptx
       - skill-creator
 
   - source: https://github.com/ferdinandobons/startup-skill
@@ -31,8 +32,16 @@ skills:
   - source: https://github.com/shepsci/kaggle-skill
     skills: "*"
 
-  - source: https://github.com/actionbook/rust-skills
-    skills: "*"
+  - source: https://github.com/apollographql/skills
+    skills:
+      - rust-best-practices
+
+  - source: https://github.com/mattpocock/skills
+    skills:
+      - name: grill-me
+        path: productivity
+      - name: caveman
+        path: productivity
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
