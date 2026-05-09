@@ -37,11 +37,10 @@ skills:
       - rust-best-practices
 
   - source: https://github.com/mattpocock/skills
+    sub-dir: skills/productivity
     skills:
-      - name: grill-me
-        path: skills/productivity
-      - name: caveman
-        path: skills/productivity
+      - grill-me
+      - caveman
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
