@@ -39,9 +39,9 @@ skills:
   - source: https://github.com/mattpocock/skills
     skills:
       - name: grill-me
-        path: productivity
+        path: skills/productivity
       - name: caveman
-        path: productivity
+        path: skills/productivity
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
