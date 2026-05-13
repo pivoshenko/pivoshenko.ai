@@ -1,6 +1,7 @@
 ---
 name: create-pr
 description: Create a GitHub pull request using `gh` with a conventional title and a structured body. Use when the user asks to create a PR, open a pull request, /create-pr, or ship the current branch. Pushes the branch and opens the PR immediately without asking for confirmation.
+tags: [git, github]
 ---
 
 # Create PR

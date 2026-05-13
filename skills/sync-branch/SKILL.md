@@ -1,6 +1,7 @@
 ---
 name: sync-branch
 description: Fetch the latest base branch and rebase (or merge) the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /sync-branch. Runs immediately without asking for confirmation.
+tags: [git]
 ---
 
 # Sync Branch

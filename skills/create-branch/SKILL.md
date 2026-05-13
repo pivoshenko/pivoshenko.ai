@@ -1,6 +1,7 @@
 ---
 name: create-branch
 description: Create a new git branch using a conventional naming scheme. Use when the user asks to create a branch, start a new branch, /create-branch, or begin work on a feature/fix. Creates and checks out the branch immediately without asking for confirmation.
+tags: [git]
 ---
 
 # Create Branch
