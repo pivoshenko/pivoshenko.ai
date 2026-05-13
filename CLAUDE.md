@@ -4,11 +4,40 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is pivoshenko's AI agents workspace — a configuration hub for Claude Code/OpenCode skills, MCPs, and agents. It is **not** a traditional software project with build/test/lint commands. The primary artifacts are YAML config and Markdown skill definitions.
+pivoshenko's AI agents workspace — a configuration hub for Claude Code skills, MCP servers, and a Next.js site that visualizes the catalog. Primary artifacts are YAML config and Markdown skill definitions; the site is a thin viewer on top of those files.
 
 ## Structure
 
-- `config.yaml` — Kasetto sync config defining which skills and MCPs to pull from various GitHub repos. Synced via `kst sync --config <url>`.
-- `skills/` — Locally authored skills (each is a folder with a required `SKILL.md` and optional `references/`, `scripts/`, `assets/` subdirectories).
-  - `pivoshenko-brand-guidelines/` — Brand style guide skill with `morok` palette, monospace-first typography, and neutral-first UI rules.
-  - `skill-creator/` — Meta-skill for creating new skills.
+- `kasetto.yaml` — Kasetto sync config. Lists `agent: [claude-code]` plus per-source skill and MCP entries pulled from upstream GitHub repos. Source of truth for what gets synced.
+- `skills/` — Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
+  - `commit`, `create-branch`, `create-pr`, `sync-branch`, `cleanup-branches` — Conventional git workflow skills. Tag: `git`.
+  - `pivoshenko-brand-guidelines` — Brand style guide. Tags: `brand`, `design`.
+- `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`, `kaggle.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
+- `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. See `site/CLAUDE.md` if present, otherwise this section.
+- `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `format`, `lint`, `run`, `serve`, `update`.
+
+## Site stack
+
+- Next.js 16 (App Router, Turbopack), React 19, Tailwind 3, Biome (no eslint/prettier).
+- Geist Sans + Geist Mono via `next/font`. `next-themes` for dark/light with `class` strategy.
+- Data loaded server-side from parent filesystem in `site/lib/data.ts`; types shared via `import type` only so client bundle stays lean.
+- Tag derivation for external skills/MCPs lives in `site/lib/external-tags.ts` (three explicit maps: `SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`). Local skills use frontmatter `tags:` as source of truth and fall back to the maps.
+- Shared layout/theme conventions with `pivoshenko.dev`, `pivoshenko.startpage`, `pivoshenko.wallpapers` — see parent `me/CLAUDE.md` for cross-cutting patterns (nav/footer/theme-toggle/globals.css/tailwind tokens stay in sync across the four sites).
+
+## Tagging rules
+
+- Local skills: add `tags: [...]` to `SKILL.md` frontmatter. Treat as the source of truth.
+- External skills/MCPs: edit `site/lib/external-tags.ts`. Do not add regex rules — use the explicit per-slug / per-source maps.
+- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `data`, `ml`, `rust`, `mode`, `meta`).
+
+## When editing skills
+
+- Skill body style is "caveman" — terse, fragments, arrows for causality, abbreviations OK. See existing local skills for reference.
+- Keep `description` short and operational — it surfaces in the site card and in skill triggering.
+- After editing a skill, no rebuild is needed for the site in dev — Next will pick up the change on next request.
+
+## When editing the site
+
+- Run `just lint` from the repo root before committing. Biome formats + Next builds. Both must pass.
+- Server components by default. Add `'use client'` only when a component actually needs hooks/state/event handlers (e.g. `theme-toggle.tsx`, `back-to-top.tsx`, `catalog.tsx`).
+- Match brand tokens from `pivoshenko-brand-guidelines/references/brand-system.md` — stone neutrals for UI, `morok` colors only as accents.
