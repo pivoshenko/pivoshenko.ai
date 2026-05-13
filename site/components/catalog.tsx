@@ -113,7 +113,6 @@ export function Catalog({
         id="external-skills"
         title="external skills"
         count={fExternalSkills.length}
-        note="pulled via kasetto"
       >
         {fExternalSkills.length === 0 ? (
           <Empty />
@@ -130,7 +129,6 @@ export function Catalog({
         id="external-mcps"
         title="external mcps"
         count={fExternalMcps.length}
-        note="pulled via kasetto"
       >
         {fExternalMcps.length === 0 ? (
           <Empty />
