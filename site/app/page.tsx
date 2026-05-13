@@ -20,7 +20,8 @@ export default function HomePage() {
           Curated AI skills and MCP servers, synced via{' '}
           <a
             href="https://kasetto.dev"
-            className="underline decoration-stone-300 dark:decoration-stone-600 hover-primary"
+            className="underline decoration-[#b89cdc]/40 hover:decoration-[#b89cdc] underline-offset-2 transition-colors"
+            style={{ color: '#b89cdc' }}
             target="_blank"
             rel="noopener noreferrer"
           >
