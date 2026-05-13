@@ -5,35 +5,35 @@ description: Create a GitHub pull request using `gh` with a conventional title a
 
 # Create PR
 
-Open a GitHub pull request for the current branch directly — no confirmation prompts.
+Open GitHub PR for current branch. No confirm.
 
 ## Workflow
 
-1. Run the following in parallel to understand branch state:
+1. Parallel -> read branch state:
    - `git status`
    - `git branch --show-current`
-   - `git log <base>..HEAD --oneline` (where `<base>` is `main`, falling back to `master`)
+   - `git log <base>..HEAD --oneline` (`<base>` = `main`, fallback `master`)
    - `git diff <base>...HEAD`
-2. If the branch has no commits ahead of base, stop and tell the user there's nothing to PR.
-3. If the branch is not pushed or is behind its remote, push with `git push -u origin <branch>`.
-4. Analyze **all** commits on the branch (not just the latest) and draft:
-   - A **title** following the Title Format below (under 70 characters).
-   - A **body** following the Body Template below.
-5. Open the PR with `gh pr create --title "..." --body "$(cat <<'EOF' ... EOF)"`.
-6. Print the resulting PR URL.
+2. No commits ahead of base -> stop. Tell user nothing to PR.
+3. Not pushed / behind remote -> `git push -u origin <branch>`.
+4. Read **all** branch commits (not just latest). Draft:
+   - **Title** per Title Format. Under 70 chars.
+   - **Body** per Body Template.
+5. `gh pr create --title "..." --body "$(cat <<'EOF' ... EOF)"`.
+6. Print PR URL.
 
 ## Title Format
 
-Mirror the conventional commit format used in this workspace:
+Same convention as commits:
 
 ```
 <type>(<scope>): <short summary>
 ```
 
-- `<type>`: one of `build|ci|docs|feat|fix|perf|refactor|test`
-- `<scope>`: optional; the affected area, module, or package
-- `<short summary>`: imperative present tense, lowercase, no trailing period
-- Total length: under 70 characters
+- `<type>`: `build|ci|docs|feat|fix|perf|refactor|test`
+- `<scope>`: optional. Affected area/module/pkg.
+- `<short summary>`: imperative present, lowercase, no trailing `.`
+- Total < 70 chars.
 
 Examples:
 - `feat(auth): add oauth login flow`
@@ -68,16 +68,16 @@ Examples:
 <!-- Add any other context or information for reviewers -->
 ```
 
-- Keep the summary tight — the diff explains the what; the body explains the why.
-- If no related issue exists, remove the `**Resolves: ...**` line rather than leaving a placeholder.
-- Drop the `## Screenshots` section when the change has no UI impact, and `## Additional Notes` when there's nothing extra to say.
-- Add a `## Breaking changes` section above `## Additional Notes` only if there are breaking changes, with a migration note.
+- Summary tight. Diff = what. Body = why.
+- No related issue -> remove `**Resolves: ...**` line. No placeholder.
+- No UI change -> drop `## Screenshots`. Nothing extra -> drop `## Additional Notes`.
+- Breaking changes -> add `## Breaking changes` above `## Additional Notes` + migration note.
 
 ## Rules
 
-- Never push to or open PRs against `main`/`master` from `main`/`master`. If the current branch is the base branch, stop and ask the user to create a feature branch first (the `create-branch` skill can do this).
-- Never force-push as part of this skill.
-- Never use `--no-verify` or skip hooks unless the user explicitly requests it.
-- If pre-push or PR creation fails, surface the error and fix the root cause — do not retry blindly.
-- Do not request reviewers, add labels, or assign the PR unless the user asks.
-- Do not include "Generated with Claude Code" or co-author trailers in the PR body unless the user asks.
+- Never push/open PR against `main`/`master` from `main`/`master`. On base -> stop + ask user to make feature branch (use `create-branch` skill).
+- Never force-push here.
+- Never `--no-verify` / skip hooks unless asked.
+- Pre-push or PR create fail -> surface error + fix root cause. No blind retry.
+- No reviewers, labels, assignees unless asked.
+- No "Generated with Claude Code" / co-author trailers unless asked.

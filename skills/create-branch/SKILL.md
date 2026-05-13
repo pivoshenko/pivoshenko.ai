@@ -5,17 +5,17 @@ description: Create a new git branch using a conventional naming scheme. Use whe
 
 # Create Branch
 
-Create and check out a new git branch directly — no confirmation prompts.
+Make + checkout new branch. No confirm.
 
 ## Workflow
 
-1. Run `git status` and `git branch --show-current` in parallel to confirm a clean-enough state and the current branch.
-2. If the working tree has uncommitted changes that don't belong to the new work, warn the user and stop. Otherwise continue.
-3. Determine the base branch:
-   - Default to `main` (fall back to `master` if `main` does not exist).
-   - If already on a feature branch and the user asks to branch off it, use the current branch.
-4. Run `git fetch origin <base>` and `git checkout -b <branch-name> origin/<base>` to create the branch from the latest remote tip.
-5. Print the new branch name and the base it was created from.
+1. Parallel: `git status` + `git branch --show-current`. Check state + current branch.
+2. Dirty tree with unrelated changes -> warn + stop. Else continue.
+3. Pick base:
+   - Default `main`. Fall back `master` if no `main`.
+   - On feature branch + user asks to branch off it -> use current.
+4. `git fetch origin <base>` + `git checkout -b <branch-name> origin/<base>`. Fresh from remote tip.
+5. Print new branch + base.
 
 ## Branch Naming
 
@@ -25,7 +25,7 @@ Optional scope: `<type>/<scope>-<short-kebab-description>`.
 
 ### Type
 
-Must be one of:
+One of:
 
 | Type         | When to use                                                       |
 | ------------ | ----------------------------------------------------------------- |
@@ -41,10 +41,10 @@ Must be one of:
 
 ### Description
 
-- Use kebab-case: `add-auth-middleware`, not `addAuthMiddleware` or `add_auth_middleware`
-- Imperative, present tense: `add`, `fix`, `remove` — not `added`, `fixes`, `removing`
-- Keep it under ~50 characters
-- Don't include ticket IDs unless the user asks; if included, append as a suffix: `feat/add-auth-middleware-PROJ-123`
+- kebab-case: `add-auth-middleware`. Not `addAuthMiddleware` / `add_auth_middleware`.
+- Imperative present: `add`, `fix`, `remove`. Not `added`, `fixes`, `removing`.
+- Under ~50 chars.
+- No ticket IDs unless asked. If included -> suffix: `feat/add-auth-middleware-PROJ-123`.
 
 ### Examples
 
@@ -56,8 +56,8 @@ Must be one of:
 
 ## Rules
 
-- Derive `type` and description from the user's stated intent and, if available, the staged or unstaged diff.
-- If the user provides a name explicitly, use it verbatim — do not rewrite it.
-- Never delete or reset existing branches as part of this skill.
-- Never push the new branch unless the user asks.
-- If the branch already exists, stop and surface the conflict instead of overwriting.
+- Derive `type` + desc from user intent + diff if avail.
+- User gives name -> use verbatim. No rewrite.
+- Never delete/reset existing branches here.
+- Never push new branch unless asked.
+- Branch exists -> stop. Surface conflict. No overwrite.
