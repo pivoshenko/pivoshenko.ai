@@ -1,6 +1,7 @@
 ---
 name: pivoshenko-brand-guidelines
 description: Apply Volodymyr Pivoshenko personal brand guidelines to content, UI, and visual decisions. Use when drafting or editing pages, blog posts, docs, components, themes, or assets that should match pivoshenko.dev style.
+tags: [brand, design]
 updated_at: 2026-03-16
 ---
 
