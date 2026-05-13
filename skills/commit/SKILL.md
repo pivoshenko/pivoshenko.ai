@@ -5,22 +5,39 @@ description: Run git commit using Angular conventional commit format. Use when t
 
 # Commit
 
-Create a conventional commit directly — no confirmation prompts, no dry-runs.
+Conventional commit. No confirm. No dry-run.
 
 ## Workflow
 
-1. Run `git status` and `git diff --staged` in parallel to understand current state.
-2. If nothing is staged, stage the relevant changed files (prefer specific paths over `git add -A`; never stage `.env`, credentials, or secrets).
-3. Run `git diff --staged` (if files were just staged) and `git log --oneline -5` in parallel.
-4. Analyze the staged diff and write a commit message following the format below.
-5. Commit immediately. Do not ask the user to confirm the message.
-6. Show the resulting commit hash and one-line summary.
+1. Parallel: `git status` + `git diff --staged`.
+2. Nothing staged -> stage relevant files. Specific paths > `git add -A`. Never stage `.env`, creds, secrets.
+3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`.
+4. Read diff -> decide one commit or many (see **Atomic commits**) -> write msg per format below.
+5. Commit now. No confirm. Many groups -> stage + commit each group in turn, repeat til clean.
+6. Print hash(es) + one-line summary per commit.
+
+## Atomic commits
+
+Lots of changes / mixed concerns -> split into atomic commits. No mega-commit.
+
+Group by:
+
+- **type** — `feat` vs `fix` vs `docs` vs `refactor` vs `test` never share commit
+- **scope** — different modules/pkgs = different commits
+- **logical unit** — one feature / one bugfix / one refactor per commit. Each must build + pass tests alone.
+
+Heuristics:
+
+- Touches > 1 unrelated area -> split
+- Diff mixes behavior + formatting/rename -> split (formatting first or last, never mixed)
+- Summary need "and" / "also" / "+" -> split
+- Unsure -> ask user how to group before staging.
 
 ## Commit Message Format
 
-This format leads to **easier to read commit history** and makes it analyzable for changelog generation.
+Format -> readable history + changelog-friendly.
 
-Each commit message consists of a **header**, a **body**, and a **footer**.
+Msg = **header** + **body** + **footer**.
 
 ```
 <header>
@@ -30,30 +47,27 @@ Each commit message consists of a **header**, a **body**, and a **footer**.
 <footer>
 ```
 
-The `header` is mandatory and must conform to the **Commit Message Header** format.
+`header` mandatory. Match **Header** format.
 
-The `body` is mandatory for all commits except for those of type "docs".
-When the body is present it must be at least 20 characters long and must conform to the **Commit Message Body** format.
+`body` mandatory except `docs`. If present: min 20 chars. Match **Body** format.
 
-The `footer` is optional. The **Commit Message Footer** format describes what the footer is used for and the structure it must have.
+`footer` optional. See **Footer**.
 
-### Commit Message Header
+### Header
 
 ```
 <type>(<scope>): <short summary>
   │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       │             └─⫸ Summary present tense. Not capitalized. No trailing period.
   │       │
-  │       └─⫸ Commit Scope: affected area, module, or package (optional)
+  │       └─⫸ Scope: affected area/module/pkg (optional)
   │
-  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
+  └─⫸ Type: build|ci|docs|feat|fix|perf|refactor|test
 ```
 
-The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is optional.
+`<type>` + `<summary>` mandatory. `(<scope>)` optional.
 
 #### Type
-
-Must be one of the following:
 
 | Type         | Description                                                                                         |
 | ------------ | --------------------------------------------------------------------------------------------------- |
@@ -68,25 +82,23 @@ Must be one of the following:
 
 #### Scope
 
-The scope is optional and should identify the affected area, module, or package (e.g., `auth`, `api`, `config`). Derive it from the changed files when a clear module boundary exists.
+Optional. Affected area/module/pkg (e.g. `auth`, `api`, `config`). Derive from changed files when clear boundary exists.
 
 #### Summary
 
-Use the summary field to provide a succinct description of the change:
-- Use the imperative, present tense: "change" not "changed" nor "changes"
-- Don't capitalize the first letter
-- No dot (.) at the end
+- Imperative present: "change" not "changed"/"changes"
+- No capital first letter
+- No trailing `.`
 
-### Commit Message Body
+### Body
 
-Just as in the summary, use the imperative, present tense: "fix" not "fixed" nor "fixes".
+Imperative present, same as summary: "fix" not "fixed"/"fixes".
 
-Explain the motivation for the change in the commit message body. This commit message should explain _why_ you are making the change.
-You can include a comparison of the previous behavior with the new behavior in order to illustrate the impact of the change.
+Explain **why**. Old vs new behavior -> show impact.
 
-### Commit Message Footer
+### Footer
 
-The footer can contain information about breaking changes and deprecations and is also the place to reference GitHub issues and other PRs that this commit closes or is related to. For example:
+Footer = breaking changes, deprecations, issue/PR refs.
 
 ```
 BREAKING CHANGE: <breaking change summary>
@@ -108,21 +120,21 @@ DEPRECATED: <what is deprecated>
 Closes #<pr number>
 ```
 
-Breaking Change section should start with the phrase `BREAKING CHANGE: ` followed by a _brief_ summary of the breaking change, a blank line, and a detailed description of the breaking change that also includes migration instructions.
+Breaking: `BREAKING CHANGE: ` + summary + blank + detail + migration.
 
-Similarly, a Deprecation section should start with `DEPRECATED: ` followed by a short description of what is deprecated, a blank line, and a detailed description of the deprecation that also mentions the recommended update path.
+Deprecation: `DEPRECATED: ` + short desc + blank + detail + upgrade path.
 
 ## Revert commits
 
-If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit.
+Revert -> start `revert: ` + reverted header.
 
-The content of the commit message body should contain:
-- Information about the SHA of the commit being reverted in the following format: `This reverts commit <SHA>`
-- A clear description of the reason for reverting the commit message
+Body must have:
+- SHA ref: `This reverts commit <SHA>`
+- Reason for revert
 
 ## Rules
 
-- Pick the most specific `type` — prefer `fix` over `refactor` when a bug is resolved, `perf` over `refactor` when the motivation is performance
-- One logical change per commit. If the diff contains unrelated changes, ask the user whether to split
-- Never use `--no-verify` or `--no-gpg-sign` unless the user explicitly requests it
-- If a pre-commit hook fails, fix the issue, re-stage, and create a **new** commit (do not amend)
+- Pick most specific `type`. Bug -> `fix` > `refactor`. Perf -> `perf` > `refactor`.
+- One logical change per commit. Unrelated -> split (see **Atomic commits**).
+- Never `--no-verify` / `--no-gpg-sign` unless user says.
+- Pre-commit hook fail -> fix + re-stage + **new** commit. No amend.
