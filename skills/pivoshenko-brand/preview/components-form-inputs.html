@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Form inputs</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .pane {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .pane.dark {
+        background: #000;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .pane.dark .label {
+        color: var(--stone-500);
+      }
+      .field {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        padding: 8px 10px;
+        border: 1px solid var(--stone-200);
+        border-radius: 4px;
+        background: var(--white);
+        color: var(--stone-900);
+        outline: none;
+      }
+      .field::placeholder {
+        color: var(--stone-400);
+      }
+      .field.focus {
+        border-color: var(--stone-300);
+        outline: 2px solid #7f98bf;
+        outline-offset: 2px;
+      }
+      .field[disabled] {
+        opacity: 0.5;
+      }
+      .pane.dark .field {
+        background: var(--stone-950);
+        border-color: var(--stone-800);
+        color: var(--stone-100);
+      }
+      .pane.dark .field::placeholder {
+        color: var(--stone-500);
+      }
+      .pane.dark .field.focus {
+        border-color: var(--stone-700);
+        outline-color: #9faece;
+      }
+
+      .search {
+        position: relative;
+      }
+      .search svg {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 12px;
+        color: var(--stone-400);
+        pointer-events: none;
+      }
+      .pane.dark .search svg {
+        color: var(--stone-500);
+      }
+      .search .field {
+        padding-left: 28px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--stone-700);
+        cursor: pointer;
+      }
+      .pane.dark .check {
+        color: var(--stone-300);
+      }
+      .box {
+        width: 14px;
+        height: 14px;
+        border: 1px solid var(--stone-300);
+        border-radius: 3px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--white);
+      }
+      .pane.dark .box {
+        border-color: var(--stone-700);
+        background: var(--stone-950);
+      }
+      .box.checked {
+        background: var(--stone-900);
+        border-color: var(--stone-900);
+        color: #fff;
+      }
+      .pane.dark .box.checked {
+        background: var(--stone-100);
+        border-color: var(--stone-100);
+        color: #000;
+      }
+
+      .caveat {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--stone-500);
+        line-height: 1.55;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pane">
+      <div>
+        <div class="label">TEXT INPUT — default · focus · disabled</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px">
+          <input class="field" placeholder="search posts…" />
+          <input class="field focus" value="ai" />
+          <input class="field" disabled value="readonly" />
+        </div>
+      </div>
+      <div>
+        <div class="label">SEARCH FIELD</div>
+        <div class="search" style="margin-top: 8px">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input class="field" placeholder="filter by tag…" />
+        </div>
+      </div>
+    </div>
+    <div class="pane dark">
+      <div>
+        <div class="label">TEXTAREA</div>
+        <textarea
+          class="field"
+          rows="3"
+          placeholder="leave a comment…"
+          style="margin-top: 8px; resize: none"
+        ></textarea>
+      </div>
+      <div>
+        <div class="label">CHECKBOX — off · on · indeterminate</div>
+        <div class="row" style="margin-top: 8px; gap: 20px">
+          <label class="check"><span class="box"></span>show drafts</label>
+          <label class="check"
+            ><span class="box checked"
+              ><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12" /></svg></span
+            >tabular nums</label
+          >
+          <label class="check"
+            ><span class="box checked"><span style="width: 8px; height: 1px; background: currentColor"></span></span
+            >mixed</label
+          >
+        </div>
+      </div>
+      <p class="caveat" style="margin-top: 4px; max-width: 36ch">
+        Forms are not present in the live products — this is the inferred treatment if one is ever needed. Same border
+        ladder, 4px corners, monospace.
+      </p>
+    </div>
+  </body>
+</html>

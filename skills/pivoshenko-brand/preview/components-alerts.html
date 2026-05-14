@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Inline alerts</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 22px;
+        background: var(--bg-page);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .alert {
+        border: 1px solid var(--stone-200);
+        border-left-width: 1px;
+        border-radius: 4px;
+        padding: 10px 12px;
+        background: var(--white);
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--stone-700);
+        line-height: 1.55;
+      }
+      .alert .ic {
+        color: var(--stone-500);
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .alert strong {
+        color: var(--stone-900);
+        font-weight: 500;
+      }
+
+      /* Per-variant: only the icon and the strong text take the accent color.
+     No filled bg, no left border accent (per "AI slop" avoidance rule). */
+      .a-success .ic,
+      .a-success strong {
+        color: #6f8a6d;
+      }
+      .a-warning .ic,
+      .a-warning strong {
+        color: #a17849;
+      }
+      .a-error .ic,
+      .a-error strong {
+        color: #b06a6a;
+      }
+      .a-info .ic,
+      .a-info strong {
+        color: #6383ad;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="label">
+      INLINE ALERTS — bordered, no fill, no left-accent bar; icon + bold title carry semantic color
+    </div>
+
+    <div class="alert a-info">
+      <span class="ic"
+        ><svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" /></svg
+      ></span>
+      <span
+        ><strong>Heads up.</strong> The morok palette is rendered from a single source — edit
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">palettes/morok.json</code>,
+        then run
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">just render</code>.</span
+      >
+    </div>
+
+    <div class="alert a-success">
+      <span class="ic"
+        ><svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" /></svg
+      ></span>
+      <span
+        ><strong>Rendered.</strong> 17 dist files written. Run
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">git diff</code> to
+        review.</span
+      >
+    </div>
+
+    <div class="alert a-warning">
+      <span class="ic"
+        ><svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" /></svg
+      ></span>
+      <span
+        ><strong>Tera-style mistake.</strong> Templates must not write
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">#{{ color.hex }}</code> — the
+        hex already includes the
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">#</code>.</span
+      >
+    </div>
+
+    <div class="alert a-error">
+      <span class="ic"
+        ><svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="15" y1="9" x2="9" y2="15" />
+          <line x1="9" y1="9" x2="15" y2="15" /></svg
+      ></span>
+      <span
+        ><strong>Build failed.</strong> Unknown palette key
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px">salmon</code> referenced in
+        <code style="background: var(--stone-100); padding: 1px 5px; border-radius: 4px"
+          >templates/zed/theme.json.jinja:42</code
+        >.</span
+      >
+    </div>
+  </body>
+</html>

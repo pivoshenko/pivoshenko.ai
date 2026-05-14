@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Spacing · Borders & corners</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; }
+  .row { display: flex; gap: 24px; align-items: flex-end; }
+  .demo { display:flex; flex-direction:column; align-items:center; gap: 8px; }
+  .box { width: 80px; height: 60px; background: var(--bg-card); border: 1px solid var(--border-ui); }
+  .r0 { border-radius: 0; }
+  .r1 { border-radius: 4px; }
+  .r2 { border-radius: 8px; }
+  .rfull { border-radius: 999px; width: 32px; height: 32px; background: #c98787; border-color: var(--border-ui); }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; }
+  .meta { font-family: var(--font-mono); font-size: 11px; color: var(--stone-500); }
+  .hr { border: 0; border-top: 1px solid var(--border-ui); margin: 18px 0; }
+  .hr2 { border: 0; border-top: 1px solid var(--border-faint); }
+</style>
+</head>
+<body>
+  <div class="label" style="margin-bottom: 12px">CORNERS · 4 / 8 / full</div>
+  <div class="row">
+    <div class="demo"><div class="box r0"></div><span class="meta">0 (none)</span></div>
+    <div class="demo"><div class="box r1"></div><span class="meta">4px · default</span></div>
+    <div class="demo"><div class="box r2"></div><span class="meta">8px · pre only</span></div>
+    <div class="demo"><div class="box rfull"></div><span class="meta">full · swatch only</span></div>
+  </div>
+  <hr class="hr"/>
+  <div class="label">BORDERS — 1px solid, two intensities</div>
+  <div style="margin-top: 12px">
+    <div style="display:flex; gap: 24px; align-items: center">
+      <div style="display:flex; flex-direction:column; gap: 6px; flex: 1; max-width: 280px">
+        <hr class="hr2" style="border-top-color: var(--stone-200)"/>
+        <span class="meta">border-ui · stone-200 / stone-800</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap: 6px; flex: 1; max-width: 280px">
+        <hr class="hr2" style="border-top-color: var(--stone-100)"/>
+        <span class="meta">border-faint · stone-100 / stone-800/60</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

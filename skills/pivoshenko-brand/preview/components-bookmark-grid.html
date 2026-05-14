@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Bookmark grid</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 16px;
+        background: #000;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .card {
+        border: 1px solid var(--stone-800);
+        border-radius: 4px;
+        background: var(--stone-950);
+        overflow: hidden;
+      }
+      .head {
+        padding: 12px;
+        border-bottom: 1px solid var(--stone-800);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .ic {
+        width: 14px;
+        height: 14px;
+      }
+      .item {
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: var(--stone-300);
+        border-radius: 4px;
+        margin: 4px;
+      }
+      .item:hover {
+        background: var(--stone-900);
+      }
+      .ext {
+        color: var(--stone-500);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="card">
+        <div class="head">
+          <svg
+            class="ic"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+          bookmarks
+        </div>
+        <div class="item">raindrop<span class="ext">↗</span></div>
+        <div class="item">musicforprogramming<span class="ext">↗</span></div>
+      </div>
+      <div class="card">
+        <div class="head">
+          <svg
+            class="ic"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          workspace
+        </div>
+        <div class="item">linear<span class="ext">↗</span></div>
+        <div class="item">gmail<span class="ext">↗</span></div>
+        <div class="item">calendar<span class="ext">↗</span></div>
+      </div>
+      <div class="card">
+        <div class="head">
+          <svg
+            class="ic"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          development
+        </div>
+        <div class="item">github<span class="ext">↗</span></div>
+        <div class="item">kaggle<span class="ext">↗</span></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Colors · morok surfaces & text</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 24px;
+        background: #000;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--stone-500);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 10px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0;
+        border: 1px solid var(--stone-800);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .row + .row {
+        margin-top: 12px;
+      }
+      .swatch {
+        aspect-ratio: 2.5;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 6px 8px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        border-right: 1px solid #292524;
+      }
+      .swatch:last-child {
+        border-right: 0;
+      }
+      .swatch .name {
+        font-weight: 500;
+      }
+      .swatch .hex {
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="label">MOROK SURFACES — crust → surface2</div>
+    <div class="row">
+      <div class="swatch" style="background: #080706; color: #a8a29e">
+        <span class="name">crust</span><span class="hex">080706</span>
+      </div>
+      <div class="swatch" style="background: #0c0a09; color: #a8a29e">
+        <span class="name">mantle</span><span class="hex">0c0a09</span>
+      </div>
+      <div class="swatch" style="background: #000000; color: #a8a29e">
+        <span class="name">base</span><span class="hex">000000</span>
+      </div>
+      <div class="swatch" style="background: #1c1917; color: #a8a29e">
+        <span class="name">surface0</span><span class="hex">1c1917</span>
+      </div>
+      <div class="swatch" style="background: #292524; color: #a8a29e">
+        <span class="name">surface1</span><span class="hex">292524</span>
+      </div>
+      <div class="swatch" style="background: #44403c; color: #d6d3d1">
+        <span class="name">surface2</span><span class="hex">44403c</span>
+      </div>
+    </div>
+    <div class="label" style="margin-top: 14px">MOROK TEXT & OVERLAYS — overlay0 → text</div>
+    <div class="row">
+      <div class="swatch" style="background: #57534e; color: #e7e5e4">
+        <span class="name">overlay0</span><span class="hex">57534e</span>
+      </div>
+      <div class="swatch" style="background: #78716c; color: #e7e5e4">
+        <span class="name">overlay1</span><span class="hex">78716c</span>
+      </div>
+      <div class="swatch" style="background: #a8a29e; color: #1c1917">
+        <span class="name">overlay2</span><span class="hex">a8a29e</span>
+      </div>
+      <div class="swatch" style="background: #a8a29e; color: #1c1917">
+        <span class="name">subtext0</span><span class="hex">a8a29e</span>
+      </div>
+      <div class="swatch" style="background: #d6d3d1; color: #1c1917">
+        <span class="name">subtext1</span><span class="hex">d6d3d1</span>
+      </div>
+      <div class="swatch" style="background: #e7e5e4; color: #1c1917">
+        <span class="name">text</span><span class="hex">e7e5e4</span>
+      </div>
+    </div>
+  </body>
+</html>

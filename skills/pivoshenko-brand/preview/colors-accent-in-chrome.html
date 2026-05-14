@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Colors · Accent in chrome</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        display: flex;
+      }
+      .pane {
+        flex: 1;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        justify-content: center;
+      }
+      .pane.dark {
+        background: #000;
+      }
+      .pane.dark .fg-muted {
+        color: var(--stone-500);
+      }
+      .pane.dark .fg-secondary {
+        color: var(--stone-300);
+      }
+      .pane.dark .nav-link.active {
+        color: var(--stone-100);
+      }
+      .pane.dark .accent {
+        --accent: #9faece;
+        --accent-soft: rgb(159 174 206 / 0.18);
+      }
+      .accent {
+        --accent: #7f98bf;
+        --accent-soft: rgb(127 152 191 / 0.18);
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .pane.dark .label {
+        color: var(--stone-500);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .accent-link {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: var(--stone-700);
+        text-decoration: underline;
+        text-decoration-color: var(--accent);
+        text-underline-offset: 3px;
+      }
+      .pane.dark .accent-link {
+        color: var(--stone-300);
+      }
+      .nav-row {
+        display: flex;
+        align-items: stretch;
+      }
+      .nav-link {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        padding: 6px 12px;
+        color: var(--stone-500);
+        position: relative;
+      }
+      .nav-link.active {
+        color: var(--stone-900);
+      }
+      .nav-link.active::after {
+        content: "";
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: -1px;
+        height: 2px;
+        background: var(--accent);
+      }
+      .tag-active {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .copy-ok {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--accent);
+      }
+      .focus-ring {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--stone-200);
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+        color: var(--stone-500);
+      }
+      .pane.dark .focus-ring {
+        border-color: var(--stone-800);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pane accent">
+      <div class="label">ACCENT — light · morok blue #7f98bf</div>
+      <div class="row">
+        <a class="accent-link" href="#">A link inside prose</a>
+        <span class="tag-active">product-thinking</span>
+        <span class="copy-ok">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Copied
+        </span>
+      </div>
+      <div class="nav-row">
+        <span class="nav-link active">Home <span class="dot" style="margin-left: 4px"></span></span>
+        <span class="nav-link">Blog</span>
+        <span class="nav-link">Colors</span>
+      </div>
+      <div class="row">
+        <button class="focus-ring" aria-label="Focused">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+        <span class="label" style="text-transform: none; letter-spacing: 0; font-size: 11px"
+          >:focus-visible — accent outline, 2px offset</span
+        >
+      </div>
+    </div>
+    <div class="pane dark accent">
+      <div class="label">ACCENT — dark · morok lavender #9faece</div>
+      <div class="row">
+        <a class="accent-link" href="#">A link inside prose</a>
+        <span class="tag-active">tailscale</span>
+        <span class="copy-ok">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Copied
+        </span>
+      </div>
+      <div class="nav-row">
+        <span class="nav-link">Home</span>
+        <span class="nav-link active">Blog <span class="dot" style="margin-left: 4px"></span></span>
+        <span class="nav-link">Colors</span>
+      </div>
+      <div class="row">
+        <button class="focus-ring" aria-label="Focused">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+        <span class="label" style="text-transform: none; letter-spacing: 0; font-size: 11px; color: var(--stone-500)"
+          >:focus-visible — accent outline, 2px offset</span
+        >
+      </div>
+    </div>
+  </body>
+</html>

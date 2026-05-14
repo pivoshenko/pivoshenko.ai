@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Spacing · Layout scale</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; }
+  .bar { display:flex; align-items:center; gap: 16px; padding: 6px 0; border-top: 1px solid var(--border-faint); }
+  .bar:first-of-type { border-top: 0; }
+  .key { width: 70px; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--stone-500); }
+  .fill { height: 10px; background: var(--stone-200); border-radius: 2px; }
+  .meta { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); margin-left: auto; }
+</style>
+</head>
+<body>
+  <div class="label" style="margin-bottom: 8px">SPACING SCALE — tailwind default</div>
+  <div class="bar"><span class="key">gap-1</span><div class="fill" style="width: 4px"></div><span class="meta">4px</span></div>
+  <div class="bar"><span class="key">gap-2</span><div class="fill" style="width: 8px"></div><span class="meta">8px</span></div>
+  <div class="bar"><span class="key">gap-3</span><div class="fill" style="width: 12px"></div><span class="meta">12px</span></div>
+  <div class="bar"><span class="key">gap-4</span><div class="fill" style="width: 16px"></div><span class="meta">16px · default</span></div>
+  <div class="bar"><span class="key">gap-5</span><div class="fill" style="width: 20px"></div><span class="meta">20px · post list</span></div>
+  <div class="bar"><span class="key">space-12</span><div class="fill" style="width: 48px"></div><span class="meta">48px · year gap</span></div>
+  <div class="bar"><span class="key">space-16</span><div class="fill" style="width: 64px"></div><span class="meta">64px · section gap</span></div>
+</body>
+</html>

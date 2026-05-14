@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Buttons</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .pane {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .pane.dark {
+        background: #000;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .pane.dark .label {
+        color: var(--stone-500);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* Icon button — the brand's primary control */
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--stone-200);
+        border-radius: 4px;
+        background: var(--stone-50);
+        color: var(--stone-400);
+        cursor: pointer;
+      }
+      .icon-btn:hover {
+        color: var(--stone-700);
+      }
+      .icon-btn.active {
+        color: var(--stone-900);
+      }
+      .icon-btn.focus {
+        outline: 2px solid #7f98bf;
+        outline-offset: 2px;
+      }
+      .icon-btn[disabled] {
+        opacity: 0.4;
+      }
+      .pane.dark .icon-btn {
+        background: #000;
+        border-color: var(--stone-800);
+        color: var(--stone-500);
+      }
+      .pane.dark .icon-btn:hover {
+        color: var(--stone-300);
+      }
+      .pane.dark .icon-btn.active {
+        color: var(--stone-100);
+      }
+      .pane.dark .icon-btn.focus {
+        outline-color: #9faece;
+      }
+
+      /* Copy pill — the second pattern */
+      .copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--stone-200);
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        background: transparent;
+        color: var(--stone-400);
+        cursor: pointer;
+      }
+      .copy:hover {
+        color: var(--stone-700);
+      }
+      .copy.ok {
+        color: #8ea98c;
+      }
+      .pane.dark .copy {
+        border-color: var(--stone-800);
+        color: var(--stone-500);
+      }
+      .pane.dark .copy:hover {
+        color: var(--stone-300);
+      }
+      .pane.dark .copy.ok {
+        color: #8ea98c;
+      }
+
+      /* Text link — the third pattern, used for back/forward navigation */
+      .text-btn {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        color: var(--stone-500);
+        cursor: pointer;
+      }
+      .text-btn:hover {
+        color: var(--stone-700);
+      }
+      .pane.dark .text-btn {
+        color: var(--stone-500);
+      }
+      .pane.dark .text-btn:hover {
+        color: var(--stone-300);
+      }
+
+      .caveat {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--stone-500);
+      }
+      .pane.dark .caveat {
+        color: var(--stone-500);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pane">
+      <div>
+        <div class="label">ICON BUTTON — default · hover · active · disabled · focus</div>
+        <div class="row" style="margin-top: 8px">
+          <button class="icon-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <button class="icon-btn" style="color: var(--stone-700)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+          <button class="icon-btn active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="15" y2="12" />
+              <line x1="3" y1="18" x2="12" y2="18" />
+            </svg>
+          </button>
+          <button class="icon-btn" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+          <button class="icon-btn focus">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="label">COPY PILL — default · hover · copied</div>
+        <div class="row" style="margin-top: 8px">
+          <button class="copy">
+            #c98787
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+          <button class="copy" style="color: var(--stone-700)">
+            #8ea98c
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+          <button class="copy ok">
+            #7f98bf
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="pane dark">
+      <div>
+        <div class="label">TEXT BUTTON — used for back / forward / external navigation</div>
+        <div class="row" style="margin-top: 8px">
+          <button class="text-btn">← Blog</button>
+          <button class="text-btn">All posts →</button>
+          <button class="text-btn">github ↗</button>
+        </div>
+      </div>
+      <div>
+        <div class="label">WHAT IS NOT IN THE SYSTEM</div>
+        <p class="caveat" style="margin: 6px 0 0; max-width: 36ch; line-height: 1.55">
+          No filled solid buttons. No "Primary / Secondary / CTA" hierarchy. No floating-action buttons.<br />
+          If a design needs visual lift, use the accent color on text or a 1px outline — never a fill.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

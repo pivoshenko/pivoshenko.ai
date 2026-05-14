@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Menus & popovers</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        display: flex;
+      }
+      .pane {
+        flex: 1;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .pane.dark {
+        background: #000;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .pane.dark .label {
+        color: var(--stone-500);
+      }
+
+      .popover {
+        width: 240px;
+        border: 1px solid var(--stone-200);
+        background: var(--white);
+      }
+      .pane.dark .popover {
+        border-color: var(--stone-800);
+        background: #000;
+      }
+      .popover .head {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--stone-200);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--stone-400);
+      }
+      .pane.dark .popover .head {
+        border-color: var(--stone-800);
+        color: var(--stone-500);
+      }
+      .popover ul {
+        list-style: none;
+        margin: 0;
+        padding: 4px 0;
+      }
+      .popover a {
+        display: block;
+        padding: 6px 12px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--stone-500);
+      }
+      .popover a.indent {
+        padding-left: 24px;
+      }
+      .popover a:hover {
+        color: var(--stone-700);
+      }
+      .pane.dark .popover a {
+        color: var(--stone-500);
+      }
+      .pane.dark .popover a:hover {
+        color: var(--stone-300);
+      }
+      .popover a.active {
+        color: var(--stone-900);
+      }
+      .pane.dark .popover a.active {
+        color: var(--stone-100);
+      }
+
+      .demo {
+        display: flex;
+        gap: 14px;
+        align-items: flex-end;
+      }
+      .anchor {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--stone-200);
+        border-radius: 4px;
+        color: var(--stone-700);
+      }
+      .pane.dark .anchor {
+        border-color: var(--stone-800);
+        color: var(--stone-300);
+      }
+
+      .toc-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pane">
+      <div>
+        <div class="label">TABLE OF CONTENTS POPOVER — fixed bottom-left</div>
+        <div class="demo" style="margin-top: 10px">
+          <div class="toc-stack">
+            <div class="popover">
+              <div class="head">Contents</div>
+              <ul>
+                <li><a>The differentiator has moved</a></li>
+                <li><a class="indent active">Why product thinking</a></li>
+                <li><a>Why most products fail</a></li>
+                <li><a>Where to train this skill</a></li>
+                <li><a class="indent">The feedback loop</a></li>
+              </ul>
+            </div>
+            <div class="anchor">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="15" y2="12" />
+                <line x1="3" y1="18" x2="12" y2="18" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pane dark">
+      <div>
+        <div class="label">DROPDOWN — the only menu pattern in the system</div>
+        <div class="demo" style="margin-top: 10px">
+          <div class="toc-stack">
+            <div class="popover">
+              <ul>
+                <li><a class="active">All posts</a></li>
+                <li><a>ai · 3</a></li>
+                <li><a>tooling · 2</a></li>
+                <li><a>tailscale · 1</a></li>
+                <li><a>python · 1</a></li>
+              </ul>
+            </div>
+            <div class="anchor">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

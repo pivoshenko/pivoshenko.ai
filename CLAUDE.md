@@ -11,7 +11,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - `kasetto.yaml` — Kasetto sync config. Lists `agent: [claude-code]` plus per-source skill and MCP entries pulled from upstream GitHub repos. Source of truth for what gets synced.
 - `skills/` — Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
   - `commit`, `create-branch`, `create-pr`, `sync-branch`, `cleanup-branches` — Conventional git workflow skills. Tag: `git`.
-  - `pivoshenko-brand-guidelines` — Brand style guide. Tags: `brand`, `design`.
+  - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
 - `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`, `kaggle.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. See `site/CLAUDE.md` if present, otherwise this section.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `format`, `lint`, `run`, `serve`, `update`.
@@ -40,4 +40,4 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 - Run `just lint` from the repo root before committing. Biome formats + Next builds. Both must pass.
 - Server components by default. Add `'use client'` only when a component actually needs hooks/state/event handlers (e.g. `theme-toggle.tsx`, `back-to-top.tsx`, `catalog.tsx`).
-- Match brand tokens from `pivoshenko-brand-guidelines/references/brand-system.md` — stone neutrals for UI, `morok` colors only as accents.
+- Match brand tokens from `pivoshenko-brand/references/brand-system.md` — stone neutrals for UI, `morok` colors only as accents.
