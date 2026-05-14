@@ -2,11 +2,15 @@ import { BackToTop } from '@/components/back-to-top'
 import { Footer } from '@/components/footer'
 import { Nav } from '@/components/nav'
 import { Analytics } from '@vercel/analytics/next'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from 'next-themes'
+import { JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -42,7 +46,8 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      data-scroll-behavior="smooth"
+      className={jetbrainsMono.variable}
     >
       <body className="bg-stone-50 text-stone-900 dark:bg-black dark:text-stone-100 font-mono antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
