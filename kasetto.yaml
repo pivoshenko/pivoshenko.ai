@@ -39,6 +39,10 @@ skills:
     sub-dir: skills/productivity
     skills:
       - grill-me
+
+  - source: https://github.com/JuliusBrussee/caveman
+    sub-dir: skills
+    skills:
       - caveman
 
 mcps:
