@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Spacing · Elevation</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; background: var(--bg-page); }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card-demo { padding: 16px; border-radius: 4px; min-height: 100px; display:flex; flex-direction: column; gap: 6px; }
+  .card-demo.plain { background: var(--white); border: 1px solid var(--stone-200); }
+  .card-demo.shadow { background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; }
+  .meta { font-family: var(--font-mono); font-size: 11px; color: var(--stone-500); }
+  .ok { color: #8ea98c; }
+  .no { color: #c98787; text-decoration: line-through; text-decoration-color: var(--stone-400); }
+  .pre { background: var(--stone-900); color: var(--stone-100); padding: 10px 12px; border: 1px solid var(--stone-700); border-radius: 8px; font-family: var(--font-mono); font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="label" style="margin-bottom: 12px">ELEVATION — borders only, never shadows</div>
+  <div class="grid">
+    <div class="card-demo plain">
+      <span class="label ok">USE</span>
+      <span class="type-ui fg-primary">1px border, 4px radius</span>
+      <span class="meta">border-stone-200 / border-stone-800</span>
+    </div>
+    <div class="card-demo shadow">
+      <span class="label no">AVOID</span>
+      <span class="type-ui fg-primary">Drop shadow card</span>
+      <span class="meta">No box-shadow anywhere in the system</span>
+    </div>
+  </div>
+  <div style="margin-top: 16px">
+    <div class="label" style="margin-bottom: 8px">PROSE CODE BLOCK — only place 8px corner appears</div>
+    <pre class="pre">$ just render
+✓ rendered dist/ghostty/morok.conf
+✓ rendered dist/helix/morok.toml</pre>
+  </div>
+</body>
+</html>

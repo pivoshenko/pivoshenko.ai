@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Components · Tooltip</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 0; display: flex; }
+  .pane { flex: 1; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+  .pane.dark { background: #000; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; }
+  .pane.dark .label { color: var(--stone-500); }
+  .demo { position: relative; display: inline-block; margin-top: 8px; }
+  .anchor {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--stone-200); border-radius: 4px;
+    color: var(--stone-500);
+  }
+  .pane.dark .anchor { border-color: var(--stone-800); color: var(--stone-500); }
+  .tip {
+    position: absolute;
+    bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    white-space: nowrap;
+    background: var(--stone-900); color: var(--stone-100);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono); font-size: 11px;
+    line-height: 1.4;
+  }
+  .pane.dark .tip { background: var(--stone-100); color: var(--stone-900); }
+  .tip::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 4px solid transparent; border-top-color: var(--stone-900);
+  }
+  .pane.dark .tip::after { border-top-color: var(--stone-100); }
+  .caveat { font-family: var(--font-mono); font-size: 11px; color: var(--stone-500); max-width: 36ch; line-height: 1.55; }
+</style>
+</head>
+<body>
+  <div class="pane">
+    <div>
+      <div class="label">TOOLTIP — inverted stone, 4px corners, 11px text</div>
+      <div class="demo">
+        <div class="tip">Copy hex value</div>
+        <button class="anchor"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <div>
+      <div class="label">USAGE RULE</div>
+      <p class="caveat" style="margin-top: 6px">
+        The live products use <strong style="color: var(--stone-900); font-weight: 500">aria-label</strong>, not tooltips.
+        Reach for a tooltip only when an icon-only control has no obvious meaning from context. Never as decoration.
+      </p>
+    </div>
+  </div>
+  <div class="pane dark">
+    <div>
+      <div class="label">TOOLTIP — dark inverts to light surface</div>
+      <div class="demo">
+        <div class="tip">Switch theme</div>
+        <button class="anchor"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

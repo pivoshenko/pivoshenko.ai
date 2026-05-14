@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pivoshenko Design System</title>
+    <link rel="stylesheet" href="colors_and_type.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        padding: 0;
+      }
+      .wrap {
+        max-width: 896px;
+        margin: 0 auto;
+        padding: 24px 16px 64px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .head {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 20px;
+      }
+      .mark {
+        width: 36px;
+        height: 36px;
+        background: #fff;
+        color: #000;
+        display: grid;
+        place-items: center;
+        font-family: var(--font-mono);
+        font-weight: 700;
+        font-size: 19px;
+        letter-spacing: -0.6px;
+      }
+      :root:not(.dark) .mark {
+        background: #000;
+        color: #fff;
+      }
+      .title-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .sec {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .sec h2 {
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-faint);
+      }
+      ul.idx {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      ul.idx li {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        padding: 6px 0;
+      }
+      ul.idx li + li {
+        border-top: 1px solid var(--border-faint);
+      }
+      ul.idx code {
+        font-family: var(--font-mono);
+        color: var(--fg-primary);
+        width: 280px;
+        flex-shrink: 0;
+      }
+      ul.idx .desc {
+        color: var(--fg-body);
+      }
+      a.link {
+        color: var(--fg-secondary);
+        text-decoration: underline;
+        text-decoration-color: var(--deco-subtle);
+        text-underline-offset: 3px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      header.bar {
+        width: 100%;
+        border-bottom: 1px solid var(--border-ui);
+      }
+      header.bar nav {
+        max-width: 896px;
+        margin: 0 auto;
+        padding: 0 16px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      footer.bar {
+        width: 100%;
+        border-top: 1px solid var(--border-ui);
+      }
+      footer.bar div {
+        max-width: 896px;
+        margin: 0 auto;
+        padding: 0 16px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <nav>
+        <span class="type-logo fg-primary">pivoshenko.design</span>
+        <span class="type-meta fg-muted">v1 · 2026</span>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <section class="head">
+        <div class="title-row">
+          <div class="mark">VP</div>
+          <div>
+            <h1 class="type-post-heading fg-primary">Pivoshenko Design System</h1>
+            <p class="type-meta fg-muted" style="margin-top: 4px">morok · minimalism · cross-tool consistency</p>
+          </div>
+        </div>
+        <p class="type-body fg-body" style="max-width: 60ch; margin-top: 8px">
+          The design system behind Volodymyr Pivoshenko's personal brand — a Principal AI/R&amp;D Engineer who builds
+          tools, themes, and writing with a single through-line:
+          <strong style="color: var(--fg-primary); font-weight: 500">restraint</strong>. JetBrains Mono on stone
+          neutrals. One font, two themes, zero shadows.
+        </p>
+        <p class="type-ui" style="margin-top: 8px">
+          <a class="link" href="components.html" style="color: var(--fg-primary); text-decoration-color: var(--accent)"
+            >Open the full component inventory →</a
+          >
+        </p>
+      </section>
+
+      <section class="sec">
+        <h2 class="type-label fg-muted">FOUNDATIONS</h2>
+        <ul class="idx">
+          <li>
+            <code><a class="link" href="README.md">README.md</a></code
+            ><span class="desc">Full context · content fundamentals · visual foundations · iconography</span>
+          </li>
+          <li>
+            <code><a class="link" href="colors_and_type.css">colors_and_type.css</a></code
+            ><span class="desc">Tokens + utility classes — drop‑in for any prototype</span>
+          </li>
+          <li>
+            <code><a class="link" href="SKILL.md">SKILL.md</a></code
+            ><span class="desc">Agent Skill entry · Claude Code compatible</span>
+          </li>
+          <li>
+            <code>assets/</code
+            ><span class="desc">Wordmark glyphs (VP, 32×32 light/dark) and Simple Icons brand marks</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec">
+        <h2 class="type-label fg-muted">DESIGN SYSTEM CARDS</h2>
+        <p class="type-caption fg-subtle">
+          Open the Design System tab in the sidebar to browse every card. Or jump to a representative one:
+        </p>
+        <ul class="idx">
+          <li>
+            <code><a class="link" href="preview/colors-stone.html">preview/colors-stone.html</a></code
+            ><span class="desc">11-step stone scale</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/colors-morok-accents.html">preview/colors-morok-accents.html</a></code
+            ><span class="desc">morok theme accents</span>
+          </li>
+          <li>
+            <code
+              ><a class="link" href="preview/colors-accent-in-chrome.html"
+                >preview/colors-accent-in-chrome.html</a
+              ></code
+            ><span class="desc">Single accent piped into chrome</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/type-recipes.html">preview/type-recipes.html</a></code
+            ><span class="desc">The 8 named type styles</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/components-buttons.html">preview/components-buttons.html</a></code
+            ><span class="desc">Icon · copy · text buttons</span>
+          </li>
+          <li>
+            <code
+              ><a class="link" href="preview/components-form-inputs.html">preview/components-form-inputs.html</a></code
+            ><span class="desc">Text input · search · textarea · checkbox</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/components-search.html">preview/components-search.html</a></code
+            ><span class="desc">Search bar · results · ⌘K command palette</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/components-status.html">preview/components-status.html</a></code
+            ><span class="desc">Success · warning · error · info · neutral</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/components-alerts.html">preview/components-alerts.html</a></code
+            ><span class="desc">Inline alerts — bordered, no fill</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/components-tabs.html">preview/components-tabs.html</a></code
+            ><span class="desc">Underline tabs + segmented</span>
+          </li>
+          <li>
+            <code
+              ><a class="link" href="preview/components-palette-table.html"
+                >preview/components-palette-table.html</a
+              ></code
+            ><span class="desc">Signature copy‑pill palette table</span>
+          </li>
+          <li>
+            <code><a class="link" href="preview/brand-iconography.html">preview/brand-iconography.html</a></code
+            ><span class="desc">Lucide + Simple Icons + arrow glyphs</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <footer class="bar">
+      <div>
+        <span class="type-meta fg-muted">2026 Volodymyr Pivoshenko &lt;contact@pivoshenko.dev&gt;</span>
+        <span class="type-meta fg-muted">morok · v1</span>
+      </div>
+    </footer>
+  </body>
+</html>

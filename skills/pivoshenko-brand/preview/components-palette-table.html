@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Palette table</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        background: #000;
+        color: var(--stone-100);
+      }
+      .wrap {
+        padding: 18px;
+      }
+      .table {
+        width: 100%;
+        border: 1px solid var(--stone-800);
+        border-radius: 4px;
+        background: var(--stone-950);
+        overflow: hidden;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 12px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+      thead th {
+        color: var(--stone-500);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 1px solid var(--stone-800);
+        font-weight: 400;
+      }
+      tbody tr + tr td {
+        border-top: 1px solid rgb(41 37 36 / 0.6);
+      }
+      .name-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--stone-100);
+      }
+      .dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        border: 1px solid var(--stone-800);
+      }
+      .val {
+        color: var(--stone-300);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .copy {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1px solid var(--stone-800);
+        color: var(--stone-500);
+      }
+      .copy.ok {
+        color: #8ea98c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Color</th>
+              <th>Hex</th>
+              <th>RGB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="name-cell"
+                  ><span class="dot" style="background: #c98787"></span>red<span class="copy"
+                    ><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg></span
+                ></span>
+              </td>
+              <td>
+                <span class="val"
+                  >#c98787<span class="copy"
+                    ><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg></span
+                ></span>
+              </td>
+              <td>
+                <span class="val"
+                  >201, 135, 135<span class="copy"
+                    ><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg></span
+                ></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="name-cell"><span class="dot" style="background: #8ea98c"></span>green</span>
+              </td>
+              <td><span class="val">#8ea98c</span></td>
+              <td>
+                <span class="val"
+                  >142, 169, 140<span class="copy ok"
+                    ><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12" /></svg></span
+                ></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="name-cell"><span class="dot" style="background: #7f98bf"></span>blue</span>
+              </td>
+              <td><span class="val">#7f98bf</span></td>
+              <td><span class="val">127, 152, 191</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

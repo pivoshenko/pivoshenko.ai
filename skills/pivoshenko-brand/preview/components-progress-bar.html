@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Components · Reading progress</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 0;
+        background: var(--bg-page);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 22px;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--stone-400);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .frame {
+        position: relative;
+        height: 80px;
+        border: 1px solid var(--stone-200);
+        border-radius: 4px;
+        background: var(--white);
+        overflow: hidden;
+      }
+      .progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: var(--stone-900);
+        width: 38%;
+      }
+      .nav-strip {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        right: 0;
+        height: 38px;
+        border-bottom: 1px solid var(--stone-200);
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        justify-content: space-between;
+      }
+      .wm {
+        font-family: var(--font-mono);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--stone-900);
+        letter-spacing: -0.025em;
+      }
+      .body {
+        padding: 14px 16px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--stone-500);
+      }
+
+      .dark-frame {
+        border-color: var(--stone-800);
+        background: #000;
+      }
+      .dark-frame .progress {
+        background: var(--stone-100);
+        width: 72%;
+      }
+      .dark-frame .nav-strip {
+        border-color: var(--stone-800);
+      }
+      .dark-frame .wm {
+        color: var(--stone-100);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="label">READING PROGRESS — fixed 2px bar, fg-primary, instant (transition-none)</div>
+      <div class="frame" style="margin-top: 8px">
+        <div class="progress"></div>
+        <div class="nav-strip">
+          <span class="wm">pivoshenko.dev</span
+          ><span style="font-family: var(--font-mono); font-size: 12px; color: var(--stone-400)">38%</span>
+        </div>
+        <div class="body" style="padding-top: 48px">Article scrolling…</div>
+      </div>
+    </div>
+    <div>
+      <div class="label">DARK — pure fg-primary stone-100 on pure-black surface</div>
+      <div class="frame dark-frame" style="margin-top: 8px">
+        <div class="progress"></div>
+        <div class="nav-strip">
+          <span class="wm">pivoshenko.dev</span
+          ><span style="font-family: var(--font-mono); font-size: 12px; color: var(--stone-500)">72%</span>
+        </div>
+        <div class="body" style="padding-top: 48px; color: var(--stone-500)">Article scrolling…</div>
+      </div>
+    </div>
+  </body>
+</html>

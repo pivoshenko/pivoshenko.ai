@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Colors · morok accents</title>
+    <link rel="stylesheet" href="_base.css" />
+    <style>
+      body {
+        padding: 24px;
+        background: #000;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--stone-500);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 10px;
+      }
+      .ramp {
+        display: grid;
+        grid-template-columns: repeat(14, 1fr);
+        border: 1px solid var(--stone-800);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .swatch {
+        aspect-ratio: 0.9;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 6px 6px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: #1c1917;
+      }
+      .swatch .name {
+        font-weight: 500;
+      }
+      .swatch .hex {
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="label">MOROK — THEME ACCENTS (rendered to terminals + userstyles)</div>
+    <div class="ramp">
+      <div class="swatch" style="background: #e2cfc6">
+        <span class="name">rose</span><span class="hex">e2cfc6</span>
+      </div>
+      <div class="swatch" style="background: #d8b8aa">
+        <span class="name">flam</span><span class="hex">d8b8aa</span>
+      </div>
+      <div class="swatch" style="background: #d1b2c9">
+        <span class="name">pink</span><span class="hex">d1b2c9</span>
+      </div>
+      <div class="swatch" style="background: #a78cc4">
+        <span class="name">mauve</span><span class="hex">a78cc4</span>
+      </div>
+      <div class="swatch" style="background: #c98787"><span class="name">red</span><span class="hex">c98787</span></div>
+      <div class="swatch" style="background: #b97a74">
+        <span class="name">maroon</span><span class="hex">b97a74</span>
+      </div>
+      <div class="swatch" style="background: #d0a178">
+        <span class="name">peach</span><span class="hex">d0a178</span>
+      </div>
+      <div class="swatch" style="background: #c7b07a">
+        <span class="name">yellow</span><span class="hex">c7b07a</span>
+      </div>
+      <div class="swatch" style="background: #8ea98c">
+        <span class="name">green</span><span class="hex">8ea98c</span>
+      </div>
+      <div class="swatch" style="background: #7ea59d">
+        <span class="name">teal</span><span class="hex">7ea59d</span>
+      </div>
+      <div class="swatch" style="background: #7da2b5"><span class="name">sky</span><span class="hex">7da2b5</span></div>
+      <div class="swatch" style="background: #7398ad">
+        <span class="name">sapph</span><span class="hex">7398ad</span>
+      </div>
+      <div class="swatch" style="background: #7f98bf">
+        <span class="name">blue</span><span class="hex">7f98bf</span>
+      </div>
+      <div class="swatch" style="background: #9faece"><span class="name">lav</span><span class="hex">9faece</span></div>
+    </div>
+  </body>
+</html>
