@@ -1,4 +1,13 @@
-const links = [
+import type { ReactNode } from 'react'
+
+type FooterLink = {
+  label: string
+  href: string
+  external?: boolean
+  icon: ReactNode
+}
+
+const baselineLinks: FooterLink[] = [
   {
     label: 'GitHub',
     href: 'https://github.com/pivoshenko',
@@ -33,7 +42,8 @@ const links = [
   },
 ]
 
-export function Footer() {
+export function Footer({ extras = [] }: { extras?: FooterLink[] } = {}) {
+  const links = [...baselineLinks, ...extras]
   return (
     <footer className="w-full border-t border-ui">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -52,6 +62,7 @@ export function Footer() {
               })}
               className="fg-muted hover-secondary transition-colors"
             >
+              <span className="sr-only">{link.label}</span>
               {link.icon}
             </a>
           ))}

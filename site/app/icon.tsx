@@ -2,15 +2,8 @@ import { ImageResponse } from 'next/og'
 
 export const size = { width: 32, height: 32 }
 export const contentType = 'image/png'
-export const runtime = 'edge'
 
-export default async function Icon() {
-  const font = await fetch(
-    new URL(
-      'https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.ttf',
-    ),
-  ).then((res) => res.arrayBuffer())
-
+export default function Icon() {
   return new ImageResponse(
     <div
       style={{
@@ -20,24 +13,17 @@ export default async function Icon() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        color: '#fff',
+        fontSize: 17,
+        fontWeight: 700,
+        letterSpacing: '-0.5px',
+        lineHeight: 1,
+        fontFamily:
+          'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
       }}
     >
-      <span
-        style={{
-          color: '#fff',
-          fontFamily: 'JetBrains Mono',
-          fontSize: 17,
-          fontWeight: 700,
-          letterSpacing: '-0.5px',
-          lineHeight: 1,
-        }}
-      >
-        VP
-      </span>
+      VP
     </div>,
-    {
-      ...size,
-      fonts: [{ name: 'JetBrains Mono', data: font, weight: 700 }],
-    },
+    size,
   )
 }
