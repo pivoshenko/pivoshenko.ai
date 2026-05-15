@@ -1,7 +1,7 @@
 'use client'
 
 import type { Mcp, Skill } from '@/lib/data'
-import { TagButton } from 'pivoshenko.ui'
+import { SectionHeader, TagButton } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
 
 type Props = {
@@ -17,7 +17,6 @@ export function Catalog({
   localMcps,
   externalSkills,
   externalMcps,
-  sources,
 }: Props) {
   const allTags = useMemo(() => {
     const counts = new Map<string, number>()
@@ -53,38 +52,9 @@ export function Catalog({
     })
   }
 
-  const sections = [
-    { id: 'own-skills', label: 'own skills', count: fLocalSkills.length },
-    { id: 'own-mcps', label: 'own mcps', count: fLocalMcps.length },
-    {
-      id: 'external-skills',
-      label: 'external skills',
-      count: fExternalSkills.length,
-    },
-    {
-      id: 'external-mcps',
-      label: 'external mcps',
-      count: fExternalMcps.length,
-    },
-  ]
-
   return (
     <div className="space-y-8">
-      <StatsLine
-        items={[
-          ...sections.map((s) => ({ value: s.count, label: s.label })),
-          { value: sources.length, label: 'sources' },
-        ]}
-      />
-
-      <JumpNav sections={sections} />
-
-      <TagFilter
-        tags={allTags}
-        active={active}
-        onToggle={toggle}
-        onClear={() => setActive(new Set())}
-      />
+      <TagFilter tags={allTags} active={active} onToggle={toggle} />
 
       <Section id="own-skills" title="own skills" count={fLocalSkills.length}>
         {fLocalSkills.length === 0 ? (
@@ -145,74 +115,24 @@ export function Catalog({
   )
 }
 
-function JumpNav({
-  sections,
-}: {
-  sections: Array<{ id: string; label: string; count: number }>
-}) {
-  return (
-    <nav className="flex flex-wrap items-baseline gap-x-3 gap-y-1 type-meta fg-muted">
-      <span className="fg-subtle">jump:</span>
-      {sections.map((s, i) => (
-        <span key={s.id} className="flex items-baseline gap-1.5">
-          {i > 0 && (
-            <span className="text-stone-300 dark:text-stone-700">·</span>
-          )}
-          <a href={`#${s.id}`} className="hover-primary transition-colors">
-            {s.label}
-          </a>
-          <span className="opacity-60 tabular-nums">{s.count}</span>
-        </span>
-      ))}
-    </nav>
-  )
-}
-
-function StatsLine({
-  items,
-}: {
-  items: Array<{ value: number; label: string }>
-}) {
-  return (
-    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 type-meta fg-muted">
-      {items.map((item, i) => (
-        <span key={item.label} className="flex items-baseline gap-1.5">
-          {i > 0 && (
-            <span className="text-stone-300 dark:text-stone-700">·</span>
-          )}
-          <span className="fg-primary tabular-nums">{item.value}</span>
-          <span>{item.label}</span>
-        </span>
-      ))}
-    </div>
-  )
-}
-
 function TagFilter({
   tags,
   active,
   onToggle,
-  onClear,
 }: {
   tags: Array<{ tag: string; count: number }>
   active: Set<string>
   onToggle: (tag: string) => void
-  onClear: () => void
 }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <TagButton active={active.size === 0} onClick={onClear}>
-        all
-      </TagButton>
-      {tags.map(({ tag, count }) => (
+      {tags.map(({ tag }) => (
         <TagButton
           key={tag}
           active={active.has(tag)}
           onClick={() => onToggle(tag)}
-          className="gap-1"
         >
-          <span>{tag}</span>
-          <span className="opacity-60 tabular-nums">{count}</span>
+          {tag}
         </TagButton>
       ))}
     </div>
@@ -223,23 +143,16 @@ function Section({
   id,
   title,
   count,
-  note,
   children,
 }: {
   id?: string
   title: string
   count: number
-  note?: string
   children: React.ReactNode
 }) {
   return (
     <section id={id} className="space-y-3">
-      <div className="flex items-baseline gap-2 border-b border-ui pb-2">
-        <span className="type-label fg-subtle">──</span>
-        <h2 className="type-label fg-primary">{title}</h2>
-        <span className="type-meta fg-muted">({count})</span>
-        {note && <span className="type-meta fg-muted ml-auto">{note}</span>}
-      </div>
+      <SectionHeader title={title} count={count} />
       {children}
     </section>
   )

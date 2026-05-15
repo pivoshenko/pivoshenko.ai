@@ -10,12 +10,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8">
-      <header className="space-y-3">
-        <div className="flex items-baseline gap-3">
-          <span className="type-label fg-muted">$</span>
-          <h1 className="type-logo fg-primary">pivoshenko.ai</h1>
-          <span className="type-meta fg-muted">/ agents workspace</span>
-        </div>
+      <section className="space-y-4">
         <p className="type-body fg-body max-w-2xl">
           Curated AI skills and MCP servers, synced via{' '}
           <a
@@ -29,7 +24,7 @@ export default function HomePage() {
           </a>
           .
         </p>
-      </header>
+      </section>
 
       <Catalog
         localSkills={localSkills}
