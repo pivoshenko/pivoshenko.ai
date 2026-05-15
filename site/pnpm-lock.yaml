@@ -23,6 +23,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      pivoshenko.ui:
+        specifier: github:pivoshenko/pivoshenko.ui#v0.2.1
+        version: https://codeload.github.com/pivoshenko/pivoshenko.ui/tar.gz/8b2b1c53cca090a0dec50bf28287ac4266a1c353(next-themes@0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(next@16.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(tailwindcss@3.4.19(yaml@2.9.0))
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -666,6 +669,28 @@ packages:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
 
+  pivoshenko.ui@https://codeload.github.com/pivoshenko/pivoshenko.ui/tar.gz/8b2b1c53cca090a0dec50bf28287ac4266a1c353:
+    resolution: {tarball: https://codeload.github.com/pivoshenko/pivoshenko.ui/tar.gz/8b2b1c53cca090a0dec50bf28287ac4266a1c353}
+    version: 0.2.1
+    engines: {node: '>=22'}
+    peerDependencies:
+      next: ^16.0.0
+      next-themes: ^0.4.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
+      tailwindcss: ^3.4.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+      next-themes:
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+      tailwindcss:
+        optional: true
+
   postcss-import@15.1.0:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
@@ -1284,6 +1309,14 @@ snapshots:
   pify@2.3.0: {}
 
   pirates@4.0.7: {}
+
+  pivoshenko.ui@https://codeload.github.com/pivoshenko/pivoshenko.ui/tar.gz/8b2b1c53cca090a0dec50bf28287ac4266a1c353(next-themes@0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(next@16.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(tailwindcss@3.4.19(yaml@2.9.0)):
+    optionalDependencies:
+      next: 16.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      next-themes: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      tailwindcss: 3.4.19(yaml@2.9.0)
 
   postcss-import@15.1.0(postcss@8.5.14):
     dependencies:
