@@ -19,11 +19,9 @@ export const SOURCE_TAGS: Record<string, string[]> = {
   'vercel-labs/next-skills': ['nextjs'],
   'vercel-labs/agent-skills': ['vercel'],
   'ferdinandobons/startup-skill': ['startup'],
-  'shepsci/kaggle-skill': ['data', 'ml'],
 }
 
 export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],
-  kaggle: ['data', 'ml'],
 }
