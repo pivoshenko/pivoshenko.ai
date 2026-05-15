@@ -1,5 +1,10 @@
+import { createRequire } from 'node:module'
+import { dirname } from 'node:path'
 import morokPreset from 'pivoshenko.ui/tailwind-preset'
 import type { Config } from 'tailwindcss'
+
+const require = createRequire(import.meta.url)
+const uiRoot = dirname(require.resolve('pivoshenko.ui/package.json'))
 
 const config: Config = {
   presets: [morokPreset],
@@ -7,6 +12,7 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
     './lib/**/*.{js,ts,jsx,tsx}',
+    `${uiRoot}/ui/src/**/*.{ts,tsx}`,
   ],
   theme: {
     extend: {
