@@ -1,5 +1,6 @@
 'use client'
 
+import { IconButton } from 'pivoshenko.ui'
 import { useEffect, useState } from 'react'
 
 export function BackToTop() {
@@ -13,11 +14,10 @@ export function BackToTop() {
   }, [])
 
   return (
-    <button
-      type="button"
+    <IconButton
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Back to top"
-      className={`fixed bottom-5 right-5 z-50 w-9 h-9 flex items-center justify-center rounded border border-ui bg-white dark:bg-stone-950 fg-subtle hover-primary transition-all ${
+      className={`fixed bottom-5 right-5 z-50 w-9 h-9 transition-all ${
         visible
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 translate-y-2 pointer-events-none'
@@ -37,6 +37,6 @@ export function BackToTop() {
         <path d="M12 19V5" />
         <path d="m5 12 7-7 7 7" />
       </svg>
-    </button>
+    </IconButton>
   )
 }
