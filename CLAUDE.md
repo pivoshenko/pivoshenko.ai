@@ -22,7 +22,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - Geist Sans + Geist Mono via `next/font`. `next-themes` for dark/light with `class` strategy.
 - Data loaded server-side from parent filesystem in `site/lib/data.ts`; types shared via `import type` only so client bundle stays lean.
 - Tag derivation for external skills/MCPs lives in `site/lib/external-tags.ts` (three explicit maps: `SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`). Local skills use frontmatter `tags:` as source of truth and fall back to the maps.
-- Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, plus components like `TagButton` and `IconButton`. `Footer`/`Nav`/`ThemeToggle` are still local copies; a follow-up migration can use `<PageShell>` from the package. See parent `me/CLAUDE.md` for the cross-cutting pattern.
+- Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, plus components like `TagButton` and `IconButton`. The whole chrome (`Nav`, `Footer`, `ThemeToggle`, `ScrollToTop`) is composed via `<PageShell brand="pivoshenko.ai">` in `site/app/layout.tsx` — there are no local copies. See parent `me/CLAUDE.md` for the cross-cutting pattern and the shared UI invariant.
 
 ## Tagging rules
 
