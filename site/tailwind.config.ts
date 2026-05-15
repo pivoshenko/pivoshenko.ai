@@ -1,7 +1,8 @@
+import morokPreset from 'pivoshenko.ui/tailwind-preset'
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  darkMode: 'class',
+  presets: [morokPreset],
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
@@ -9,25 +10,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // next/font assigns JetBrains Mono via the CSS variable in app/layout.tsx;
+      // this overrides the preset's system-font fallback for the actual font loader.
       fontFamily: {
         sans: ['var(--font-jetbrains-mono)', 'ui-monospace', 'SFMono-Regular'],
         mono: ['var(--font-jetbrains-mono)', 'ui-monospace', 'SFMono-Regular'],
-      },
-      colors: {
-        morok: {
-          base: '#20273a',
-          mantle: '#1a2031',
-          crust: '#13182a',
-          lavender: '#b4bcfa',
-          blue: '#87adf6',
-          sapphire: '#7cc5e6',
-          sky: '#90d8e6',
-          teal: '#89d3c8',
-          green: '#a6d7a2',
-          peach: '#f6ae85',
-          mauve: '#c6a0f6',
-          pink: '#f4b8e4',
-        },
       },
     },
   },
