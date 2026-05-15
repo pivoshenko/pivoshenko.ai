@@ -36,6 +36,10 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - Keep `description` short and operational — it surfaces in the site card and in skill triggering.
 - After editing a skill, no rebuild is needed for the site in dev — Next will pick up the change on next request.
 
+## Required env vars
+
+None for `site/`. `@vercel/analytics` is wired via the Vercel integration. No other deployables in this repo (`skills/`, `mcps/`, `kasetto.yaml` are config files, not deployed). If a future build needs a secret, add it here as: name · purpose · scope (build/runtime) · visibility (`NEXT_PUBLIC_` public vs secret).
+
 ## When editing the site
 
 - Run `just lint` from the repo root before committing. Biome formats + Next builds. Both must pass.
