@@ -21,15 +21,14 @@ skills:
       - startup-pitch
 
   - source: https://github.com/vercel-labs/next-skills
-    skills: "*"
+    skills:
+      - next-best-practices
+      - next-upgrade
 
   - source: https://github.com/vercel-labs/agent-skills
     skills:
       - web-design-guidelines
       - deploy-to-vercel
-
-  - source: https://github.com/shepsci/kaggle-skill
-    skills: "*"
 
   - source: https://github.com/apollographql/skills
     skills:
@@ -39,7 +38,6 @@ skills:
     sub-dir: skills/productivity
     skills:
       - grill-me
-      - grill-with-docs
 
   - source: https://github.com/JuliusBrussee/caveman
     sub-dir: skills
@@ -51,4 +49,3 @@ mcps:
     mcps:
       - github
       - vercel
-      - kaggle
