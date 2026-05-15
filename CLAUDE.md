@@ -36,6 +36,16 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - Keep `description` short and operational — it surfaces in the site card and in skill triggering.
 - After editing a skill, no rebuild is needed for the site in dev — Next will pick up the change on next request.
 
+## Content conventions
+
+Frontmatter contract, loader pattern, tag rules, and sort order are specified in `openspec/specs/site-content-conventions/spec.md`. Quick summary for catalog entries (skills, MCPs):
+
+- Required keys: `name`, `description`, `tags`. `updated_at` (ISO `YYYY-MM-DD`) required once a skill is meaningfully edited after creation.
+- Tags: lowercase, kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`). Local frontmatter `tags` are the source of truth and take precedence over `external-tags.ts` maps.
+- External content tags come from explicit per-slug or per-source maps in `site/lib/external-tags.ts` — no regex inference.
+- Loader (`site/lib/data.ts`) runs server-side; client components import only types via `import type`.
+- Sort: `updated_at` desc (entries without `updated_at` sort last), ties by `name` ascending.
+
 ## Required env vars
 
 None for `site/`. `@vercel/analytics` is wired via the Vercel integration. No other deployables in this repo (`skills/`, `mcps/`, `kasetto.yaml` are config files, not deployed). If a future build needs a secret, add it here as: name · purpose · scope (build/runtime) · visibility (`NEXT_PUBLIC_` public vs secret).

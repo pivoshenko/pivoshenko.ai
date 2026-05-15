@@ -18,6 +18,7 @@ export type Skill = {
   sourceLabel: string
   local: boolean
   tags: string[]
+  updated_at?: string
 }
 
 export type Mcp = {
@@ -28,6 +29,7 @@ export type Mcp = {
   local: boolean
   config?: string
   tags: string[]
+  updated_at?: string
 }
 
 export type KasettoConfig = {
@@ -84,6 +86,8 @@ function readLocalSkills(): Skill[] {
       tags: frontmatterTags.length
         ? frontmatterTags
         : deriveSkillTags(slug, LOCAL_LABEL),
+      updated_at:
+        typeof data.updated_at === 'string' ? data.updated_at : undefined,
     }
   })
 }
@@ -198,8 +202,8 @@ export function loadCatalog() {
     new Set(localMcps.map((m) => m.name)),
   )
 
-  const skills = [...localSkills, ...externalSkills].sort(byLocalFirst)
-  const mcps = [...localMcps, ...externalMcps].sort(byLocalFirst)
+  const skills = [...localSkills, ...externalSkills].sort(byUpdatedAtDesc)
+  const mcps = [...localMcps, ...externalMcps].sort(byUpdatedAtDesc)
 
   return {
     config,
@@ -211,10 +215,14 @@ export function loadCatalog() {
   }
 }
 
-function byLocalFirst<T extends { local: boolean; name: string }>(
+function byUpdatedAtDesc<T extends { updated_at?: string; name: string }>(
   a: T,
   b: T,
 ): number {
-  if (a.local !== b.local) return a.local ? -1 : 1
+  if (a.updated_at && b.updated_at && a.updated_at !== b.updated_at) {
+    return b.updated_at.localeCompare(a.updated_at)
+  }
+  if (a.updated_at && !b.updated_at) return -1
+  if (!a.updated_at && b.updated_at) return 1
   return a.name.localeCompare(b.name)
 }

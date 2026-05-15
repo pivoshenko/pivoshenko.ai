@@ -2,6 +2,7 @@
 name: cleanup-branches
 description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /cleanup-branches. Reports what will be deleted and asks before deleting anything.
 tags: [git]
+updated_at: 2026-05-13
 ---
 
 # Cleanup Branches

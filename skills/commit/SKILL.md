@@ -2,6 +2,7 @@
 name: commit
 description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /commit, or save changes to git. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
+updated_at: 2026-05-13
 ---
 
 # Commit
