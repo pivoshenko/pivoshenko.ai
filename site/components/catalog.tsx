@@ -1,6 +1,7 @@
 'use client'
 
 import type { Mcp, Skill } from '@/lib/data'
+import { TagButton } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
 
 type Props = {
@@ -200,33 +201,20 @@ function TagFilter({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <button
-        type="button"
-        onClick={onClear}
-        className={`px-1.5 py-0.5 rounded type-meta transition-colors ${
-          active.size === 0
-            ? 'bg-tag-active'
-            : 'bg-tag fg-muted hover-secondary'
-        }`}
-      >
+      <TagButton active={active.size === 0} onClick={onClear}>
         all
-      </button>
-      {tags.map(({ tag, count }) => {
-        const on = active.has(tag)
-        return (
-          <button
-            key={tag}
-            type="button"
-            onClick={() => onToggle(tag)}
-            className={`px-1.5 py-0.5 rounded type-meta transition-colors flex items-center gap-1 ${
-              on ? 'bg-tag-active' : 'bg-tag fg-muted hover-secondary'
-            }`}
-          >
-            <span>{tag}</span>
-            <span className="opacity-60 tabular-nums">{count}</span>
-          </button>
-        )
-      })}
+      </TagButton>
+      {tags.map(({ tag, count }) => (
+        <TagButton
+          key={tag}
+          active={active.has(tag)}
+          onClick={() => onToggle(tag)}
+          className="gap-1"
+        >
+          <span>{tag}</span>
+          <span className="opacity-60 tabular-nums">{count}</span>
+        </TagButton>
+      ))}
     </div>
   )
 }
@@ -271,17 +259,15 @@ function TagPill({
   onClick: (tag: string) => void
 }) {
   return (
-    <button
-      type="button"
+    <TagButton
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
         onClick(tag)
       }}
-      className="px-1.5 py-0.5 rounded type-meta bg-tag fg-muted hover-secondary transition-colors"
     >
       {tag}
-    </button>
+    </TagButton>
   )
 }
 
