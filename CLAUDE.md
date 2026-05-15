@@ -12,7 +12,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - `skills/` — Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
   - `commit`, `create-branch`, `create-pr`, `sync-branch`, `cleanup-branches` — Conventional git workflow skills. Tag: `git`.
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
-- `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`, `kaggle.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
+- `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. See `site/CLAUDE.md` if present, otherwise this section.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `format`, `lint`, `run`, `serve`, `update`.
 
@@ -28,7 +28,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 - Local skills: add `tags: [...]` to `SKILL.md` frontmatter. Treat as the source of truth.
 - External skills/MCPs: edit `site/lib/external-tags.ts`. Do not add regex rules — use the explicit per-slug / per-source maps.
-- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `data`, `ml`, `rust`, `mode`, `meta`).
+- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`).
 
 ## When editing skills
 
