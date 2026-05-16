@@ -33,14 +33,14 @@ importers:
         specifier: ^19.2.6
         version: 19.2.6(react@19.2.6)
       yaml:
-        specifier: ^2.7.0
+        specifier: ^2.9.0
         version: 2.9.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
       '@types/node':
-        specifier: ^22.19.17
+        specifier: ^22.19.19
         version: 22.19.19
       '@types/react':
         specifier: ^19.2.14
@@ -52,7 +52,7 @@ importers:
         specifier: ^10.5.0
         version: 10.5.0(postcss@8.5.14)
       postcss:
-        specifier: ^8.5.13
+        specifier: ^8.5.14
         version: 8.5.14
       postcss-import:
         specifier: ^16.1.1
@@ -477,8 +477,8 @@ packages:
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
 
-  electron-to-chromium@1.5.354:
-    resolution: {integrity: sha512-JaBHwWcfIdmSAfWM5l3uwjGd431j8YEMikZ+K/2nXVuBqJKyZ0f+2h4n4JY5AyNiZmnY9qQr2RU3v9DxDmHMNg==}
+  electron-to-chromium@1.5.357:
+    resolution: {integrity: sha512-NHlTIQDK8fmVwHwuIzmXYEJ1Ewq3D9wDNc0cWXxDGysP6Pb21giwGNkxiTifyKy/4SoPuN5l6GLP1W9Sv7zB2g==}
 
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
@@ -1127,7 +1127,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.29
       caniuse-lite: 1.0.30001792
-      electron-to-chromium: 1.5.354
+      electron-to-chromium: 1.5.357
       node-releases: 2.0.44
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
@@ -1162,7 +1162,7 @@ snapshots:
 
   dlv@1.1.3: {}
 
-  electron-to-chromium@1.5.354: {}
+  electron-to-chromium@1.5.357: {}
 
   es-errors@1.3.0: {}
 
