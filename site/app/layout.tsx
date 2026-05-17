@@ -11,6 +11,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ai.pivoshenko.dev'),
   title: {
     template: '%s — pivoshenko.ai',
     default: 'pivoshenko.ai — agents workspace',
@@ -18,13 +19,16 @@ export const metadata: Metadata = {
   description:
     'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
   openGraph: {
+    type: 'website',
+    url: 'https://ai.pivoshenko.dev',
+    siteName: 'pivoshenko.ai',
     title: 'pivoshenko.ai — agents workspace',
     description:
       'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
-    type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'pivoshenko.ai — agents workspace',
     description:
       'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
