@@ -22,6 +22,15 @@ export default function HomePage() {
           >
             Kasetto
           </a>
+          . Config and source live on{' '}
+          <a
+            href="https://github.com/pivoshenko/pivoshenko.ai"
+            className="underline decoration-current/40 hover:decoration-current underline-offset-2 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
           .
         </p>
       </section>
