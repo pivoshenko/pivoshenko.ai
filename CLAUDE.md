@@ -13,13 +13,13 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `commit`, `create-branch`, `create-pr`, `sync-branch`, `cleanup-branches` — Conventional git workflow skills. Tag: `git`.
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
 - `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
-- `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. See `site/CLAUDE.md` if present, otherwise this section.
+- `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `check`, `build`, `start`, `update`.
 
 ## Site stack
 
 - Next.js 16 (App Router, Turbopack), React 19, Tailwind 3, Biome (no eslint/prettier).
-- Geist Sans + Geist Mono via `next/font`. `next-themes` for dark/light with `class` strategy.
+- JetBrains Mono via `next/font/google` (both `sans` and `mono`). `next-themes` for dark/light with `class` strategy.
 - Data loaded server-side from parent filesystem in `site/lib/data.ts`; types shared via `import type` only so client bundle stays lean.
 - Tag derivation for external skills/MCPs lives in `site/lib/external-tags.ts` (three explicit maps: `SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`). Local skills use frontmatter `tags:` as source of truth and fall back to the maps.
 - Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, plus components like `TagButton` and `IconButton`. The whole chrome (`Nav`, `Footer`, `ThemeToggle`, `ScrollToTop`) is composed via `<PageShell brand="pivoshenko.ai">` in `site/app/layout.tsx` — there are no local copies. See parent `me/CLAUDE.md` for the cross-cutting pattern and the shared UI invariant.
@@ -38,7 +38,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 ## Content conventions
 
-Frontmatter contract, loader pattern, tag rules, and sort order are specified in `openspec/specs/site-content-conventions/spec.md`. Quick summary for catalog entries (skills, MCPs):
+Frontmatter contract, loader pattern, tag rules, and sort order for catalog entries (skills, MCPs):
 
 - Required keys: `name`, `description`, `tags`. `updated_at` (ISO `YYYY-MM-DD`) required once a skill is meaningfully edited after creation.
 - Tags: lowercase, kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`). Local frontmatter `tags` are the source of truth and take precedence over `external-tags.ts` maps.
