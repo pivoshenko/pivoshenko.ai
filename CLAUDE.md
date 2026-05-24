@@ -14,7 +14,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
 - `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. See `site/CLAUDE.md` if present, otherwise this section.
-- `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `format`, `lint`, `run`, `serve`, `update`.
+- `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `check`, `build`, `start`, `update`.
 
 ## Site stack
 
@@ -52,6 +52,6 @@ None for `site/`. `@vercel/analytics` is wired via the Vercel integration. No ot
 
 ## When editing the site
 
-- Run `just lint` from the repo root before committing. Biome formats + Next builds. Both must pass.
+- Run `just check` from the repo root before committing. Biome check + Next build. Both must pass.
 - Server components by default. Add `'use client'` only when a component actually needs hooks/state/event handlers (e.g. `theme-toggle.tsx`, `back-to-top.tsx`, `catalog.tsx`).
 - Match brand tokens from `pivoshenko-brand/references/brand-system.md` — stone neutrals for UI, `morok` colors only as accents.

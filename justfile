@@ -1,22 +1,28 @@
-format:
-    pnpm -C site format
+default:
+    @just --list
 
-check:
-    pnpm -C site check
-
-lint:
-    pnpm -C site check
-    pnpm -C site build
+install:
+    pnpm -C site install
 
 dev:
     pnpm -C site dev
 
+format:
+    pnpm -C site format
+
+lint:
+    pnpm -C site lint
+
+check:
+    pnpm -C site check
+    pnpm -C site build
+
+build:
+    pnpm -C site build
+
 start:
     pnpm -C site build
     pnpm -C site start
-
-install:
-    pnpm -C site install
 
 update:
     pnpm -C site update
