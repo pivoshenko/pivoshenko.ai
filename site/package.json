@@ -28,18 +28,12 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.19.19",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.15",
     "postcss-import": "^16.1.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "sharp"
-    ]
   }
 }
