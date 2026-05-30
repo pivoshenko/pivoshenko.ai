@@ -1,12 +1,6 @@
 # pivoshenko.ai
 
 <p align="left">
-  <a href="https://github.com/pivoshenko/pivoshenko.ai/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/License-MIT-0A6847?style=flat-square&logo=opensourceinitiative&logoColor=white">
-  </a>
-  <a href="https://github.com/pivoshenko/pivoshenko.ai/actions">
-    <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pivoshenko/pivoshenko.ai/ci.yaml?style=flat-square&color=0A6847&logo=githubactions&logoColor=white&label=CI&branch=main">
-  </a>
   <a href="https://stand-with-ukraine.pp.ua/">
     <img alt="StandWithUkraine" src="https://img.shields.io/badge/Support-Ukraine-FFC93C?style=flat-square&labelColor=07689F">
   </a>
