@@ -54,7 +54,7 @@ tests = [
 omit = ["*/__init__.py", "*/__main__.py"]
 
 [tool.pytest.ini_options]
-addopts = ["--basetemp=tests/fixtures", "--color=yes", "--cov-report=html", "--cov-report=xml", "--cov=src"]
+addopts = ["--basetemp=tests/fixtures", "--color=yes", "--cov=src", "--cov-report=term-missing"]
 testpaths = ["tests"]
 
 [tool.ty.environment]
