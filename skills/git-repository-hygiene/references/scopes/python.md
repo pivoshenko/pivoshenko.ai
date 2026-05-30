@@ -14,7 +14,7 @@ Subpath-aware. Canon covers specific pyproject sections; per-repository owns dep
 
 At repository root OR `subpaths[python-lib]`:
 
-- `pyproject.toml` — canonical sections: `[project]` (metadata shape), `[build-system]`, `[dependency-groups]`, `[tool.ruff]`, `[tool.ty]`, `[tool.pytest]`, `[tool.coverage]`
+- `pyproject.toml` — canonical sections: `[project]` (metadata shape), `[project.urls]`, `[build-system]`, `[dependency-groups]`, `[tool.ruff]`, `[tool.ty]`, `[tool.pytest]`, `[tool.coverage]`
 - `.python-version`
 - `src/<module>/` + `tests/` layout convention
 - `src/<module>/__init__.py` exposing `__version__` via `importlib.metadata` (see [Version single-sourcing](#version-single-sourcing))
@@ -71,7 +71,8 @@ Composite -> single canonical pyproject at root or at `subpaths[python-lib]`.
 
 ## Things to know
 
-- Per-repository owns: `version`, `dependencies`, `optional-dependencies`, `requires-python`, `[dependency-groups].dev` content. Template ships `requires-python = ">=3.10"` as a suggestion — repositories can pin tighter or looser as they need; varies by repo
+- Per-repository owns: `version`, `dependencies`, `optional-dependencies`, `requires-python`, `[project.scripts]`, `[dependency-groups].dev` content. Template ships `requires-python = ">=3.10"` as a suggestion — repositories can pin tighter or looser as they need; varies by repo
+- `[project.urls]` is canon-owned and substituted from `{{name}}` (owner is hardcoded `pivoshenko`). Ships Homepage, Repository, Issues, Changelog — extra URLs are repo-specific extras, not drift
 - Release config (`cliff.toml`) lives in [[release]] scope — never `[tool.semantic_release]` in pyproject
 - `uv.lock` is committed but not part of canon — `uv lock` keeps it current
 - `src/<module>/` is the canonical layout; flat-layout exists in some repos (notably puzzle solutions) and is fine — scope simply does not apply in those cases
