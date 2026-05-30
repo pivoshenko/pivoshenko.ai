@@ -6,14 +6,9 @@
   </a>
 </p>
 
-- [pivoshenko.ai](#pivoshenkoai)
-  - [Overview](#overview)
-  - [Main principles](#main-principles)
-  - [Installation](#installation)
-
 ## Overview
 
-This repo is managed with [Kasetto](https://github.com/pivoshenko/kasetto) — it pulls personal **and** external skills and MCPs from upstream repos into one synced setup. The full source list lives in [`kasetto.yaml`](kasetto.yaml).
+This repository is managed with [Kasetto](https://github.com/pivoshenko/kasetto) — it pulls personal **and** external skills and MCPs from upstream repositories into one synced setup. The full source list lives in [`kasetto.yaml`](kasetto.yaml).
 
 What's in here?
 
