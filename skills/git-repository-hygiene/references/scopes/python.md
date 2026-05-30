@@ -17,6 +17,7 @@ At repository root OR `subpaths[python-lib]`:
 - `pyproject.toml` — canonical sections: `[project]` (metadata shape), `[build-system]`, `[dependency-groups]`, `[tool.ruff]`, `[tool.ty]`, `[tool.pytest]`, `[tool.coverage]`
 - `.python-version`
 - `src/<module>/` + `tests/` layout convention
+- `src/<module>/__init__.py` exposing `__version__` via `importlib.metadata` (see [Version single-sourcing](#version-single-sourcing))
 
 ## Canon
 
@@ -30,6 +31,27 @@ Tokens:
 - `{{keywords}}` — JSON array of keyword strings
 
 Hard-coded (non-token) canon: hatchling build backend; ruff + ty linter stack; pyupgrade-style formatter; pytest test stack; ruff `line-length = 100`; `required-imports = ["from __future__ import annotations"]`.
+
+## Version single-sourcing
+
+`[project].version` in `pyproject.toml` is the only source of truth. The release flow ([[release]] scope) writes it via `uv version <x.y.z>`; `git-cliff` never touches `pyproject.toml` or `src/`.
+
+If the package needs a runtime `__version__` attribute, derive it from installed metadata — never hand-maintain a second copy:
+
+```python
+# src/<module>/__init__.py
+from importlib.metadata import version
+
+__version__ = version("<name>")
+```
+
+Why: `importlib.metadata` reads the installed dist's metadata, which is generated from `[project].version` at build time. The two stay in sync automatically. A hard-coded `__version__ = "1.2.3"` in `__init__.py` will drift the moment `uv version` bumps pyproject.
+
+Anti-patterns (don't use):
+
+- `__version__ = "1.2.3"` literal in `__init__.py`
+- `__version__` parsed from `pyproject.toml` at runtime (couples to source layout)
+- Bumping `__init__.py` in the release workflow alongside `pyproject.toml` (extra moving part with no benefit over `importlib.metadata`)
 
 ## Stack matrix
 
