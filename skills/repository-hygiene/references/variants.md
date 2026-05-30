@@ -45,7 +45,7 @@ subpaths:
 
 - `editorconfig` — one `.editorconfig` at root; globs cover subpaths
 - `codebase-structure` — `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, top-level `.gitignore`
-- `github-meta` — `CODEOWNERS`, `FUNDING.yaml`, repository settings
+- `github-meta` — repository settings (no in-tree files)
 - `labels` — `.github/` is one-per-repository
 - `issue-templates` — same
 - `release` — one release line per repository
@@ -90,7 +90,7 @@ Solution sets — Advent of Code, LeetCode, Kaggle, Exercism, codewars, etc. Cod
 | `shared-pkg`         | no        | Out of scope for puzzles.                                                              |
 | `workflows`          | partial   | CI workflows per language sibling fine. Release workflow NOT scaffolded.               |
 | `release`            | no        | Not scaffolded. No `cliff.toml`, no `CHANGELOG.md`, no tags.                           |
-| `github-meta`        | yes       | Settings still apply. FUNDING optional.                                                |
+| `github-meta`        | yes       | Settings still apply.                                                                  |
 
 Non-canon languages inside a puzzles repository (Elixir, Gleam, Haskell, etc.) remain **out of scope** — the skill only owns python, rust, next, shared-pkg. Sibling language trees are left alone.
 

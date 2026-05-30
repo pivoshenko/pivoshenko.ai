@@ -1,21 +1,18 @@
 <!--
 === Scope: github-meta ===
 Audience: agents and humans applying the repository-hygiene standard.
-Purpose:  Own FUNDING.yaml + CODEOWNERS + repository settings via gh api (merge methods, default branch, feature toggles).
-Read-when: scope=github-meta is invoked; or when the user asks about FUNDING, CODEOWNERS, squash merge, default branch, or repository settings.
+Purpose:  Own repository settings via gh api (merge methods, default branch, feature toggles).
+Read-when: scope=github-meta is invoked; or when the user asks about squash merge, default branch, or repository settings.
 === end ===
 -->
 
 # Scope: github-meta
 
-In-tree files + out-of-tree (GitHub-side) repository settings. Always rebase, never merge — squash-only on PRs.
+Out-of-tree (GitHub-side) repository settings. Always rebase, never merge — squash-only on PRs.
+
+`FUNDING.yaml` and `CODEOWNERS` are NOT in canon — repositories stay clean of both.
 
 ## Owns
-
-In-tree:
-
-- `.github/FUNDING.yaml`
-- `.github/CODEOWNERS` (opt-in per-repository)
 
 Out-of-tree (via `gh api repos/<owner>/<name>`):
 
@@ -24,12 +21,9 @@ Out-of-tree (via `gh api repos/<owner>/<name>`):
 - `delete_branch_on_merge`, `allow_auto_merge`, `allow_update_branch`
 - feature toggles: `has_issues`, `has_projects`, `has_wiki`, `has_discussions`
 
-NOT owned: branch protection (v2), repository secrets, deploy keys, webhooks, GitHub Pages, org-level settings.
+NOT owned: branch protection (v2), repository secrets, deploy keys, webhooks, GitHub Pages, org-level settings, `.github/FUNDING.yaml`, `.github/CODEOWNERS`.
 
 ## Canon
-
-- `assets/FUNDING.yaml` — canon (`github: pivoshenko`); per-repository additions allowed
-- CODEOWNERS — opt-in per-repository; canon body composed from owner handle
 
 Canonical settings (always applied):
 
@@ -43,15 +37,14 @@ Canonical settings (always applied):
 
 ## Stack matrix
 
-Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Settings + FUNDING.yaml applied uniformly. Root-only. Composite -> single FUNDING.yaml, single CODEOWNERS, one set of settings per repository.
+Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Settings applied uniformly. Root-only. Composite -> one set of settings per repository.
 
 ## Scaffolding notes
 
-- `FUNDING.yaml` lands at `.github/FUNDING.yaml`; per-repository `custom: [...]` additions supersede canon body — merge, do not overwrite blindly
-- CODEOWNERS only when opted in (shared / multi-author repositories); skip for personal solo repos
 - Settings applied via `gh api repos/<owner>/<name>` GET then per-key PATCH; needs `repo` scope on the token
 - Default branch rename is NOT automatic — if the current default is not `main`, do the rename + branch-ref migration by hand
 - Feature toggles are idempotent; re-applying is a no-op when state already matches
+- If `.github/FUNDING.yaml` or `.github/CODEOWNERS` exist in a target repository, flag for deletion — neither is part of the standard
 
 ## Things to know
 

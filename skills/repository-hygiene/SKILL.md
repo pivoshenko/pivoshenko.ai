@@ -97,9 +97,9 @@ Single owner across scopes (other scopes' workflows ship from here for atomic in
 
 Single tool: **git-cliff** everywhere (language-agnostic). SemVer: `feat:` → MINOR, `feat!:` / `BREAKING CHANGE:` → MAJOR, `fix:`/`perf:`/`refactor:` → PATCH, others none. Tag = `v<semver>`. Publish per-stack (`uv publish` for python-lib, `cargo publish` for rust-cli, git-tag + GitHub Release for shared-pkg + next-site; Vercel deploys next-site independently on push to main). → `references/scopes/release.md`
 
-### github-meta — `.github/FUNDING.yaml`, `CODEOWNERS`, repository settings via `gh api`
+### github-meta — repository settings via `gh api`
 
-Settings: default branch `main`, squash-only merge, `delete_branch_on_merge`, `allow_auto_merge`, `has_projects=false`, `has_wiki=false`, `has_discussions=false`. FUNDING = `github: pivoshenko`. CODEOWNERS opt-in. → `references/scopes/github-meta.md`
+Settings: default branch `main`, squash-only merge, `delete_branch_on_merge`, `allow_auto_merge`, `has_projects=false`, `has_wiki=false`, `has_discussions=false`. No `FUNDING.yaml`, no `CODEOWNERS` — neither belongs in the standard. → `references/scopes/github-meta.md`
 
 ## CI contract
 
