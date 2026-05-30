@@ -1,39 +1,39 @@
 ---
-name: sync-branch
-description: Fetch the latest base branch and rebase (or merge) the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /sync-branch. Also trigger on "catch up with main", "rebase onto main", "update my branch", "merge in latest", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
+name: git-branch-sync
+description: Fetch the latest base branch and rebase the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /git-branch-sync. Also trigger on "catch up with main", "rebase onto main", "update my branch", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
 tags: [git]
 updated_at: 2026-05-30
 ---
 
 # Sync Branch
 
-Bring current branch up to date with base. Rebase default. Merge on request. Surface conflicts clean.
+Catch current branch up to base. Rebase only. Surface conflicts.
 
-## Workflow
+## Flow
 
 1. Parallel:
    - `git status --porcelain`
    - `git branch --show-current`
    - `git rev-parse --abbrev-ref --symbolic-full-name @{u}` (upstream if any)
-2. Pick base: default `main`. Fall back `master` if no `main`. User names other -> use verbatim.
-3. Dirty tree -> stash: `git stash push -u -m "sync-branch auto-stash"`. Remember to pop. Stash unsafe (e.g. unresolved merge) -> stop + tell user.
-4. On base branch -> `git pull --ff-only origin <base>` + stop. Nothing to rebase.
+2. Base: default `main`. Fall back `master`. User names other -> verbatim.
+3. Dirty -> stash: `git stash push -u -m "sync-branch auto-stash"`. Pop later. Unsafe (unresolved merge) -> stop + tell user.
+4. On base -> `git pull --ff-only origin <base>`. Fails (local base diverged) -> stop + tell user. No auto-rebase of base itself.
 5. Else:
    - `git fetch origin <base>`
-   - Rebase: `git rebase origin/<base>` (default).
-   - Merge mode (user asks): `git merge --no-ff origin/<base>`.
+   - `git rebase origin/<base>`.
 6. Conflicts:
    - `git status` -> list conflicted paths.
    - Stop + surface. **No** auto-resolve.
-   - Tell user how to continue: resolve, `git add <paths>`, `git rebase --continue` (or `git merge --continue`). Mention `git rebase --abort` as escape.
-7. Clean rebase -> pop stash if created (`git stash pop`).
+   - Tell user: resolve, `git add <paths>`, `git rebase --continue`. Mention `git rebase --abort` escape.
+   - Leave stash in place. Tell user to pop after resolve.
+7. Rebase done (clean or aborted) -> pop stash if created.
 8. Print one-liner: branch, base, commits replayed, force-push needed?
 
 ## Rules
 
-- Default **rebase** — linear history. Switch to merge only if user asks OR branch is shared/pushed + already collaborated on (rewriting public history would break others). Shared branch + user didn't pick mode -> ask before doing either.
-- Never force-push here. After rebase of pushed branch -> tell user `git push --force-with-lease` needed. Let user run.
+- Always **rebase**, never merge. Why -> user workflow preference; linear history. Don't offer merge as alternative even on shared branches; surface the risk (`force-push needed`) and let user decide.
+- Never force-push here. Pushed branch rebased -> tell user `git push --force-with-lease`. Let user run.
 - Never `git rebase --skip` / drop commits to "make it work". Surface conflict.
-- Never `--no-verify` / skip hooks.
-- No upstream -> sync against `origin/<base>` direct. Note branch not pushed yet.
-- Always pop stash you created, even on rebase fail. Pop conflicts -> leave stashed + tell user.
+- Never `--no-verify`. Why -> hooks gate broken state; skipping just defers the failure.
+- No upstream -> sync vs `origin/<base>`. Note branch not pushed.
+- Pop stash you made on rebase clean OR abort. Pop blocked by conflicts -> leave stashed + tell user.

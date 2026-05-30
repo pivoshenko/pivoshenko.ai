@@ -1,6 +1,6 @@
 ---
-name: create-pr
-description: Create a GitHub pull request using `gh` with a conventional title and a structured body. Use when the user asks to create a PR, open a pull request, /create-pr, or ship the current branch. Also trigger on "ship this", "raise a PR", "send for review", "open a pull request for this branch", "let's merge this", or whenever the user signals work on a feature branch is ready for review. Pushes the branch and opens the PR immediately without asking for confirmation.
+name: git-pr-create
+description: Create a GitHub pull request using `gh` with a conventional title and a structured body. Use when the user asks to create a PR, open a pull request, /git-pr-create, or ship the current branch. Also trigger on "ship this", "raise a PR", "send for review", "open a pull request for this branch", "let's merge this", or whenever the user signals work on a feature branch is ready for review. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
 updated_at: 2026-05-30
 ---
@@ -9,19 +9,17 @@ updated_at: 2026-05-30
 
 Open GitHub PR for current branch. No confirm.
 
-## Workflow
+## Flow
 
-1. Parallel -> read branch state:
+1. Parallel:
    - `git status`
    - `git branch --show-current`
-   - `git log <base>..HEAD --oneline` (`<base>` = `main`, fallback `master`)
+   - `git log <base>..HEAD --oneline` (`<base>` = user-named, else `main`, fallback `master`)
    - `git diff <base>...HEAD`
-2. No commits ahead of base -> stop. Tell user nothing to PR.
-3. Not pushed / behind remote -> `git push -u origin <branch>`.
-4. Read **all** branch commits (not just latest). Draft:
-   - **Title** per Title Format. Under 70 chars.
-   - **Body** per Body Template.
-5. Pass body via heredoc so markdown formatting survives shell quoting:
+2. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`.
+3. Not pushed / behind -> `git push -u origin <branch>`.
+4. Read **all** branch commits (not just latest). Draft title + body.
+5. Heredoc body so markdown survives shell:
    ```bash
    gh pr create --title "feat(auth): add oauth login flow" --body "$(cat <<'EOF'
    # Pull Request Checklist
@@ -40,20 +38,20 @@ Open GitHub PR for current branch. No confirm.
    EOF
    )"
    ```
-   Single-quoted `'EOF'` -> no shell interpolation inside body.
+   `'EOF'` quoted -> no shell interpolation.
 6. Print PR URL.
 
-## Title Format
+## Title
 
-Same convention as commits:
+Same as commits:
 
 ```
 <type>(<scope>): <short summary>
 ```
 
-- `<type>`: `build|ci|docs|feat|fix|perf|refactor|test`
-- `<scope>`: optional. Affected area/module/pkg.
-- `<short summary>`: imperative present, lowercase, no trailing `.`
+- type: `build|chore|ci|docs|feat|fix|perf|refactor|test` (same set + picks as `git-commit`)
+- scope: optional
+- summary: imperative present, lowercase, no `.`
 - Total < 70 chars.
 
 Examples:
@@ -61,16 +59,16 @@ Examples:
 - `fix(api): handle timeout on retry`
 - `refactor: extract user service`
 
-## Body Template
+## Body template
 
 ```markdown
 # Pull Request Checklist
 
-**Resolves: #<issue-number-here>**
+**Resolves: #<n>**
 
 ## Summary
 
-<1–3 bullets describing what changed and why. Focus on the why.>
+<1–3 bullets. Why > what.>
 
 ## Checklist
 
@@ -89,17 +87,17 @@ Examples:
 <!-- Add any other context or information for reviewers -->
 ```
 
-- Summary tight. Diff = what. Body = why.
-- No related issue -> remove `**Resolves: ...**` line. No placeholder.
-- No UI change -> drop `## Screenshots`. Nothing extra -> drop `## Additional Notes`.
-- Breaking changes -> add `## Breaking changes` above `## Additional Notes` + migration note.
-- Checklist tailored to repo template — drop items not enforced (e.g. no docs site -> drop docs line). Don't pad with items that don't apply.
+- Diff = what. Body = why.
+- No issue -> drop `**Resolves: ...**`. No placeholder.
+- No UI -> drop `## Screenshots`. Nothing extra -> drop `## Additional Notes`.
+- Breaking -> add `## Breaking changes` above `## Additional Notes` + migration.
+- Checklist -> match repository template. Drop items not enforced.
 
 ## Rules
 
-- Never push/open PR against `main`/`master` from `main`/`master`. On base -> stop + ask user to make feature branch (use `create-branch` skill).
+- Never PR from `main`/`master` against `main`/`master`. On base -> stop + ask user to branch (use `git-branch-create`).
 - Never force-push here.
-- Never `--no-verify` / skip hooks unless asked.
-- Pre-push or PR create fail -> surface error + fix root cause. No blind retry.
-- No reviewers, labels, assignees unless asked.
+- Never `--no-verify` unless asked. Why -> pre-push hooks gate CI and secret scans; skipping ships broken code.
+- Push or PR-create fail -> surface + fix root cause. No blind retry.
+- No reviewers / labels / assignees unless asked.
 - No "Generated with Claude Code" / co-author trailers unless asked.

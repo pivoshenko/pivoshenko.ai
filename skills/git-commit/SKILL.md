@@ -1,6 +1,6 @@
 ---
-name: commit
-description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
+name: git-commit
+description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
 updated_at: 2026-05-30
 ---
@@ -9,133 +9,136 @@ updated_at: 2026-05-30
 
 Conventional commit. No confirm. No dry-run.
 
-## Workflow
+## Flow
 
 1. Parallel: `git status` + `git diff --staged`.
-2. Nothing staged -> stage relevant files. Specific paths > `git add -A`. Never stage `.env`, creds, secrets.
+2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets.
 3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`.
-4. Read diff -> decide one commit or many (see **Atomic commits**) -> write msg per format below.
-5. Commit now. No confirm. Many groups -> stage + commit each group in turn, repeat til clean.
-6. Print hash(es) + one-line summary per commit.
+4. Read diff -> one commit or many (see **Atomic**) -> write msg.
+5. Commit now. Many groups + already mass-staged -> `git reset` to unstage, then stage+commit per group. Loop til clean.
+6. Print hash + one-liner per commit.
 
-## Atomic commits
+## Atomic
 
-Lots of changes / mixed concerns -> split into atomic commits. No mega-commit.
+Mixed concerns -> split. No mega-commit.
 
 Group by:
 
-- **type** — `feat` vs `fix` vs `docs` vs `refactor` vs `test` never share commit
-- **scope** — different modules/pkgs = different commits
-- **logical unit** — one feature / one bugfix / one refactor per commit. Each must build + pass tests alone.
+- **type** — `feat` / `fix` / `docs` / `refactor` / `test` never share
+- **scope** — diff modules/pkgs = diff commits
+- **logical unit** — one thing per commit. Each builds + tests alone.
 
-Heuristics:
+Split signals:
 
-- Touches > 1 unrelated area -> split
-- Diff mixes behavior + formatting/rename -> split (formatting first or last, never mixed)
-- Summary need "and" / "also" / "+" -> split
-- Unsure -> ask user how to group before staging.
+- > 1 unrelated area
+- behavior + format/rename mixed (format separate)
+- summary needs "and" / "also" / "+"
+- unsure -> ask user how to group
 
-## Commit Message Format
-
-Format -> readable history + changelog-friendly.
-
-Msg = **header** + **body** + **footer**.
+## Msg format
 
 ```
 <header>
-<BLANK LINE>
+
 <body>
-<BLANK LINE>
+
 <footer>
 ```
 
-`header` mandatory. Match **Header** format.
-
-`body` mandatory except `docs`. If present: min 20 chars. Match **Body** format.
-
-`footer` optional. See **Footer**.
+`header` required. `body` required except `docs`; min 20 chars. `footer` optional.
 
 ### Header
 
 ```
 <type>(<scope>): <short summary>
-  │       │             │
-  │       │             └─⫸ Summary present tense. Not capitalized. No trailing period.
-  │       │
-  │       └─⫸ Scope: affected area/module/pkg (optional)
-  │
-  └─⫸ Type: build|chore|ci|docs|feat|fix|perf|refactor|test
 ```
 
-`<type>` + `<summary>` mandatory. `(<scope>)` optional.
+- type: `build|chore|ci|docs|feat|fix|perf|refactor|test`
+- scope: optional. Affected area/module/pkg. Lowercase, kebab/short noun. One scope only — pick the dominant one, else omit.
+- summary: imperative present ("add" not "added"/"adds"), lowercase, no trailing `.`
+- whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself.
+- no ticket IDs in header (go in footer). No emoji. No `[WIP]`.
 
-#### Type
+#### Type pick
 
-- **build** — build system / external deps (npm, bundler, lockfile)
-- **chore** — maintenance, no behavior change (config, tooling, housekeeping)
-- **ci** — CI config (GitHub Actions, workflows)
-- **docs** — docs only
-- **feat** — new feature
-- **fix** — bug fix
-- **perf** — perf improvement
-- **refactor** — neither bug nor feature
-- **test** — add or fix tests
+Pick the most specific. Behavior change > non-behavior. User-visible > internal.
 
-#### Scope
+| Type         | Use when                                           | Examples                                                             |
+| ------------ | -------------------------------------------------- | -------------------------------------------------------------------- |
+| **feat**     | New user-visible capability or API                 | new endpoint, new CLI flag, new component, new public function       |
+| **fix**      | Restoring intended behavior after a defect         | crash on null input, wrong calc, regression repair                   |
+| **perf**     | Same behavior, measurably faster / lighter         | cache hot path, drop O(n²) loop, lazy-load                           |
+| **refactor** | Code shape changes; behavior identical             | rename, extract, inline, move file, dedupe — no API or output change |
+| **test**     | Test files only                                    | add coverage, fix flake, rename test                                 |
+| **docs**     | Docs / comments / `README` / changelog only        | prose edits, JSDoc, ADRs, doc-only typos                             |
+| **build**    | Build system, deps, lockfiles, packaging           | `package.json` deps, `uv.lock`, Dockerfile, bundler config           |
+| **ci**       | CI/CD pipeline config                              | GH Actions workflow, release pipeline, branch protection scripts     |
+| **chore**    | Repository maintenance with no code/build/CI/docs effect | `.gitignore`, editor config, tooling configs not tied to build |
 
-Optional. Affected area/module/pkg (e.g. `auth`, `api`, `config`). Derive from changed files when clear boundary exists.
+#### Tiebreakers
 
-#### Summary
-
-- Imperative present: "change" not "changed"/"changes"
-- No capital first letter
-- No trailing `.`
+- Bug -> `fix` > `refactor` > `chore`.
+- Perf -> `perf` > `refactor`.
+- New feature ships with its tests -> single `feat` commit. Tests for **existing** code -> `test`.
+- README typo -> `docs`. README rewrite that ships new product info -> still `docs` (no code).
+- Bumping a dep that fixes a bug here -> `fix` (your bug) or `build` (just the bump). Pick by user-visible effect.
+- Lockfile-only churn from `install` -> `build`. Tooling config like `biome.json` formatting rules -> `chore`. CI workflow YAML -> `ci`.
+- Renaming for clarity -> `refactor`. Renaming to land a new API -> part of the `feat`.
+- Formatting / whitespace -> separate `chore` commit.
+- Revert -> `revert:` prefix, never one of the above (see **Revert**).
 
 ### Body
 
-Imperative present, same as summary: "fix" not "fixed"/"fixes".
-
-Explain **why**. Old vs new behavior -> show impact.
+- Imperative present, same voice as summary.
+- Explain **why**, not what (diff shows what). Old vs new -> show user-visible impact, constraint, or bug being undone.
+- Wrap ~72 chars per line. Blank line between paragraphs.
+- Bullets OK (`- ` prefix), one idea each. Don't bullet a single line.
+- No play-by-play ("first I changed X, then Y"). No "this commit does …". No file lists. No code dumps unless a snippet clarifies a subtle point.
+- Min 20 chars when present. Skip body entirely for trivial `docs`/`chore`/`build` bumps where the header says everything.
 
 ### Footer
 
-Footer = breaking changes, deprecations, issue/PR refs.
+Trailers only. One per line, `Token: value`, after a single blank line below the body. Order: breaking change → deprecation → refs.
+
+Allowed tokens:
+
+- `BREAKING CHANGE: <summary>` — exact spelling (Angular spec). Detail + migration steps follow on subsequent lines.
+- `DEPRECATED: <what>` — same shape; include upgrade path.
+- `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` — issue auto-close. Multiple -> one per line or comma-separated.
+- `Refs: #<n>` / `See: <url>` — non-closing references.
 
 ```
-BREAKING CHANGE: <breaking change summary>
-<BLANK LINE>
-<breaking change description + migration instructions>
-<BLANK LINE>
-<BLANK LINE>
-Fixes #<issue number>
+BREAKING CHANGE: <summary>
+
+<detail + migration>
+
+Fixes #<n>
 ```
 
-or
-
 ```
-DEPRECATED: <what is deprecated>
-<BLANK LINE>
-<deprecation description + recommended update path>
-<BLANK LINE>
-<BLANK LINE>
-Closes #<pr number>
+DEPRECATED: <what>
+
+<detail + upgrade path>
+
+Closes #<n>
 ```
 
-Breaking: `BREAKING CHANGE: ` + summary + blank + detail + migration.
+Footer rules:
 
-Deprecation: `DEPRECATED: ` + short desc + blank + detail + upgrade path.
+- No `Co-Authored-By:` / "Generated with Claude" / tool-attribution trailers ever, unless user explicitly asks. Why -> standing user policy.
+- No `Signed-off-by:` unless the repository's `CONTRIBUTING` requires DCO.
+- No empty/placeholder trailers. No footer at all is fine.
+- Breaking change without migration steps -> ask user before committing. Reviewers need the upgrade path.
 
-## Revert commits
+## Revert
 
-Revert -> start `revert: ` + reverted header.
+`revert: ` + reverted header. Body:
 
-Body must have:
-- SHA ref: `This reverts commit <SHA>`
-- Reason for revert
+- `This reverts commit <SHA>`
+- reason
 
 ## Rules
 
-- Pick most specific `type`. Bug -> `fix` > `refactor`. Perf -> `perf` > `refactor`.
-- One logical change per commit. Unrelated -> split (see **Atomic commits**).
-- Never `--no-verify` / `--no-gpg-sign` unless user says.
-- Pre-commit hook fail -> fix + re-stage + **new** commit. No amend.
+- One logical change per commit. Else split.
+- Never `--no-verify` / `--no-gpg-sign` unless asked. Why -> hooks catch real failures (lint, type, secret scan); skipping = shipping broken code.
+- Pre-commit hook fail -> fix + re-stage + **new** commit. No amend. Why -> hook fail means the commit didn't happen; `--amend` would modify the **previous** (unrelated) commit and silently rewrite it.
