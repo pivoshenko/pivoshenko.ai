@@ -15,7 +15,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `git-repository-hygiene` — Wiki of canonical repository conventions (README, justfile, configs, workflows, CI/release, GitHub meta) + scaffolder that drops them into a target repository on request. Tags: `git`, `hygiene`, `standard`, `wiki`, `reference`.
 - `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
-- `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `check`, `build`, `start`, `update`.
+- `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `audit`, `check`, `build`, `start`, `update`.
 - Internal repo — no CI, labels sync, issue templates, release workflow, or community files (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`); do not scaffold them. Skip the License + CI badges in the README too. These belong only in repos that ship a release.
 
 ## Site stack

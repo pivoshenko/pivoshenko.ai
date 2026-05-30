@@ -13,6 +13,9 @@ format:
 lint:
     pnpm -C site lint
 
+audit:
+    pnpm -C site audit
+
 check:
     pnpm -C site check
     pnpm -C site build
