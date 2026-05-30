@@ -14,24 +14,21 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://ai.pivoshenko.dev'),
   title: {
     template: '%s — pivoshenko.ai',
-    default: 'pivoshenko.ai — agents workspace',
+    default: 'pivoshenko.ai',
   },
-  description:
-    'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
+  description: 'Curated AI skills and MCPs.',
   openGraph: {
     type: 'website',
     url: 'https://ai.pivoshenko.dev',
     siteName: 'pivoshenko.ai',
-    title: 'pivoshenko.ai — agents workspace',
-    description:
-      'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
+    title: 'pivoshenko.ai',
+    description: 'Curated AI skills and MCPs.',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'pivoshenko.ai — agents workspace',
-    description:
-      'Curated AI skills and MCP servers, synced via Kasetto into the pivoshenko.ai workspace.',
+    title: 'pivoshenko.ai',
+    description: 'Curated AI skills and MCPs.',
   },
 }
 
@@ -41,9 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
