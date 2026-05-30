@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     url: 'https://ai.pivoshenko.dev',
     siteName: 'pivoshenko.ai',
     title: 'pivoshenko.ai',
-    description: 'Curated AI skills and MCPs.',
+    description: 'Curated AI skills and MCPs',
     locale: 'en_US',
   },
   twitter: {

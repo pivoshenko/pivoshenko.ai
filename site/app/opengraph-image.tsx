@@ -50,7 +50,7 @@ export default async function OpengraphImage() {
             maxWidth: 980,
           }}
         >
-          Curated AI skills and MCPs.
+          Curated AI skills and MCPs
         </div>
       </div>
       <div
