@@ -43,18 +43,17 @@ All `uses:` lines reference `references/action-versions.yaml`. Refuse to write i
 
 Composite -> ONE root `.github/workflows/` directory. Per-stack workflows use `working-directory:` keyed off the subpath. Never nest `.github/` per subpath.
 
-## Drift detection
+## Scaffolding notes
 
-- `missing` -> required workflow file absent for this variant
-- `drift` -> byte diff vs canon (after token + working-directory substitution)
-- `extra` -> repository-specific workflows beyond canon -> preserved, never pruned
-- `external` -> canonical workflow needs a secret that is absent on GitHub (e.g. `PYPI_API_TOKEN`, `CARGO_REGISTRY_TOKEN`, `CODECOV_TOKEN`, `GH_TOKEN`) -> surfaced with instructions; `fixable: true` only if `gh secret set` is acceptable
+- Lands under `.github/workflows/`; substitute tokens, then `working-directory:` per subpath for composite repos
+- File extension MUST be `.yaml`, not `.yml` — rename if needed before dropping in
+- Required secrets per workflow (`PYPI_API_TOKEN`, `CARGO_REGISTRY_TOKEN`, `CODECOV_TOKEN`, `GH_TOKEN`) -> set via `gh secret set` after install
+- Distribution workflow (rust) only when `distribution: true` is set per-repository
+- Repository-specific workflows beyond canon are fine — leave them in place
 
-## Edge cases
+## Things to know
 
-- File extension MUST be `.yaml` not `.yml` — `.yml` flagged as `drift` (rename on fix)
 - CI contract: workflow steps call ONLY `just <recipe>`. Exception: setup actions (`astral-sh/setup-uv`, `dtolnay/rust-toolchain`, `pnpm/action-setup`, `actions/setup-*`) bootstrap the environment
-- Action version drift -> NEVER inline a version; bump the pin table and re-apply this scope
-- Distribution workflow (rust) gated by `distribution: true` per-repository flag
+- Action versions: NEVER inline a version; bump the pin table and re-apply this scope
 - Concurrency group canon: `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: true` on CI; release workflows do NOT cancel
 - Permissions block canon: `contents: read` minimum; `contents: write` only on release jobs

@@ -8,7 +8,9 @@ Read-when: scope=release is invoked; or when the user asks about cliff, changelo
 
 # Scope: release
 
-v1 owns CONFIG, not EXECUTION. Cutting a release is `just release <semver>` (recipe owned by `justfile` scope) calling `release.yaml` (owned by `workflows` scope). One tool everywhere: git-cliff.
+v1 covers CONFIG, not EXECUTION. Cutting a release is `just release <semver>` (recipe owned by [[justfile]] scope) calling `release.yaml` (owned by [[workflows]] scope). One tool everywhere: git-cliff.
+
+**Not applicable under archetype `puzzles`, full stop.** Solution repositories (adventofcode / leetcode / kaggle / exercism) are not shipped products — this scope does not apply: no `cliff.toml`, no `CHANGELOG.md`, no tag flow.
 
 ## Owns
 
@@ -43,19 +45,21 @@ Tag convention: SemVer with leading `v` (`v1.2.3`).
 
 Root-only. Composite -> ONE `cliff.toml` per repository.
 
-## Drift detection
+Archetype `puzzles` -> scope NOT APPLICABLE; skip entirely.
 
-- `missing` -> `cliff.toml` absent (or `CHANGELOG.md` absent on bootstrap)
-- `drift` -> byte diff vs canon
-- `extra` -> legacy `[tool.semantic_release]` in pyproject, `release-please-config.json`, `.releaserc*` -> surfaced for removal (`fixable: false` until user confirms migration)
-- `external` -> publish token (PYPI / CARGO_REGISTRY) absent on GitHub -> deferred to workflows scope
+## Scaffolding notes
 
-## Edge cases
+- `cliff.toml` lands at repository root; substitute `{{name}}`, `{{repository}}`
+- `CHANGELOG.md` seeded once from template, then NEVER hand-edited — git-cliff regenerates on release
+- Existing legacy config (`[tool.semantic_release]` in pyproject, `release-please-config.json`, `.releaserc*`) must be removed first; canon does not auto-migrate
+- Publish tokens (`PYPI_API_TOKEN`, `CARGO_REGISTRY_TOKEN`) live in [[workflows]] scope — set via `gh secret set`
+- Skip entirely for puzzles archetype
 
-- `CHANGELOG.md` content is generated, NEVER hand-edited — manual edits flagged + reverted on next release
+## Things to know
+
 - shared-pkg has no registry publish — `just release` only tags + pushes; consumers pin by git tag
-- next-site has no registry publish either — the release flow creates version markers (tags + GitHub Release) for rollback/audit; Vercel handles the actual deploy on push to `main` independently of the tag
+- next-site has no registry publish either — release flow creates version markers (tags + GitHub Release) for rollback/audit; Vercel handles the actual deploy on push to `main` independently
 - `feat!:` and `BREAKING CHANGE:` both honored; either triggers MAJOR
-- Pre-1.0 repositories: MINOR bump for breaking changes is acceptable convention but canon does NOT downgrade — `feat!:` always means MAJOR
+- Pre-1.0 repositories: `feat!:` always means MAJOR — canon does not downgrade
 - Re-release of an existing tag is refused by the recipe (`gh release view v<x>` non-empty)
 - `cliff.toml` regex updates (commit parsing) -> bump canon once, re-apply across portfolio

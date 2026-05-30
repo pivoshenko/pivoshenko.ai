@@ -47,26 +47,18 @@ Hard-coded across both variants: `engines.node: ">=22"`, `packageManager: "pnpm@
 
 Composite -> manifest lives at `subpaths[next-site]`; one root `tsconfig` may extend a shared base where applicable.
 
-## Drift detection
+## Scaffolding notes
 
-`package.json` is key-level (not byte-level):
+- `package.json` is a key-level merge, not a wholesale overwrite — replace `scripts`, `engines`, `packageManager` (and for shared-pkg `peerDependencies`, `peerDependenciesMeta`, `exports`, `files`); keep `dependencies`, `devDependencies`, `version`, `name`, `description`
+- `biome.json`, `next.config.ts`, `tsconfig.json`, `vercel.json` -> overwrite cleanly with canon
+- Vercel dashboard install/build commands need to match `vercel.json`; re-verify dashboard quarterly
+- Tailwind preset (when used) comes from the shared package; do not duplicate locally
 
-- canon-owned keys (`scripts`, `engines`, `packageManager`, and for shared-pkg `peerDependencies`, `peerDependenciesMeta`, `exports`, `files`) -> diff vs canon
-- `dependencies`, `devDependencies`, `version`, `name`, `description` -> preserved
+## Things to know
 
-Other files (`biome.json`, `next.config.ts`, `tsconfig.json`, `vercel.json`) -> byte diff vs canon.
-
-- `missing` -> file absent at expected path
-- `drift` -> canon key/file content differs
-- `extra` -> repository-added scripts or config blocks -> preserved
-- `external` -> Vercel dashboard install/build command drift vs `vercel.json` -> warning (quarterly re-verify per cross-cutting convention)
-
-## Edge cases
-
-- `pnpm` is mandatory; presence of `package-lock.json` or `yarn.lock` -> `drift` (block fix until user removes)
-- `engines.node` floor is `>=22`; tightening (e.g. `>=20`) flagged as `drift`
-- shared-pkg has NO publish workflow (git-tag distribution) — `exports` field is the consumer contract
-- `app/layout.tsx`, `app/icon.tsx` not owned by this scope (per-site; see consumer instructions)
-- `transpilePackages` in `next.config.ts` may include the shared-pkg name -> canon preserves user additions
-- `.npmrc` optional; when present canon enforces `auto-install-peers=true`
-- Tailwind preset (when used) consumed from shared-pkg; not owned here
+- `pnpm` is mandatory — remove any `package-lock.json` / `yarn.lock` before scaffolding
+- `engines.node` floor is `>=22`
+- shared-pkg has NO publish workflow (git-tag distribution); `exports` is the consumer contract
+- `app/layout.tsx`, `app/icon.tsx` are per-site, not owned here
+- `transpilePackages` in `next.config.ts` may include the shared-pkg name — preserve any consumer additions
+- `.npmrc` optional; when present canon expects `auto-install-peers=true`

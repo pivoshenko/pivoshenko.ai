@@ -30,20 +30,15 @@ No tokens. Recipe presence is what matters; bodies are user-authored.
 | `next-site`  | yes      | install, dev, format, lint, check, build, start, update     |
 | `shared-pkg` | yes      | install, format, lint, check, build, update, release        |
 
+Archetype `puzzles`: `release` is never required. Required set collapses to `install` (if non-trivial), `format`, `lint`, `test`, `update`. Bespoke recipes (e.g. `just day 1`) are expected and welcome.
+
 Composite -> root `justfile` may exist for cross-cutting recipes; per-stack `justfile` lives at `subpaths[tag]`.
 
-## Drift detection
+## Scaffolding notes
 
-- `missing` -> no `justfile` at expected path
-- `drift` -> required recipe header absent for this variant
-- `extra` -> repository-specific recipes -> preserved, never pruned
-- `external` -> n/a
-
-## Edge cases
-
-- Fix mode inserts MISSING recipe headers with TODO bodies (`# TODO: implement`) — never overwrites existing implementations
-- Renaming a canonical recipe is a coordinated cross-repository change — bump canon + re-apply `justfile` + `workflows` scope in one pass
-- Recipes never accept positional args except where listed (`just release <semver>`)
-- Recipes never write outside repository root
-- Composite root justfile fan-out (`just lint` -> calls each subpath's `just lint`) is allowed; canon does not mandate the fan-out body
-- Aliases (e.g. `alias fmt := format`) are `extra`, allowed, never required
+- Lands at repository root, or per-subpath for composite repositories. Merge into existing `justfile` — never overwrite bodies.
+- When merging, insert any MISSING required recipe headers with TODO bodies (`# TODO: implement`); leave existing implementations alone.
+- Recipes never accept positional args except where listed (`just release <semver>`). Recipes never write outside repository root.
+- Composite root fan-out (`just lint` -> calls each subpath's `just lint`) is allowed; canon does not mandate the fan-out body.
+- Aliases (e.g. `alias fmt := format`) are fine, never required.
+- Renaming a canonical recipe is a coordinated cross-repository change — bump canon + re-apply `justfile` + `workflows` scope in one pass.

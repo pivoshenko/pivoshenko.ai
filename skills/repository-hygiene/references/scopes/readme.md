@@ -39,28 +39,13 @@ Tokens (substituted into canon at write time):
 
 Composite -> pick dominant stack (next-site > shared-pkg > rust-cli > python-lib by default; override per-repository if needed). Subpath repositories still keep ONE root README.
 
-## Drift detection
+Archetype `puzzles`: scope applies partially. Voice rules (no hype, no standalone `## License`), badge structure, and StandWithUkraine still apply. Canonical-section order + section-name conventions don't — puzzle READMEs are typically a one-liner + a progress/link table.
 
-- `missing` -> no README.md at root
-- `drift` -> any of:
-  - H1 violates `structure.md` §1 (possessive prefix like `My …`, emoji, version suffix, or Title-Case rewrite when the repository slug is already descriptive). Title-Case H1 is allowed for opaque/generic slugs (`dotfiles`, `adventofcode`, `scratch`)
-  - badge style not `flat-square`
-  - badge row alignment mismatch (logo present → must be `<p align="center">`; no logo → must be `<p align="left">`)
-  - StandWithUkraine absent or not last block
-  - canonical sections out of order
-  - section name mismatch (e.g. `## Install` not `## Installation`)
-  - code fences untagged
-  - hype words present (`blazing`, `cutting-edge`, `seamless`, etc.)
-  - standalone `## License` heading (license -> footer line only)
-  - TOC present (no TOC for any stack — too short to need one)
-- `extra` -> custom blocks beyond canon (preserved, flagged `fixable: false`)
-- `external` -> n/a
+## Scaffolding notes
 
-## Edge cases
-
-- Preserve unique content: custom usage examples, screenshots, demo GIFs, "About the name" block, FAQ -> kept as `extra`, never deleted on fix
-- Composite repository -> dominant stack picks template; non-dominant stack content folded as appended section if non-trivial
-- Subpath next-site -> README lives at root; subpath has no README of its own
-- Migration from legacy `## License` heading -> demote to footer line `MIT © {{owner}}` (or dual-license equivalent)
-- Badge order is fixed (license, language version, package version, CI, style, StandWithUkraine) — reorder counts as `drift`
-- StandWithUkraine snippet is verbatim — any local edit reverts on fix
+- Lands at repository root as `README.md`. Merge rather than overwrite when a README already exists — preserve custom usage examples, screenshots, demo GIFs, "About the name" blocks, FAQ.
+- Substitute `{{name}}`, `{{repository}}`, `{{owner}}`, `{{description}}` from the repository's manifest before writing.
+- Pick stack variant first; then assemble: hero -> badges -> canonical sections -> custom blocks -> StandWithUkraine snippet (verbatim, always last).
+- H1 is lowercase repository slug. Title-Case H1 only for opaque/generic slugs (`dotfiles`, `adventofcode`, `scratch`).
+- Badge order is fixed: license, language version, package version, CI, style, StandWithUkraine. Logo present -> `<p align="center">`; no logo -> `<p align="left">`.
+- License is a footer line (`MIT © {{owner}}` or dual-license equivalent) — no standalone `## License` heading. No TOC for any stack.

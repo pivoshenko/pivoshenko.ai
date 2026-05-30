@@ -24,17 +24,11 @@ No substitutions. File ships as-is.
 
 Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Composite repositories -> ONE root file. Subpath stacks inherit via existing globs (no per-subpath `.editorconfig`).
 
-## Drift detection
+Archetype `puzzles`: scope applies normally. Expect extra language blocks in the wild (`[*.{ex,exs}]`, `[*.gleam]`, `[*.ipynb]`, etc.) — these are fine to keep.
 
-- `missing` -> no `.editorconfig` at root
-- `drift` -> byte diff vs canon (any change loses; canon wins on fix)
-- `extra` -> user-added sections (e.g. `[*.custom]`) -> `fixable: false`; surfaced for upstream decision
-- `external` -> n/a
+## Scaffolding notes
 
-## Edge cases
-
-- Per-subpath `.editorconfig` files (e.g. `site/.editorconfig`) -> flag as `extra`, recommend deletion; root globs already cover them
-- Hand-tuned indent overrides -> `extra`; if the language genuinely needs it, upstream to canon rather than per-repository drift
-- LF vs CRLF: canon enforces LF everywhere except `*.bat`, `*.cmd`
-- BOM handling: canon forbids BOM; fix mode rewrites without BOM
-- Don't conflate with formatter config (biome, ruff, rustfmt) — those live in their own files
+- Lands at repository root only. Don't create per-subpath copies (`site/.editorconfig`, etc.) — root globs cover them.
+- Canon enforces LF everywhere except `*.bat`, `*.cmd`. No BOM.
+- Safe to overwrite if the existing file matches canon intent; merge if the repository has hand-tuned language blocks worth keeping. If you see a custom block appear in 2+ repositories, upstream it to canon rather than scattering.
+- Don't conflate with formatter config (biome, ruff, rustfmt) — those live in their own files.

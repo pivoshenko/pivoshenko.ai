@@ -42,18 +42,13 @@ Tokens: `{{owner}}`, `{{year}}` in license headers.
 
 Dual-license decision: per-repository opt-in -> ship MIT + APACHE + pointer; else single LICENSE from MIT.
 
-## Drift detection
+Archetype `puzzles`: applies partially. LICENSE + `.gitignore` apply normally. CONTRIBUTING / SECURITY / CODE_OF_CONDUCT typically skipped — puzzle repositories are personal, no external contribution surface.
 
-- `missing` -> any owned file absent (license, CONTRIBUTING, SECURITY, COC, .gitignore)
-- `drift` -> file diff vs canon; for `.gitignore`: missing/altered baseline or language block
-- `extra` -> user blocks between canonical `### <Lang> ###` markers are preserved; hand-edits INSIDE a marked block flagged + warned (overwritten on fix)
-- `external` -> n/a
+## Scaffolding notes
 
-## Edge cases
-
-- `.gitignore` composition order: baseline first, then language blocks in alphabetical order, each wrapped in `### <Lang> ###` / `### End <Lang> ###` markers (gitignore.io style)
-- Block replacement is idempotent — re-running fix never duplicates markers
-- User content between blocks (outside markers) preserved verbatim
-- `CHANGELOG.md` is NOT owned here — release scope owns format; this scope only checks presence on bootstrap
-- License switch (MIT -> dual) is a manual decision; agent surfaces drift but does not auto-switch without explicit confirmation
-- SECURITY.md contact override -> per-repository file becomes `extra`, canon comparison disabled for that file
+- Substitute `{{owner}}` and `{{year}}` in license headers before writing.
+- License switch (MIT -> dual) is a manual decision — confirm with user before scaffolding the dual-license set.
+- `.gitignore` composition: baseline first, then language blocks in alphabetical order, each wrapped in `### <Lang> ###` / `### End <Lang> ###` markers (gitignore.io style). Re-applying is idempotent — never duplicates markers.
+- When merging into an existing `.gitignore`: content between markers gets replaced; user content outside markers is preserved verbatim.
+- `SECURITY.md` contact is overridable per-repository — once overridden, treat the local file as authoritative.
+- `CHANGELOG.md` is NOT owned here — release scope owns format; this scope only ensures presence at bootstrap time.

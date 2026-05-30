@@ -28,7 +28,6 @@ NOT owned: branch protection (v2), repository secrets, deploy keys, webhooks, Gi
 
 ## Canon
 
-
 - `assets/FUNDING.yaml` — canon (`github: pivoshenko`); per-repository additions allowed
 - CODEOWNERS — opt-in per-repository; canon body composed from owner handle
 
@@ -46,19 +45,15 @@ Canonical settings (always applied):
 
 Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Settings + FUNDING.yaml applied uniformly. Root-only. Composite -> single FUNDING.yaml, single CODEOWNERS, one set of settings per repository.
 
-## Drift detection
+## Scaffolding notes
 
-- `missing` -> FUNDING.yaml absent (CODEOWNERS only when opted in)
-- `drift` -> FUNDING.yaml diff vs canon; CODEOWNERS diff vs composed canon; setting on GitHub diverges from canon
-- `extra` -> repository has CODEOWNERS without opt-in -> preserved, flagged
-- `external` -> setting requires `gh api` PATCH and token lacks `repo` scope -> instructions printed; `fixable: false`
+- `FUNDING.yaml` lands at `.github/FUNDING.yaml`; per-repository `custom: [...]` additions supersede canon body — merge, do not overwrite blindly
+- CODEOWNERS only when opted in (shared / multi-author repositories); skip for personal solo repos
+- Settings applied via `gh api repos/<owner>/<name>` GET then per-key PATCH; needs `repo` scope on the token
+- Default branch rename is NOT automatic — if the current default is not `main`, do the rename + branch-ref migration by hand
+- Feature toggles are idempotent; re-applying is a no-op when state already matches
 
-## Edge cases
+## Things to know
 
-- Workflow: in-tree files via diff + Write; settings via `gh api repos/<owner>/<name>` GET then per-key PATCH
 - Older repositories may carry merge commits in history — flipping `allow_merge_commit = false` is forward-only; history is untouched
-- `gh api` requires `repo` scope; missing scope -> `external` + instructions
-- Default branch rename: if existing default is not `main`, scope refuses to auto-rename (manual + branch-ref migration needed); only flags
-- FUNDING.yaml override: per-repository additions (e.g. `custom: [...]`) supersede canon body but file is still managed
-- CODEOWNERS opt-in default off — most personal repositories don't need it; opt-in on shared / multi-author repositories
-- Feature toggle changes are idempotent — re-running fix is a no-op when state already matches
+- Missing `repo` scope on the token -> settings cannot be applied; surface instructions to the user

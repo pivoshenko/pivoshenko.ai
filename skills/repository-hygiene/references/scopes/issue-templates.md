@@ -30,19 +30,12 @@ No tokens. Files ship verbatim.
 
 ## Stack matrix
 
-Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Root-only. Composite -> single set under `.github/`.
+Applies to every stack — `python-lib`, `rust-cli`, `next-site`, `shared-pkg`. Root-only. Composite -> single set under `.github/`. Archetype `puzzles`: applies normally (puzzle repositories still benefit from a PR template).
 
-## Drift detection
+## Scaffolding notes
 
-- `missing` -> any of the five files absent
-- `drift` -> byte diff vs canon (label list, body schema, validation rules)
-- `extra` -> additional templates beyond the canonical three -> preserved as `extra`, flagged
-- `external` -> n/a
-
-## Edge cases
-
-- Filename prefix `---` is load-bearing — files sort lexicographically; the triple dash floats them above any auto-generated "Open a blank issue" entry
-- `.yml` vs `.yaml` -> canon uses `.yaml`; `.yml` flagged as `drift` (rename on fix)
-- Repositories migrating from old Markdown templates -> delete the `.md` versions when forms are written
-- `config.yaml` sets `blank_issues_enabled: false` — repositories that want blank issues must opt out via `skip:`
-- PR template kept short; sections it owns: Summary, Related, Checklist. Custom checklist rows -> `extra`, preserved
+- Lands under `.github/ISSUE_TEMPLATE/` and `.github/PULL_REQUEST_TEMPLATE.md`. Safe to overwrite — canon is verbatim.
+- Filename prefix `---` is load-bearing: files sort lexicographically and the triple dash floats them above any auto-generated "Open a blank issue" entry. Don't rename.
+- Use `.yaml`, not `.yml`. If migrating from old Markdown templates, delete the `.md` versions after writing the forms.
+- `config.yaml` sets `blank_issues_enabled: false`. Override only if the repository explicitly wants blank issues.
+- PR template owns: Summary, Related, Checklist. Custom checklist rows are fine to add when merging into an existing template.

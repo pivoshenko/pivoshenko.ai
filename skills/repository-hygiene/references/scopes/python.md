@@ -8,7 +8,7 @@ Read-when: scope=python is invoked; or when the user asks about pyproject, ruff,
 
 # Scope: python
 
-Subpath-aware. Canon owns specific pyproject sections; per-repository keeps dependencies + version.
+Subpath-aware. Canon covers specific pyproject sections; per-repository owns dependencies + version.
 
 ## Owns
 
@@ -40,19 +40,18 @@ Hard-coded (non-token) canon: hatchling build backend; ruff + ty linter stack; p
 
 Composite -> single canonical pyproject at root or at `subpaths[python-lib]`.
 
-## Drift detection
+## Scaffolding notes
 
-- `missing` -> `pyproject.toml` or `.python-version` absent
-- `drift` -> canonical section diff vs canon (table-level granularity; deps preserved)
-- `extra` -> repository-added `[tool.*]` blocks (e.g. mypy, black) -> preserved, flagged for upstream decision
-- `external` -> `uv.lock` absent (committed but not owned -> warning only)
+- Lands at root or `subpaths[python-lib]`; substitute `{{name}}`, `{{module}}`, `{{description}}`, `{{keywords}}`
+- Merge into existing `pyproject.toml` section-by-section — preserve `[project].dependencies`, `[project].version`, `[project].optional-dependencies`, `[project].requires-python`, `[dependency-groups].dev`
+- `.python-version` tracks the active Python minor (e.g. `3.13`); patch is not pinned
+- App variant not shipped yet — strip publish bits by hand for now (pending v2)
 
-## Edge cases
+## Things to know
 
-- Per-repository OWNED: `[project].dependencies`, `[project].version`, `[project].optional-dependencies`, `[dependency-groups].dev` content (canon owns SHAPE only)
-- Release config (`cliff.toml`) lives in release scope — never `[tool.semantic_release]` in pyproject
-- `uv.lock` committed but not byte-diffed — handled by `uv lock` on install
-- `src/<module>/` layout is canonical; flat-layout flagged as `drift` (manual migration required, fix mode does not move files)
-- `tests/` at root (not under `src/`) is canonical
-- `.python-version` content tracks active Python minor (e.g. `3.13`); canon does not pin the patch
-- App vs lib: only `lib.toml` template ships today; app variant currently hand-stripped (pending v2)
+- Per-repository owns: `version`, `dependencies`, `optional-dependencies`, `requires-python`, `[dependency-groups].dev` content. Template ships `requires-python = ">=3.10"` as a suggestion — repositories can pin tighter or looser as they need; varies by repo
+- Release config (`cliff.toml`) lives in [[release]] scope — never `[tool.semantic_release]` in pyproject
+- `uv.lock` is committed but not part of canon — `uv lock` keeps it current
+- `src/<module>/` is the canonical layout; flat-layout exists in some repos (notably puzzle solutions) and is fine — scope simply does not apply in those cases
+- Puzzle repos (`adventofcode`, `exercism`) often use alt pytest configs (`python_files = ["main.py", "part_*.py"]`, `testpaths = ["."]`) — per-day layout, not per-package; leave alone
+- Other repo-added `[tool.*]` blocks (mypy, black, etc.) are not part of canon — leave them where they are
