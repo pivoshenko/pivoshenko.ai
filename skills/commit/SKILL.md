@@ -1,8 +1,8 @@
 ---
 name: commit
-description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /commit, or save changes to git. Stages relevant files and commits immediately without asking for confirmation.
+description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-13
+updated_at: 2026-05-30
 ---
 
 # Commit
@@ -64,23 +64,22 @@ Msg = **header** + **body** + **footer**.
   │       │
   │       └─⫸ Scope: affected area/module/pkg (optional)
   │
-  └─⫸ Type: build|ci|docs|feat|fix|perf|refactor|test
+  └─⫸ Type: build|chore|ci|docs|feat|fix|perf|refactor|test
 ```
 
 `<type>` + `<summary>` mandatory. `(<scope>)` optional.
 
 #### Type
 
-| Type         | Description                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------- |
-| **build**    | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm) |
-| **ci**       | Changes to our CI configuration files and scripts (examples: GitHub Actions, SauceLabs)             |
-| **docs**     | Documentation only changes                                                                          |
-| **feat**     | A new feature                                                                                       |
-| **fix**      | A bug fix                                                                                           |
-| **perf**     | A code change that improves performance                                                             |
-| **refactor** | A code change that neither fixes a bug nor adds a feature                                           |
-| **test**     | Adding missing tests or correcting existing tests                                                   |
+- **build** — build system / external deps (npm, bundler, lockfile)
+- **chore** — maintenance, no behavior change (config, tooling, housekeeping)
+- **ci** — CI config (GitHub Actions, workflows)
+- **docs** — docs only
+- **feat** — new feature
+- **fix** — bug fix
+- **perf** — perf improvement
+- **refactor** — neither bug nor feature
+- **test** — add or fix tests
 
 #### Scope
 

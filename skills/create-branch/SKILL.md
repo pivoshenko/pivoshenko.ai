@@ -1,8 +1,8 @@
 ---
 name: create-branch
-description: Create a new git branch using a conventional naming scheme. Use when the user asks to create a branch, start a new branch, /create-branch, or begin work on a feature/fix. Creates and checks out the branch immediately without asking for confirmation.
+description: Create a new git branch using a conventional naming scheme. Use when the user asks to create a branch, start a new branch, /create-branch, or begin work on a feature/fix. Also trigger on "start work on X", "spin up a branch for Y", "new ticket", "let's start Z", or whenever the user signals they're beginning a discrete new piece of work. Creates and checks out the branch immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-13
+updated_at: 2026-05-30
 ---
 
 # Create Branch
@@ -46,7 +46,7 @@ One of:
 - kebab-case: `add-auth-middleware`. Not `addAuthMiddleware` / `add_auth_middleware`.
 - Imperative present: `add`, `fix`, `remove`. Not `added`, `fixes`, `removing`.
 - Under ~50 chars.
-- No ticket IDs unless asked. If included -> suffix: `feat/add-auth-middleware-PROJ-123`.
+- No ticket IDs unless asked. Why: keeps history readable + tool-agnostic. Trackers come + go; branch names stay. Asked -> suffix: `feat/add-auth-middleware-PROJ-123`.
 
 ### Examples
 

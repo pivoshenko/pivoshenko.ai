@@ -1,9 +1,8 @@
 ---
 name: pivoshenko-brand
-description: Apply Volodymyr Pivoshenko's personal brand to content, UI, and visual decisions. Use when drafting or editing pages, blog posts, docs, components, themes, or assets that should match pivoshenko.dev / pivoshenko.theme / morok style. Also use to generate well-branded throwaway prototypes/mocks/artifacts.
+description: Apply Volodymyr Pivoshenko's personal brand to content, UI, and visual decisions. Use when drafting or editing pages, blog posts, docs, components, themes, or assets that should match pivoshenko.dev / pivoshenko.theme / morok style. Also trigger on "make this on brand", "style this prototype", "design a mock", "apply pivoshenko style", "needs to feel like my site", or any visual/copy work touching the personal site ecosystem. Also use to generate well-branded throwaway prototypes/mocks/artifacts.
 tags: [brand, design]
-user-invocable: true
-updated_at: 2026-05-14
+updated_at: 2026-05-30
 ---
 
 # pivoshenko-brand
@@ -21,15 +20,17 @@ Single source of brand truth — voice + visual rules + UI kit.
 
 ## Build rules (non-negotiable)
 
-1. **Font = JetBrains Mono.** Everywhere. Body, headings, nav, code.
-2. **No emoji in product UI.** Lucide icons only. Emoji allowed in README / repo descriptions only.
-3. **No shadows.** 1px borders only.
-4. **No gradients.** Anywhere.
-5. **No accent colors in chrome.** Whole UI = stone grayscale. Morok colors only when they are *the subject* (palette explorer).
-6. **Pure `#000000` for dark mode bg.** Not tinted near-black.
-7. **Corner radius = `4px` default.** `8px` only for prose `<pre>`. `999px` only for palette swatch circle.
-8. **One transition: 150ms ease on color/background/border.** No bounces, fades, scale.
-9. **Voice = first-person, lowercase brand names, short declarative sentences.**
+Each rule = identity anchor. Break one -> looks like generic SaaS, not pivoshenko.
+
+1. **Font = JetBrains Mono.** Everywhere — body, headings, nav, code. Why: single typeface = recognizable across all sites + ties UI to dev/terminal aesthetic.
+2. **No emoji in product UI.** Lucide icons only. Why: emoji renders inconsistently across OS, breaks mono grid. README / repo descriptions OK (GitHub context).
+3. **No shadows. 1px borders only.** Why: flat-edge aesthetic matches mono font + theme ports (terminal, editor).
+4. **No gradients.** Anywhere. Why: same — flat, solid, deliberate.
+5. **No accent colors in chrome.** Stone grayscale only. Morok colors only when they *are* the subject (palette explorer). Why: lets content + accents pop; prevents rainbow drift.
+6. **Pure `#000000` dark bg.** Not tinted near-black. Why: matches OLED + terminal black + pivoshenko.dev exactly. Tinted black reads as "almost right" -> uncanny.
+7. **Radius = `4px` default.** `8px` only for prose `<pre>`. `999px` only for palette swatch. Why: tight radii sit closer to terminal feel; large radii read as consumer app.
+8. **One transition: 150ms ease on color/background/border.** No bounces, fades, scale. Why: snappy + restrained; motion never the subject.
+9. **Voice = first-person, lowercase brand names, short declarative sentences.** Why: practitioner tone, not marketing copy.
 
 ## Voice
 
@@ -48,11 +49,9 @@ Two-layer model:
 
 ## How to use
 
-**Production code** → tokens here are name-compatible with Tailwind utility classes in the sites (`fg-primary`, `fg-muted`, `border-ui`, `type-label`, `type-meta`). Match existing patterns in `showcase/components/` or `app/` of the target repo.
-
-**Throwaway prototypes/mocks/slides** → copy assets you need, link `colors_and_type.css` (or inline its tokens). Lift component patterns from `components.html` instead of reinventing.
-
-**No further guidance** → ask: audience, fidelity, target surface, dark or light first. Then output HTML artifact or production code.
+- **Production code** → tokens name-compatible with site Tailwind utils (`fg-primary`, `fg-muted`, `border-ui`, `type-label`, `type-meta`). Match patterns in `showcase/components/` or `app/` of target repo.
+- **Throwaway mocks/slides** → copy needed assets, link `colors_and_type.css` (or inline tokens). Lift patterns from `components.html`. Don't reinvent.
+- **No spec given** → ask: audience, fidelity, surface, dark-or-light first. Then output.
 
 ## Quality checklist
 

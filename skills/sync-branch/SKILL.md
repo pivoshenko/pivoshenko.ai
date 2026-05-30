@@ -1,8 +1,8 @@
 ---
 name: sync-branch
-description: Fetch the latest base branch and rebase (or merge) the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /sync-branch. Runs immediately without asking for confirmation.
+description: Fetch the latest base branch and rebase (or merge) the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /sync-branch. Also trigger on "catch up with main", "rebase onto main", "update my branch", "merge in latest", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-13
+updated_at: 2026-05-30
 ---
 
 # Sync Branch
@@ -31,7 +31,7 @@ Bring current branch up to date with base. Rebase default. Merge on request. Sur
 
 ## Rules
 
-- Default **rebase**. Merge only if user asks (or shared branch + history rewrite unsafe -> ask first).
+- Default **rebase** — linear history. Switch to merge only if user asks OR branch is shared/pushed + already collaborated on (rewriting public history would break others). Shared branch + user didn't pick mode -> ask before doing either.
 - Never force-push here. After rebase of pushed branch -> tell user `git push --force-with-lease` needed. Let user run.
 - Never `git rebase --skip` / drop commits to "make it work". Surface conflict.
 - Never `--no-verify` / skip hooks.

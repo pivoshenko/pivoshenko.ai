@@ -1,8 +1,8 @@
 ---
 name: cleanup-branches
-description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /cleanup-branches. Reports what will be deleted and asks before deleting anything.
+description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /cleanup-branches. Also trigger on "tidy git branches", "remove old branches", "I'm done with these branches", "branch graveyard", or whenever the user complains about local branch clutter. Reports what will be deleted and asks before deleting anything.
 tags: [git]
-updated_at: 2026-05-13
+updated_at: 2026-05-30
 ---
 
 # Cleanup Branches
@@ -29,7 +29,7 @@ Prune local branches = merged OR remote gone. Delete = destructive -> preview + 
      - current branch
      - base (`main`/`master`)
      - protected branches user names (e.g. `develop`, `release/*`)
-4. Print candidates grouped by reason (gone vs merged). Ask confirm. User already said "yes, delete them"/"go ahead" -> skip prompt.
+4. Print candidates grouped by reason (gone vs merged). Ask confirm (see Rules for skip cases).
 5. Delete confirmed:
    - Merged: `git branch -d <name>` (safe).
    - Gone + unmerged: `git branch -D <name>` (force). Only after explicit confirm.
@@ -37,6 +37,7 @@ Prune local branches = merged OR remote gone. Delete = destructive -> preview + 
 
 ## Rules
 
+- Always preview + ask confirm before delete. Skip prompt only if user already said "yes, delete them" / "go ahead" / similar in same turn.
 - Never delete current branch, base, or `HEAD`.
 - Never `-D` unmerged branch without explicit user OK. Unsure -> list + let user decide.
 - Never delete remote branches here. Local only.
