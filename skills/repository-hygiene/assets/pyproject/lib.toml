@@ -1,0 +1,86 @@
+# === pyproject/lib.toml ===
+# Purpose:  Template for python-lib `pyproject.toml`. Drop into a python library repository as `pyproject.toml`, substituting tokens.
+# Tokens:   {{name}} = PyPI package name; {{module}} = snake_case module dir; {{description}} = repository description; {{keywords}} = TOML list of keywords (max 5)
+# Override: Add to [project.dependencies], [project.scripts], [project.urls]. Do not strip canon-owned [tool.ruff], [tool.ty], [tool.pytest], [tool.coverage] blocks.
+# === end ===
+
+[project]
+authors = [{ "name" = "Volodymyr Pivoshenko", "email" = "contact@pivoshenko.dev" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Other Environment",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+description = "{{description}}"
+keywords = {{keywords}}
+license = "MIT"
+maintainers = [{ "name" = "Volodymyr Pivoshenko", "email" = "contact@pivoshenko.dev" }]
+name = "{{name}}"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.0.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[dependency-groups]
+formatters = ["pyupgrade~=3.21.2", "ruff~=0.15.15"]
+linters = ["ruff~=0.15.15", "ty~=0.0.40"]
+tests = [
+  "coverage[toml]~=7.14.1",
+  "pytest-cov~=7.1.0",
+  "pytest-mock~=3.15.1",
+  "pytest-sugar~=1.1.1",
+  "pytest~=9.0.3",
+  "sh~=2.2.2"
+]
+
+[tool.coverage.run]
+omit = ["*/__init__.py", "*/__main__.py"]
+
+[tool.pytest.ini_options]
+addopts = ["--basetemp=tests/fixtures", "--color=yes", "--cov-report=html", "--cov-report=xml", "--cov=src"]
+testpaths = ["tests"]
+
+[tool.ty.environment]
+python-version = "3.13"
+
+[tool.ruff]
+fix = true
+line-length = 100
+target-version = "py313"
+unsafe-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.ruff.lint]
+ignore = ["COM812", "D101", "D102", "D103", "D107", "D203", "D213", "G004", "PLE1205", "TRY003", "TRY400", "TRY401"]
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+from-first = false
+length-sort-straight = true
+lines-after-imports = 2
+lines-between-types = 1
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["INP001", "PLR2004", "S101", "SLF001"]

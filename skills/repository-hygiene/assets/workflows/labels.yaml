@@ -1,0 +1,37 @@
+# === workflows/labels.yaml ===
+# Purpose:  Lands at `.github/workflows/labels.yaml`. Syncs the canonical label set from `.github/labels.yaml` to the GitHub repository on changes or manual dispatch.
+# Tokens:   none — secrets read from environment: GH_TOKEN
+# Override: Adjust `paths:` if labels live elsewhere. Action versions are pinned by references/action-versions.yaml.
+# === end ===
+
+name: Labels
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/labels.yaml"
+      - ".github/workflows/labels.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: labels-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Sync labels
+        uses: crazy-max/ghaction-github-labeler@v6
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          yaml-file: .github/labels.yaml

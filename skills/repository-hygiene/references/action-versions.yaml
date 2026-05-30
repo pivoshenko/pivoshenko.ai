@@ -1,0 +1,23 @@
+# === action-versions ===
+# Audience: agents and humans applying the repository-hygiene standard.
+# Purpose:  Pinned GitHub Action versions; single source of truth for the workflows scope.
+# Read-when: Composing or auditing `.github/workflows/*.yaml`, bumping an action version across repositories.
+# === end ===
+#
+# Pinned GitHub Action versions. Single source of truth.
+# Workflows scope composes ymls from this table. Bump here -> re-apply workflows scope across repositories -> CI moves in lockstep.
+
+actions/checkout: v6
+actions/setup-node: v4
+actions/upload-artifact: v4
+actions/download-artifact: v4
+
+astral-sh/setup-uv: v6
+dtolnay/rust-toolchain: stable
+pnpm/action-setup: v4
+extractions/setup-just: v3
+taiki-e/install-action: v2
+
+crazy-max/ghaction-github-labeler: v6
+orhun/git-cliff-action: v4
+softprops/action-gh-release: v2

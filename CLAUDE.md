@@ -10,8 +10,9 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 - `kasetto.yaml` — Kasetto sync config. Lists `agent: [claude-code]` plus per-source skill and MCP entries pulled from upstream GitHub repos. Source of truth for what gets synced.
 - `skills/` — Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
-  - `commit`, `create-branch`, `create-pr`, `sync-branch`, `cleanup-branches` — Conventional git workflow skills. Tag: `git`.
+  - `git-commit`, `git-branch-create`, `git-pr-create`, `git-branch-sync`, `git-branches-cleanup` — Conventional git workflow skills. Tag: `git`.
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
+  - `repository-hygiene` — Wiki + applier of the engineering standard for repositories (README, justfile, configs, workflows, CI/release, GitHub meta). Four modes: `lookup` / `audit` / `fix` / `bootstrap`. Tags: `hygiene`, `standard`, `wiki`, `reference`.
 - `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `check`, `build`, `start`, `update`.

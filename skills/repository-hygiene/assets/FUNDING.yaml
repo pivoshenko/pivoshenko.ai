@@ -1,0 +1,7 @@
+# === FUNDING.yaml ===
+# Purpose:  Lands at `.github/FUNDING.yml`. Enables the "Sponsor" button on the repository page.
+# Tokens:   none
+# Override: Add `custom:`, `ko_fi:`, `open_collective:` etc. below the `github:` line as needed.
+# === end ===
+
+github: pivoshenko
