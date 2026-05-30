@@ -6,28 +6,17 @@
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .pane {
         padding: 22px;
         display: flex;
         flex-direction: column;
         gap: 16px;
       }
-      .pane.dark {
-        background: #000;
-      }
       .label {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         text-transform: uppercase;
         letter-spacing: 0.1em;
-      }
-      .pane.dark .label {
-        color: var(--stone-500);
       }
 
       /* --- Inline search field --- */
@@ -35,15 +24,11 @@
         position: relative;
         display: flex;
         align-items: center;
-        border: 1px solid var(--stone-200);
+        border: 1px solid var(--border-ui);
         border-radius: 4px;
-        background: var(--white);
+        background: var(--bg-card);
         height: 36px;
         padding: 0 10px 0 30px;
-      }
-      .pane.dark .search {
-        background: var(--stone-950);
-        border-color: var(--stone-800);
       }
       .search > svg.lead {
         position: absolute;
@@ -52,11 +37,8 @@
         transform: translateY(-50%);
         width: 14px;
         height: 14px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         pointer-events: none;
-      }
-      .pane.dark .search > svg.lead {
-        color: var(--stone-500);
       }
       .search input {
         flex: 1;
@@ -65,17 +47,11 @@
         outline: 0;
         font-family: var(--font-mono);
         font-size: 13px;
-        color: var(--stone-900);
+        color: var(--fg-primary);
         padding: 0;
       }
-      .pane.dark .search input {
-        color: var(--stone-100);
-      }
       .search input::placeholder {
-        color: var(--stone-400);
-      }
-      .pane.dark .search input::placeholder {
-        color: var(--stone-500);
+        color: var(--fg-muted);
       }
 
       /* Trailing affordances on the right */
@@ -83,10 +59,7 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        color: var(--stone-400);
-      }
-      .pane.dark .search .trail {
-        color: var(--stone-500);
+        color: var(--fg-muted);
       }
       .search .clear {
         width: 18px;
@@ -94,74 +67,51 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         cursor: pointer;
         background: transparent;
         border: 0;
         padding: 0;
       }
-      .pane.dark .search .clear {
-        color: var(--stone-500);
-      }
       .search .clear:hover {
-        color: var(--stone-700);
-      }
-      .pane.dark .search .clear:hover {
-        color: var(--stone-300);
+        color: var(--fg-secondary);
       }
 
       /* Focus variant */
       .search.focused {
-        border-color: var(--stone-300);
-        outline: 2px solid #7f98bf;
+        border-color: var(--deco-subtle);
+        outline: 2px solid var(--accent);
         outline-offset: 2px;
-      }
-      .pane.dark .search.focused {
-        border-color: var(--stone-700);
-        outline-color: #9faece;
       }
 
       /* kbd hint */
       kbd {
         font-family: var(--font-mono);
         font-size: 11px;
-        background: var(--stone-100);
-        color: var(--stone-500);
-        border: 1px solid var(--stone-200);
+        background: var(--bg-tag);
+        color: var(--fg-subtle);
+        border: 1px solid var(--border-ui);
         border-radius: 3px;
         padding: 1px 5px;
         line-height: 1;
-      }
-      .pane.dark kbd {
-        background: var(--stone-800);
-        color: var(--stone-400);
-        border-color: var(--stone-700);
       }
 
       /* --- Result dropdown --- */
       .results {
         margin-top: 6px;
-        border: 1px solid var(--stone-200);
+        border: 1px solid var(--border-ui);
         border-radius: 4px;
-        background: var(--white);
+        background: var(--bg-card);
         overflow: hidden;
-      }
-      .pane.dark .results {
-        background: var(--stone-950);
-        border-color: var(--stone-800);
       }
       .res-group-label {
         padding: 6px 12px;
         font-family: var(--font-mono);
         font-size: 11px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        border-bottom: 1px solid var(--stone-100);
-      }
-      .pane.dark .res-group-label {
-        color: var(--stone-500);
-        border-bottom-color: rgb(41 37 36 / 0.6);
+        border-bottom: 1px solid var(--border-faint);
       }
       .res {
         display: flex;
@@ -170,48 +120,31 @@
         padding: 8px 12px;
         font-family: var(--font-mono);
         font-size: 13px;
-        color: var(--stone-700);
+        color: var(--fg-secondary);
         cursor: pointer;
       }
-      .pane.dark .res {
-        color: var(--stone-300);
-      }
       .res + .res {
-        border-top: 1px solid var(--stone-100);
-      }
-      .pane.dark .res + .res {
-        border-top-color: rgb(41 37 36 / 0.6);
+        border-top: 1px solid var(--border-faint);
       }
       .res .date {
         width: 56px;
         flex-shrink: 0;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         font-size: 12px;
         font-variant-numeric: tabular-nums;
       }
-      .pane.dark .res .date {
-        color: var(--stone-500);
-      }
       .res mark {
-        background: rgb(127 152 191 / 0.18);
-        color: #6383ad;
+        background: var(--accent-soft);
+        color: var(--accent);
         padding: 0 2px;
         border-radius: 2px;
       }
-      .pane.dark .res mark {
-        background: rgb(159 174 206 / 0.18);
-        color: #9faece;
-      }
       .res.active {
-        background: var(--stone-100);
-        color: var(--stone-900);
-      }
-      .pane.dark .res.active {
-        background: var(--stone-900);
-        color: var(--stone-100);
+        background: var(--bg-tag);
+        color: var(--fg-primary);
       }
       .res.active .date {
-        color: var(--stone-500);
+        color: var(--fg-subtle);
       }
 
       .empty {
@@ -219,73 +152,102 @@
         text-align: center;
         font-family: var(--font-mono);
         font-size: 12px;
-        color: var(--stone-500);
+        color: var(--fg-subtle);
       }
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div>
-        <div class="label">SEARCH — default · placeholder</div>
-        <div class="search" style="margin-top: 8px">
-          <svg
-            class="lead"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input type="text" placeholder="search posts…" />
-          <span class="trail"><kbd>⌘</kbd><kbd>K</kbd></span>
-        </div>
+    <div>
+      <div class="label">SEARCH — default · placeholder</div>
+      <div class="search" style="margin-top: 8px">
+        <svg
+          class="lead"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" placeholder="search posts…" />
+        <span class="trail"><kbd>⌘</kbd><kbd>K</kbd></span>
       </div>
+    </div>
 
-      <div>
-        <div class="label">SEARCH — focused with query, clearable</div>
-        <div class="search focused" style="margin-top: 8px">
-          <svg
-            class="lead"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <div>
+      <div class="label">SEARCH — focused with query, clearable</div>
+      <div class="search focused" style="margin-top: 8px">
+        <svg
+          class="lead"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" value="tailscale" />
+        <button class="clear" aria-label="Clear">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
-          <input type="text" value="tailscale" />
-          <button class="clear" aria-label="Clear">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+        </button>
+      </div>
+      <div class="results">
+        <div class="res-group-label">POSTS · 2</div>
+        <div class="res active">
+          <span class="date">Feb 12</span>
+          <span>Hardening a VPS — Zero‑Trust Setup With <mark>Tailscale</mark></span>
         </div>
-        <div class="results">
-          <div class="res-group-label">POSTS · 2</div>
-          <div class="res active">
-            <span class="date">Feb 12</span>
-            <span>Hardening a VPS — Zero‑Trust Setup With <mark>Tailscale</mark></span>
-          </div>
-          <div class="res">
-            <span class="date">Sep 04</span>
-            <span>uv and the quiet revolution in Python <mark>tooling</mark></span>
-          </div>
+        <div class="res">
+          <span class="date">Sep 04</span>
+          <span>uv and the quiet revolution in Python <mark>tooling</mark></span>
         </div>
       </div>
     </div>
 
-    <div class="pane dark">
-      <div>
-        <div class="label">EMPTY RESULTS — sentence, not illustrated</div>
-        <div class="search" style="margin-top: 8px">
+    <div>
+      <div class="label">EMPTY RESULTS — sentence, not illustrated</div>
+      <div class="search" style="margin-top: 8px">
+        <svg
+          class="lead"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" value="kubernetes" readonly />
+        <button class="clear" aria-label="Clear">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="results">
+        <div class="empty">No results for <kbd>kubernetes</kbd>.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">COMMAND PALETTE — full ⌘K pattern, single command + section labels</div>
+      <div class="results" style="margin-top: 8px">
+        <div
+          class="search"
+          style="border: 0; border-bottom: 1px solid var(--border-ui); border-radius: 0; background: transparent"
+        >
           <svg
             class="lead"
             viewBox="0 0 24 24"
@@ -298,55 +260,22 @@
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
-          <input type="text" value="kubernetes" readonly />
-          <button class="clear" aria-label="Clear">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+          <input type="text" value="theme" />
+          <span class="trail"><kbd>Esc</kbd></span>
         </div>
-        <div class="results">
-          <div class="empty">No results for <kbd>kubernetes</kbd>.</div>
+        <div class="res-group-label">COMMANDS</div>
+        <div class="res active">
+          <span class="date">⏎</span>
+          <span>Toggle <mark>theme</mark> · light / dark / auto</span>
         </div>
-      </div>
-
-      <div>
-        <div class="label">COMMAND PALETTE — full ⌘K pattern, single command + section labels</div>
-        <div class="results" style="margin-top: 8px">
-          <div
-            class="search"
-            style="border: 0; border-bottom: 1px solid var(--stone-800); border-radius: 0; background: transparent"
-          >
-            <svg
-              class="lead"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input type="text" value="theme" />
-            <span class="trail"><kbd>Esc</kbd></span>
-          </div>
-          <div class="res-group-label">COMMANDS</div>
-          <div class="res active">
-            <span class="date">⏎</span>
-            <span>Toggle <mark>theme</mark> · light / dark / auto</span>
-          </div>
-          <div class="res">
-            <span class="date">⏎</span>
-            <span>Open morok <mark>theme</mark> showcase</span>
-          </div>
-          <div class="res-group-label">POSTS · 1</div>
-          <div class="res">
-            <span class="date">Nov 22</span>
-            <span>The only config I trust is the one I generate</span>
-          </div>
+        <div class="res">
+          <span class="date">⏎</span>
+          <span>Open <mark>theme</mark> showcase</span>
+        </div>
+        <div class="res-group-label">POSTS · 1</div>
+        <div class="res">
+          <span class="date">Nov 22</span>
+          <span>The only config I trust is the one I generate</span>
         </div>
       </div>
     </div>

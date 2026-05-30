@@ -8,8 +8,8 @@
   body { padding: 24px; background: var(--bg-page); }
   .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .card-demo { padding: 16px; border-radius: 4px; min-height: 100px; display:flex; flex-direction: column; gap: 6px; }
-  .card-demo.plain { background: var(--white); border: 1px solid var(--stone-200); }
-  .card-demo.shadow { background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .card-demo.plain { background: var(--bg-card); border: 1px solid var(--border-ui); }
+  .card-demo.shadow { background: var(--bg-card); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
   .label { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; }
   .meta { font-family: var(--font-mono); font-size: 11px; color: var(--stone-500); }
   .ok { color: #8ea98c; }
@@ -34,8 +34,8 @@
   <div style="margin-top: 16px">
     <div class="label" style="margin-bottom: 8px">PROSE CODE BLOCK — only place 8px corner appears</div>
     <pre class="pre">$ just render
-✓ rendered dist/ghostty/morok.conf
-✓ rendered dist/helix/morok.toml</pre>
+✓ rendered dist/ghostty/<flavor>.conf
+✓ rendered dist/helix/<flavor>.toml</pre>
   </div>
 </body>
 </html>

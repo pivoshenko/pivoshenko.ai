@@ -1,11 +1,6 @@
-# Brand System (Derived from pivoshenko Repositories)
+# Brand System
 
-## Sources
-
-- `pivoshenko.dev`
-- `pivoshenko.startpage`
-- `pivoshenko.theme`
-- `pivoshenko.wallpapers`
+Self-contained brand reference. Flavor-agnostic. All values needed to apply the brand are inlined here — no external repository paths required.
 
 ## Brand Core
 
@@ -73,7 +68,7 @@
 Two-layer color model:
 
 1. Neutral UI baseline for products/content.
-2. `morok` palette for thematic accents and ecosystem theming.
+2. Theme palette for thematic accents and ecosystem theming (active flavor; values inlined below).
 
 ### Neutral UI Baseline
 
@@ -92,9 +87,9 @@ Use stone grayscale as the default structural system:
 - `stone-950` `#0c0a09`
 - dark background anchor: `#000000`
 
-### Morok Palette (Theme Source of Truth)
+### Theme Palette (Active Flavor)
 
-From `pivoshenko.theme/palettes/morok.json`:
+Worked example below uses the current default flavor. Hex values:
 
 - rosewater `#e2cfc6`
 - flamingo `#d8b8aa`
@@ -163,12 +158,6 @@ From `pivoshenko.theme/palettes/morok.json`:
 - Repeated motif: geometric snowflake/hex mark associated with Nix-like shape language.
 - Supporting motif: minimal line-art animal marks (for example bear), cool-toned outlines.
 
-## Imagery Direction (Wallpapers)
-
-- Curation leans toward: `abstract`, `anime`, `pixelart`, `rog`, `logo`, `game`.
-- Frequent mood: dark or dusk scenes, cool-to-muted palettes, occasional neon contrast.
-- Composition preference: clear focal object with negative space support.
-
 ## Interaction Details
 
 - Support both light and dark themes with parity.
@@ -195,4 +184,6 @@ Before finalizing output, confirm:
 3. Is the UI neutral-first with restrained accent usage?
 4. Are dark and light themes both considered?
 5. Are borders/spacing/motion subtle and consistent?
-6. Does this feel like the same ecosystem as `pivoshenko.dev` and `pivoshenko.theme`?
+6. Does this feel like the same ecosystem as the live pivoshenko sites?
+
+> Flavor note: this document is flavor-agnostic. Flavor-specific palette behavior (token names, status mappings, surface choices) lives in `visual-system.md`.

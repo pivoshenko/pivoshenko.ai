@@ -6,32 +6,11 @@
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .pane {
         padding: 24px;
-      }
-      .pane.dark {
-        background: #000;
-      }
-      .pane.dark .card {
-        background: var(--stone-950);
-        border-color: var(--stone-800);
-        color: var(--stone-100);
-      }
-      .pane.dark .head {
-        border-color: var(--stone-800);
-      }
-      .pane.dark .row + .row {
-        border-color: rgb(41 37 36 / 0.6);
-      }
-      .pane.dark .fg-muted {
-        color: var(--stone-500);
-      }
-      .pane.dark .fg-secondary {
-        color: var(--stone-300);
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        justify-content: center;
       }
       .card {
         width: 100%;
@@ -52,9 +31,6 @@
       .body-row + .body-row {
         border-top: 1px solid var(--border-faint);
       }
-      .pane.dark .body-row + .body-row {
-        border-color: rgb(41 37 36 / 0.6);
-      }
       .ic {
         width: 14px;
         height: 14px;
@@ -62,64 +38,32 @@
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div class="card">
-        <div class="head">
-          <svg
-            class="ic"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="color: var(--fg-muted)"
-          >
-            <path
-              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
-            />
-          </svg>
-          <span class="type-label fg-muted">DEVELOPMENT</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">github</span><span class="type-meta fg-muted">↗</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">kaggle</span><span class="type-meta fg-muted">↗</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">leetcode</span><span class="type-meta fg-muted">↗</span>
-        </div>
+    <div class="card">
+      <div class="head">
+        <svg
+          class="ic"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          style="color: var(--fg-muted)"
+        >
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
+          />
+        </svg>
+        <span class="type-label fg-muted">DEVELOPMENT</span>
       </div>
-    </div>
-    <div class="pane dark">
-      <div class="card">
-        <div class="head">
-          <svg
-            class="ic"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="color: var(--stone-500)"
-          >
-            <path
-              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
-            />
-          </svg>
-          <span class="type-label fg-muted">DEVELOPMENT</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">github</span><span class="type-meta fg-muted">↗</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">kaggle</span><span class="type-meta fg-muted">↗</span>
-        </div>
-        <div class="body-row">
-          <span class="type-ui fg-secondary">leetcode</span><span class="type-meta fg-muted">↗</span>
-        </div>
+      <div class="body-row">
+        <span class="type-ui fg-secondary">github</span><span class="type-meta fg-muted">↗</span>
+      </div>
+      <div class="body-row">
+        <span class="type-ui fg-secondary">kaggle</span><span class="type-meta fg-muted">↗</span>
+      </div>
+      <div class="body-row">
+        <span class="type-ui fg-secondary">leetcode</span><span class="type-meta fg-muted">↗</span>
       </div>
     </div>
   </body>

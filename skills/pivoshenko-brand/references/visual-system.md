@@ -4,86 +4,46 @@ The visual and content system behind **Volodymyr Pivoshenko**'s personal brand �
 Principal AI/R&D Engineer who builds tools, themes, and writing with a single
 through‑line: **minimalism, simplicity, and cross‑tool consistency**.
 
-The brand calls itself **morok** (Ukrainian for *darkness/gloom*). It is a
-restrained, monospaced, almost‑terminal‑native aesthetic that runs across the
+A restrained, monospaced, almost‑terminal‑native aesthetic that runs across the
 website, blog, startpage, theme showcase, and dozens of ported terminal and web
 themes.
 
-> **morok** *(adj.)* — "darkness, gloom; a state of melancholy or a dark, gloomy
-> atmosphere." Named in the canonical README of the theme repo.
+> **Scope note.** Flavor-agnostic brand rules (voice, typography, layout,
+> motion, component patterns) live in `brand-system.md`. *This* document
+> profiles the **current default flavor in depth** — palette values, status
+> mappings, surface choices, and CSS-var names (`--theme-*`). Any alternate
+> flavor inherits every flavor-agnostic rule but swaps the palette below.
 
 ---
 
-## Sources
+## Surfaces
 
-Everything in this design system was reverse‑engineered from the engineer's own
-public repositories. The reader is encouraged to explore them for higher
-fidelity:
+The brand spans a handful of product surfaces — all of them share the same
+voice, type system, color ladder, and component patterns described below:
 
-| Source | URL |
-|---|---|
-| Theme palette + ports (source of truth) | <https://github.com/pivoshenko/pivoshenko.theme> |
-| Personal blog (Next.js)                 | <https://github.com/pivoshenko/pivoshenko.dev> |
-| Personal startpage (Next.js)            | <https://github.com/pivoshenko/pivoshenko.startpage> |
-| GitHub profile README                   | <https://github.com/pivoshenko/pivoshenko> |
-| Live blog                               | <https://pivoshenko.dev> |
+1. **Theme showcase.** A site that displays the source palette and lets
+   visitors browse the terminal/desktop ports and browser userstyles. The
+   signature artifact is the **palette table** with hex / RGB / HSL columns
+   and per‑cell copy buttons.
+2. **Personal tech blog.** A long‑form blog on AI, distributed systems, and
+   developer tooling. Signature artifacts: **post list grouped by year**,
+   **reading progress bar** at the top of every page, floating **table of
+   contents** button.
+3. **Browser startpage.** A grid of categorised bookmark cards. Opens in a
+   new tab; replaces the browser default.
+4. **The theme itself.** A single palette rendered to terminal/desktop tools
+   (Ghostty, Helix, Zed, K9s, Spicetify, Zen Browser, VSCode, Bottom,
+   Lazygit, …) and browser userstyles (GitHub, Claude, ChatGPT, MDN, YouTube,
+   Lichess, …).
 
-The theme repo is the **source of truth for color**. The blog and startpage
-share an almost identical CSS surface (the same `type-*`, `fg-*`, `border-ui`
-utility classes appear in all three), which is the strongest signal that this
-*is* a deliberate, hand‑rolled design system rather than three apps that look
-similar by accident.
-
----
-
-## Products represented
-
-This system covers three real product surfaces and a fourth ambient surface:
-
-1. **pivoshenko.theme — "morok" theme showcase.** A Next.js site that shows the
-   single source palette and lets visitors browse the 17 terminal/desktop ports
-   and ~140 browser userstyles. The signature artifact is the **palette table**
-   with hex / RGB / HSL columns and per‑cell copy buttons.
-2. **pivoshenko.dev — personal tech blog.** A Next.js + MDX blog. Long‑form
-   posts on AI, distributed systems, and developer tooling. The signature
-   artifacts are the **post list grouped by year**, the **reading progress
-   bar** at the top of every page, and the floating **table of contents**
-   button.
-3. **pivoshenko.startpage — minimal browser startpage.** A grid of categorised
-   bookmark cards (bookmarks, workspace, platforms, development, …). Opens in a
-   new tab; replaces Chrome's default.
-4. **morok — the theme itself.** The actual artifact distributed by all of
-   this: a single palette rendered to ~17 terminal/desktop tools (Ghostty,
-   Helix, Zed, K9s, Spicetify, Zen Browser, VSCode, Bottom, Lazygit, …) and ~140
-   browser userstyles (GitHub, Claude, ChatGPT, MDN, YouTube, Lichess, …).
-
-The brand is the same across all four. The **website** is the design system's
-canonical reference — it is the place where the typography classes and color
-classes are defined in CSS. The theme is the place where the **palette** is
-defined.
-
----
-
-## Index
-
-```
-README.md                  ← you are here
-SKILL.md                   ← Agent Skill entrypoint (Claude Code compatible)
-index.html                 ← entry landing page (renders this manifest as morok-styled HTML)
-colors_and_type.css        ← CSS variables + utility classes; copy this in to any prototype
-assets/
-  logo-vp-dark.svg         ← VP wordmark, white on black (32×32)
-  logo-vp-light.svg        ← VP wordmark, black on white (32×32)
-  social/github.svg        ← Simple Icons brand marks (footer use only)
-  social/linkedin.svg
-  social/rss.svg
-preview/                   ← Design System tab cards (palette, type, components, brand, spacing)
-```
+The brand is the same across all four. Typography and foreground/border
+classes are defined in `colors_and_type.css` in this skill. The palette is
+inlined in `brand-system.md`.
 
 **Fonts:** JetBrains Mono is loaded from Google Fonts at runtime by
-`colors_and_type.css` — no font files are vendored. *Substitution note: the
-source repos use Next.js' `JetBrains_Mono` from Google Fonts, which is the same
-file. No visual delta is expected.*
+`colors_and_type.css` — no font files are vendored. *Substitution note:
+production sites use Next.js' `JetBrains_Mono` from Google Fonts, which is the
+same file. No visual delta is expected.*
 
 ---
 
@@ -101,7 +61,7 @@ either site.
 
 ### Casing
 
-- **Brand names are lowercase.** `pivoshenko.theme`, `pivoshenko.dev`, `morok`, `bat`, `bottom`, `delta`, `fish`, `fzf`, `ghostty`, `helix`, `k9s`, `lazygit`, `spicetify`, `zed`, `zen`. Always lowercase, even at the start of a sentence in nav.
+- **Brand names are lowercase.** `pivoshenko.theme`, `pivoshenko.dev`, `bat`, `bottom`, `delta`, `fish`, `fzf`, `ghostty`, `helix`, `k9s`, `lazygit`, `spicetify`, `zed`, `zen`. Always lowercase, even at the start of a sentence in nav.
 - **Proper names get title case.** `Volodymyr Pivoshenko`. `Principal AI/R&D Engineer`.
 - **Section labels are SHOUTING but small** — `RECENT POSTS`, `LINKS`, `CONTENTS`, `2026`. Rendered via `.type-label` (`text-xs uppercase tracking-widest`), so the shout is quiet.
 
@@ -128,15 +88,14 @@ line.
 ### Emoji
 
 - **The blog uses no emoji.** Not in prose, not in headings, not in tags.
-- **The GitHub README of the *engineer's own profile* uses emoji at the start of section headings only** (`👋 Hi there!`, `⭐ Stars`, `🐛 Issues`). And every repo description starts with a single contextual emoji (`🥑 pivoshenko's theme`, `📕 pivoshenko's dotfiles`, `🇺🇦 pivoshenko's profile`).
-- **Rule for this design system:** *do not use emoji in any production interface.* They are reserved for `README.md` files and repo descriptions, where they function as visual punctuation in a wall of GitHub text. If a UI needs an icon, use Lucide.
+- **The GitHub README of the *engineer's own profile* uses emoji at the start of section headings only** (`👋 Hi there!`, `⭐ Stars`, `🐛 Issues`). And every repository description starts with a single contextual emoji (`🥑 pivoshenko's theme`, `📕 pivoshenko's dotfiles`, `🇺🇦 pivoshenko's profile`).
+- **Rule for this design system:** *do not use emoji in any production interface.* They are reserved for `README.md` files and repository descriptions, where they function as visual punctuation in a wall of GitHub text. If a UI needs an icon, use Lucide.
 
 ### Vocabulary cues
 
 - "ports" (not "themes for") — `Ports` is the section title for all the terminal/desktop targets
 - "userstyles" (not "skins" or "themes for sites") — for the browser injection layer
 - "flavor" — the palette's mode label (`"flavor": "dark"`), inherited from Catppuccin terminology
-- "morok" — the proper name of the dark palette
 - The author signs `Volodymyr Pivoshenko <contact@pivoshenko.dev>` in classic mail‑header style. Use this exact format in any place that needs an author byline.
 
 ### Microcopy patterns
@@ -164,23 +123,23 @@ that isn't text is either a 1px border or a copied‑and‑pasted Lucide icon.
    backgrounds, borders, type, hover states. Light mode is `stone-50` on
    `stone-900`; dark mode is `black` on `stone-100`. The *chrome* stays
    grayscale.
-2. **morok palette** drives the *theme itself* — the colors that ship to
+2. **theme palette** drives the *theme itself* — the colors that ship to
    Ghostty, Helix, Zed, etc. These show up in the website as **swatches inside
    the palette explorer** and now also as a single **`--accent`** token piped
    into interactive elements: link underline color, active nav dot, focus
    ring, the green flash on a successful copy. The accent is **one color at a
    time**, never multiple, never used for backgrounds (except `--accent-soft`,
    a ~16% wash for selection or hover bleed). Default accent is
-   `--morok-blue` (`#7f98bf`) in light mode and `--morok-lavender` (`#9faece`)
+   `--theme-blue` (`#7f98bf`) in light mode and `--theme-lavender` (`#9faece`)
    in dark mode — matching the userstyles' default accent.
 
-The morok palette follows the Catppuccin naming convention:
+The theme palette follows the Catppuccin naming convention:
 
 - **Surfaces (darkest → lightest):** `crust → mantle → base → surface0 → surface1 → surface2`
 - **Overlays / text:** `overlay0 → overlay1 → overlay2 → subtext0 → subtext1 → text`
 - **Accents:** `rosewater, flamingo, pink, mauve, red, maroon, peach, yellow, green, teal, sky, sapphire, blue, lavender`
 
-morok is a **muted, dusty, slightly cool dark palette.** The accents are
+The theme accents are
 desaturated versions of Catppuccin — `red` is `#c98787` (a brick rose, not a
 warning red), `blue` is `#7f98bf` (a soft steel blue), `green` is `#8ea98c` (a
 dried sage). Nothing is loud. The base color is *pure* `#000000`, not a tinted
@@ -188,16 +147,16 @@ near‑black.
 
 ### Semantic status colors
 
-The brand maps the five conventional status roles to **muted morok accents**.
+The brand maps the five conventional status roles to **muted theme accents**.
 These never appear as solid fills; they show up as soft 16–18% washes behind
 same-color text.
 
 | Role     | Light text | Soft fill         | Dark text   | Source                |
 |----------|-----------|-------------------|-------------|-----------------------|
-| success  | `#6f8a6d` | green @ 16% α     | `#8ea98c`   | `--morok-green`       |
-| warning  | `#a17849` | peach @ 18% α     | `#d0a178`   | `--morok-peach`       |
-| error    | `#b06a6a` | red @ 18% α       | `#c98787`   | `--morok-red`         |
-| info     | `#6383ad` | blue @ 18% α      | `#9faece`   | `--morok-blue` / `--morok-lavender` |
+| success  | `#6f8a6d` | green @ 16% α     | `#8ea98c`   | `--theme-green`       |
+| warning  | `#a17849` | peach @ 18% α     | `#d0a178`   | `--theme-peach`       |
+| error    | `#b06a6a` | red @ 18% α       | `#c98787`   | `--theme-red`         |
+| info     | `#6383ad` | blue @ 18% α      | `#9faece`   | `--theme-blue` / `--theme-lavender` |
 | neutral  | `--stone-500` | `--stone-100` | `--stone-400` | stone (no accent)    |
 
 **Loud safety reds and bright greens are explicitly out of scope.** The brand
@@ -335,7 +294,7 @@ hierarchy is:
 
 1. **None** — try to use type and color alone (this is the default).
 2. **A terminal screenshot** — the only "imagery" that fits the brand. Should
-   be on `bg-black` with monospace text in stone shades plus a dusting of morok
+   be on `bg-black` with monospace text in stone shades plus a dusting of theme
    accents. Centered, no rounded corners, no shadow.
 3. **A user portrait** — black and white, square, no border.
 

@@ -6,32 +6,17 @@
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: flex;
-      }
-      .pane {
-        flex: 1;
         padding: 24px;
         display: flex;
         flex-direction: column;
         gap: 18px;
         justify-content: center;
       }
-      .pane.dark {
-        background: #000;
-        color: var(--stone-100);
-      }
-      .pane.dark .fg-muted {
-        color: var(--stone-500);
-      }
-      .pane.dark .fg-body {
-        color: var(--stone-400);
-      }
       .mark {
         width: 44px;
         height: 44px;
-        background: #000;
-        color: #fff;
+        background: var(--fg-primary);
+        color: var(--bg-card);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -40,9 +25,10 @@
         font-size: 23px;
         letter-spacing: -0.7px;
       }
-      .pane.dark .mark {
-        background: #fff;
-        color: #000;
+      .mark.inverted {
+        background: var(--bg-card);
+        color: var(--fg-primary);
+        border: 1px solid var(--border-ui);
       }
       .wordmark {
         font-family: var(--font-mono);
@@ -58,25 +44,21 @@
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div class="row">
-        <div class="mark">VP</div>
-        <div class="col gap-1">
-          <span class="wordmark">pivoshenko.theme</span>
-          <span class="type-meta fg-muted">type-logo · JetBrains Mono 14/600</span>
-        </div>
+    <div class="row">
+      <div class="mark">VP</div>
+      <div class="col gap-1">
+        <span class="wordmark">pivoshenko.theme</span>
+        <span class="type-meta fg-muted">type-logo · JetBrains Mono 14/600</span>
       </div>
-      <div class="type-meta fg-muted">App icon · 32×32 · JetBrains Mono 17/700 · -0.5px</div>
     </div>
-    <div class="pane dark">
-      <div class="row">
-        <div class="mark">VP</div>
-        <div class="col gap-1">
-          <span class="wordmark">pivoshenko.dev</span>
-          <span class="type-meta fg-muted">Light surface inverts to white-on-black</span>
-        </div>
+    <div class="type-meta fg-muted">App icon · 32×32 · JetBrains Mono 17/700 · -0.5px</div>
+    <div class="row">
+      <div class="mark inverted">VP</div>
+      <div class="col gap-1">
+        <span class="wordmark">pivoshenko.dev</span>
+        <span class="type-meta fg-muted">Inverted variant — flips with theme</span>
       </div>
-      <div class="type-meta fg-muted">Wordmark is text, not an asset</div>
     </div>
+    <div class="type-meta fg-muted">Wordmark is text, not an asset</div>
   </body>
 </html>

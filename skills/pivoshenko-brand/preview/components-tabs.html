@@ -6,28 +6,17 @@
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .pane {
         padding: 22px;
         display: flex;
         flex-direction: column;
         gap: 14px;
       }
-      .pane.dark {
-        background: #000;
-      }
       .label {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         text-transform: uppercase;
         letter-spacing: 0.1em;
-      }
-      .pane.dark .label {
-        color: var(--stone-500);
       }
 
       /* Underline tab — same pattern as the live theme-showcase nav.
@@ -36,33 +25,21 @@
         display: flex;
         align-items: stretch;
         gap: 0;
-        border-bottom: 1px solid var(--stone-200);
-      }
-      .pane.dark .tabs {
-        border-color: var(--stone-800);
+        border-bottom: 1px solid var(--border-ui);
       }
       .tab {
         padding: 8px 14px;
         font-family: var(--font-mono);
         font-size: 14px;
-        color: var(--stone-500);
+        color: var(--fg-subtle);
         cursor: pointer;
         position: relative;
       }
-      .pane.dark .tab {
-        color: var(--stone-500);
-      }
       .tab:hover {
-        color: var(--stone-700);
-      }
-      .pane.dark .tab:hover {
-        color: var(--stone-300);
+        color: var(--fg-secondary);
       }
       .tab.active {
-        color: var(--stone-900);
-      }
-      .pane.dark .tab.active {
-        color: var(--stone-100);
+        color: var(--fg-primary);
       }
       .tab.active::after {
         content: "";
@@ -71,21 +48,15 @@
         right: 14px;
         bottom: -1px;
         height: 2px;
-        background: #7f98bf;
-      }
-      .pane.dark .tab.active::after {
-        background: #9faece;
+        background: var(--accent);
       }
 
       /* Segmented control — alternative pattern for 2–3 options of equal weight */
       .seg {
         display: inline-flex;
-        border: 1px solid var(--stone-200);
+        border: 1px solid var(--border-ui);
         border-radius: 4px;
         overflow: hidden;
-      }
-      .pane.dark .seg {
-        border-color: var(--stone-800);
       }
       .seg button {
         background: transparent;
@@ -93,66 +64,52 @@
         padding: 6px 12px;
         font-family: var(--font-mono);
         font-size: 13px;
-        color: var(--stone-500);
+        color: var(--fg-subtle);
         cursor: pointer;
       }
-      .pane.dark .seg button {
-        color: var(--stone-500);
-      }
       .seg button + button {
-        border-left: 1px solid var(--stone-200);
-      }
-      .pane.dark .seg button + button {
-        border-left-color: var(--stone-800);
+        border-left: 1px solid var(--border-ui);
       }
       .seg button.active {
-        background: var(--stone-100);
-        color: var(--stone-900);
-      }
-      .pane.dark .seg button.active {
-        background: var(--stone-800);
-        color: var(--stone-100);
+        background: var(--bg-tag);
+        color: var(--fg-primary);
       }
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div>
-        <div class="label">UNDERLINE TABS — used in pivoshenko.theme nav</div>
-        <div class="tabs" style="margin-top: 8px">
-          <div class="tab active">Colors</div>
-          <div class="tab">Ports</div>
-          <div class="tab">Userstyles</div>
-        </div>
+    <div>
+      <div class="label">UNDERLINE TABS — used in pivoshenko.theme nav</div>
+      <div class="tabs" style="margin-top: 8px">
+        <div class="tab active">Colors</div>
+        <div class="tab">Ports</div>
+        <div class="tab">Userstyles</div>
       </div>
-      <div>
-        <div class="label">SEGMENTED — same intent, smaller surface</div>
-        <div style="margin-top: 8px">
-          <div class="seg">
-            <button class="active">All</button>
-            <button>Recent</button>
-            <button>Archive</button>
-          </div>
+    </div>
+    <div>
+      <div class="label">SEGMENTED — same intent, smaller surface</div>
+      <div style="margin-top: 8px">
+        <div class="seg">
+          <button class="active">All</button>
+          <button>Recent</button>
+          <button>Archive</button>
         </div>
       </div>
     </div>
-    <div class="pane dark">
-      <div>
-        <div class="label">UNDERLINE TABS — dark</div>
-        <div class="tabs" style="margin-top: 8px">
-          <div class="tab">accent</div>
-          <div class="tab active">text</div>
-          <div class="tab">surface</div>
-        </div>
+    <div>
+      <div class="label">UNDERLINE TABS — alternate selection</div>
+      <div class="tabs" style="margin-top: 8px">
+        <div class="tab">accent</div>
+        <div class="tab active">text</div>
+        <div class="tab">surface</div>
       </div>
-      <div>
-        <div class="label">SEGMENTED — dark</div>
-        <div style="margin-top: 8px">
-          <div class="seg">
-            <button>light</button>
-            <button class="active">dark</button>
-            <button>auto</button>
-          </div>
+    </div>
+    <div>
+      <div class="label">SEGMENTED — theme toggle</div>
+      <div style="margin-top: 8px">
+        <div class="seg">
+          <button>light</button>
+          <button class="active">dark</button>
+          <button>auto</button>
         </div>
       </div>
     </div>

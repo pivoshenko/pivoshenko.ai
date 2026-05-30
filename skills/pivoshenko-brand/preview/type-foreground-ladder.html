@@ -5,31 +5,18 @@
 <title>Type · Foreground ladder</title>
 <link rel="stylesheet" href="_base.css"/>
 <style>
-  body { padding: 0; display: flex; }
-  .pane { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-  .pane.dark { background: #000; }
+  body { padding: 24px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
   .row { display:flex; align-items:baseline; gap:16px; }
-  .name { font-family: var(--font-mono); font-size: 11px; color: var(--stone-400); text-transform: uppercase; letter-spacing: 0.1em; width: 100px; flex-shrink: 0; }
-  .pane.dark .name { color: var(--stone-500); }
+  .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.1em; width: 100px; flex-shrink: 0; }
   .swatch { font-family: var(--font-mono); font-size: 13px; }
 </style>
 </head>
 <body>
-  <div class="pane">
-    <div class="row"><span class="name">fg-primary</span><span class="swatch" style="color:#1c1917">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-title</span><span class="swatch" style="color:#292524">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-secondary</span><span class="swatch" style="color:#44403c">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-body</span><span class="swatch" style="color:#57534e">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-subtle</span><span class="swatch" style="color:#78716c">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-muted</span><span class="swatch" style="color:#a8a29e">The quick brown fox</span></div>
-  </div>
-  <div class="pane dark">
-    <div class="row"><span class="name">fg-primary</span><span class="swatch" style="color:#f5f5f4">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-title</span><span class="swatch" style="color:#e7e5e4">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-secondary</span><span class="swatch" style="color:#d6d3d1">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-body</span><span class="swatch" style="color:#a8a29e">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-subtle</span><span class="swatch" style="color:#a8a29e">The quick brown fox</span></div>
-    <div class="row"><span class="name">fg-muted</span><span class="swatch" style="color:#78716c">The quick brown fox</span></div>
-  </div>
+  <div class="row"><span class="name">fg-primary</span><span class="swatch fg-primary">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-title</span><span class="swatch fg-title">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-secondary</span><span class="swatch fg-secondary">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-body</span><span class="swatch fg-body">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-subtle</span><span class="swatch fg-subtle">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-muted</span><span class="swatch fg-muted">The quick brown fox</span></div>
 </body>
 </html>

@@ -6,28 +6,17 @@
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .pane {
         padding: 22px;
         display: flex;
         flex-direction: column;
         gap: 14px;
       }
-      .pane.dark {
-        background: #000;
-      }
       .label {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         text-transform: uppercase;
         letter-spacing: 0.1em;
-      }
-      .pane.dark .label {
-        color: var(--stone-500);
       }
 
       /* status pill — soft fill (color/8 alpha) + same-color text. No solid fills. */
@@ -47,7 +36,7 @@
         background: currentColor;
       }
 
-      /* morok-mapped semantic colors. Soft, not loud. */
+      /* theme-mapped semantic colors. Soft, not loud. */
       .s-success {
         background: rgb(142 169 140 / 0.16);
         color: #6f8a6d;
@@ -65,25 +54,8 @@
         color: #6383ad;
       }
       .s-neutral {
-        background: var(--stone-100);
-        color: var(--stone-500);
-      }
-
-      .pane.dark .s-success {
-        color: #8ea98c;
-      }
-      .pane.dark .s-warning {
-        color: #d0a178;
-      }
-      .pane.dark .s-error {
-        color: #c98787;
-      }
-      .pane.dark .s-info {
-        color: #9faece;
-      }
-      .pane.dark .s-neutral {
-        background: rgb(41 37 36 / 0.7);
-        color: var(--stone-400);
+        background: var(--bg-tag);
+        color: var(--fg-subtle);
       }
 
       /* outline variant — when used inline next to text or on a colored bg */
@@ -108,99 +80,67 @@
       .grid-pairs .key {
         font-family: var(--font-mono);
         font-size: 11px;
-        color: var(--stone-500);
+        color: var(--fg-subtle);
         text-transform: uppercase;
         letter-spacing: 0.06em;
-      }
-      .pane.dark .grid-pairs .key {
-        color: var(--stone-500);
       }
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div>
-        <div class="label">STATUS — soft fill · all 5 variants</div>
-        <div class="grid-pairs" style="margin-top: 8px">
-          <span class="key">success</span
-          ><span
-            ><span class="status s-success"><span class="dot"></span>passing</span></span
-          >
-          <span class="key">warning</span
-          ><span
-            ><span class="status s-warning"><span class="dot"></span>flaky</span></span
-          >
-          <span class="key">error</span>
-          <span
-            ><span class="status s-error"><span class="dot"></span>failing</span></span
-          >
-          <span class="key">info</span>
-          <span
-            ><span class="status s-info"><span class="dot"></span>building</span></span
-          >
-          <span class="key">neutral</span
-          ><span
-            ><span class="status s-neutral"><span class="dot"></span>draft</span></span
-          >
-        </div>
-      </div>
-      <div>
-        <div class="label">OUTLINE VARIANT — for use inline in prose</div>
-        <div class="row" style="margin-top: 8px">
-          <span class="status outline s-success">v1.2.0</span>
-          <span class="status outline s-warning">beta</span>
-          <span class="status outline s-error">deprecated</span>
-          <span class="status outline s-info">new</span>
-        </div>
+    <div>
+      <div class="label">STATUS — soft fill · all 5 variants</div>
+      <div class="grid-pairs" style="margin-top: 8px">
+        <span class="key">success</span
+        ><span
+          ><span class="status s-success"><span class="dot"></span>passing</span></span
+        >
+        <span class="key">warning</span
+        ><span
+          ><span class="status s-warning"><span class="dot"></span>flaky</span></span
+        >
+        <span class="key">error</span>
+        <span
+          ><span class="status s-error"><span class="dot"></span>failing</span></span
+        >
+        <span class="key">info</span>
+        <span
+          ><span class="status s-info"><span class="dot"></span>building</span></span
+        >
+        <span class="key">neutral</span
+        ><span
+          ><span class="status s-neutral"><span class="dot"></span>draft</span></span
+        >
       </div>
     </div>
-    <div class="pane dark">
-      <div>
-        <div class="label">DARK — same tokens, slightly lifted text</div>
-        <div class="grid-pairs" style="margin-top: 8px">
-          <span class="key">success</span
-          ><span
-            ><span class="status s-success"><span class="dot"></span>passing</span></span
-          >
-          <span class="key">warning</span
-          ><span
-            ><span class="status s-warning"><span class="dot"></span>flaky</span></span
-          >
-          <span class="key">error</span>
-          <span
-            ><span class="status s-error"><span class="dot"></span>failing</span></span
-          >
-          <span class="key">info</span>
-          <span
-            ><span class="status s-info"><span class="dot"></span>building</span></span
-          >
-          <span class="key">neutral</span
-          ><span
-            ><span class="status s-neutral"><span class="dot"></span>draft</span></span
-          >
-        </div>
+    <div>
+      <div class="label">OUTLINE VARIANT — for use inline in prose</div>
+      <div class="row" style="margin-top: 8px">
+        <span class="status outline s-success">v1.2.0</span>
+        <span class="status outline s-warning">beta</span>
+        <span class="status outline s-error">deprecated</span>
+        <span class="status outline s-info">new</span>
       </div>
-      <div>
-        <div class="label">COLOR SOURCE — mapped to muted morok accents, never bright</div>
-        <div
-          class="row"
-          style="
-            margin-top: 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--stone-500);
-            line-height: 1.6;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
-          "
-        >
-          <span><span style="color: #8ea98c">●</span> success → morok green &nbsp;#8ea98c</span>
-          <span><span style="color: #d0a178">●</span> warning → morok peach &nbsp;#d0a178</span>
-          <span><span style="color: #c98787">●</span> error &nbsp;&nbsp;→ morok red &nbsp;&nbsp;#c98787</span>
-          <span><span style="color: #9faece">●</span> info &nbsp;&nbsp;&nbsp;→ morok blue/lavender</span>
-          <span><span style="color: #a8a29e">●</span> neutral → stone-400 / 500</span>
-        </div>
+    </div>
+    <div>
+      <div class="label">COLOR SOURCE — mapped to muted theme accents, never bright</div>
+      <div
+        class="row"
+        style="
+          margin-top: 8px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--fg-subtle);
+          line-height: 1.6;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+        "
+      >
+        <span><span style="color: #8ea98c">●</span> success → theme green &nbsp;#8ea98c</span>
+        <span><span style="color: #d0a178">●</span> warning → theme peach &nbsp;#d0a178</span>
+        <span><span style="color: #c98787">●</span> error &nbsp;&nbsp;→ theme red &nbsp;&nbsp;#c98787</span>
+        <span><span style="color: #9faece">●</span> info &nbsp;&nbsp;&nbsp;→ theme blue/lavender</span>
+        <span><span style="color: #a8a29e">●</span> neutral → stone-400 / 500</span>
       </div>
     </div>
   </body>

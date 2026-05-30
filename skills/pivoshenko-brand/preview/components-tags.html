@@ -5,58 +5,36 @@
 <title>Components · Tag chips</title>
 <link rel="stylesheet" href="_base.css"/>
 <style>
-  body { padding: 0; display: flex; }
-  .pane { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
-  .pane.dark { background: #000; }
+  body { padding: 24px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag {
     font-family: var(--font-mono); font-size: 12px;
     padding: 2px 6px; border-radius: 4px;
-    background: var(--stone-100); color: var(--stone-400);
+    background: var(--bg-tag); color: var(--fg-muted);
   }
-  .pane.dark .tag { background: rgb(41 37 36 / 0.7); color: var(--stone-500); }
-  .tag.active { background: var(--stone-200); color: var(--stone-700); }
-  .pane.dark .tag.active { background: var(--stone-700); color: var(--stone-300); }
-  .label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
-  .pane .label { color: var(--stone-400); }
-  .pane.dark .label { color: var(--stone-500); }
+  .tag.active { background: var(--bg-tag-active); color: var(--fg-secondary); }
+  .label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-muted); }
 </style>
 </head>
 <body>
-  <div class="pane">
-    <div>
-      <div class="label" style="margin-bottom:8px">TAGS — POST CHIPS</div>
-      <div class="chips">
-        <span class="tag">product</span>
-        <span class="tag">product-thinking</span>
-        <span class="tag">ai</span>
-        <span class="tag">startups</span>
-        <span class="tag">engineering</span>
-      </div>
-    </div>
-    <div>
-      <div class="label" style="margin-bottom:8px">TAG · ACTIVE (FILTER)</div>
-      <div class="chips">
-        <span class="tag active">product-thinking</span>
-      </div>
+  <div>
+    <div class="label" style="margin-bottom:8px">TAGS — POST CHIPS</div>
+    <div class="chips">
+      <span class="tag">product</span>
+      <span class="tag">product-thinking</span>
+      <span class="tag">ai</span>
+      <span class="tag">startups</span>
+      <span class="tag">engineering</span>
+      <span class="tag">distributed-systems</span>
+      <span class="tag">tooling</span>
+      <span class="tag">tailscale</span>
     </div>
   </div>
-  <div class="pane dark">
-    <div>
-      <div class="label" style="margin-bottom:8px">TAGS — POST CHIPS</div>
-      <div class="chips">
-        <span class="tag">distributed-systems</span>
-        <span class="tag">tooling</span>
-        <span class="tag">vps</span>
-        <span class="tag">security</span>
-        <span class="tag">tailscale</span>
-      </div>
-    </div>
-    <div>
-      <div class="label" style="margin-bottom:8px">TAG · ACTIVE (FILTER)</div>
-      <div class="chips">
-        <span class="tag active">tailscale</span>
-      </div>
+  <div>
+    <div class="label" style="margin-bottom:8px">TAG · ACTIVE (FILTER)</div>
+    <div class="chips">
+      <span class="tag active">product-thinking</span>
+      <span class="tag active">tailscale</span>
     </div>
   </div>
 </body>

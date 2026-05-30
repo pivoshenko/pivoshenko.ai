@@ -2,41 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Components · Buttons & inputs</title>
+    <title>Components · Controls</title>
     <link rel="stylesheet" href="_base.css" />
     <style>
       body {
-        padding: 0;
-        display: flex;
-      }
-      .pane {
-        flex: 1;
         padding: 24px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 24px;
         justify-content: center;
-      }
-      .pane.dark {
-        background: #000;
-        color: var(--stone-100);
-      }
-      .pane.dark .fg-muted {
-        color: var(--stone-500);
-      }
-      .pane.dark .icon-btn {
-        color: var(--stone-500);
-        border-color: var(--stone-800);
-        background: #000;
-      }
-      .pane.dark .icon-btn:hover {
-        color: var(--stone-300);
-      }
-      .pane.dark .nav-link {
-        color: var(--stone-500);
-      }
-      .pane.dark .nav-link.active {
-        color: var(--stone-100);
       }
       .icon-btn {
         width: 32px;
@@ -44,42 +18,42 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--stone-200);
+        border: 1px solid var(--border-ui);
         border-radius: 4px;
-        color: var(--stone-400);
-        background: var(--stone-50);
+        color: var(--fg-muted);
+        background: var(--bg-card);
       }
       .icon-btn:hover {
-        color: var(--stone-700);
+        color: var(--fg-primary);
       }
       .nav-link {
         font-family: var(--font-mono);
         font-size: 14px;
         padding: 6px 12px;
         border-radius: 4px;
-        color: var(--stone-500);
+        color: var(--fg-subtle);
       }
       .nav-link.active {
-        color: var(--stone-900);
+        color: var(--fg-primary);
       }
       .text-link {
         font-family: var(--font-mono);
         font-size: 14px;
-        color: var(--stone-700);
+        color: var(--fg-secondary);
         text-decoration: underline;
-        text-decoration-color: var(--stone-300);
+        text-decoration-color: var(--deco-subtle);
         text-underline-offset: 3px;
       }
       .copy-pill {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        border: 1px solid var(--stone-200);
+        border: 1px solid var(--border-ui);
         border-radius: 4px;
         padding: 4px 8px;
         font-family: var(--font-mono);
         font-size: 12px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         background: transparent;
       }
       .row {
@@ -90,97 +64,64 @@
       .label {
         font-family: var(--font-mono);
         font-size: 10px;
-        color: var(--stone-400);
+        color: var(--fg-muted);
         text-transform: uppercase;
         letter-spacing: 0.1em;
       }
     </style>
   </head>
   <body>
-    <div class="pane">
-      <div>
-        <div class="label" style="margin-bottom: 6px">NAV LINKS</div>
-        <div class="row">
-          <span class="nav-link active">Home</span>
-          <span class="nav-link">Blog</span>
-          <span class="nav-link">Colors</span>
-        </div>
-      </div>
-      <div>
-        <div class="label" style="margin-bottom: 6px">ICON BUTTON (TOC, scroll-to-top, theme toggle)</div>
-        <div class="row">
-          <button class="icon-btn" aria-label="TOC">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="15" y2="12" />
-              <line x1="3" y1="18" x2="12" y2="18" />
-            </svg>
-          </button>
-          <button class="icon-btn" aria-label="Up">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="18 15 12 9 6 15" />
-            </svg>
-          </button>
-          <button class="icon-btn" aria-label="Theme">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.75"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-        </div>
+    <div>
+      <div class="label" style="margin-bottom: 6px">NAV LINKS</div>
+      <div class="row">
+        <span class="nav-link active">Home</span>
+        <span class="nav-link">Blog</span>
+        <span class="nav-link">Colors</span>
       </div>
     </div>
-    <div class="pane dark">
-      <div>
-        <div class="label" style="margin-bottom: 6px; color: var(--stone-500)">TEXT LINK / ARROW LINKS</div>
-        <div class="row">
-          <a class="text-link" style="color: var(--stone-300); text-decoration-color: var(--stone-600)"
-            >An inline post link</a
-          >
-        </div>
-        <div class="row" style="margin-top: 8px">
-          <span class="type-meta fg-muted">← Blog</span>
-          <span class="type-meta fg-muted">All posts →</span>
-          <span class="type-meta fg-muted">github ↗</span>
-        </div>
+    <div>
+      <div class="label" style="margin-bottom: 6px">ICON BUTTON (TOC, scroll-to-top, theme toggle)</div>
+      <div class="row">
+        <button class="icon-btn" aria-label="TOC">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="15" y2="12" />
+            <line x1="3" y1="18" x2="12" y2="18" />
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Up">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
       </div>
-      <div>
-        <div class="label" style="margin-bottom: 6px; color: var(--stone-500)">COPY PILL (palette table)</div>
-        <div class="row">
-          <span class="copy-pill" style="border-color: var(--stone-800); color: var(--stone-500)">
-            #c98787
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" />
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-            </svg>
-          </span>
-        </div>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom: 6px">TEXT LINK / ARROW LINKS</div>
+      <div class="row">
+        <a class="text-link">An inline post link</a>
+      </div>
+      <div class="row" style="margin-top: 8px">
+        <span class="type-meta fg-muted">← Blog</span>
+        <span class="type-meta fg-muted">All posts →</span>
+        <span class="type-meta fg-muted">github ↗</span>
+      </div>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom: 6px">COPY PILL (palette table)</div>
+      <div class="row">
+        <span class="copy-pill">
+          #c98787
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+        </span>
       </div>
     </div>
   </body>

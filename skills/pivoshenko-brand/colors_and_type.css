@@ -1,8 +1,7 @@
 /* =============================================================
  * Pivoshenko Design System — Tokens & Utilities
- * Drop‑in CSS for any prototype. Reproduces the exact stack
- * used across pivoshenko.theme, pivoshenko.dev, and
- * pivoshenko.startpage.
+ * Drop‑in CSS for any prototype. Reproduces the brand's
+ * type-*, fg-*, and border-ui surface.
  * ============================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
@@ -28,33 +27,33 @@
   --black: #000000;
   --white: #ffffff;
 
-  /* --- morok palette (theme — NOT for web UI chrome) -------- */
-  --morok-rosewater: #e2cfc6;
-  --morok-flamingo: #d8b8aa;
-  --morok-pink: #d1b2c9;
-  --morok-mauve: #a78cc4;
-  --morok-red: #c98787;
-  --morok-maroon: #b97a74;
-  --morok-peach: #d0a178;
-  --morok-yellow: #c7b07a;
-  --morok-green: #8ea98c;
-  --morok-teal: #7ea59d;
-  --morok-sky: #7da2b5;
-  --morok-sapphire: #7398ad;
-  --morok-blue: #7f98bf;
-  --morok-lavender: #9faece;
-  --morok-text: #e7e5e4;
-  --morok-subtext1: #d6d3d1;
-  --morok-subtext0: #a8a29e;
-  --morok-overlay2: #a8a29e;
-  --morok-overlay1: #78716c;
-  --morok-overlay0: #57534e;
-  --morok-surface2: #44403c;
-  --morok-surface1: #292524;
-  --morok-surface0: #1c1917;
-  --morok-base: #000000;
-  --morok-mantle: #0c0a09;
-  --morok-crust: #080706;
+  /* --- theme palette (theme — NOT for web UI chrome) -------- */
+  --theme-rosewater: #e2cfc6;
+  --theme-flamingo: #d8b8aa;
+  --theme-pink: #d1b2c9;
+  --theme-mauve: #a78cc4;
+  --theme-red: #c98787;
+  --theme-maroon: #b97a74;
+  --theme-peach: #d0a178;
+  --theme-yellow: #c7b07a;
+  --theme-green: #8ea98c;
+  --theme-teal: #7ea59d;
+  --theme-sky: #7da2b5;
+  --theme-sapphire: #7398ad;
+  --theme-blue: #7f98bf;
+  --theme-lavender: #9faece;
+  --theme-text: #e7e5e4;
+  --theme-subtext1: #d6d3d1;
+  --theme-subtext0: #a8a29e;
+  --theme-overlay2: #a8a29e;
+  --theme-overlay1: #78716c;
+  --theme-overlay0: #57534e;
+  --theme-surface2: #44403c;
+  --theme-surface1: #292524;
+  --theme-surface0: #1c1917;
+  --theme-base: #000000;
+  --theme-mantle: #0c0a09;
+  --theme-crust: #080706;
 
   /* --- Semantic tokens (LIGHT default) ----------------------- */
   color-scheme: light dark;
@@ -78,10 +77,10 @@
 
   --selection-bg: var(--stone-200);
 
-  /* --- Accent (morok blue by default; substitutable) -------- */
+  /* --- Accent (theme blue by default; substitutable) -------- */
   /* The system is grayscale chrome PLUS one optional accent for
      interactive lift: link underlines, active dot, focus ring. */
-  --accent: var(--morok-blue); /* #7f98bf */
+  --accent: var(--theme-blue); /* #7f98bf */
   --accent-soft: rgb(127 152 191 / 0.18);
 
   --transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
@@ -111,7 +110,7 @@
 
   --selection-bg: var(--stone-700);
 
-  --accent: var(--morok-lavender); /* #9faece — brighter in dark */
+  --accent: var(--theme-lavender); /* #9faece — brighter in dark */
   --accent-soft: rgb(159 174 206 / 0.16);
 }
 
@@ -139,7 +138,7 @@
 
     --selection-bg: var(--stone-700);
 
-    --accent: var(--morok-lavender);
+    --accent: var(--theme-lavender);
     --accent-soft: rgb(159 174 206 / 0.16);
   }
 }
