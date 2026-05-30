@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-pivoshenko's AI agents workspace — a configuration hub for Claude Code skills, MCP servers, and a Next.js site that visualizes the catalog. Primary artifacts are YAML config and Markdown skill definitions; the site is a thin viewer on top of those files.
+pivoshenko's AI agents workspace — a configuration hub for Claude Code skills, MCPs, and a Next.js site that visualizes the catalog. Primary artifacts are YAML config and Markdown skill definitions; the site is a thin viewer on top of those files.
 
 ## Structure
 
@@ -13,7 +13,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `git-commit`, `git-branch-create`, `git-pr-create`, `git-branch-sync`, `git-branches-cleanup` — Conventional git workflow skills. Tag: `git`.
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
   - `git-repository-hygiene` — Wiki of canonical repository conventions (README, justfile, configs, workflows, CI/release, GitHub meta) + scaffolder that drops them into a target repository on request. Tags: `git`, `hygiene`, `standard`, `wiki`, `reference`.
-- `mcps/` — Local MCP server definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
+- `mcps/` — Local MCP definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `audit`, `check`, `build`, `start`, `update`.
 - Internal repo — no CI, labels sync, issue templates, release workflow, or community files (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`); do not scaffold them. Skip the License + CI badges in the README too. These belong only in repos that ship a release.

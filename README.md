@@ -13,7 +13,7 @@ This repository is managed with [Kasetto](https://github.com/pivoshenko/kasetto)
 What's in here?
 
 - Locally authored skills, see [`skills/`](skills)
-- Locally authored MCP server definitions, see [`mcps/`](mcps)
+- Locally authored MCP definitions, see [`mcps/`](mcps)
 - Kasetto sync config that pulls everything together, see [`kasetto.yaml`](kasetto.yaml)
 
 ## Main principles

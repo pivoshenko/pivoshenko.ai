@@ -12,7 +12,7 @@ export default function HomePage() {
     <div className="space-y-8">
       <section className="space-y-4">
         <p className="type-body fg-body">
-          Curated AI skills and MCP servers, synced via{' '}
+          Curated AI skills and MCPs, synced via{' '}
           <a
             href="https://kasetto.dev"
             className="underline decoration-[#b89cdc]/40 hover:decoration-[#b89cdc] underline-offset-2 transition-colors"
