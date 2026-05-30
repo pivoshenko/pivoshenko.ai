@@ -63,17 +63,19 @@ Split signals:
 
 Pick the most specific. Behavior change > non-behavior. User-visible > internal.
 
-| Type         | Use when                                           | Examples                                                             |
-| ------------ | -------------------------------------------------- | -------------------------------------------------------------------- |
-| **feat**     | New user-visible capability or API                 | new endpoint, new CLI flag, new component, new public function       |
-| **fix**      | Restoring intended behavior after a defect         | crash on null input, wrong calc, regression repair                   |
-| **perf**     | Same behavior, measurably faster / lighter         | cache hot path, drop O(n²) loop, lazy-load                           |
-| **refactor** | Code shape changes; behavior identical             | rename, extract, inline, move file, dedupe — no API or output change |
-| **test**     | Test files only                                    | add coverage, fix flake, rename test                                 |
-| **docs**     | Docs / comments / `README` / changelog only        | prose edits, JSDoc, ADRs, doc-only typos                             |
-| **build**    | Build system, deps, lockfiles, packaging           | `package.json` deps, `uv.lock`, Dockerfile, bundler config           |
-| **ci**       | CI/CD pipeline config                              | GH Actions workflow, release pipeline, branch protection scripts     |
-| **chore**    | Repository maintenance with no code/build/CI/docs effect | `.gitignore`, editor config, tooling configs not tied to build |
+SemVer bump column is the canonical mapping used by `cliff.toml` across all repositories. `feat!:` / `BREAKING CHANGE:` footer always → MAJOR regardless of type.
+
+| Type         | SemVer | Use when                                           | Examples                                                             |
+| ------------ | ------ | -------------------------------------------------- | -------------------------------------------------------------------- |
+| **feat**     | MINOR  | New user-visible capability or API                 | new endpoint, new CLI flag, new component, new public function       |
+| **fix**      | PATCH  | Restoring intended behavior after a defect         | crash on null input, wrong calc, regression repair                   |
+| **perf**     | PATCH  | Same behavior, measurably faster / lighter         | cache hot path, drop O(n²) loop, lazy-load                           |
+| **refactor** | PATCH  | Code shape changes; behavior identical             | rename, extract, inline, move file, dedupe — no API or output change |
+| **test**     | none   | Test files only                                    | add coverage, fix flake, rename test                                 |
+| **docs**     | none   | Docs / comments / `README` / changelog only        | prose edits, JSDoc, ADRs, doc-only typos                             |
+| **build**    | none   | Build system, deps, lockfiles, packaging           | `package.json` deps, `uv.lock`, Dockerfile, bundler config           |
+| **ci**       | none   | CI/CD pipeline config                              | GH Actions workflow, release pipeline, branch protection scripts     |
+| **chore**    | none   | Repository maintenance with no code/build/CI/docs effect | `.gitignore`, editor config, tooling configs not tied to build |
 
 #### Tiebreakers
 
