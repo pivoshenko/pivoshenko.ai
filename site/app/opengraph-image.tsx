@@ -60,7 +60,7 @@ export default async function OpengraphImage() {
           color: '#8a8a85',
         }}
       >
-        <span>pivoshenko.dev</span>
+        <span>ai.pivoshenko.dev</span>
       </div>
     </div>,
     {
