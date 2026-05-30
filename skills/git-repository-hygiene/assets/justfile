@@ -19,7 +19,10 @@ lint:
 # Run test suite.
 test:
 
-# CI gate. Compose: lint + test + build (where applicable).
+# Scan deps for known vulns. Implementation per stack: `uv audit`, `cargo audit`, `pnpm audit`.
+audit:
+
+# CI gate. Compose: lint + test + audit + build (where applicable).
 check:
 
 # Bump deps to latest compatible. Touches lockfiles.

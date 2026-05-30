@@ -19,6 +19,7 @@ Workflows in `.github/workflows/*.yaml` call **only `just <recipe>`**. Never `ru
 | `just lint`             | Static analysis only (no build)              | all                                                 |
 | `just check`            | Full CI gate (lint + build where applicable) | all                                                 |
 | `just test`             | Test suite                                   | `python-lib`, `rust-cli`                            |
+| `just audit`            | Scan deps for known vulns                    | all                                                 |
 | `just update`           | Bump deps                                    | all                                                 |
 | `just build`            | Production build                             | `next-site`, `rust-cli`, `shared-pkg`               |
 | `just dev`              | Local dev server                             | `next-site`                                         |

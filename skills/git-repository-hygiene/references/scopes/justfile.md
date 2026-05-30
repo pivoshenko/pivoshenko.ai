@@ -23,12 +23,12 @@ No tokens. Recipe presence is what matters; bodies are user-authored.
 
 ## Stack matrix
 
-| Stack tag    | Applies? | Required recipes                                            |
-| ------------ | -------- | ----------------------------------------------------------- |
-| `python-lib` | yes      | install, format, lint, check, test, update                  |
-| `rust-cli`   | yes      | install, format, lint, check, test, build, update, release  |
-| `next-site`  | yes      | install, dev, format, lint, check, build, start, update     |
-| `shared-pkg` | yes      | install, format, lint, check, build, update, release        |
+| Stack tag    | Applies? | Required recipes                                                         |
+| ------------ | -------- | ------------------------------------------------------------------------ |
+| `python-lib` | yes      | install, format, lint, check, test, audit, update                        |
+| `rust-cli`   | yes      | install, format, lint, check, test, audit, build, update, release        |
+| `next-site`  | yes      | install, dev, format, lint, check, audit, build, start, update           |
+| `shared-pkg` | yes      | install, format, lint, check, audit, build, update, release              |
 
 Archetype `puzzles`: `release` is never required. Required set collapses to `install` (if non-trivial), `format`, `lint`, `test`, `update`. Bespoke recipes (e.g. `just day 1`) are expected and welcome.
 
