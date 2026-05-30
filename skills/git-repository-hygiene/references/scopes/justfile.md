@@ -1,6 +1,6 @@
 <!--
 === Scope: justfile ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own the just-recipe vocabulary across every variant. CI calls only `just <recipe>`.
 Read-when: scope=justfile is invoked; or when the user asks about just recipes, task runner, or CI -> recipe mapping.
 === end ===

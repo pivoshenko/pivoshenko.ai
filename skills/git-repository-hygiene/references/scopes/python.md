@@ -1,6 +1,6 @@
 <!--
 === Scope: python ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own pyproject.toml (canonical sections), .python-version, src-layout convention.
 Read-when: scope=python is invoked; or when the user asks about pyproject, ruff, ty, pytest, uv, or Python project layout.
 === end ===

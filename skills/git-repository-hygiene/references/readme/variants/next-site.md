@@ -1,6 +1,6 @@
 <!--
 === Variant: next-site ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  README rules and template for Next.js site repositories (deploy targets, not products).
 Read-when: Writing or auditing a README in a repository tagged `next-site`.
 === end ===

@@ -1,6 +1,6 @@
 <!--
 === Scope: workflows ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Sole owner of .github/workflows/*.yaml across every scope. Enforce action pin table + CI contract.
 Read-when: scope=workflows is invoked; or when the user asks about GitHub Actions, CI, release workflows, or action version pinning.
 === end ===

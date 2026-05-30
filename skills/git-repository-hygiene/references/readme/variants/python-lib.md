@@ -1,6 +1,6 @@
 <!--
 === Variant: python-lib ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  README rules and hero template for python library repositories.
 Read-when: Writing or auditing a README in a repository tagged `python-lib`.
 === end ===

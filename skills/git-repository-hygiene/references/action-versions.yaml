@@ -1,5 +1,5 @@
 # === action-versions ===
-# Audience: agents and humans applying the repository-hygiene standard.
+# Audience: agents and humans applying the git-repository-hygiene standard.
 # Purpose:  Pinned GitHub Action versions; single source of truth for the workflows scope.
 # Read-when: Composing or auditing `.github/workflows/*.yaml`, bumping an action version across repositories.
 # === end ===

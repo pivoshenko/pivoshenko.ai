@@ -1,6 +1,6 @@
 <!--
 === Scope: readme ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Govern README.md — hero, badges, section order, voice — per variant.
 Read-when: scope=readme is invoked; or when the user asks about README, hero, badges, or sections.
 === end ===

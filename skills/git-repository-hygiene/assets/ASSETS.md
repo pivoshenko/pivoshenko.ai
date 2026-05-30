@@ -1,6 +1,6 @@
 <!--
 === assets/ASSETS.md ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Documents canonical JSON assets that cannot carry inline comments.
 Read-when: applying the next, shared-pkg, or any JSON-based scope; auditing JSON asset drift.
 === end ===

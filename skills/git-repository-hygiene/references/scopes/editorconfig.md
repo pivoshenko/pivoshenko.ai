@@ -1,6 +1,6 @@
 <!--
 === Scope: editorconfig ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own a single .editorconfig at repository root for every code-bearing variant.
 Read-when: scope=editorconfig is invoked; or when the user asks about indentation, line endings, trailing whitespace, or EOL rules.
 === end ===

@@ -1,6 +1,6 @@
 <!--
 === Stacks ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Define the stack tag taxonomy, composite-detection rules, and subpath handling so scopes can be routed per repository.
 Read-when: Classifying a repository, deciding which scopes apply.
 === end ===

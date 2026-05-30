@@ -1,6 +1,6 @@
 <!--
 === Canonical README structure ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Define the reader-funnel section order and the rules for each section of a README.
 Read-when: Writing or auditing a README, or when a variant doc defers to "see structure.md".
 === end ===

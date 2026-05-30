@@ -1,6 +1,6 @@
 <!--
 === Scope: github-meta ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own repository settings via gh api (merge methods, default branch, feature toggles).
 Read-when: scope=github-meta is invoked; or when the user asks about squash merge, default branch, or repository settings.
 === end ===

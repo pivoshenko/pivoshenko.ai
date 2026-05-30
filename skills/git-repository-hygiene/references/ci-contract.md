@@ -1,6 +1,6 @@
 <!--
 === CI contract ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Define the recipe-based CI contract — workflows call `just <recipe>` only, tool swaps stay invisible to CI.
 Read-when: Writing or auditing `.github/workflows/`, adding a new recipe, or touching the `workflows` / `justfile` scopes.
 === end ===

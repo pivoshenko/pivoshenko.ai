@@ -1,6 +1,6 @@
 <!--
 === Variant: shared-pkg ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  README rules for shared TS packages distributed via git tag (no publish workflow).
 Read-when: Writing or auditing a README in a repository tagged `shared-pkg`.
 === end ===

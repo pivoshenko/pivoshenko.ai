@@ -1,6 +1,6 @@
 <!--
 === Scope: issue-templates ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own issue forms + PR template under .github/.
 Read-when: scope=issue-templates is invoked; or when the user asks about issue forms, PR template, or .github/ISSUE_TEMPLATE setup.
 === end ===

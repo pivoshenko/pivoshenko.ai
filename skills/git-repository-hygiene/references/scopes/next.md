@@ -1,6 +1,6 @@
 <!--
 === Scope: next ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own Next.js + shared-pkg manifests, lint/format config, Vercel config.
 Read-when: scope=next is invoked; or when the user asks about package.json, biome, next.config, tsconfig, vercel.json, or pnpm engines.
 === end ===

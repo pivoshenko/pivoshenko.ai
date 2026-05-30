@@ -1,6 +1,6 @@
 <!--
 === Scope: release ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own declarative release config (cliff.toml) + CHANGELOG.md presence. v1 is declarative-only; execution lives in workflows + just release.
 Read-when: scope=release is invoked; or when the user asks about cliff, changelog, semver, tagging, PyPI/crates.io publish, or release strategy.
 === end ===

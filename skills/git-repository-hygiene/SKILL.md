@@ -1,7 +1,7 @@
 ---
-name: repository-hygiene
+name: git-repository-hygiene
 description: Personal wiki of canonical repository conventions (README, editorconfig, labels, justfile, language configs, CI, release, GitHub meta) + a scaffolder that drops canonical files into a target repository on request. Use when the user says "what's my canonical justfile / README / gitignore / workflow", "remind me how I structure Y", "show me my standard for Z", "look up our convention for ...", "bring this repository up to standard", "bootstrap a new project", "add CI", "set up labels", "scaffold a fresh python lib", "drop in CONTRIBUTING / SECURITY / CODE_OF_CONDUCT", "set up release pipeline", "fix my readme", or anything that touches the structural / configurational / conventional layer of a repository.
-tags: [hygiene, standard, wiki, reference, meta, github, devops]
+tags: [git, hygiene, standard, wiki, reference, meta, github, devops]
 updated_at: 2026-05-30
 ---
 

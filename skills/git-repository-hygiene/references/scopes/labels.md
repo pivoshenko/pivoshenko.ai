@@ -1,6 +1,6 @@
 <!--
 === Scope: labels ===
-Audience: agents and humans applying the repository-hygiene standard.
+Audience: agents and humans applying the git-repository-hygiene standard.
 Purpose:  Own GitHub issue labels + the sync workflow that mirrors them from yaml.
 Read-when: scope=labels is invoked; or when the user asks about issue labels, triage namespaces, or the labeler workflow.
 === end ===
