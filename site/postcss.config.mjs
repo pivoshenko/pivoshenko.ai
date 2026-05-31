@@ -1,7 +1,1 @@
-export default {
-  plugins: {
-    'postcss-import': {},
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
+export { default } from 'pivoshenko.ui/postcss.config.mjs'

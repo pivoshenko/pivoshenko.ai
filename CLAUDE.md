@@ -55,4 +55,4 @@ None for `site/`. `@vercel/analytics` is wired via the Vercel integration. No ot
 
 - Run `just check` from the repo root before committing. Biome check + Next build. Both must pass.
 - Server components by default. Add `'use client'` only when a component actually needs hooks/state/event handlers (e.g. `theme-toggle.tsx`, `back-to-top.tsx`, `catalog.tsx`).
-- Match brand tokens from `pivoshenko-brand/references/brand-system.md` — stone neutrals for UI, `morok` colors only as accents.
+- Match brand tokens from `pivoshenko-brand/references/brand-system.md` — role-based classes from `pivoshenko.ui/tailwind-preset` (`bg-bg-canvas`, `text-fg-default`, `text-accent-*`). No raw `stone-*` or `dark:` chains — single dark theme (`popil`), set via `data-flavor="popil"` on `<html>`.

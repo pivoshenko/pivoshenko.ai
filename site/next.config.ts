@@ -1,8 +1,1 @@
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  transpilePackages: ['pivoshenko.ui'],
-}
-
-export default nextConfig
+export { baseNextConfig as default } from 'pivoshenko.ui/next/config'

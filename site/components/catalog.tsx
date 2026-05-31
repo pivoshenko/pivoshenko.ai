@@ -210,7 +210,7 @@ function SkillCard({
   const path = `${skill.sourceLabel}/skills/${skill.slug}`
   const href = `${skill.source}/tree/main/skills/${skill.slug}`
   return (
-    <article className="rounded border border-ui bg-white dark:bg-stone-950 overflow-hidden flex flex-col">
+    <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-3 border-b border-faint space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
@@ -253,7 +253,7 @@ function McpCard({
   const path = `${mcp.sourceLabel}/mcps/${mcp.name}.json`
   const href = `${mcp.source}/tree/main/mcps/${mcp.name}.json`
   return (
-    <article className="rounded border border-ui bg-white dark:bg-stone-950 overflow-hidden flex flex-col">
+    <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-2.5 border-b border-faint flex items-center gap-2 flex-wrap">
         <span
@@ -298,7 +298,7 @@ function ExternalGroups({
       {Array.from(grouped.entries()).map(([source, list]) => (
         <article
           key={source}
-          className="rounded border border-ui bg-white dark:bg-stone-950 overflow-hidden"
+          className="rounded border border-ui bg-bg-surface overflow-hidden"
         >
           <a
             href={`https://github.com/${source}`}
