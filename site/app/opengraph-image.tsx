@@ -27,7 +27,7 @@ export default async function OpengraphImage() {
       }}
     >
       <div style={{ display: 'flex', fontSize: 28, color: '#8a8a85' }}>
-        pivoshenko.dev
+        pivoshenko.ai
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <div

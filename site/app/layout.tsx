@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'pivoshenko.ai',
-    description: 'Curated AI skills and MCPs.',
+    description: 'Curated AI skills and MCPs',
   },
 }
 
