@@ -20,10 +20,10 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 ## Site stack
 
 - Next.js 16 (App Router, Turbopack), React 19, Tailwind 3, Biome (no eslint/prettier).
-- JetBrains Mono via `next/font/google` (both `sans` and `mono`). `next-themes` for dark/light with `class` strategy.
+- JetBrains Mono via `next/font/google` loaded inside the shared `SiteLayout`. Single dark theme (`popil`) — light mode and `next-themes` were removed.
 - Data loaded server-side from parent filesystem in `site/lib/data.ts`; types shared via `import type` only so client bundle stays lean.
 - Tag derivation for external skills/MCPs lives in `site/lib/external-tags.ts` (three explicit maps: `SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`). Local skills use frontmatter `tags:` as source of truth and fall back to the maps.
-- Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, plus components like `TagButton` and `IconButton`. The whole chrome (`Nav`, `Footer`, `ThemeToggle`, `ScrollToTop`) is composed via `<PageShell brand="pivoshenko.ai">` in `site/app/layout.tsx` — there are no local copies. See parent `me/CLAUDE.md` for the cross-cutting pattern and the shared UI invariant.
+- Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset/site`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, `pivoshenko.ui/next/config`, `pivoshenko.ui/postcss.config.mjs`, plus components like `TagButton` and `IconButton`. The whole shell is composed via `<SiteLayout brand="pivoshenko.ai">` (from `pivoshenko.ui/next/site-layout`) which owns `<html>`, `<body>`, JetBrains-Mono font loading, `<PageShell>`, and `<Analytics />`. `app/icon.tsx` + `app/opengraph-image.tsx` re-export the shared handlers from `pivoshenko.ui/next/{icon,opengraph-image}`. See parent `me/CLAUDE.md` for the cross-cutting pattern and the shared UI invariant.
 
 ## Tagging rules
 
