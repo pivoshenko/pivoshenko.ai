@@ -21,13 +21,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://ai.pivoshenko.dev',
     siteName: 'pivoshenko.ai',
-    title: 'pivoshenko.ai',
+    title: 'AI Workspace',
     description: 'Curated AI skills and MCPs',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'pivoshenko.ai',
+    title: 'AI Workspace',
     description: 'Curated AI skills and MCPs',
   },
 }
