@@ -1,7 +1,0 @@
-# === ISSUE_TEMPLATE/config.yaml ===
-# Purpose:  Lands at `.github/ISSUE_TEMPLATE/config.yaml`. Disables blank issues — forces use of the bug / feature / docs templates.
-# Tokens:   none
-# Override: Add `contact_links:` entries pointing at Discussions, Discord, or a security policy. Do not flip `blank_issues_enabled` to true.
-# === end ===
-
-blank_issues_enabled: false
