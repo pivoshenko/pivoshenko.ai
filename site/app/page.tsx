@@ -15,8 +15,6 @@ export default function HomePage() {
           Curated AI skills and MCPs, synced via{' '}
           <a
             href="https://kasetto.dev"
-            className="underline decoration-[#b89cdc]/40 hover:decoration-[#b89cdc] underline-offset-2 transition-colors"
-            style={{ color: '#b89cdc' }}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -25,7 +23,6 @@ export default function HomePage() {
           . Config and source live on{' '}
           <a
             href="https://github.com/pivoshenko/pivoshenko.ai"
-            className="underline decoration-current/40 hover:decoration-current underline-offset-2 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
