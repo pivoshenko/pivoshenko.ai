@@ -44,6 +44,16 @@ skills:
     skills:
       - caveman
 
+  - source: https://github.com/fastapi/fastapi
+    sub-dir: fastapi/.agents/skills
+    skills:
+      - fastapi
+
+  - source: https://github.com/pydantic/skills
+    sub-dir: skills
+    skills:
+      - building-pydantic-ai-agents
+
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     mcps:

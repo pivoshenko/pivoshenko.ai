@@ -13,12 +13,15 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'rust-best-practices': ['rust'],
   'grill-me': ['mode'],
   caveman: ['mode'],
+  fastapi: ['python', 'api'],
+  'building-pydantic-ai-agents': ['ai'],
 }
 
 export const SOURCE_TAGS: Record<string, string[]> = {
   'vercel-labs/next-skills': ['nextjs'],
   'vercel-labs/agent-skills': ['vercel'],
   'ferdinandobons/startup-skill': ['startup'],
+  'pydantic/skills': ['python'],
 }
 
 export const MCP_TAGS: Record<string, string[]> = {
