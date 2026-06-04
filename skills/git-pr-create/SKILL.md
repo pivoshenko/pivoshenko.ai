@@ -2,7 +2,7 @@
 name: git-pr-create
 description: Create a GitHub pull request using `gh` with a conventional title and a structured body. Use when the user asks to create a PR, open a pull request, /git-pr-create, or ship the current branch. Also trigger on "ship this", "raise a PR", "send for review", "open a pull request for this branch", "let's merge this", or whenever the user signals work on a feature branch is ready for review. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-05-31
+updated_at: 2026-06-04
 ---
 
 # Create PR
@@ -22,9 +22,14 @@ Open GitHub PR for current branch. No confirm.
 4. Read **all** branch commits (not just latest). Draft title + body.
    - Template found -> fill that template's structure (preserve headings, checklist items, comment placeholders).
    - No template -> use [fallback body](#fallback-body-template) below.
-5. Heredoc body so markdown survives shell:
+5. Derive labels (always pass `--label`):
+   - Map title `<type>` -> label: `feat`->`enhancement`, `fix`->`bug`, `docs`->`documentation`, `test`->`tests`, `perf`->`performance`, `refactor`->`refactor`, `build`->`build`, `ci`->`ci`, `chore`->`chore`.
+   - Breaking change in commits/body -> add `breaking-change`.
+   - Verify labels exist: `gh label list --json name -q '.[].name'`. Drop any missing; never auto-create.
+   - At least 1 label required -> if all dropped, fall back to `chore`. If `chore` also missing, surface to user and stop.
+6. Heredoc body so markdown survives shell:
    ```bash
-   gh pr create --title "feat(auth): add oauth login flow" --body "$(cat <<'EOF'
+   gh pr create --title "feat(auth): add oauth login flow" --label enhancement --body "$(cat <<'EOF'
    # Pull Request Checklist
 
    <!-- Resolves: #123 -->
@@ -42,7 +47,7 @@ Open GitHub PR for current branch. No confirm.
    )"
    ```
    `'EOF'` quoted -> no shell interpolation.
-6. Print PR URL.
+7. Print PR URL.
 
 ## Title
 
@@ -103,5 +108,5 @@ Use when no repo template exists:
 - Never force-push here.
 - Never `--no-verify` unless asked. Why -> pre-push hooks gate CI and secret scans; skipping ships broken code.
 - Push or PR-create fail -> surface + fix root cause. No blind retry.
-- No reviewers / labels / assignees unless asked.
+- Always add at least one label (mapped from title `<type>`, verified to exist via `gh label list`). No reviewers / assignees unless asked.
 - No "Generated with Claude Code" / co-author trailers unless asked.
