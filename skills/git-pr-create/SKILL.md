@@ -1,6 +1,6 @@
 ---
 name: git-pr-create
-description: Create a GitHub pull request using `gh` with a conventional title and a structured body. Use when the user asks to create a PR, open a pull request, /git-pr-create, or ship the current branch. Also trigger on "ship this", "raise a PR", "send for review", "open a pull request for this branch", "let's merge this", or whenever the user signals work on a feature branch is ready for review. Pushes the branch and opens the PR immediately without asking for confirmation.
+description: Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. ALWAYS invoke this skill for ANY PR-creation request, no matter how short or casual. Trigger on every phrasing: "create a PR", "open a PR", "make a PR", "raise a PR", "PR this", "PR please", "let's PR", "send PR", "/git-pr-create", "push and open a PR", "open pull request", "ship this", "ship it", "send for review", "ready for review", "let's merge this", "submit this", "publish this branch", "open a pull request for this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. Do NOT call `gh pr create` directly — this skill owns the entire flow (push, label derivation, title format, body template, safety rules). Even when the request looks like a trivial one-liner, prefer this skill over a raw `gh` call. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
 updated_at: 2026-06-04
 ---
@@ -108,5 +108,6 @@ Use when no repo template exists:
 - Never force-push here.
 - Never `--no-verify` unless asked. Why -> pre-push hooks gate CI and secret scans; skipping ships broken code.
 - Push or PR-create fail -> surface + fix root cause. No blind retry.
-- Always add at least one label (mapped from title `<type>`, verified to exist via `gh label list`). No reviewers / assignees unless asked.
+- Always add at least one label (mapped from title `<type>`, verified to exist via `gh label list`). Multi-word labels -> quote: `--label "needs review"`. No reviewers / assignees unless asked.
+- Open as ready-for-review (no `--draft`) unless user explicitly asks for a draft PR.
 - No "Generated with Claude Code" / co-author trailers unless asked.

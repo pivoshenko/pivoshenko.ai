@@ -2,7 +2,7 @@
 name: git-commit
 description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-30
+updated_at: 2026-06-04
 ---
 
 # Commit
@@ -15,7 +15,7 @@ Conventional commit. No confirm. No dry-run.
 2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets.
 3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`.
 4. Read diff -> one commit or many (see **Atomic**) -> write msg.
-5. Commit now. Many groups + already mass-staged -> `git reset` to unstage, then stage+commit per group. Loop til clean.
+5. Commit now. Many groups + already mass-staged -> `git restore --staged .` to unstage (modern idiom; `git reset HEAD` also fine), then stage+commit per group. Loop til clean.
 6. Print hash + one-liner per commit.
 
 ## Atomic

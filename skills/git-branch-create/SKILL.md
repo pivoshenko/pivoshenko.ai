@@ -2,7 +2,7 @@
 name: git-branch-create
 description: Create a new git branch using a conventional naming scheme. Use when the user asks to create a branch, start a new branch, /git-branch-create, or begin work on a feature/fix. Also trigger on "start work on X", "spin up a branch for Y", "new ticket", "let's start Z", or whenever the user signals they're beginning a discrete new piece of work. Creates and checks out the branch immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-30
+updated_at: 2026-06-04
 ---
 
 # Create Branch
@@ -15,9 +15,12 @@ Make + checkout new branch. No confirm.
 2. Dirty tree -> stop. Tell user to stash or commit first. Why -> `checkout -b` carries staged + unstaged changes into the new branch silently, mixing them with future work.
 3. Pick base:
    - Default `main`. Fall back `master`.
-   - On feature branch + user wants to branch off it -> use current.
-4. `git fetch origin <base>` + `git checkout -b <name> origin/<base>`.
-5. Print branch + base.
+   - On feature branch + user wants to branch off it -> use current. Skip step 4's fetch; go to step 5 "off current" variant.
+4. Exists? `git show-ref --verify --quiet refs/heads/<name>` -> 0 = stop, surface conflict, no overwrite. Why -> `checkout -b` errors anyway, but check early so message is clean + no half-state.
+5. Create:
+   - Off `<base>` (default): `git fetch origin <base>` + `git checkout -b <name> origin/<base>`.
+   - Off current: `git checkout -b <name>` (no fetch, no remote ref — current HEAD is the base).
+6. Print branch + base.
 
 ## Naming
 

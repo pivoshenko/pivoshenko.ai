@@ -2,7 +2,7 @@
 name: git-branch-sync
 description: Fetch the latest base branch and rebase the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /git-branch-sync. Also trigger on "catch up with main", "rebase onto main", "update my branch", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-05-30
+updated_at: 2026-06-04
 ---
 
 # Sync Branch
@@ -28,6 +28,7 @@ Catch current branch up to base. Rebase only. Surface conflicts.
    - Leave stash in place. Tell user to pop after resolve.
 7. Rebase done (clean or aborted) -> pop stash if created.
 8. Print one-liner: branch, base, commits replayed, force-push needed?
+   - 0 commits replayed (already up to date) -> say so explicitly; don't mention force-push (nothing rewritten).
 
 ## Rules
 

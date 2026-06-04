@@ -2,7 +2,7 @@
 name: git-branches-cleanup
 description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /git-branches-cleanup. Also trigger on "tidy git branches", "remove old branches", "I'm done with these branches", "branch graveyard", or whenever the user complains about local branch clutter. Reports what will be deleted and asks before deleting anything.
 tags: [git]
-updated_at: 2026-05-30
+updated_at: 2026-06-04
 ---
 
 # Cleanup Branches
@@ -11,6 +11,7 @@ Prune locals = merged OR remote gone. Destructive -> preview + confirm.
 
 ## Flow
 
+0. If user mentioned keep-patterns inline (e.g. "but keep `spike/*`") -> capture them. Else assume none. Don't prompt up front.
 1. Parallel:
    - `git fetch --all --prune`
    - `git branch --show-current`
@@ -29,7 +30,8 @@ Prune locals = merged OR remote gone. Destructive -> preview + confirm.
    - Union. **Exclude**:
      - current
      - base (`main`/`master`)
-     - protected (e.g. `develop`, `release/*`)
+     - protected: any long-lived branch the repo treats as non-disposable if present (e.g. `develop`, `release/*`, `staging`). Skip silently if none exist.
+     - user keep-patterns from step 0 (if provided).
 4. Print grouped by reason (gone vs merged). Ask confirm.
 5. On confirm:
    - Merged: `git branch -d <name>`.
