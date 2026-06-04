@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Colors · surface scale</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; background: var(--bg-page); }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border-ui); border-radius: 4px; overflow: hidden; }
+  .row + .row { margin-top: 12px; }
+  .swatch { aspect-ratio: 2.4; display: flex; flex-direction: column; justify-content: flex-end; padding: 8px 10px; font-family: var(--font-mono); font-size: 10px; border-right: 1px solid var(--border-ui); color: var(--fg-body); }
+  .swatch:last-child { border-right: 0; }
+  .swatch .name { font-weight: 500; color: var(--fg-primary); }
+  .swatch .hex { opacity: 0.65; }
+</style>
+</head>
+<body>
+  <div class="label">BACKGROUNDS — --bg-canvas → --bg-overlay</div>
+  <div class="row">
+    <div class="swatch" style="background:rgb(var(--bg-canvas))"><span class="name">canvas</span><span class="hex">#1f1f1e</span></div>
+    <div class="swatch" style="background:rgb(var(--bg-surface))"><span class="name">surface</span><span class="hex">#262625</span></div>
+    <div class="swatch" style="background:rgb(var(--bg-raised))"><span class="name">raised</span><span class="hex">#2e2e2c</span></div>
+    <div class="swatch" style="background:rgb(var(--bg-sunken))"><span class="name">sunken</span><span class="hex">#1a1a19</span></div>
+    <div class="swatch" style="background:rgb(var(--bg-overlay))"><span class="name">overlay</span><span class="hex">#57534e</span></div>
+  </div>
+  <div class="label" style="margin-top:14px">FOREGROUNDS — --fg-default → --fg-faint</div>
+  <div class="row" style="grid-template-columns: repeat(4, 1fr)">
+    <div class="swatch" style="background:rgb(var(--fg-default)); color:rgb(var(--bg-canvas))"><span class="name" style="color:rgb(var(--bg-canvas))">default</span><span class="hex" style="color:rgb(var(--bg-canvas))">#e4e2de</span></div>
+    <div class="swatch" style="background:rgb(var(--fg-muted)); color:rgb(var(--bg-canvas))"><span class="name" style="color:rgb(var(--bg-canvas))">muted</span><span class="hex" style="color:rgb(var(--bg-canvas))">#b8b3a8</span></div>
+    <div class="swatch" style="background:rgb(var(--fg-subtle)); color:rgb(var(--bg-canvas))"><span class="name" style="color:rgb(var(--bg-canvas))">subtle</span><span class="hex" style="color:rgb(var(--bg-canvas))">#9b958a</span></div>
+    <div class="swatch" style="background:rgb(var(--fg-faint)); color:rgb(var(--fg-default))"><span class="name" style="color:rgb(var(--fg-default))">faint</span><span class="hex" style="color:rgb(var(--fg-default))">#78716c</span></div>
+  </div>
+  <div class="label" style="margin-top:14px">BORDERS — --border-subtle → --border-strong</div>
+  <div class="row" style="grid-template-columns: repeat(3, 1fr)">
+    <div class="swatch" style="background:rgb(var(--border-subtle))"><span class="name">subtle</span><span class="hex">#262625</span></div>
+    <div class="swatch" style="background:rgb(var(--border-default))"><span class="name">default</span><span class="hex">#2e2e2c</span></div>
+    <div class="swatch" style="background:rgb(var(--border-strong))"><span class="name">strong</span><span class="hex">#373634</span></div>
+  </div>
+</body>
+</html>

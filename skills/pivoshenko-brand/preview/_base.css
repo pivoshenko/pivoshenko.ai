@@ -1,8 +1,7 @@
 /* Shared base for preview cards */
 @import url("../colors_and_type.css");
 
-html,
-body {
+html, body {
   height: 100%;
   background: var(--bg-page);
 }
@@ -18,57 +17,22 @@ body {
   background: var(--bg-card);
   border-radius: 4px;
 }
-.row {
-  display: flex;
-}
-.col {
-  display: flex;
-  flex-direction: column;
-}
-.gap-1 {
-  gap: 4px;
-}
-.gap-2 {
-  gap: 8px;
-}
-.gap-3 {
-  gap: 12px;
-}
-.gap-4 {
-  gap: 16px;
-}
-.gap-5 {
-  gap: 20px;
-}
-.gap-6 {
-  gap: 24px;
-}
-.gap-8 {
-  gap: 32px;
-}
-.items-center {
-  align-items: center;
-}
-.items-baseline {
-  align-items: baseline;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.wrap {
-  flex-wrap: wrap;
-}
-.flex-1 {
-  flex: 1;
-}
-.shrink-0 {
-  flex-shrink: 0;
-}
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
+.row { display: flex; }
+.col { display: flex; flex-direction: column; }
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-5 { gap: 20px; }
+.gap-6 { gap: 24px; }
+.gap-8 { gap: 32px; }
+.items-center { align-items: center; }
+.items-baseline { align-items: baseline; }
+.justify-between { justify-content: space-between; }
+.wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.shrink-0 { flex-shrink: 0; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
 
 /* arrow glyphs */
-.glyph {
-  font-feature-settings: "ss01" on;
-}
+.glyph { font-feature-settings: "ss01" on; }

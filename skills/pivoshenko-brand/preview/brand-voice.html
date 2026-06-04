@@ -1,67 +1,34 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Brand · Voice samples</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 22px 28px;
-        background: #000;
-        color: var(--stone-100);
-      }
-      .label {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--stone-500);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 10px;
-      }
-      blockquote {
-        margin: 0;
-        padding: 0 0 0 14px;
-        border-left: 1px solid var(--stone-700);
-        color: var(--stone-300);
-        font-size: 13px;
-        line-height: 1.55;
-      }
-      blockquote + .label {
-        margin-top: 14px;
-      }
-      .meta {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--stone-500);
-        margin-top: 8px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="label">VOICE — verbatim, from the engineer's blog</div>
-    <blockquote>
-      Need code? AI can generate it.<br />
-      Need UI drafts? AI can produce ten in minutes.<br />
-      Need tests, docs, PR summaries? Same story.
-    </blockquote>
-    <div class="meta">Short declarative · short declarative · counterpunch. No em-dashes for drama.</div>
-    <div class="label" style="margin-top: 16px">MICROCOPY — patterns to reuse</div>
-    <div
-      style="
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px 24px;
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--stone-300);
-      "
-    >
-      <span>All posts →</span>
-      <span>← Blog</span>
-      <span>github ↗</span>
-      <span>No posts yet.</span>
-      <span>Mar 20, 2026 · 5 min read</span>
-      <span>contact@pivoshenko.dev</span>
-    </div>
-  </body>
+<head>
+<meta charset="utf-8"/>
+<title>Brand · Voice samples</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 22px 28px; background: var(--bg-page); color: var(--fg-primary); }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  blockquote { margin: 0; padding: 0 0 0 14px; border-left: 1px solid var(--border-strong-c, var(--border-ui)); color: var(--fg-secondary); font-size: 13px; line-height: 1.55; }
+  blockquote + .label { margin-top: 14px; }
+  .meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); margin-top: 8px; }
+  .micro { display:grid; grid-template-columns: repeat(2, 1fr); gap: 6px 24px; font-family: var(--font-mono); font-size: 13px; color: var(--fg-secondary); }
+</style>
+</head>
+<body>
+  <div class="label">VOICE — verbatim, from the engineer's blog</div>
+  <blockquote>
+    Need code? AI can generate it.<br/>
+    Need UI drafts? AI can produce ten in minutes.<br/>
+    Need tests, docs, PR summaries? Same story.
+  </blockquote>
+  <div class="meta">Short declarative · short declarative · counterpunch. No em-dashes for drama.</div>
+  <div class="label" style="margin-top: 16px">MICROCOPY — patterns to reuse</div>
+  <div class="micro">
+    <span>All posts →</span>
+    <span>← Blog</span>
+    <span>github ↗</span>
+    <span>No posts yet.</span>
+    <span>Mar 20, 2026 · 5 min read</span>
+    <span>contact@pivoshenko.dev</span>
+  </div>
+</body>
 </html>

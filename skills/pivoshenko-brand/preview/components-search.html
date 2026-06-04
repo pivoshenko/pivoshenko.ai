@@ -1,177 +1,93 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Components · Search</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
+<head>
+<meta charset="utf-8"/>
+<title>Components · Search</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 0; display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-page); min-height: 100%; }
+  .pane { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+  .pane + .pane { border-left: 1px solid var(--border-ui); }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; }
 
-      /* --- Inline search field --- */
-      .search {
-        position: relative;
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        background: var(--bg-card);
-        height: 36px;
-        padding: 0 10px 0 30px;
-      }
-      .search > svg.lead {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 14px;
-        height: 14px;
-        color: var(--fg-muted);
-        pointer-events: none;
-      }
-      .search input {
-        flex: 1;
-        background: transparent;
-        border: 0;
-        outline: 0;
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--fg-primary);
-        padding: 0;
-      }
-      .search input::placeholder {
-        color: var(--fg-muted);
-      }
+  /* --- Inline search field --- */
+  .search {
+    position: relative;
+    display: flex; align-items: center;
+    border: 1px solid var(--border-ui);
+    border-radius: 4px;
+    background: var(--bg-card);
+    height: 36px;
+    padding: 0 10px 0 30px;
+  }
+  .search > svg.lead {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px; color: var(--fg-muted-c); pointer-events: none;
+  }
+  .search input {
+    flex: 1; background: transparent; border: 0; outline: 0;
+    font-family: var(--font-mono); font-size: 13px; color: var(--fg-primary);
+    padding: 0;
+  }
+  .search input::placeholder { color: var(--fg-muted-c); }
 
-      /* Trailing affordances on the right */
-      .search .trail {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--fg-muted);
-      }
-      .search .clear {
-        width: 18px;
-        height: 18px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--fg-muted);
-        cursor: pointer;
-        background: transparent;
-        border: 0;
-        padding: 0;
-      }
-      .search .clear:hover {
-        color: var(--fg-secondary);
-      }
+  .search .trail { display: inline-flex; align-items: center; gap: 6px; color: var(--fg-muted-c); }
+  .search .clear {
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--fg-muted-c); cursor: pointer;
+    background: transparent; border: 0; padding: 0;
+  }
+  .search .clear:hover { color: var(--fg-secondary); }
 
-      /* Focus variant */
-      .search.focused {
-        border-color: var(--deco-subtle);
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
+  .search.focused { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-      /* kbd hint */
-      kbd {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        background: var(--bg-tag);
-        color: var(--fg-subtle);
-        border: 1px solid var(--border-ui);
-        border-radius: 3px;
-        padding: 1px 5px;
-        line-height: 1;
-      }
+  kbd {
+    font-family: var(--font-mono); font-size: 11px;
+    background: var(--bg-elevated); color: var(--fg-muted-c);
+    border: 1px solid var(--border-ui);
+    border-radius: 3px;
+    padding: 1px 5px; line-height: 1;
+  }
 
-      /* --- Result dropdown --- */
-      .results {
-        margin-top: 6px;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        background: var(--bg-card);
-        overflow: hidden;
-      }
-      .res-group-label {
-        padding: 6px 12px;
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        border-bottom: 1px solid var(--border-faint);
-      }
-      .res {
-        display: flex;
-        align-items: baseline;
-        gap: 16px;
-        padding: 8px 12px;
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--fg-secondary);
-        cursor: pointer;
-      }
-      .res + .res {
-        border-top: 1px solid var(--border-faint);
-      }
-      .res .date {
-        width: 56px;
-        flex-shrink: 0;
-        color: var(--fg-muted);
-        font-size: 12px;
-        font-variant-numeric: tabular-nums;
-      }
-      .res mark {
-        background: var(--accent-soft);
-        color: var(--accent);
-        padding: 0 2px;
-        border-radius: 2px;
-      }
-      .res.active {
-        background: var(--bg-tag);
-        color: var(--fg-primary);
-      }
-      .res.active .date {
-        color: var(--fg-subtle);
-      }
+  /* --- Result dropdown --- */
+  .results {
+    margin-top: 6px;
+    border: 1px solid var(--border-ui);
+    border-radius: 4px;
+    background: var(--bg-card);
+    overflow: hidden;
+  }
+  .res-group-label {
+    padding: 6px 12px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border-faint);
+  }
+  .res {
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 8px 12px;
+    font-family: var(--font-mono); font-size: 13px;
+    color: var(--fg-body); cursor: pointer;
+  }
+  .res + .res { border-top: 1px solid var(--border-faint); }
+  .res .date { width: 56px; flex-shrink: 0; color: var(--fg-muted-c); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .res mark { background: var(--accent-soft); color: var(--accent); padding: 0 2px; border-radius: 2px; }
+  .res.active { background: var(--bg-elevated); color: var(--fg-primary); }
+  .res.active .date { color: var(--fg-subtle-c); }
 
-      .empty {
-        padding: 16px 12px;
-        text-align: center;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--fg-subtle);
-      }
-    </style>
-  </head>
-  <body>
+  .empty {
+    padding: 16px 12px; text-align: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted-c);
+  }
+</style>
+</head>
+<body>
+  <div class="pane">
     <div>
       <div class="label">SEARCH — default · placeholder</div>
       <div class="search" style="margin-top: 8px">
-        <svg
-          class="lead"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+        <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" placeholder="search posts…" />
         <span class="trail"><kbd>⌘</kbd><kbd>K</kbd></span>
       </div>
@@ -180,24 +96,10 @@
     <div>
       <div class="label">SEARCH — focused with query, clearable</div>
       <div class="search focused" style="margin-top: 8px">
-        <svg
-          class="lead"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+        <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" value="tailscale" />
         <button class="clear" aria-label="Clear">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       <div class="results">
@@ -212,28 +114,16 @@
         </div>
       </div>
     </div>
+  </div>
 
+  <div class="pane">
     <div>
       <div class="label">EMPTY RESULTS — sentence, not illustrated</div>
       <div class="search" style="margin-top: 8px">
-        <svg
-          class="lead"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+        <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" value="kubernetes" readonly />
         <button class="clear" aria-label="Clear">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       <div class="results">
@@ -244,33 +134,19 @@
     <div>
       <div class="label">COMMAND PALETTE — full ⌘K pattern, single command + section labels</div>
       <div class="results" style="margin-top: 8px">
-        <div
-          class="search"
-          style="border: 0; border-bottom: 1px solid var(--border-ui); border-radius: 0; background: transparent"
-        >
-          <svg
-            class="lead"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
+        <div class="search" style="border: 0; border-bottom: 1px solid var(--border-ui); border-radius: 0; background: transparent">
+          <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" value="theme" />
           <span class="trail"><kbd>Esc</kbd></span>
         </div>
         <div class="res-group-label">COMMANDS</div>
         <div class="res active">
           <span class="date">⏎</span>
-          <span>Toggle <mark>theme</mark> · light / dark / auto</span>
+          <span>Open <mark>theme</mark> showcase</span>
         </div>
         <div class="res">
           <span class="date">⏎</span>
-          <span>Open <mark>theme</mark> showcase</span>
+          <span>Copy <mark>theme</mark> palette JSON</span>
         </div>
         <div class="res-group-label">POSTS · 1</div>
         <div class="res">
@@ -279,5 +155,6 @@
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

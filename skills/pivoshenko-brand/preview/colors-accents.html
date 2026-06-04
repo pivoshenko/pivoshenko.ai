@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Colors · accents</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; background: var(--bg-page); }
+  .label { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .ramp { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--border-ui); border-radius: 4px; overflow: hidden; }
+  .swatch { aspect-ratio: 0.85; display: flex; flex-direction: column; justify-content: flex-end; padding: 8px 8px; font-family: var(--font-mono); font-size: 10px; color: rgb(var(--bg-canvas)); border-right: 1px solid rgb(0 0 0 / 0.18); }
+  .swatch:last-child { border-right: 0; }
+  .swatch .name { font-weight: 600; }
+  .swatch .hex { opacity: 0.8; margin-top: 2px; }
+  .note { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); margin-top: 12px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="label">ACCENTS — 6 semantic roles · single accent at a time</div>
+  <div class="ramp">
+    <div class="swatch" style="background:rgb(var(--accent-primary))"><span class="name">primary</span><span class="hex">#d97757</span></div>
+    <div class="swatch" style="background:rgb(var(--accent-secondary))"><span class="name">secondary</span><span class="hex">#d4a85a</span></div>
+    <div class="swatch" style="background:rgb(var(--accent-success))"><span class="name">success</span><span class="hex">#8a9d68</span></div>
+    <div class="swatch" style="background:rgb(var(--accent-warning))"><span class="name">warning</span><span class="hex">#d4a85a</span></div>
+    <div class="swatch" style="background:rgb(var(--accent-danger))"><span class="name">danger</span><span class="hex">#c87a72</span></div>
+    <div class="swatch" style="background:rgb(var(--accent-info))"><span class="name">info</span><span class="hex">#7ba0c4</span></div>
+  </div>
+  <p class="note">--accent-primary is the single brand accent — link underline, active dot, focus ring. The rest map to status roles. Never used as a button fill.</p>
+</body>
+</html>

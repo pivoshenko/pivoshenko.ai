@@ -1,64 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Brand · Logo & Wordmark</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        justify-content: center;
-      }
-      .mark {
-        width: 44px;
-        height: 44px;
-        background: var(--fg-primary);
-        color: var(--bg-card);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-mono);
-        font-weight: 700;
-        font-size: 23px;
-        letter-spacing: -0.7px;
-      }
-      .mark.inverted {
-        background: var(--bg-card);
-        color: var(--fg-primary);
-        border: 1px solid var(--border-ui);
-      }
-      .wordmark {
-        font-family: var(--font-mono);
-        font-weight: 600;
-        font-size: 14px;
-        letter-spacing: -0.025em;
-      }
-      .row {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="row">
-      <div class="mark">VP</div>
-      <div class="col gap-1">
-        <span class="wordmark">pivoshenko.theme</span>
-        <span class="type-meta fg-muted">type-logo · JetBrains Mono 14/600</span>
-      </div>
+<head>
+<meta charset="utf-8"/>
+<title>Brand · Logo & Wordmark</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 28px; background: var(--bg-page); display: flex; flex-direction: column; gap: 24px; justify-content: center; min-height: 100%; box-sizing: border-box; }
+  .mark {
+    width: 44px; height: 44px;
+    background: rgb(var(--fg-default)); color: rgb(var(--bg-canvas));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 700; font-size: 23px; letter-spacing: -0.7px;
+    border-radius: 4px;
+  }
+  .wordmark { font-family: var(--font-mono); font-weight: 600; font-size: 14px; letter-spacing: -0.025em; color: var(--fg-primary); }
+  .wordmark .ns { color: var(--fg-muted-c); }
+  .row { display:flex; align-items:center; gap: 14px; }
+  .col { display: flex; flex-direction: column; gap: 4px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="mark">VP</div>
+    <div class="col">
+      <span class="wordmark">pivoshenko<span class="ns">.theme</span></span>
+      <span class="type-meta fg-muted">type-logo · JetBrains Mono 14/600 · dotted lockup</span>
     </div>
-    <div class="type-meta fg-muted">App icon · 32×32 · JetBrains Mono 17/700 · -0.5px</div>
-    <div class="row">
-      <div class="mark inverted">VP</div>
-      <div class="col gap-1">
-        <span class="wordmark">pivoshenko.dev</span>
-        <span class="type-meta fg-muted">Inverted variant — flips with theme</span>
-      </div>
-    </div>
-    <div class="type-meta fg-muted">Wordmark is text, not an asset</div>
-  </body>
+  </div>
+  <div class="col">
+    <span class="type-meta fg-muted">App icon · 32×32 · JetBrains Mono 17/700 · -0.5px tracking</span>
+    <span class="type-meta fg-muted">Light tile / dark glyph · 4px radius · the only variant</span>
+    <span class="type-meta fg-muted">Wordmark is text, not an asset</span>
+  </div>
+</body>
 </html>

@@ -1,111 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Components · Code</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-      p.prose {
-        font-family: var(--font-mono);
-        font-size: 13px;
-        line-height: 1.7;
-        color: var(--fg-secondary);
-        margin: 0;
-      }
-      code.inline {
-        font-family: var(--font-mono);
-        font-size: 0.875em;
-        font-weight: 400;
-        background: var(--bg-tag);
-        color: var(--fg-primary);
-        padding: 1px 5px;
-        border-radius: 4px;
-      }
-      pre.block {
-        background: var(--bg-tag);
-        color: var(--fg-primary);
-        border: 1px solid var(--border-ui);
-        border-radius: 8px;
-        padding: 12px 14px;
-        margin: 0;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        line-height: 1.6;
-        overflow: auto;
-      }
-      kbd {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        background: var(--bg-tag);
-        color: var(--fg-secondary);
-        border: 1px solid var(--border-ui);
-        border-bottom-width: 2px;
-        border-radius: 3px;
-        padding: 1px 5px;
-      }
-      .keys {
-        display: inline-flex;
-        gap: 4px;
-        align-items: center;
-      }
-      .keys .sep {
-        color: var(--fg-muted);
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <div class="label">INLINE CODE</div>
-      <p class="prose" style="margin-top: 8px">
-        Run <code class="inline">just render</code> from the repository root to regenerate every theme port from
-        <code class="inline">palettes/<flavor>.json</code>.
-      </p>
-    </div>
-    <div>
-      <div class="label">PRE / CODE BLOCK — 8px corners, 1px border</div>
-      <pre class="block">
-$ just render
-✓ rendered dist/ghostty/<flavor>.conf
-✓ rendered dist/helix/<flavor>.toml
-✓ rendered dist/zed/<flavor>.json</pre
-      >
-    </div>
-    <div>
-      <div class="label">PRE / CODE BLOCK — JSON sample</div>
-      <pre class="block" style="margin-top: 8px">
-{
-  "name": "<flavor>",
-  "flavor": "dark",
-  "colors": {
-    "red":   "#c98787",
-    "green": "#8ea98c",
-    "blue":  "#7f98bf"
+<head>
+<meta charset="utf-8"/>
+<title>Components · Code</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 22px; background: var(--bg-page); display: flex; flex-direction: column; gap: 18px; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  p.prose { font-family: var(--font-mono); font-size: 13px; line-height: 1.7; color: var(--fg-body); margin: 0; max-width: 64ch; }
+
+  code.inline {
+    font-family: var(--font-mono); font-size: 0.875em; font-weight: 400;
+    background: var(--bg-elevated); color: var(--fg-primary);
+    padding: 1px 5px; border-radius: 4px;
   }
-}</pre
-      >
+  pre.block {
+    background: var(--bg-elevated); color: var(--fg-primary);
+    border: 1px solid var(--border-ui); border-radius: 8px;
+    padding: 12px 14px; margin: 0;
+    font-family: var(--font-mono); font-size: 12px; line-height: 1.6;
+    overflow: auto;
+  }
+  pre.block .c { color: var(--fg-muted-c); }
+  pre.block .ok { color: var(--status-success-fg); }
+  pre.block .accent { color: var(--accent); }
+  pre.block .str { color: var(--green); }
+  pre.block .key { color: var(--blue); }
+
+  kbd {
+    font-family: var(--font-mono); font-size: 11px;
+    background: var(--bg-elevated); color: var(--fg-secondary);
+    border: 1px solid var(--border-ui); border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+  .keys { display: inline-flex; gap: 4px; align-items: center; }
+  .keys .sep { color: var(--fg-muted-c); }
+</style>
+</head>
+<body>
+  <div>
+    <div class="label">INLINE CODE</div>
+    <p class="prose" style="margin-top: 8px">
+      Run <code class="inline">just render</code> from the repo root to regenerate every theme port from the palette JSON.
+    </p>
+  </div>
+  <div>
+    <div class="label">PRE / CODE BLOCK — 8px corners, 1px border</div>
+    <pre class="block"><span class="c">$</span> just render
+<span class="ok">✓</span> rendered dist/ghostty/theme.conf
+<span class="ok">✓</span> rendered dist/helix/theme.toml
+<span class="ok">✓</span> rendered dist/zed/theme.json</pre>
+  </div>
+  <div>
+    <div class="label">PRE / CODE BLOCK — JSON example</div>
+    <pre class="block">{
+  <span class="key">"colors"</span>: {
+    <span class="key">"red"</span>:   <span class="accent">"#c47060"</span>,
+    <span class="key">"green"</span>: <span class="accent">"#8aa085"</span>,
+    <span class="key">"blue"</span>:  <span class="accent">"#8195b4"</span>
+  }
+}</pre>
+  </div>
+  <div>
+    <div class="label">KEYBOARD KEYS</div>
+    <div class="keys" style="margin-top: 8px">
+      <kbd>⌘</kbd><span class="sep">+</span><kbd>K</kbd>
+      <span style="width: 18px"></span>
+      <kbd>Esc</kbd>
+      <span style="width: 18px"></span>
+      <kbd>↑</kbd><kbd>↓</kbd>
     </div>
-    <div>
-      <div class="label">KEYBOARD KEYS</div>
-      <div class="keys" style="margin-top: 8px">
-        <kbd>⌘</kbd><span class="sep">+</span><kbd>K</kbd>
-        <span style="width: 18px"></span>
-        <kbd>Esc</kbd>
-        <span style="width: 18px"></span>
-        <kbd>↑</kbd><kbd>↓</kbd>
-      </div>
-    </div>
-  </body>
+  </div>
+</body>
 </html>

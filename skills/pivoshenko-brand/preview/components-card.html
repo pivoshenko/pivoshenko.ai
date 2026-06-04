@@ -1,70 +1,27 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Components · Card</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        justify-content: center;
-      }
-      .card {
-        width: 100%;
-      }
-      .head {
-        padding: 10px 12px;
-        border-bottom: 1px solid var(--border-ui);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .body-row {
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .body-row + .body-row {
-        border-top: 1px solid var(--border-faint);
-      }
-      .ic {
-        width: 14px;
-        height: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="head">
-        <svg
-          class="ic"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          style="color: var(--fg-muted)"
-        >
-          <path
-            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
-          />
-        </svg>
-        <span class="type-label fg-muted">DEVELOPMENT</span>
-      </div>
-      <div class="body-row">
-        <span class="type-ui fg-secondary">github</span><span class="type-meta fg-muted">↗</span>
-      </div>
-      <div class="body-row">
-        <span class="type-ui fg-secondary">kaggle</span><span class="type-meta fg-muted">↗</span>
-      </div>
-      <div class="body-row">
-        <span class="type-ui fg-secondary">leetcode</span><span class="type-meta fg-muted">↗</span>
-      </div>
+<head>
+<meta charset="utf-8"/>
+<title>Components · Card</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 24px; background: var(--bg-page); display: grid; grid-template-columns: 280px; justify-content: start; }
+  .card { width: 100%; background: var(--bg-card); border: 1px solid var(--border-ui); border-radius: 4px; overflow: hidden; }
+  .head { padding: 10px 12px; border-bottom: 1px solid var(--border-ui); display: flex; align-items: center; gap: 8px; }
+  .body-row { padding: 8px 12px; display:flex; align-items:center; justify-content: space-between; }
+  .body-row + .body-row { border-top: 1px solid var(--border-faint); }
+  .ic { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--fg-muted-c)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+      <span class="type-label fg-muted">DEVELOPMENT</span>
     </div>
-  </body>
+    <div class="body-row"><span class="type-ui fg-secondary">github</span><span class="type-meta fg-muted">↗</span></div>
+    <div class="body-row"><span class="type-ui fg-secondary">kaggle</span><span class="type-meta fg-muted">↗</span></div>
+    <div class="body-row"><span class="type-ui fg-secondary">leetcode</span><span class="type-meta fg-muted">↗</span></div>
+  </div>
+</body>
 </html>

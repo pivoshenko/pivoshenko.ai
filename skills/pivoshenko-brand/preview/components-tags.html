@@ -5,20 +5,20 @@
 <title>Components · Tag chips</title>
 <link rel="stylesheet" href="_base.css"/>
 <style>
-  body { padding: 24px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+  body { padding: 24px; background: var(--bg-page); display: flex; flex-direction: column; gap: 18px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag {
     font-family: var(--font-mono); font-size: 12px;
     padding: 2px 6px; border-radius: 4px;
-    background: var(--bg-tag); color: var(--fg-muted);
+    background: var(--bg-tag); color: var(--fg-subtle-c);
   }
-  .tag.active { background: var(--bg-tag-active); color: var(--fg-secondary); }
-  .label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-muted); }
+  .tag.active { background: var(--bg-tag-active); color: var(--fg-primary); }
+  .label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-muted-c); margin-bottom: 8px; }
 </style>
 </head>
 <body>
   <div>
-    <div class="label" style="margin-bottom:8px">TAGS — POST CHIPS</div>
+    <div class="label">TAGS — POST CHIPS</div>
     <div class="chips">
       <span class="tag">product</span>
       <span class="tag">product-thinking</span>
@@ -27,14 +27,17 @@
       <span class="tag">engineering</span>
       <span class="tag">distributed-systems</span>
       <span class="tag">tooling</span>
+      <span class="tag">vps</span>
+      <span class="tag">security</span>
       <span class="tag">tailscale</span>
     </div>
   </div>
   <div>
-    <div class="label" style="margin-bottom:8px">TAG · ACTIVE (FILTER)</div>
+    <div class="label">TAG · ACTIVE (FILTER)</div>
     <div class="chips">
       <span class="tag active">product-thinking</span>
-      <span class="tag active">tailscale</span>
+      <span class="tag">ai</span>
+      <span class="tag">tailscale</span>
     </div>
   </div>
 </body>

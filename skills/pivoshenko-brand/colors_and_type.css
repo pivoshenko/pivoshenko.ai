@@ -1,19 +1,153 @@
 /* =============================================================
  * Pivoshenko Design System — Tokens & Utilities
- * Drop‑in CSS for any prototype. Reproduces the brand's
- * type-*, fg-*, and border-ui surface.
+ * Drop-in CSS for any prototype. Reproduces the exact stack
+ * shipped by pivoshenko.ui (the vendored design preset behind
+ * pivoshenko.dev, pivoshenko.theme, pivoshenko.ai,
+ * pivoshenko.startpage, pivoshenko.wallpapers).
+ *
+ * Dark only. There is no light mode. The deployed surfaces
+ * ship `<meta name="theme-color" content="#1f1f1e">` and
+ * never offer a toggle.
+ *
+ * Token-driven: every component reads through semantic tokens
+ * (`--bg-canvas`, `--fg-default`, `--accent-primary`, …) which
+ * resolve to space-separated R G B triples — usable directly
+ * via `rgb(var(--bg-canvas))` or through the named utility
+ * classes below.
+ *
+ * Source of truth for hex values lives in pivoshenko.ui;
+ * regenerate via `just vendor-preset`.
  * ============================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 :root {
-  /* --- Type stack -------------------------------------------- */
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* fallback only — products ship as mono */
+  color-scheme: dark;
 
-  /* --- Stone neutrals (Tailwind) ----------------------------- */
-  --stone-50: #fafaf9;
+  /* --- Type stack ---------------------------------------------- */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, "Liberation Mono", monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+
+  /* =================================================================
+   * Semantic role tokens — values are space-separated R G B triples.
+   * Use with `rgb(var(--token))` or `rgb(var(--token) / <alpha>)`.
+   * Mirrored from `ui/tokens.css` in pivoshenko.ui.
+   * ================================================================= */
+
+  /* Background */
+  --bg-canvas:  31 31 30;
+  --bg-surface: 38 38 37;
+  --bg-raised:  46 46 44;
+  --bg-sunken:  26 26 25;
+  --bg-overlay: 87 83 78;
+
+  /* Foreground */
+  --fg-default: 228 226 222;
+  --fg-muted:   184 179 168;
+  --fg-subtle:  155 149 138;
+  --fg-faint:   120 113 108;
+
+  /* Border */
+  --border-subtle:  38 38 37;
+  --border-default: 46 46 44;
+  --border-strong:  55 54 52;
+
+  /* Accent */
+  --accent-primary:   217 119 87;
+  --accent-secondary: 212 168 90;
+  --accent-success:   138 157 104;
+  --accent-warning:   212 168 90;
+  --accent-danger:    200 122 114;
+  --accent-info:      123 160 196;
+
+  --transition: color 150ms ease, background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+/* =================================================================
+ * Back-compat aliases (legacy slot names).
+ * Resolved-color form so consumers can use `background: var(--bg-page)`
+ * directly. Older preview cards continue to render against these.
+ * ================================================================= */
+
+:root {
+  /* Surfaces — legacy names */
+  --bg-page:     rgb(var(--bg-canvas));
+  --bg-card:     rgb(var(--bg-surface));
+  --bg-elevated: rgb(var(--bg-raised));
+  --crust:       rgb(var(--bg-canvas));
+  --mantle:      rgb(var(--bg-surface));
+  --base:        rgb(var(--bg-raised));
+  --surface-0:   rgb(var(--bg-raised));
+  --surface-1:   rgb(var(--border-default));
+  --surface-2:   rgb(var(--border-strong));
+
+  /* Text */
+  --text:        rgb(var(--fg-default));
+  --subtext-1:   rgb(var(--fg-muted));
+  --subtext-0:   rgb(var(--fg-subtle));
+  --overlay-2:   rgb(var(--fg-subtle));
+  --overlay-1:   rgb(var(--fg-faint));
+  --overlay-0:   rgb(var(--bg-overlay));
+
+  /* Tags + selection */
+  --bg-tag:        rgb(var(--bg-raised) / 0.7);
+  --bg-tag-active: rgb(var(--border-strong));
+  --selection-bg:  rgb(var(--border-strong));
+
+  /* Foreground roles */
+  --fg-primary:   rgb(var(--fg-default));
+  --fg-title:     rgb(var(--fg-muted));
+  --fg-secondary: rgb(var(--fg-muted));
+  --fg-body:      rgb(var(--fg-muted));
+  --fg-subtle-c:  rgb(var(--fg-subtle));
+  --fg-muted-c:   rgb(var(--fg-faint));
+
+  /* Border roles */
+  --border-ui:    rgb(var(--border-default));
+  --border-faint: rgb(var(--border-default) / 0.6);
+
+  /* Decoration */
+  --deco-subtle:  rgb(var(--bg-overlay));
+
+  /* Accents — singular */
+  --accent:       rgb(var(--accent-primary));
+  --accent-soft:  rgb(var(--accent-primary) / 0.16);
+
+  /* Status — semantic FG/BG pairs */
+  --status-success-fg: rgb(var(--accent-success));
+  --status-success-bg: rgb(var(--accent-success) / 0.16);
+  --status-warning-fg: rgb(var(--accent-warning));
+  --status-warning-bg: rgb(var(--accent-warning) / 0.18);
+  --status-error-fg:   rgb(var(--accent-danger));
+  --status-error-bg:   rgb(var(--accent-danger) / 0.18);
+  --status-info-fg:    rgb(var(--accent-info));
+  --status-info-bg:    rgb(var(--accent-info) / 0.16);
+  --status-neutral-fg: rgb(var(--fg-subtle));
+  --status-neutral-bg: rgb(var(--bg-raised) / 0.7);
+
+  /* Catppuccin-derived accent slots — back-compat for cards that
+     reference them. Bound to the vendored accent family. */
+  --rosewater: rgb(var(--accent-warning));
+  --flamingo:  rgb(var(--accent-secondary));
+  --pink:      rgb(var(--accent-danger));
+  --mauve:     rgb(var(--accent-info));
+  --red:       rgb(var(--accent-danger));
+  --maroon:    rgb(var(--accent-danger));
+  --peach:     rgb(var(--accent-warning));
+  --yellow:    rgb(var(--accent-warning));
+  --green:     rgb(var(--accent-success));
+  --teal:      rgb(var(--accent-success));
+  --sky:       rgb(var(--accent-info));
+  --sapphire:  rgb(var(--accent-info));
+  --blue:      rgb(var(--accent-info));
+  --lavender:  rgb(var(--accent-info));
+
+  /* Stone scale — vendored for the rare case a component needs a raw
+     warm-grey outside the role layer. Avoid in new code; prefer tokens. */
+  --stone-50:  #fafaf9;
   --stone-100: #f5f5f4;
   --stone-200: #e7e5e4;
   --stone-300: #d6d3d1;
@@ -24,126 +158,13 @@
   --stone-800: #292524;
   --stone-900: #1c1917;
   --stone-950: #0c0a09;
-  --black: #000000;
-  --white: #ffffff;
-
-  /* --- theme palette (theme — NOT for web UI chrome) -------- */
-  --theme-rosewater: #e2cfc6;
-  --theme-flamingo: #d8b8aa;
-  --theme-pink: #d1b2c9;
-  --theme-mauve: #a78cc4;
-  --theme-red: #c98787;
-  --theme-maroon: #b97a74;
-  --theme-peach: #d0a178;
-  --theme-yellow: #c7b07a;
-  --theme-green: #8ea98c;
-  --theme-teal: #7ea59d;
-  --theme-sky: #7da2b5;
-  --theme-sapphire: #7398ad;
-  --theme-blue: #7f98bf;
-  --theme-lavender: #9faece;
-  --theme-text: #e7e5e4;
-  --theme-subtext1: #d6d3d1;
-  --theme-subtext0: #a8a29e;
-  --theme-overlay2: #a8a29e;
-  --theme-overlay1: #78716c;
-  --theme-overlay0: #57534e;
-  --theme-surface2: #44403c;
-  --theme-surface1: #292524;
-  --theme-surface0: #1c1917;
-  --theme-base: #000000;
-  --theme-mantle: #0c0a09;
-  --theme-crust: #080706;
-
-  /* --- Semantic tokens (LIGHT default) ----------------------- */
-  color-scheme: light dark;
-
-  --bg-page: var(--stone-50);
-  --bg-card: var(--white);
-  --bg-tag: var(--stone-100);
-  --bg-tag-active: var(--stone-200);
-
-  --fg-primary: var(--stone-900);
-  --fg-title: var(--stone-800);
-  --fg-secondary: var(--stone-700);
-  --fg-body: var(--stone-600);
-  --fg-subtle: var(--stone-500);
-  --fg-muted: var(--stone-400);
-
-  --border-ui: var(--stone-200);
-  --border-faint: var(--stone-100);
-
-  --deco-subtle: var(--stone-300);
-
-  --selection-bg: var(--stone-200);
-
-  /* --- Accent (theme blue by default; substitutable) -------- */
-  /* The system is grayscale chrome PLUS one optional accent for
-     interactive lift: link underlines, active dot, focus ring. */
-  --accent: var(--theme-blue); /* #7f98bf */
-  --accent-soft: rgb(127 152 191 / 0.18);
-
-  --transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+  --black:     #000000;
+  --white:     #ffffff;
 }
 
-/* Dark — explicit class OR data-theme */
-:root.dark,
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  --bg-page: #000000; /* pure black, not a tinted near-black */
-  --bg-card: var(--stone-950);
-  --bg-tag: rgb(41 37 36 / 0.7); /* stone-800/70 */
-  --bg-tag-active: var(--stone-700);
-
-  --fg-primary: var(--stone-100);
-  --fg-title: var(--stone-200);
-  --fg-secondary: var(--stone-300);
-  --fg-body: var(--stone-400);
-  --fg-subtle: var(--stone-400);
-  --fg-muted: var(--stone-500);
-
-  --border-ui: var(--stone-800);
-  --border-faint: rgb(41 37 36 / 0.6); /* stone-800/60 */
-
-  --deco-subtle: var(--stone-600);
-
-  --selection-bg: var(--stone-700);
-
-  --accent: var(--theme-lavender); /* #9faece — brighter in dark */
-  --accent-soft: rgb(159 174 206 / 0.16);
-}
-
-/* Auto — system preference, when no explicit class/attribute is set */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --bg-page: #000000;
-    --bg-card: var(--stone-950);
-    --bg-tag: rgb(41 37 36 / 0.7);
-    --bg-tag-active: var(--stone-700);
-
-    --fg-primary: var(--stone-100);
-    --fg-title: var(--stone-200);
-    --fg-secondary: var(--stone-300);
-    --fg-body: var(--stone-400);
-    --fg-subtle: var(--stone-400);
-    --fg-muted: var(--stone-500);
-
-    --border-ui: var(--stone-800);
-    --border-faint: rgb(41 37 36 / 0.6);
-
-    --deco-subtle: var(--stone-600);
-
-    --selection-bg: var(--stone-700);
-
-    --accent: var(--theme-lavender);
-    --accent-soft: rgb(159 174 206 / 0.16);
-  }
-}
-
-/* --- Base ---------------------------------------------------- */
+/* =================================================================
+ * Base styles
+ * ================================================================= */
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -152,191 +173,102 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg-page);
-  color: var(--fg-primary);
+  background: rgb(var(--bg-canvas));
+  color: rgb(var(--fg-default));
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.5;
 }
 
-* {
-  transition: var(--transition);
-}
+* { transition: var(--transition); }
 
-::selection {
-  background-color: var(--selection-bg);
-}
+::selection { background-color: rgb(var(--border-strong)); }
 
-/* --- Semantic element styling ------------------------------ */
+h1 { font-size: 16px; font-weight: 600; margin: 0; color: rgb(var(--fg-default)); }
+h2 { font-size: 14px; font-weight: 600; margin: 0; color: rgb(var(--fg-default)); }
+h3 { font-size: 14px; font-weight: 400; margin: 0; color: rgb(var(--fg-muted)); }
+p  { margin: 0; color: rgb(var(--fg-muted)); }
 
-h1 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--fg-primary);
-}
-h2 {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--fg-primary);
-}
-h3 {
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0;
-  color: var(--fg-title);
-}
-p {
-  margin: 0;
-  color: var(--fg-body);
-}
+a { color: inherit; text-decoration: none; }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+hr { border: 0; border-top: 1px solid rgb(var(--border-default)); }
 
-hr {
-  border: 0;
-  border-top: 1px solid var(--border-ui);
-}
+code, pre { font-family: var(--font-mono); }
 
-code,
-pre {
+/* --- Type recipes -------------------------------------------- */
+
+.type-heading      { font-size: 16px; font-weight: 600; line-height: 1.4; }
+.type-post-heading { font-size: 20px; font-weight: 600; line-height: 1.3; }
+.type-body         { font-size: 14px; font-weight: 400; line-height: 1.6; }
+.type-ui           { font-size: 14px; font-weight: 400; line-height: 1.5; }
+.type-caption      { font-size: 12px; font-weight: 400; line-height: 1.6; }
+.type-meta         { font-size: 12px; font-weight: 400; line-height: 1.5; font-family: var(--font-mono); }
+.type-label        {
+  font-size: 12px; font-weight: 400; line-height: 1.5;
   font-family: var(--font-mono);
-}
-
-/* --- Type recipes ------------------------------------------ */
-
-.type-heading {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-.type-post-heading {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-.type-body {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.6;
-}
-.type-ui {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-.type-caption {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.6;
-}
-.type-meta {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
-  font-family: var(--font-mono);
-}
-.type-label {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.1em; /* tracking-widest */
+  text-transform: uppercase; letter-spacing: 0.1em;
 }
 .type-logo {
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  letter-spacing: -0.025em; /* tracking-tight */
+  font-size: 14px; font-weight: 600;
+  font-family: var(--font-mono); letter-spacing: -0.025em;
 }
 
-/* --- Foreground utilities ----------------------------------- */
+/* --- Foreground utilities ------------------------------------- */
 
-.fg-primary {
-  color: var(--fg-primary);
-}
-.fg-title {
-  color: var(--fg-title);
-}
-.fg-secondary {
-  color: var(--fg-secondary);
-}
-.fg-body {
-  color: var(--fg-body);
-}
-.fg-subtle {
-  color: var(--fg-subtle);
-}
-.fg-muted {
-  color: var(--fg-muted);
-}
+.fg-primary   { color: rgb(var(--fg-default)); }
+.fg-title     { color: rgb(var(--fg-muted)); }
+.fg-secondary { color: rgb(var(--fg-muted)); }
+.fg-body      { color: rgb(var(--fg-muted)); }
+.fg-subtle    { color: rgb(var(--fg-subtle)); }
+.fg-muted     { color: rgb(var(--fg-faint)); }
 
-.hover-primary:hover {
-  color: var(--fg-primary);
-}
-.hover-secondary:hover {
-  color: var(--fg-secondary);
-}
+.fg-default-c { color: rgb(var(--fg-default)); }
+.fg-muted-c   { color: rgb(var(--fg-muted)); }
+.fg-subtle-c  { color: rgb(var(--fg-subtle)); }
+.fg-faint-c   { color: rgb(var(--fg-faint)); }
 
-/* --- Backgrounds -------------------------------------------- */
+.hover-primary:hover   { color: rgb(var(--fg-default)); }
+.hover-secondary:hover { color: rgb(var(--fg-muted)); }
 
-.bg-page {
-  background: var(--bg-page);
-}
-.bg-card {
-  background: var(--bg-card);
-}
-.bg-tag {
-  background: var(--bg-tag);
-}
-.bg-tag-active {
-  background: var(--bg-tag-active);
-}
+/* --- Backgrounds --------------------------------------------- */
 
-/* --- Borders ------------------------------------------------ */
+.bg-page       { background: rgb(var(--bg-canvas)); }
+.bg-canvas     { background: rgb(var(--bg-canvas)); }
+.bg-card       { background: rgb(var(--bg-surface)); }
+.bg-surface    { background: rgb(var(--bg-surface)); }
+.bg-elevated   { background: rgb(var(--bg-raised)); }
+.bg-raised     { background: rgb(var(--bg-raised)); }
+.bg-sunken     { background: rgb(var(--bg-sunken)); }
+.bg-tag        { background: rgb(var(--bg-raised) / 0.7); }
+.bg-tag-active { background: rgb(var(--border-strong)); }
 
-.border-ui {
-  border-color: var(--border-ui);
-}
-.border-faint {
-  border-color: var(--border-faint);
-}
+/* --- Borders ------------------------------------------------- */
 
-/* --- Decoration --------------------------------------------- */
+.border-ui      { border-color: rgb(var(--border-default)); }
+.border-default { border-color: rgb(var(--border-default)); }
+.border-subtle  { border-color: rgb(var(--border-subtle)); }
+.border-strong  { border-color: rgb(var(--border-strong)); }
+.border-faint   { border-color: rgb(var(--border-default) / 0.6); }
 
-.deco-subtle {
-  text-decoration-color: var(--deco-subtle);
-}
-.deco-accent {
-  text-decoration-color: var(--accent);
-}
+/* --- Decoration ---------------------------------------------- */
 
-/* --- Accent utilities --------------------------------------- */
+.deco-subtle { text-decoration-color: rgb(var(--bg-overlay)); }
+.deco-accent { text-decoration-color: rgb(var(--accent-primary)); }
 
-.fg-accent {
-  color: var(--accent);
-}
-.bg-accent-soft {
-  background: var(--accent-soft);
-}
-.border-accent {
-  border-color: var(--accent);
-}
+/* --- Accent utilities ---------------------------------------- */
 
-/* Focus ring — only on keyboard focus, never on mouse-click. */
+.fg-accent          { color: rgb(var(--accent-primary)); }
+.fg-accent-secondary{ color: rgb(var(--accent-secondary)); }
+.bg-accent-soft     { background: rgb(var(--accent-primary) / 0.16); }
+.border-accent      { border-color: rgb(var(--accent-primary)); }
+
+/* Focus ring — keyboard focus only. */
 :where(a, button, [tabindex]):focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid rgb(var(--accent-primary));
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* --- Tabular nums ------------------------------------------- */
+/* --- Tabular nums -------------------------------------------- */
 
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
+.tabular-nums { font-variant-numeric: tabular-nums; }

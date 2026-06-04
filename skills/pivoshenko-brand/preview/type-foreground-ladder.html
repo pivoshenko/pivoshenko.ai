@@ -5,18 +5,19 @@
 <title>Type · Foreground ladder</title>
 <link rel="stylesheet" href="_base.css"/>
 <style>
-  body { padding: 24px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  body { padding: 24px; background: var(--bg-page); display: flex; flex-direction: column; gap: 10px; justify-content: center; min-height: 100%; box-sizing: border-box; }
   .row { display:flex; align-items:baseline; gap:16px; }
-  .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.1em; width: 100px; flex-shrink: 0; }
-  .swatch { font-family: var(--font-mono); font-size: 13px; }
+  .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; width: 130px; flex-shrink: 0; }
+  .swatch { font-family: var(--font-mono); font-size: 14px; }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c); margin-left: auto; }
 </style>
 </head>
 <body>
-  <div class="row"><span class="name">fg-primary</span><span class="swatch fg-primary">The quick brown fox</span></div>
-  <div class="row"><span class="name">fg-title</span><span class="swatch fg-title">The quick brown fox</span></div>
-  <div class="row"><span class="name">fg-secondary</span><span class="swatch fg-secondary">The quick brown fox</span></div>
-  <div class="row"><span class="name">fg-body</span><span class="swatch fg-body">The quick brown fox</span></div>
-  <div class="row"><span class="name">fg-subtle</span><span class="swatch fg-subtle">The quick brown fox</span></div>
-  <div class="row"><span class="name">fg-muted</span><span class="swatch fg-muted">The quick brown fox</span></div>
+  <div class="row"><span class="name">fg-primary</span><span class="swatch" style="color:rgb(var(--fg-default))">The quick brown fox</span><span class="tok">--fg-default</span></div>
+  <div class="row"><span class="name">fg-title</span><span class="swatch" style="color:rgb(var(--fg-muted))">The quick brown fox</span><span class="tok">--fg-muted</span></div>
+  <div class="row"><span class="name">fg-secondary</span><span class="swatch" style="color:rgb(var(--fg-muted))">The quick brown fox</span><span class="tok">--fg-muted</span></div>
+  <div class="row"><span class="name">fg-body</span><span class="swatch" style="color:rgb(var(--fg-muted))">The quick brown fox</span><span class="tok">--fg-muted</span></div>
+  <div class="row"><span class="name">fg-subtle</span><span class="swatch" style="color:rgb(var(--fg-subtle))">The quick brown fox</span><span class="tok">--fg-subtle</span></div>
+  <div class="row"><span class="name">fg-muted</span><span class="swatch" style="color:rgb(var(--fg-faint))">The quick brown fox</span><span class="tok">--fg-faint</span></div>
 </body>
 </html>

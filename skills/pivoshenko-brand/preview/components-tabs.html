@@ -1,84 +1,45 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Components · Tabs</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      .label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
+<head>
+<meta charset="utf-8"/>
+<title>Components · Tabs</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 22px; background: var(--bg-page); display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .col { display: flex; flex-direction: column; gap: 14px; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; }
 
-      /* Underline tab — same pattern as the live theme-showcase nav.
-     Active = darker fg + 2px accent underline. Inactive = subtle, hover -> primary. */
-      .tabs {
-        display: flex;
-        align-items: stretch;
-        gap: 0;
-        border-bottom: 1px solid var(--border-ui);
-      }
-      .tab {
-        padding: 8px 14px;
-        font-family: var(--font-mono);
-        font-size: 14px;
-        color: var(--fg-subtle);
-        cursor: pointer;
-        position: relative;
-      }
-      .tab:hover {
-        color: var(--fg-secondary);
-      }
-      .tab.active {
-        color: var(--fg-primary);
-      }
-      .tab.active::after {
-        content: "";
-        position: absolute;
-        left: 14px;
-        right: 14px;
-        bottom: -1px;
-        height: 2px;
-        background: var(--accent);
-      }
+  /* Underline tab — active = darker fg + 2px accent underline. */
+  .tabs { display: flex; align-items: stretch; gap: 0; border-bottom: 1px solid var(--border-ui); }
+  .tab {
+    padding: 8px 14px;
+    font-family: var(--font-mono); font-size: 14px;
+    color: var(--fg-subtle-c); cursor: pointer;
+    position: relative;
+  }
+  .tab:hover { color: var(--fg-primary); }
+  .tab.active { color: var(--fg-primary); }
+  .tab.active::after {
+    content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px;
+    background: var(--accent);
+  }
 
-      /* Segmented control — alternative pattern for 2–3 options of equal weight */
-      .seg {
-        display: inline-flex;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        overflow: hidden;
-      }
-      .seg button {
-        background: transparent;
-        border: 0;
-        padding: 6px 12px;
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--fg-subtle);
-        cursor: pointer;
-      }
-      .seg button + button {
-        border-left: 1px solid var(--border-ui);
-      }
-      .seg button.active {
-        background: var(--bg-tag);
-        color: var(--fg-primary);
-      }
-    </style>
-  </head>
-  <body>
+  /* Segmented control — 2–3 options of equal weight */
+  .seg { display: inline-flex; border: 1px solid var(--border-ui); border-radius: 4px; overflow: hidden; }
+  .seg button {
+    background: transparent; border: 0;
+    padding: 6px 12px;
+    font-family: var(--font-mono); font-size: 13px;
+    color: var(--fg-subtle-c); cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--border-ui); }
+  .seg button.active { background: var(--bg-elevated); color: var(--fg-primary); }
+</style>
+</head>
+<body>
+  <div class="col">
     <div>
-      <div class="label">UNDERLINE TABS — used in pivoshenko.theme nav</div>
+      <div class="label">UNDERLINE TABS — used in the theme-showcase nav</div>
       <div class="tabs" style="margin-top: 8px">
         <div class="tab active">Colors</div>
         <div class="tab">Ports</div>
@@ -95,8 +56,10 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="col">
     <div>
-      <div class="label">UNDERLINE TABS — alternate selection</div>
+      <div class="label">UNDERLINE TABS — alt selection</div>
       <div class="tabs" style="margin-top: 8px">
         <div class="tab">accent</div>
         <div class="tab active">text</div>
@@ -104,14 +67,15 @@
       </div>
     </div>
     <div>
-      <div class="label">SEGMENTED — theme toggle</div>
+      <div class="label">SEGMENTED — alt selection</div>
       <div style="margin-top: 8px">
         <div class="seg">
-          <button>light</button>
-          <button class="active">dark</button>
-          <button>auto</button>
+          <button>day</button>
+          <button class="active">week</button>
+          <button>month</button>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

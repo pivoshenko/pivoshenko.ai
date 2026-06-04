@@ -1,172 +1,94 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Components · Buttons</title>
-    <link rel="stylesheet" href="_base.css" />
-    <style>
-      body {
-        padding: 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-      .label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-      .row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
+<head>
+<meta charset="utf-8"/>
+<title>Components · Buttons</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  body { padding: 22px; background: var(--bg-page); display: flex; flex-direction: column; gap: 18px; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em; }
+  .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
-      /* Icon button — the brand's primary control */
-      .icon-btn {
-        width: 32px;
-        height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        background: var(--bg-card);
-        color: var(--fg-muted);
-        cursor: pointer;
-      }
-      .icon-btn:hover {
-        color: var(--fg-secondary);
-      }
-      .icon-btn.active {
-        color: var(--fg-primary);
-      }
-      .icon-btn.focus {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-      .icon-btn[disabled] {
-        opacity: 0.4;
-      }
+  /* Icon button — 32×32, 1px border, no fill except elevated bg */
+  .icon-btn {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgb(var(--border-default));
+    border-radius: 4px;
+    background: rgb(var(--bg-surface));
+    color: rgb(var(--fg-subtle));
+    cursor: pointer;
+  }
+  .icon-btn:hover { color: rgb(var(--fg-default)); border-color: rgb(var(--border-strong)); }
+  .icon-btn.active { color: rgb(var(--fg-default)); }
+  .icon-btn.focus { outline: 2px solid rgb(var(--accent-primary)); outline-offset: 2px; }
+  .icon-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
 
-      /* Copy pill — the second pattern */
-      .copy {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        padding: 4px 8px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        background: transparent;
-        color: var(--fg-muted);
-        cursor: pointer;
-      }
-      .copy:hover {
-        color: var(--fg-secondary);
-      }
-      .copy.ok {
-        color: #8ea98c;
-      }
+  /* Copy button — same chrome with a label */
+  .copy {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid rgb(var(--border-default));
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: rgb(var(--bg-surface));
+    color: rgb(var(--fg-subtle));
+    cursor: pointer;
+    font-family: var(--font-mono); font-size: 12px;
+  }
+  .copy:hover { color: rgb(var(--fg-default)); border-color: rgb(var(--border-strong)); }
+  .copy.ok { color: rgb(var(--accent-success)); border-color: rgb(var(--accent-success) / 0.5); }
 
-      /* Text link — the third pattern, used for back/forward navigation */
-      .text-btn {
-        font-family: var(--font-mono);
-        font-size: 14px;
-        background: transparent;
-        border: 0;
-        padding: 0;
-        color: var(--fg-subtle);
-        cursor: pointer;
-      }
-      .text-btn:hover {
-        color: var(--fg-secondary);
-      }
+  /* Text button — pure type, no chrome */
+  .text-btn {
+    font-family: var(--font-mono); font-size: 14px;
+    background: transparent; border: 0; padding: 0;
+    color: rgb(var(--fg-subtle)); cursor: pointer;
+  }
+  .text-btn:hover { color: rgb(var(--fg-default)); }
+  .text-btn .arrow { color: rgb(var(--fg-faint)); margin-left: 4px; }
+  .text-btn:hover .arrow { color: rgb(var(--accent-primary)); }
 
-      .caveat {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <div class="label">ICON BUTTON — default · hover · active · disabled · focus</div>
-      <div class="row" style="margin-top: 8px">
-        <button class="icon-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-        <button class="icon-btn" style="color: var(--fg-secondary)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
-        </button>
-        <button class="icon-btn active">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="15" y2="12" />
-            <line x1="3" y1="18" x2="12" y2="18" />
-          </svg>
-        </button>
-        <button class="icon-btn" disabled>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-        </button>
-        <button class="icon-btn focus">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
-        </button>
-      </div>
+  /* Primary accent text button — same chrome, accent color */
+  .primary {
+    font-family: var(--font-mono); font-size: 14px;
+    background: transparent; border: 0; padding: 0;
+    color: rgb(var(--accent-primary)); cursor: pointer;
+    text-decoration: underline; text-decoration-color: rgb(var(--accent-primary) / 0.5);
+    text-underline-offset: 3px;
+  }
+  .primary:hover { text-decoration-color: rgb(var(--accent-primary)); }
+
+  .caveat { font-family: var(--font-mono); font-size: 11px; color: rgb(var(--fg-faint)); line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="label">ICON BUTTONS — default · hover · active · focus · disabled</div>
+    <div class="row" style="margin-top: 8px">
+      <button class="icon-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button class="icon-btn active" aria-label="Bookmark"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      <button class="icon-btn focus" aria-label="Search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <button class="icon-btn" disabled aria-label="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><polygon points="18.5 2.5 22 6 12 16 8 16 8 12 18.5 2.5"/></svg></button>
     </div>
-    <div>
-      <div class="label">COPY PILL — default · hover · copied</div>
-      <div class="row" style="margin-top: 8px">
-        <button class="copy">
-          #c98787
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-        </button>
-        <button class="copy" style="color: var(--fg-secondary)">
-          #8ea98c
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-        </button>
-        <button class="copy ok">
-          #7f98bf
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </button>
-      </div>
+  </div>
+
+  <div>
+    <div class="label">COPY BUTTONS — default · success (1.2s flash)</div>
+    <div class="row" style="margin-top: 8px">
+      <button class="copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>#d97757</button>
+      <button class="copy ok"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Copied</button>
     </div>
-    <div>
-      <div class="label">TEXT BUTTON — used for back / forward / external navigation</div>
-      <div class="row" style="margin-top: 8px">
-        <button class="text-btn">← Blog</button>
-        <button class="text-btn">All posts →</button>
-        <button class="text-btn">github ↗</button>
-      </div>
+  </div>
+
+  <div>
+    <div class="label">TEXT LINK BUTTONS — no border, no background</div>
+    <div class="row" style="margin-top: 8px">
+      <button class="text-btn">All posts <span class="arrow">→</span></button>
+      <button class="text-btn"><span class="arrow">←</span> Back</button>
+      <button class="primary">View palette source</button>
     </div>
-    <div>
-      <div class="label">WHAT IS NOT IN THE SYSTEM</div>
-      <p class="caveat" style="margin: 6px 0 0; max-width: 36ch; line-height: 1.55">
-        No filled solid buttons. No "Primary / Secondary / CTA" hierarchy. No floating-action buttons.<br />
-        If a design needs visual lift, use the accent color on text or a 1px outline — never a fill.
-      </p>
-    </div>
-  </body>
+  </div>
+
+  <p class="caveat">No filled accent buttons in this system. The single <code style="background: rgb(var(--bg-raised)); color: rgb(var(--fg-default)); padding: 1px 5px; border-radius: 4px">--accent-primary</code> color appears only as text or underline — never as a button fill. Use the primary text style above for destination-level actions.</p>
+</body>
 </html>

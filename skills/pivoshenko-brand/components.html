@@ -1,862 +1,310 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Components · Pivoshenko Design System</title>
-    <link rel="stylesheet" href="colors_and_type.css" />
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
-      body {
-        display: flex;
-      }
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#1f1f1e"/>
+<title>Components · Pivoshenko Design System</title>
+<link rel="stylesheet" href="colors_and_type.css"/>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { display: flex; }
 
-      /* --- Sidebar TOC --- */
-      aside {
-        width: 220px;
-        flex-shrink: 0;
-        border-right: 1px solid var(--border-ui);
-        background: var(--bg-page);
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        overflow-y: auto;
-        padding: 24px 0;
-        box-sizing: border-box;
-      }
-      aside .brand {
-        padding: 0 20px 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border-bottom: 1px solid var(--border-faint);
-      }
-      aside .brand .mark {
-        width: 24px;
-        height: 24px;
-        background: #000;
-        color: #fff;
-        display: grid;
-        place-items: center;
-        font-family: var(--font-mono);
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: -0.4px;
-      }
-      :root:not(.light) aside .brand .mark {
-        background: #fff;
-        color: #000;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root:not(.light):not([data-theme="light"]) aside .brand .mark {
-          background: #fff;
-          color: #000;
-        }
-      }
-      aside .brand .name {
-        font-family: var(--font-mono);
-        font-weight: 600;
-        font-size: 13px;
-        letter-spacing: -0.025em;
-        color: var(--fg-primary);
-      }
+  /* --- Sidebar TOC --- */
+  aside {
+    width: 220px; flex-shrink: 0;
+    border-right: 1px solid var(--border-ui);
+    background: var(--bg-page);
+    position: sticky; top: 0; height: 100vh;
+    overflow-y: auto;
+    padding: 24px 0;
+    box-sizing: border-box;
+  }
+  aside .brand {
+    padding: 0 20px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border-faint);
+    text-decoration: none;
+  }
+  aside .brand .mark {
+    width: 24px; height: 24px;
+    background: rgb(var(--fg-default)); color: rgb(var(--bg-canvas));
+    display: grid; place-items: center;
+    font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+    letter-spacing: -0.4px;
+    border-radius: 4px;
+  }
+  aside .brand .name { font-family: var(--font-mono); font-weight: 600; font-size: 13px; letter-spacing: -0.025em; color: var(--fg-primary); }
 
-      aside h3 {
-        margin: 24px 20px 6px;
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 400;
-      }
-      aside ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      aside a {
-        display: block;
-        padding: 5px 20px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--fg-subtle);
-        border-left: 2px solid transparent;
-      }
-      aside a:hover {
-        color: var(--fg-primary);
-      }
-      aside a.active {
-        color: var(--fg-primary);
-        border-left-color: var(--accent);
-      }
+  aside h3 {
+    margin: 24px 20px 6px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em;
+    font-weight: 400;
+  }
+  aside ul { list-style: none; margin: 0; padding: 0; }
+  aside a {
+    display: block;
+    padding: 5px 20px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--fg-subtle-c);
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+  aside a:hover { color: var(--fg-primary); }
+  aside a.active { color: var(--fg-primary); border-left-color: var(--accent); }
 
-      /* --- Main scroll area --- */
-      main {
-        flex: 1;
-        min-width: 0;
-      }
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        background: var(--bg-page);
-        border-bottom: 1px solid var(--border-ui);
-        padding: 0 28px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .topbar h1 {
-        margin: 0;
-        font-family: var(--font-mono);
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--fg-primary);
-        letter-spacing: -0.025em;
-      }
-      .topbar .right {
-        display: inline-flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .topbar .counter {
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--fg-muted);
-      }
-      .topbar .theme-toggle {
-        height: 28px;
-        padding: 0 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        border: 1px solid var(--border-ui);
-        border-radius: 4px;
-        background: transparent;
-        color: var(--fg-muted);
-        cursor: pointer;
-        font-family: var(--font-mono);
-        font-size: 11px;
-        text-transform: lowercase;
-        letter-spacing: 0.04em;
-      }
-      .topbar .theme-toggle:hover {
-        color: var(--fg-secondary);
-      }
+  /* --- Main scroll area --- */
+  main { flex: 1; min-width: 0; }
+  .topbar {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--border-ui);
+    padding: 0 28px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar h1 { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 14px; color: var(--fg-primary); letter-spacing: -0.025em; }
+  .topbar .counter { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted-c); }
 
-      .grid {
-        padding: 28px;
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
-      }
-      section.group {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      section.group > h2 {
-        margin: 0;
-        padding: 0 0 8px;
-        border-bottom: 1px solid var(--border-faint);
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 400;
-        scroll-margin-top: 70px;
-      }
+  .grid { padding: 28px; display: flex; flex-direction: column; gap: 28px; }
+  section.group { display: flex; flex-direction: column; gap: 16px; }
+  section.group > h2 {
+    margin: 0; padding: 0 0 8px;
+    border-bottom: 1px solid var(--border-faint);
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em;
+    font-weight: 400;
+    scroll-margin-top: 70px;
+  }
 
-      .cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      @media (min-width: 1200px) {
-        .cards {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
+  .cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 1200px) { .cards { grid-template-columns: 1fr 1fr; } }
 
-      .card {
-        border: 1px solid var(--border-ui);
-        background: var(--bg-card);
-        border-radius: 4px;
-        overflow: hidden;
-      }
-      .card header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 10px 14px;
-        border-bottom: 1px solid var(--border-faint);
-      }
-      .card header .name {
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--fg-primary);
-      }
-      .card header .sub {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-        text-align: right;
-        max-width: 60%;
-        line-height: 1.4;
-      }
-      .card header a.path {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--fg-muted);
-        text-decoration: underline;
-        text-decoration-color: var(--deco-subtle);
-        text-underline-offset: 3px;
-      }
-      .card .frame {
-        width: 100%;
-        border: 0;
-        display: block;
-        background: transparent;
-      }
-      .card.full {
-        grid-column: 1 / -1;
-      }
-    </style>
-  </head>
+  .card {
+    border: 1px solid var(--border-ui);
+    background: var(--bg-card);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .card header {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-faint);
+  }
+  .card header .name { font-family: var(--font-mono); font-size: 13px; color: var(--fg-primary); }
+  .card header a.path {
+    font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c);
+    text-decoration: underline; text-decoration-color: var(--deco-subtle);
+    text-underline-offset: 3px;
+  }
+  .card .frame { width: 100%; border: 0; display: block; background: transparent; }
+  .card.full { grid-column: 1 / -1; }
+</style>
+</head>
 
-  <body>
-    <aside>
-      <a class="brand" href="index.html" style="text-decoration: none">
-        <span class="mark">VP</span>
-        <span class="name">pivoshenko.design</span>
-      </a>
-      <h3>Brand</h3>
-      <ul>
-        <li><a href="#brand-logo">Wordmark</a></li>
-        <li><a href="#brand-iconography">Iconography</a></li>
-        <li><a href="#brand-voice">Voice</a></li>
-        <li><a href="#components-avatar">Avatar</a></li>
-      </ul>
-      <h3>Type</h3>
-      <ul>
-        <li><a href="#type-recipes">Recipes</a></li>
-        <li><a href="#type-foreground-ladder">Foreground ladder</a></li>
-      </ul>
-      <h3>Colors</h3>
-      <ul>
-        <li><a href="#colors-stone">Stone neutrals</a></li>
-        <li><a href="#colors-theme-accents">theme accents</a></li>
-        <li><a href="#colors-theme-surfaces">theme surfaces</a></li>
-        <li><a href="#colors-accent-in-chrome">Accent in chrome</a></li>
-      </ul>
-      <h3>Spacing</h3>
-      <ul>
-        <li><a href="#spacing-borders-corners">Borders & corners</a></li>
-        <li><a href="#spacing-scale">Scale</a></li>
-        <li><a href="#spacing-elevation">Elevation</a></li>
-      </ul>
-      <h3>Components</h3>
-      <ul>
-        <li><a href="#components-buttons">Buttons</a></li>
-        <li><a href="#components-form-inputs">Form inputs</a></li>
-        <li><a href="#components-search">Search</a></li>
-        <li><a href="#components-tabs">Tabs</a></li>
-        <li><a href="#components-tags">Tag chips</a></li>
-        <li><a href="#components-controls">Nav controls</a></li>
-        <li><a href="#components-status">Status labels</a></li>
-        <li><a href="#components-alerts">Alerts</a></li>
-        <li><a href="#components-states">States &amp; feedback</a></li>
-        <li><a href="#components-tooltip">Tooltip</a></li>
-        <li><a href="#components-menus">Menus</a></li>
-        <li><a href="#components-card">Card</a></li>
-        <li><a href="#components-code">Code</a></li>
-        <li><a href="#components-progress-bar">Progress bar</a></li>
-        <li><a href="#components-chrome">Header/footer</a></li>
-        <li><a href="#components-post-row">Post list row</a></li>
-        <li><a href="#components-bookmark-grid">Bookmark grid</a></li>
-        <li><a href="#components-palette-table">Palette table</a></li>
-      </ul>
-    </aside>
+<body>
+<aside>
+  <a class="brand" href="index.html">
+    <span class="mark">VP</span>
+    <span class="name">pivoshenko.design</span>
+  </a>
+  <h3>Brand</h3>
+  <ul>
+    <li><a href="#brand-mark">Mark</a></li>
+    <li><a href="#brand-iconography">Iconography</a></li>
+    <li><a href="#brand-voice">Voice</a></li>
+  </ul>
+  <h3>Type</h3>
+  <ul>
+    <li><a href="#type-recipes">Recipes</a></li>
+    <li><a href="#type-foreground-ladder">Foreground ladder</a></li>
+  </ul>
+  <h3>Colors</h3>
+  <ul>
+    <li><a href="#colors-accents">Accent slots</a></li>
+    <li><a href="#colors-surfaces">Surface scale</a></li>
+    <li><a href="#colors-accent-in-chrome">Accent in chrome</a></li>
+    <li><a href="#colors-stone">Stone neutrals</a></li>
+  </ul>
+  <h3>Spacing</h3>
+  <ul>
+    <li><a href="#spacing-borders-corners">Borders &amp; corners</a></li>
+    <li><a href="#spacing-scale">Scale</a></li>
+  </ul>
+  <h3>Components</h3>
+  <ul>
+    <li><a href="#components-buttons">Buttons</a></li>
+    <li><a href="#components-form-inputs">Form inputs</a></li>
+    <li><a href="#components-search">Search</a></li>
+    <li><a href="#components-tabs">Tabs</a></li>
+    <li><a href="#components-tags">Tag chips</a></li>
+    <li><a href="#components-status">Status labels</a></li>
+    <li><a href="#components-alerts">Alerts</a></li>
+    <li><a href="#components-menus">Menus</a></li>
+    <li><a href="#components-card">Card</a></li>
+    <li><a href="#components-code">Code</a></li>
+    <li><a href="#components-chrome">Header/footer</a></li>
+    <li><a href="#components-palette-table">Palette table</a></li>
+  </ul>
+</aside>
 
-    <main>
-      <div class="topbar">
-        <h1>Components</h1>
-        <div class="right">
-          <span class="counter">30 cards · 5 groups</span>
-          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">
-            <span id="theme-icon" aria-hidden="true">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.75"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            </span>
-            <span id="theme-label">auto</span>
-          </button>
-        </div>
+<main>
+  <div class="topbar">
+    <h1>Components</h1>
+    <span class="counter" id="counter">23 cards · 5 groups</span>
+  </div>
+
+  <div class="grid">
+
+    <section class="group">
+      <h2 id="brand">BRAND</h2>
+      <div class="cards">
+        <article class="card" id="brand-mark">
+          <header><span class="name">Mark</span><a class="path" href="preview/brand-logo.html" target="_blank" rel="noopener">preview/brand-logo.html ↗</a></header>
+          <iframe class="frame" src="preview/brand-logo.html" height="240" loading="lazy" title="Mark"></iframe>
+        </article>
+        <article class="card" id="brand-iconography">
+          <header><span class="name">Iconography</span><a class="path" href="preview/brand-iconography.html" target="_blank" rel="noopener">preview/brand-iconography.html ↗</a></header>
+          <iframe class="frame" src="preview/brand-iconography.html" height="380" loading="lazy" title="Iconography"></iframe>
+        </article>
+        <article class="card full" id="brand-voice">
+          <header><span class="name">Voice</span><a class="path" href="preview/brand-voice.html" target="_blank" rel="noopener">preview/brand-voice.html ↗</a></header>
+          <iframe class="frame" src="preview/brand-voice.html" height="320" loading="lazy" title="Voice"></iframe>
+        </article>
       </div>
+    </section>
 
-      <div class="grid">
-        <!-- ============================ BRAND ============================ -->
-        <section class="group" id="g-brand">
-          <h2 id="brand">BRAND</h2>
-          <div class="cards">
-            <article class="card" id="brand-logo">
-              <header>
-                <span class="name">Wordmark</span
-                ><a class="path" href="preview/brand-logo.html" target="_blank" rel="noopener"
-                  >preview/brand-logo.html ↗</a
-                >
-              </header>
-              <iframe class="frame" src="preview/brand-logo.html" height="220" loading="lazy" title="Wordmark"></iframe>
-            </article>
-            <article class="card" id="brand-iconography">
-              <header>
-                <span class="name">Iconography</span
-                ><a class="path" href="preview/brand-iconography.html" target="_blank" rel="noopener"
-                  >preview/brand-iconography.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/brand-iconography.html"
-                height="380"
-                loading="lazy"
-                title="Iconography"
-              ></iframe>
-            </article>
-            <article class="card" id="brand-voice">
-              <header>
-                <span class="name">Voice</span
-                ><a class="path" href="preview/brand-voice.html" target="_blank" rel="noopener"
-                  >preview/brand-voice.html ↗</a
-                >
-              </header>
-              <iframe class="frame" src="preview/brand-voice.html" height="320" loading="lazy" title="Voice"></iframe>
-            </article>
-            <article class="card" id="components-avatar">
-              <header>
-                <span class="name">Avatar</span
-                ><a class="path" href="preview/components-avatar.html" target="_blank" rel="noopener"
-                  >preview/components-avatar.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-avatar.html"
-                height="320"
-                loading="lazy"
-                title="Avatar"
-              ></iframe>
-            </article>
-          </div>
-        </section>
-
-        <!-- ============================ TYPE ============================ -->
-        <section class="group" id="g-type">
-          <h2 id="type">TYPE</h2>
-          <div class="cards">
-            <article class="card full" id="type-recipes">
-              <header>
-                <span class="name">Recipes</span
-                ><a class="path" href="preview/type-recipes.html" target="_blank" rel="noopener"
-                  >preview/type-recipes.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/type-recipes.html"
-                height="340"
-                loading="lazy"
-                title="Type recipes"
-              ></iframe>
-            </article>
-            <article class="card full" id="type-foreground-ladder">
-              <header>
-                <span class="name">Foreground ladder</span
-                ><a class="path" href="preview/type-foreground-ladder.html" target="_blank" rel="noopener"
-                  >preview/type-foreground-ladder.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/type-foreground-ladder.html"
-                height="280"
-                loading="lazy"
-                title="Foreground ladder"
-              ></iframe>
-            </article>
-          </div>
-        </section>
-
-        <!-- ============================ COLORS ============================ -->
-        <section class="group" id="g-colors">
-          <h2 id="colors">COLORS</h2>
-          <div class="cards">
-            <article class="card full" id="colors-stone">
-              <header>
-                <span class="name">Stone neutrals</span
-                ><a class="path" href="preview/colors-stone.html" target="_blank" rel="noopener"
-                  >preview/colors-stone.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/colors-stone.html"
-                height="180"
-                loading="lazy"
-                title="Stone neutrals"
-              ></iframe>
-            </article>
-            <article class="card full" id="colors-theme-accents">
-              <header>
-                <span class="name">theme accents</span
-                ><a class="path" href="preview/colors-theme-accents.html" target="_blank" rel="noopener"
-                  >preview/colors-theme-accents.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/colors-theme-accents.html"
-                height="200"
-                loading="lazy"
-                title="theme accents"
-              ></iframe>
-            </article>
-            <article class="card full" id="colors-theme-surfaces">
-              <header>
-                <span class="name">theme surfaces</span
-                ><a class="path" href="preview/colors-theme-surfaces.html" target="_blank" rel="noopener"
-                  >preview/colors-theme-surfaces.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/colors-theme-surfaces.html"
-                height="260"
-                loading="lazy"
-                title="theme surfaces"
-              ></iframe>
-            </article>
-            <article class="card full" id="colors-accent-in-chrome">
-              <header>
-                <span class="name">Accent in chrome</span
-                ><a class="path" href="preview/colors-accent-in-chrome.html" target="_blank" rel="noopener"
-                  >preview/colors-accent-in-chrome.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/colors-accent-in-chrome.html"
-                height="300"
-                loading="lazy"
-                title="Accent in chrome"
-              ></iframe>
-            </article>
-          </div>
-        </section>
-
-        <!-- ============================ SPACING ============================ -->
-        <section class="group" id="g-spacing">
-          <h2 id="spacing">SPACING</h2>
-          <div class="cards">
-            <article class="card" id="spacing-borders-corners">
-              <header>
-                <span class="name">Borders & corners</span
-                ><a class="path" href="preview/spacing-borders-corners.html" target="_blank" rel="noopener"
-                  >preview/spacing-borders-corners.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/spacing-borders-corners.html"
-                height="300"
-                loading="lazy"
-                title="Borders & corners"
-              ></iframe>
-            </article>
-            <article class="card" id="spacing-scale">
-              <header>
-                <span class="name">Scale</span
-                ><a class="path" href="preview/spacing-scale.html" target="_blank" rel="noopener"
-                  >preview/spacing-scale.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/spacing-scale.html"
-                height="300"
-                loading="lazy"
-                title="Spacing scale"
-              ></iframe>
-            </article>
-            <article class="card full" id="spacing-elevation">
-              <header>
-                <span class="name">Elevation</span
-                ><a class="path" href="preview/spacing-elevation.html" target="_blank" rel="noopener"
-                  >preview/spacing-elevation.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/spacing-elevation.html"
-                height="300"
-                loading="lazy"
-                title="Elevation"
-              ></iframe>
-            </article>
-          </div>
-        </section>
-
-        <!-- ============================ COMPONENTS ============================ -->
-        <section class="group" id="g-components">
-          <h2 id="components">COMPONENTS</h2>
-          <div class="cards">
-            <article class="card" id="components-buttons">
-              <header>
-                <span class="name">Buttons</span
-                ><a class="path" href="preview/components-buttons.html" target="_blank" rel="noopener"
-                  >preview/components-buttons.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-buttons.html"
-                height="340"
-                loading="lazy"
-                title="Buttons"
-              ></iframe>
-            </article>
-            <article class="card" id="components-form-inputs">
-              <header>
-                <span class="name">Form inputs</span
-                ><a class="path" href="preview/components-form-inputs.html" target="_blank" rel="noopener"
-                  >preview/components-form-inputs.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-form-inputs.html"
-                height="360"
-                loading="lazy"
-                title="Form inputs"
-              ></iframe>
-            </article>
-            <article class="card full" id="components-search">
-              <header>
-                <span class="name">Search</span
-                ><a class="path" href="preview/components-search.html" target="_blank" rel="noopener"
-                  >preview/components-search.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-search.html"
-                height="600"
-                loading="lazy"
-                title="Search"
-              ></iframe>
-            </article>
-            <article class="card" id="components-tabs">
-              <header>
-                <span class="name">Tabs</span
-                ><a class="path" href="preview/components-tabs.html" target="_blank" rel="noopener"
-                  >preview/components-tabs.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-tabs.html"
-                height="300"
-                loading="lazy"
-                title="Tabs"
-              ></iframe>
-            </article>
-            <article class="card" id="components-tags">
-              <header>
-                <span class="name">Tag chips</span
-                ><a class="path" href="preview/components-tags.html" target="_blank" rel="noopener"
-                  >preview/components-tags.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-tags.html"
-                height="280"
-                loading="lazy"
-                title="Tag chips"
-              ></iframe>
-            </article>
-            <article class="card" id="components-controls">
-              <header>
-                <span class="name">Nav controls</span
-                ><a class="path" href="preview/components-controls.html" target="_blank" rel="noopener"
-                  >preview/components-controls.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-controls.html"
-                height="340"
-                loading="lazy"
-                title="Nav controls"
-              ></iframe>
-            </article>
-            <article class="card" id="components-status">
-              <header>
-                <span class="name">Status labels</span
-                ><a class="path" href="preview/components-status.html" target="_blank" rel="noopener"
-                  >preview/components-status.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-status.html"
-                height="360"
-                loading="lazy"
-                title="Status labels"
-              ></iframe>
-            </article>
-            <article class="card" id="components-alerts">
-              <header>
-                <span class="name">Alerts</span
-                ><a class="path" href="preview/components-alerts.html" target="_blank" rel="noopener"
-                  >preview/components-alerts.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-alerts.html"
-                height="380"
-                loading="lazy"
-                title="Alerts"
-              ></iframe>
-            </article>
-            <article class="card" id="components-states">
-              <header>
-                <span class="name">States &amp; feedback</span
-                ><a class="path" href="preview/components-states.html" target="_blank" rel="noopener"
-                  >preview/components-states.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-states.html"
-                height="340"
-                loading="lazy"
-                title="States & feedback"
-              ></iframe>
-            </article>
-            <article class="card" id="components-tooltip">
-              <header>
-                <span class="name">Tooltip</span
-                ><a class="path" href="preview/components-tooltip.html" target="_blank" rel="noopener"
-                  >preview/components-tooltip.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-tooltip.html"
-                height="280"
-                loading="lazy"
-                title="Tooltip"
-              ></iframe>
-            </article>
-            <article class="card" id="components-menus">
-              <header>
-                <span class="name">Menus &amp; popovers</span
-                ><a class="path" href="preview/components-menus.html" target="_blank" rel="noopener"
-                  >preview/components-menus.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-menus.html"
-                height="340"
-                loading="lazy"
-                title="Menus & popovers"
-              ></iframe>
-            </article>
-            <article class="card" id="components-card">
-              <header>
-                <span class="name">Card</span
-                ><a class="path" href="preview/components-card.html" target="_blank" rel="noopener"
-                  >preview/components-card.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-card.html"
-                height="260"
-                loading="lazy"
-                title="Card"
-              ></iframe>
-            </article>
-            <article class="card" id="components-code">
-              <header>
-                <span class="name">Code</span
-                ><a class="path" href="preview/components-code.html" target="_blank" rel="noopener"
-                  >preview/components-code.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-code.html"
-                height="340"
-                loading="lazy"
-                title="Code"
-              ></iframe>
-            </article>
-            <article class="card" id="components-progress-bar">
-              <header>
-                <span class="name">Reading progress</span
-                ><a class="path" href="preview/components-progress-bar.html" target="_blank" rel="noopener"
-                  >preview/components-progress-bar.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-progress-bar.html"
-                height="300"
-                loading="lazy"
-                title="Reading progress"
-              ></iframe>
-            </article>
-            <article class="card full" id="components-chrome">
-              <header>
-                <span class="name">Header / footer</span
-                ><a class="path" href="preview/components-chrome.html" target="_blank" rel="noopener"
-                  >preview/components-chrome.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-chrome.html"
-                height="200"
-                loading="lazy"
-                title="Header & footer"
-              ></iframe>
-            </article>
-            <article class="card" id="components-post-row">
-              <header>
-                <span class="name">Post list row</span
-                ><a class="path" href="preview/components-post-row.html" target="_blank" rel="noopener"
-                  >preview/components-post-row.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-post-row.html"
-                height="280"
-                loading="lazy"
-                title="Post list row"
-              ></iframe>
-            </article>
-            <article class="card" id="components-bookmark-grid">
-              <header>
-                <span class="name">Bookmark grid</span
-                ><a class="path" href="preview/components-bookmark-grid.html" target="_blank" rel="noopener"
-                  >preview/components-bookmark-grid.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-bookmark-grid.html"
-                height="300"
-                loading="lazy"
-                title="Bookmark grid"
-              ></iframe>
-            </article>
-            <article class="card full" id="components-palette-table">
-              <header>
-                <span class="name">Palette table</span
-                ><a class="path" href="preview/components-palette-table.html" target="_blank" rel="noopener"
-                  >preview/components-palette-table.html ↗</a
-                >
-              </header>
-              <iframe
-                class="frame"
-                src="preview/components-palette-table.html"
-                height="260"
-                loading="lazy"
-                title="Palette table"
-              ></iframe>
-            </article>
-          </div>
-        </section>
+    <section class="group">
+      <h2 id="type">TYPE</h2>
+      <div class="cards">
+        <article class="card full" id="type-recipes">
+          <header><span class="name">Recipes</span><a class="path" href="preview/type-recipes.html" target="_blank" rel="noopener">preview/type-recipes.html ↗</a></header>
+          <iframe class="frame" src="preview/type-recipes.html" height="340" loading="lazy" title="Type recipes"></iframe>
+        </article>
+        <article class="card full" id="type-foreground-ladder">
+          <header><span class="name">Foreground ladder</span><a class="path" href="preview/type-foreground-ladder.html" target="_blank" rel="noopener">preview/type-foreground-ladder.html ↗</a></header>
+          <iframe class="frame" src="preview/type-foreground-ladder.html" height="280" loading="lazy" title="Foreground ladder"></iframe>
+        </article>
       </div>
-    </main>
+    </section>
 
-    <script>
-      // Scroll-spy: highlight the sidebar item for the section currently in view.
-      (function () {
-        const links = Array.from(document.querySelectorAll('aside a[href^="#"]'));
-        const map = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
-        const targets = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
-        if (!targets.length) return;
+    <section class="group">
+      <h2 id="colors">COLORS</h2>
+      <div class="cards">
+        <article class="card full" id="colors-accents">
+          <header><span class="name">Accent slots</span><a class="path" href="preview/colors-accents.html" target="_blank" rel="noopener">preview/colors-accents.html ↗</a></header>
+          <iframe class="frame" src="preview/colors-accents.html" height="220" loading="lazy" title="Accent slots"></iframe>
+        </article>
+        <article class="card full" id="colors-surfaces">
+          <header><span class="name">Surface scale</span><a class="path" href="preview/colors-surfaces.html" target="_blank" rel="noopener">preview/colors-surfaces.html ↗</a></header>
+          <iframe class="frame" src="preview/colors-surfaces.html" height="260" loading="lazy" title="Surface scale"></iframe>
+        </article>
+        <article class="card full" id="colors-accent-in-chrome">
+          <header><span class="name">Accent in chrome</span><a class="path" href="preview/colors-accent-in-chrome.html" target="_blank" rel="noopener">preview/colors-accent-in-chrome.html ↗</a></header>
+          <iframe class="frame" src="preview/colors-accent-in-chrome.html" height="300" loading="lazy" title="Accent in chrome"></iframe>
+        </article>
+        <article class="card full" id="colors-stone">
+          <header><span class="name">Stone neutrals</span><a class="path" href="preview/colors-stone.html" target="_blank" rel="noopener">preview/colors-stone.html ↗</a></header>
+          <iframe class="frame" src="preview/colors-stone.html" height="200" loading="lazy" title="Stone neutrals"></iframe>
+        </article>
+      </div>
+    </section>
 
-        const setActive = (id) => {
-          links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
-        };
+    <section class="group">
+      <h2 id="spacing">SPACING</h2>
+      <div class="cards">
+        <article class="card" id="spacing-borders-corners">
+          <header><span class="name">Borders &amp; corners</span><a class="path" href="preview/spacing-borders-corners.html" target="_blank" rel="noopener">preview/spacing-borders-corners.html ↗</a></header>
+          <iframe class="frame" src="preview/spacing-borders-corners.html" height="300" loading="lazy" title="Borders & corners"></iframe>
+        </article>
+        <article class="card" id="spacing-scale">
+          <header><span class="name">Scale</span><a class="path" href="preview/spacing-scale.html" target="_blank" rel="noopener">preview/spacing-scale.html ↗</a></header>
+          <iframe class="frame" src="preview/spacing-scale.html" height="300" loading="lazy" title="Spacing scale"></iframe>
+        </article>
+      </div>
+    </section>
 
-        const io = new IntersectionObserver(
-          (entries) => {
-            const inView = entries
-              .filter((e) => e.isIntersecting)
-              .sort((a, b) => a.target.offsetTop - b.target.offsetTop);
-            if (inView.length) setActive(inView[0].target.id);
-          },
-          { rootMargin: "-70px 0px -60% 0px", threshold: 0 },
-        );
-        targets.forEach((t) => io.observe(t));
-      })();
+    <section class="group">
+      <h2 id="components">COMPONENTS</h2>
+      <div class="cards">
+        <article class="card" id="components-buttons">
+          <header><span class="name">Buttons</span><a class="path" href="preview/components-buttons.html" target="_blank" rel="noopener">preview/components-buttons.html ↗</a></header>
+          <iframe class="frame" src="preview/components-buttons.html" height="340" loading="lazy" title="Buttons"></iframe>
+        </article>
+        <article class="card" id="components-form-inputs">
+          <header><span class="name">Form inputs</span><a class="path" href="preview/components-form-inputs.html" target="_blank" rel="noopener">preview/components-form-inputs.html ↗</a></header>
+          <iframe class="frame" src="preview/components-form-inputs.html" height="360" loading="lazy" title="Form inputs"></iframe>
+        </article>
+        <article class="card full" id="components-search">
+          <header><span class="name">Search</span><a class="path" href="preview/components-search.html" target="_blank" rel="noopener">preview/components-search.html ↗</a></header>
+          <iframe class="frame" src="preview/components-search.html" height="600" loading="lazy" title="Search"></iframe>
+        </article>
+        <article class="card" id="components-tabs">
+          <header><span class="name">Tabs</span><a class="path" href="preview/components-tabs.html" target="_blank" rel="noopener">preview/components-tabs.html ↗</a></header>
+          <iframe class="frame" src="preview/components-tabs.html" height="300" loading="lazy" title="Tabs"></iframe>
+        </article>
+        <article class="card" id="components-tags">
+          <header><span class="name">Tag chips</span><a class="path" href="preview/components-tags.html" target="_blank" rel="noopener">preview/components-tags.html ↗</a></header>
+          <iframe class="frame" src="preview/components-tags.html" height="280" loading="lazy" title="Tag chips"></iframe>
+        </article>
+        <article class="card" id="components-status">
+          <header><span class="name">Status labels</span><a class="path" href="preview/components-status.html" target="_blank" rel="noopener">preview/components-status.html ↗</a></header>
+          <iframe class="frame" src="preview/components-status.html" height="360" loading="lazy" title="Status labels"></iframe>
+        </article>
+        <article class="card" id="components-alerts">
+          <header><span class="name">Alerts</span><a class="path" href="preview/components-alerts.html" target="_blank" rel="noopener">preview/components-alerts.html ↗</a></header>
+          <iframe class="frame" src="preview/components-alerts.html" height="380" loading="lazy" title="Alerts"></iframe>
+        </article>
+        <article class="card" id="components-menus">
+          <header><span class="name">Menus</span><a class="path" href="preview/components-menus.html" target="_blank" rel="noopener">preview/components-menus.html ↗</a></header>
+          <iframe class="frame" src="preview/components-menus.html" height="340" loading="lazy" title="Menus"></iframe>
+        </article>
+        <article class="card" id="components-card">
+          <header><span class="name">Card</span><a class="path" href="preview/components-card.html" target="_blank" rel="noopener">preview/components-card.html ↗</a></header>
+          <iframe class="frame" src="preview/components-card.html" height="260" loading="lazy" title="Card"></iframe>
+        </article>
+        <article class="card" id="components-code">
+          <header><span class="name">Code</span><a class="path" href="preview/components-code.html" target="_blank" rel="noopener">preview/components-code.html ↗</a></header>
+          <iframe class="frame" src="preview/components-code.html" height="340" loading="lazy" title="Code"></iframe>
+        </article>
+        <article class="card full" id="components-chrome">
+          <header><span class="name">Header / footer</span><a class="path" href="preview/components-chrome.html" target="_blank" rel="noopener">preview/components-chrome.html ↗</a></header>
+          <iframe class="frame" src="preview/components-chrome.html" height="200" loading="lazy" title="Header & footer"></iframe>
+        </article>
+        <article class="card full" id="components-palette-table">
+          <header><span class="name">Palette table</span><a class="path" href="preview/components-palette-table.html" target="_blank" rel="noopener">preview/components-palette-table.html ↗</a></header>
+          <iframe class="frame" src="preview/components-palette-table.html" height="260" loading="lazy" title="Palette table"></iframe>
+        </article>
+      </div>
+    </section>
 
-      // Theme cycle: auto → light → dark → auto. Persisted in localStorage.
-      (function () {
-        const KEY = "pivoshenko.design.theme";
-        const root = document.documentElement;
-        const btn = document.getElementById("theme-toggle");
-        const lbl = document.getElementById("theme-label");
-        const icon = document.getElementById("theme-icon");
-        const order = ["auto", "light", "dark"];
-        const ICONS = {
-          auto: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 12a9 9 0 0 0 0-9"/></svg>',
-          light:
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',
-          dark: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
-        };
-        const apply = (mode) => {
-          root.classList.remove("light", "dark");
-          root.removeAttribute("data-theme");
-          if (mode === "light") root.classList.add("light");
-          if (mode === "dark") root.classList.add("dark");
-          lbl.textContent = mode;
-          icon.innerHTML = ICONS[mode];
-        };
-        const initial = localStorage.getItem(KEY) || "auto";
-        apply(initial);
-        btn.addEventListener("click", () => {
-          const cur = localStorage.getItem(KEY) || "auto";
-          const next = order[(order.indexOf(cur) + 1) % order.length];
-          localStorage.setItem(KEY, next);
-          apply(next);
-        });
-      })();
-    </script>
-  </body>
+  </div>
+</main>
+
+<script>
+  // Scroll-spy: highlight the sidebar item for the section currently in view.
+  (function () {
+    const links = Array.from(document.querySelectorAll('aside a[href^="#"]'));
+    const targets = links
+      .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+      .filter(Boolean);
+    if (!targets.length) return;
+
+    const setActive = (id) => {
+      links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const inView = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.target.offsetTop - b.target.offsetTop);
+        if (inView.length) setActive(inView[0].target.id);
+      },
+      { rootMargin: "-70px 0px -60% 0px", threshold: 0 }
+    );
+    targets.forEach((t) => io.observe(t));
+  })();
+</script>
+</body>
 </html>
