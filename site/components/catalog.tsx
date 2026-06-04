@@ -88,11 +88,7 @@ export function Catalog({
         {fExternalSkills.length === 0 ? (
           <Empty />
         ) : (
-          <ExternalGroups
-            items={fExternalSkills}
-            kind="skill"
-            onTagClick={toggle}
-          />
+          <ExternalGroups items={fExternalSkills} onTagClick={toggle} />
         )}
       </Section>
 
@@ -104,11 +100,7 @@ export function Catalog({
         {fExternalMcps.length === 0 ? (
           <Empty />
         ) : (
-          <ExternalGroups
-            items={fExternalMcps}
-            kind="mcp"
-            onTagClick={toggle}
-          />
+          <ExternalGroups items={fExternalMcps} onTagClick={toggle} />
         )}
       </Section>
     </div>
@@ -214,10 +206,7 @@ function SkillCard({
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-3 border-b border-faint space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <span
-            className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ background: '#89d3c8' }}
-          />
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
           <span className="type-ui fg-primary font-semibold">{skill.name}</span>
           <div className="ml-auto flex flex-wrap gap-1 justify-end">
             {skill.tags.map((t) => (
@@ -256,10 +245,7 @@ function McpCard({
     <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-2.5 border-b border-faint flex items-center gap-2 flex-wrap">
-        <span
-          className="w-1.5 h-1.5 rounded-full shrink-0"
-          style={{ background: '#e79aa4' }}
-        />
+        <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
         <span className="type-ui fg-primary font-semibold">{mcp.name}</span>
         <div className="ml-auto flex flex-wrap gap-1 justify-end">
           {mcp.tags.map((t) => (
@@ -278,11 +264,9 @@ function McpCard({
 
 function ExternalGroups({
   items,
-  kind,
   onTagClick,
 }: {
   items: Array<Skill | Mcp>
-  kind: 'skill' | 'mcp'
   onTagClick: (tag: string) => void
 }) {
   const grouped = new Map<string, Array<Skill | Mcp>>()
@@ -291,8 +275,6 @@ function ExternalGroups({
     list.push(item)
     grouped.set(item.sourceLabel, list)
   }
-  const dotColor = kind === 'skill' ? '#7cc5e6' : '#f6ae85'
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
       {Array.from(grouped.entries()).map(([source, list]) => (
@@ -317,10 +299,7 @@ function ExternalGroups({
                 key={item.id}
                 className="px-2 py-1.5 type-meta fg-secondary flex items-center gap-2 rounded transition-colors flex-wrap"
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: dotColor }}
-                />
+                <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
                 <span className="fg-title truncate">{item.name}</span>
                 {item.tags.length > 0 && (
                   <div className="ml-auto flex flex-wrap gap-1">
