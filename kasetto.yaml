@@ -54,6 +54,27 @@ skills:
     skills:
       - building-pydantic-ai-agents
 
+  - source: https://github.com/anthropics/knowledge-work-plugins
+    sub-dir: productivity/skills
+    skills:
+      - memory-management
+      - start
+      - task-management
+      - update
+
+  - source: https://github.com/anthropics/knowledge-work-plugins
+    sub-dir: engineering/skills
+    skills:
+      - architecture
+      - debug
+      - deploy-checklist
+      - documentation
+      - incident-response
+      - standup
+      - system-design
+      - tech-debt
+      - testing-strategy
+
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     mcps:

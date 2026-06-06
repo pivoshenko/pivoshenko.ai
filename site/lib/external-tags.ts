@@ -15,6 +15,19 @@ export const SKILL_TAGS: Record<string, string[]> = {
   caveman: ['mode'],
   fastapi: ['python', 'api'],
   'building-pydantic-ai-agents': ['ai'],
+  'memory-management': ['productivity'],
+  start: ['productivity'],
+  'task-management': ['productivity'],
+  update: ['productivity'],
+  architecture: ['engineering'],
+  debug: ['engineering'],
+  'deploy-checklist': ['engineering', 'deploy'],
+  documentation: ['engineering', 'docs'],
+  'incident-response': ['engineering'],
+  standup: ['engineering', 'productivity'],
+  'system-design': ['engineering'],
+  'tech-debt': ['engineering'],
+  'testing-strategy': ['engineering'],
 }
 
 export const SOURCE_TAGS: Record<string, string[]> = {
