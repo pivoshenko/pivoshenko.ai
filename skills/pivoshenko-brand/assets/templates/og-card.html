@@ -1,0 +1,82 @@
+<!doctype html>
+<!--
+  1200×630 social / OG card. Hex inlined intentionally — @vercel/og and
+  most headless screenshotters do not resolve CSS custom properties.
+  Render to PNG via:
+    npx playwright screenshot --viewport-size=1200,630 og-card.html out.png
+  or pass the same markup to satori / @vercel/og.
+
+  Palette mirror (keep in sync with colors_and_type.css):
+    --bg-canvas      #1f1f1e
+    --fg-default     #e4e2de
+    --fg-muted       #b8b3a8
+    --fg-faint       #78716c
+    --border-default #2e2e2c
+    --accent-primary #d97757
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body { margin: 0; }
+      body {
+        width: 1200px; height: 630px;
+        background: #1f1f1e;
+        color: #e4e2de;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        display: flex; flex-direction: column;
+        padding: 64px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .lockup {
+        display: flex; align-items: center; gap: 14px;
+        font-size: 22px; font-weight: 600; letter-spacing: -0.4px;
+      }
+      .vp {
+        width: 44px; height: 44px; border-radius: 6px;
+        background: #e4e2de; color: #1f1f1e;
+        display: grid; place-items: center;
+        font-weight: 700; font-size: 22px; letter-spacing: -0.5px;
+      }
+      .suffix { color: #b8b3a8; }
+      .kicker {
+        margin-top: auto;
+        font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: #78716c;
+      }
+      h1 {
+        font-size: 64px; font-weight: 600; line-height: 1.1;
+        margin: 12px 0 24px; max-width: 1000px;
+      }
+      .subtitle {
+        font-size: 22px; color: #b8b3a8; max-width: 900px; line-height: 1.4;
+      }
+      .accent-line {
+        position: absolute; left: 64px; right: 64px; bottom: 56px;
+        height: 2px; background: #d97757;
+      }
+      .byline {
+        position: absolute; right: 64px; bottom: 30px;
+        font-size: 14px; color: #78716c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lockup">
+      <span class="vp">VP</span>
+      <span>pivoshenko<span class="suffix">.{{ SURFACE }}</span></span>
+    </div>
+
+    <div class="kicker">{{ KICKER }}</div>
+    <h1>{{ TITLE }}</h1>
+    <div class="subtitle">{{ SUBTITLE }}</div>
+
+    <div class="accent-line"></div>
+    <div class="byline">{{ DOMAIN }}</div>
+  </body>
+</html>

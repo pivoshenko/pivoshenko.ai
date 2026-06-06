@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#1f1f1e" />
+    <title>{{ TITLE }} — pivoshenko</title>
+    <!-- Token CSS. When inlining, paste the contents of colors_and_type.css inside a <style> tag instead. -->
+    <link rel="stylesheet" href="../../colors_and_type.css" />
+    <style>
+      /* page-local layout only — do NOT redefine tokens or colors here */
+      body {
+        margin: 0;
+        background: var(--bg-page);
+        color: rgb(var(--fg-default));
+        font-family: var(--font-mono);
+      }
+      .shell { max-width: 1152px; margin: 0 auto; padding: 0 16px; }
+      header.site,
+      footer.site {
+        border-color: rgb(var(--border-default));
+      }
+      header.site { border-bottom: 1px solid; padding: 20px 0; }
+      footer.site { border-top: 1px solid; padding: 20px 0; margin-top: 64px; }
+      .lockup { display: flex; align-items: center; gap: 10px; }
+      .vp {
+        width: 24px; height: 24px; border-radius: 4px;
+        background: rgb(var(--fg-default));
+        color: rgb(var(--bg-canvas));
+        display: grid; place-items: center;
+        font-weight: 700; font-size: 12px; letter-spacing: -0.5px;
+      }
+      main { padding: 48px 0; }
+      h1.type-post-heading { margin: 0 0 24px; }
+      .meta { color: rgb(var(--fg-faint)); }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="shell lockup">
+        <span class="vp">VP</span>
+        <span class="type-logo">
+          <span style="color: rgb(var(--fg-default))">pivoshenko</span><span style="color: rgb(var(--fg-muted))">.{{ SURFACE }}</span>
+        </span>
+      </div>
+    </header>
+
+    <main class="shell">
+      <div class="type-label" style="color: rgb(var(--fg-faint)); margin-bottom: 8px">{{ KICKER }}</div>
+      <h1 class="type-post-heading">{{ TITLE }}</h1>
+
+      <p class="type-body" style="color: rgb(var(--fg-muted))">
+        {{ BODY }}
+      </p>
+    </main>
+
+    <footer class="site">
+      <div class="shell type-meta meta">
+        2026 Volodymyr Pivoshenko &lt;contact@pivoshenko.dev&gt;
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<!--
+  Print-tuned dark document. Render to PDF via:
+    chromium --headless --disable-gpu --no-margins \
+             --print-to-pdf=out.pdf document.html
+  or any HTML->PDF pipeline that respects @page.
+
+  Dark background is intentional — the system is dark only,
+  including PDFs. Make sure your renderer does NOT strip
+  background colors (Chrome respects -webkit-print-color-adjust).
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ TITLE }}</title>
+    <link rel="stylesheet" href="../../colors_and_type.css" />
+    <style>
+      @page {
+        size: A4;
+        margin: 18mm 16mm;
+        background: #1f1f1e; /* renderer floor, in case body is clipped */
+      }
+      html, body {
+        background: var(--bg-page);
+        color: rgb(var(--fg-default));
+        font-family: var(--font-mono);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body { margin: 0; }
+      h1 { font-size: 18pt; font-weight: 600; margin: 0 0 4pt; }
+      h2 {
+        font-size: 10pt; font-weight: 400; letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgb(var(--fg-faint));
+        margin: 24pt 0 8pt;
+        padding-bottom: 4pt;
+        border-bottom: 1px solid rgb(var(--border-default));
+      }
+      p, li {
+        font-size: 10.5pt;
+        line-height: 1.55;
+        color: rgb(var(--fg-muted));
+        margin: 0 0 8pt;
+      }
+      ul { padding-left: 1.2em; }
+      a { color: rgb(var(--accent-primary)); text-decoration: underline; }
+      code, pre {
+        background: rgb(var(--bg-surface));
+        border: 1px solid rgb(var(--border-default));
+        border-radius: 4px;
+        padding: 1pt 4pt;
+        font-size: 9.5pt;
+      }
+      pre { padding: 10pt; border-radius: 8px; overflow: hidden; }
+
+      .doc-header,
+      .doc-footer {
+        font-size: 8.5pt; color: rgb(var(--fg-faint));
+      }
+      .doc-header {
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 1px solid rgb(var(--border-default));
+        padding-bottom: 6pt; margin-bottom: 18pt;
+      }
+      .doc-footer {
+        margin-top: 24pt; padding-top: 6pt;
+        border-top: 1px solid rgb(var(--border-default));
+        display: flex; justify-content: space-between;
+      }
+      .lockup { display: inline-flex; align-items: center; gap: 6pt; }
+      .vp {
+        width: 14pt; height: 14pt; border-radius: 2pt;
+        background: rgb(var(--fg-default));
+        color: rgb(var(--bg-canvas));
+        display: inline-grid; place-items: center;
+        font-weight: 700; font-size: 7pt; letter-spacing: -0.3pt;
+      }
+      /* Page-break hygiene */
+      h2 { break-after: avoid; }
+      h1 + p, h2 + p { break-before: avoid; }
+      pre, table { break-inside: avoid; }
+    </style>
+  </head>
+  <body>
+    <div class="doc-header">
+      <span class="lockup">
+        <span class="vp">VP</span>
+        pivoshenko.{{ SURFACE }}
+      </span>
+      <span>{{ DATE }}</span>
+    </div>
+
+    <h1>{{ TITLE }}</h1>
+    <p style="color: rgb(var(--fg-faint))">{{ SUBTITLE }}</p>
+
+    <h2>Section</h2>
+    <p>{{ BODY }}</p>
+
+    <div class="doc-footer">
+      <span>Volodymyr Pivoshenko &lt;contact@pivoshenko.dev&gt;</span>
+      <span>{{ PAGE_LABEL }}</span>
+    </div>
+  </body>
+</html>
