@@ -12,6 +12,7 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'deploy-to-vercel': ['vercel', 'deploy'],
   'rust-best-practices': ['rust'],
   'grill-me': ['mode'],
+  'improve-codebase-architecture': ['engineering'],
   caveman: ['mode'],
   fastapi: ['python', 'api'],
   'building-pydantic-ai-agents': ['ai'],

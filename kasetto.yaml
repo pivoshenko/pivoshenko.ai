@@ -39,6 +39,11 @@ skills:
     skills:
       - grill-me
 
+  - source: https://github.com/mattpocock/skills
+    sub-dir: skills/engineering
+    skills:
+      - improve-codebase-architecture
+
   - source: https://github.com/JuliusBrussee/caveman
     sub-dir: skills
     skills:
