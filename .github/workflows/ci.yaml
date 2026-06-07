@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
-      - uses: pnpm/action-setup@v4
+      - uses: extractions/setup-just@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: site/package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
@@ -34,11 +34,11 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
-      - uses: pnpm/action-setup@v4
+      - uses: extractions/setup-just@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: site/package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
@@ -52,13 +52,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - if: ${{ hashFiles('.no-tests') == '' }}
-        uses: extractions/setup-just@v3
+        uses: extractions/setup-just@v4
       - if: ${{ hashFiles('.no-tests') == '' }}
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           package_json_file: site/package.json
       - if: ${{ hashFiles('.no-tests') == '' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
@@ -73,11 +73,11 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
-      - uses: pnpm/action-setup@v4
+      - uses: extractions/setup-just@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: site/package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
