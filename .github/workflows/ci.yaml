@@ -7,42 +7,80 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
+  lint:
+    runs-on: ubuntu-24.04-arm
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+      - uses: extractions/setup-just@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: site/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+      - run: just install
+      - run: just lint
 
-      - name: Install just
+  audit:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extractions/setup-just@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: site/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+      - run: just install
+      - run: just audit
+
+  test:
+    needs: [lint, audit]
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - if: ${{ hashFiles('.no-tests') == '' }}
         uses: extractions/setup-just@v3
-
-      - name: Install pnpm
+      - if: ${{ hashFiles('.no-tests') == '' }}
         uses: pnpm/action-setup@v4
         with:
           package_json_file: site/package.json
-
-      - name: Setup Node
+      - if: ${{ hashFiles('.no-tests') == '' }}
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: site/pnpm-lock.yaml
-
-      - name: Install dependencies
+      - if: ${{ hashFiles('.no-tests') == '' }}
         run: just install
+      - if: ${{ hashFiles('.no-tests') == '' }}
+        run: just test
 
-      - name: Run linters
-        run: just lint
-
-      - name: Run audit
-        run: just audit
-
-      - name: Build
-        run: just build
+  build:
+    needs: [test]
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extractions/setup-just@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: site/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+      - run: just install
+      - run: just build
