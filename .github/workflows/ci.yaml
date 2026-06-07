@@ -30,6 +30,5 @@ jobs:
       - run: just install
       - run: just lint
       - run: just audit
-      - if: ${{ hashFiles('.no-tests') == '' }}
-        run: just test
+      - run: just test
       - run: just build
