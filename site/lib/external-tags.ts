@@ -41,4 +41,5 @@ export const SOURCE_TAGS: Record<string, string[]> = {
 export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],
+  motherduck: ['data', 'sql'],
 }
