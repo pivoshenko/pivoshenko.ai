@@ -36,7 +36,7 @@ Supporting decisions, so the setup stays repeatable:
 
 - **Memory in the wiki** — each `~/.claude/projects/<slug>/memory` is a symlink into the vault's `97 MEMORY/<project>/`, so Claude's persistent memories live in the wiki while the harness reads them natively. The migration rule lives in my global CLAUDE.md, see [`rules/CLAUDE.md`](rules/CLAUDE.md).
 - **No premature tooling** — no Dataview, no Zettelkasten IDs, no embeddings; search is `rg` + `INDEX.md` until the vault passes ~200 notes, then [qmd](https://github.com/tobi/qmd).
-- **Audit + rollback** — `LOG.md` records what agents did; an external git mirror records the content. The mirror's `.git` lives at `~/.vault.git` (outside iCloud, invisible to Obsidian), snapshotted hourly by launchd via [`scripts/vault-snapshot.sh`](scripts/vault-snapshot.sh).
+- **Audit + rollback** — `LOG.md` records what agents did; an external git mirror records the content. The mirror's `.git` lives at `~/.vault.git` (outside iCloud, invisible to Obsidian, local-only — never pushed), snapshotted hourly via [`scripts/vault-snapshot.sh`](scripts/vault-snapshot.sh). The scheduler is machine-local setup, deliberately not in dotfiles (it's OS-specific): macOS — a launchd plist in `~/Library/LaunchAgents` running the script hourly; Linux — a cron line (`0 * * * * sh .../scripts/vault-snapshot.sh`).
 
 To repeat it: create the vault folders + `CLAUDE.md`/`INDEX.md`/`LOG.md` per [`rules/VAULT.md`](rules/VAULT.md), copy the templates idea, and sync the `wiki-*` skills via Kasetto (see below).
 
