@@ -12,7 +12,11 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 - `skills/` — Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
   - `git-commit`, `git-branch-create`, `git-pr-create`, `git-branch-sync`, `git-branches-cleanup` — Conventional git workflow skills. Tag: `git`.
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
+  - `wiki-capture`, `wiki-summarize`, `wiki-project`, `wiki-write`, `wiki-lint` — Obsidian second-brain workflows over the vault at `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Vault` (schema lives in the vault's own `CLAUDE.md`; skills hold workflow only, zero duplicated conventions). Tags: `wiki`, `obsidian`.
+  - `obsidian-markdown` — Obsidian Flavored Markdown syntax reference (wikilinks, embeds, callouts, properties) + `references/`. In-house adaptation of kepano/obsidian-skills (MIT). Tags: `wiki`, `obsidian`.
 - `mcps/` — Local MCP definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
+- `rules/` — `CLAUDE.md` is the **canonical** global CLAUDE.md (`~/.claude/CLAUDE.md` symlinks to it); `VAULT.md` is a copy of the Obsidian vault's `CLAUDE.md` (live vault file wins; `wiki-lint` checks for drift).
+- `scripts/vault-snapshot.sh` — hourly vault backup into the external git mirror `~/.vault.git`, driven by launchd (`com.pivoshenko.vault-snapshot`).
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
 - `justfile` — Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `audit`, `check`, `build`, `start`, `update`.
 - `.github/` — `workflows/ci.yaml` (runs `just check` on push/PR), `labels.yaml` (label sync source of truth), `PULL_REQUEST_TEMPLATE.md`. Internal repo — no release workflow or community files (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`); do not scaffold them. Skip License + CI badges in the README — these belong only in repos that ship a release.
