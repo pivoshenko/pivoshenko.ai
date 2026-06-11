@@ -14,6 +14,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `pivoshenko-brand` — Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
   - `wiki-capture`, `wiki-summarize`, `wiki-project`, `wiki-write`, `wiki-lint` — Obsidian second-brain workflows over the vault at `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Vault` (schema lives in the vault's own `CLAUDE.md`; skills hold workflow only, zero duplicated conventions). Tags: `wiki`, `obsidian`.
   - `obsidian-markdown` — Obsidian Flavored Markdown syntax reference (wikilinks, embeds, callouts, properties) + `references/`. In-house adaptation of kepano/obsidian-skills (MIT). Tags: `wiki`, `obsidian`.
+  - `blog-write` — Write/edit posts for `pivoshenko.dev` (interrogate → thesis → DAG outline → per-section draft → anti-slop passes → MDX ship) + `references/anti-slop.md`. Voice rules stay in `pivoshenko-brand`. Tags: `writing`, `blog`.
 - `mcps/` — Local MCP definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `rules/` — `CLAUDE.md` is the **canonical** global CLAUDE.md (`~/.claude/CLAUDE.md` symlinks to it); `VAULT.md` is a copy of the Obsidian vault's `CLAUDE.md` (live vault file wins; `wiki-lint` checks for drift).
 - `scripts/vault-snapshot.sh` — hourly vault backup into the external git mirror `~/.vault.git`, driven by launchd (`com.pivoshenko.vault-snapshot`).
