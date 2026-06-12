@@ -2,7 +2,7 @@
 name: wiki-lint
 description: Maintenance sweep of the Obsidian vault — orphan notes, missing/invalid frontmatter, dead wikilinks, stale project statuses, INDEX.md drift, unprocessed inbox. Use when the user says "lint my wiki", "vault health check", "clean up my vault", "is my wiki up to date", or on a periodic review.
 tags: [wiki, obsidian]
-updated_at: 2026-06-11
+updated_at: 2026-06-12
 ---
 
 # Wiki lint
@@ -31,7 +31,7 @@ Karpathy lint loop: scan -> report -> fix with approval. Read-only until user ap
    - **layout** — every top-level dir in `03 PROJECTS/` contains `<dirname>.md` index
    - **memory symlinks** — every `~/.claude/projects/*/memory` symlink resolves; every `97 MEMORY/<project>/` has a matching symlink
    - **daily-note harvest** — daily notes newer than the last `lint:` LOG entry: list durable items worth extracting (propose, don't auto-file)
-   - **rules copy** — `pivoshenko.ai/rules/VAULT.md` diffs clean against vault `CLAUDE.md`
+   - **rules copies** — `pivoshenko.ai/rules/VAULT.md` diffs clean against vault `CLAUDE.md`; `pivoshenko.ai/rules/CLAUDE.md` diffs clean against `~/.claude/CLAUDE.md` (both canonical files are live, repo holds mirrors)
 3. Report findings grouped by check, one line each, fix proposed per line. Clean -> say so, done.
 4. User approves -> fix. Mechanical fixes (index drift, frontmatter gaps, dead-link stubs) batch fine; content judgment calls (orphan deletion, stale status changes) -> ask per item.
 5. Duties: LOG.md line (`lint: N findings, M fixed`), bump `updated` on touched notes.

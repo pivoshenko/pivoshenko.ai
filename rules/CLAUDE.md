@@ -69,7 +69,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - When durable knowledge surfaces in any session (a decision on one of the user's projects, a concept worth documenting, a talk/book discussed), offer to capture it into the vault — don't silently skip it.
 - Arbitration: durable knowledge always routes to the vault via the `wiki-*` skills. The `memory-management`/`task-management` plugins are not the system of record — TASKS.md is fine for task tracking, but knowledge lands in the wiki.
 - If the vault path does not exist on disk (remote/cloud session), say so and hand content back as a paste-ready block — never recreate vault structure elsewhere.
-- This file is canonical in `pivoshenko.ai/rules/CLAUDE.md`; `~/.claude/CLAUDE.md` is a symlink to it (edits land in git automatically). The vault `CLAUDE.md` is mirrored as `rules/VAULT.md` — refresh that copy after editing the vault schema (wiki-lint checks it).
+- This file is canonical at `~/.claude/CLAUDE.md` (real file); `pivoshenko.ai/rules/CLAUDE.md` is a mirror copy — refresh it (and commit) after editing this file. The vault `CLAUDE.md` is likewise canonical in the vault and mirrored as `rules/VAULT.md` — refresh that copy after editing the vault schema (wiki-lint checks both mirrors for drift).
 
 # CLAUDE Memory In Wiki
 
