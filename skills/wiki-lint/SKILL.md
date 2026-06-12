@@ -32,7 +32,6 @@ Karpathy lint loop: scan -> report -> fix with approval. Read-only until user ap
    - **no symlinks** — nothing under `~/.claude` is a symlink (memory dirs and `CLAUDE.md` are real files; a symlink = legacy arrangement to convert)
    - **memory mirrors** — each `~/.claude/projects/<slug>/memory` diffs clean against its canonical `97 MEMORY/<project>/`
    - **daily-note harvest** — daily notes newer than the last `lint:` LOG entry: list durable items worth extracting (propose, don't auto-file)
-   - **rules copies** — `pivoshenko.ai/rules/VAULT.md` diffs clean against vault `CLAUDE.md`; `pivoshenko.ai/rules/CLAUDE.md` diffs clean against `~/.claude/CLAUDE.md` (both canonical files are live, repo holds mirrors)
 3. Report findings grouped by check, one line each, fix proposed per line. Clean -> say so, done.
 4. User approves -> fix. Mechanical fixes (index drift, frontmatter gaps, dead-link stubs) batch fine; content judgment calls (orphan deletion, stale status changes) -> ask per item.
 5. Duties: LOG.md line (`lint: N findings, M fixed`), bump `updated` on touched notes.
