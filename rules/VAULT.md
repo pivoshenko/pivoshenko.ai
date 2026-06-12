@@ -9,7 +9,7 @@ Personal second brain in Obsidian, maintained primarily by Claude Code / Cowork.
 | `00 INBOX/` | Raw dumps awaiting processing — anything goes | none |
 | `01 DAILY NOTES/` | Daily notes (`YYYYMMDD.md`) — user-authored, never edit retroactively | none |
 | `02 PERMANENT NOTES/` | Evergreen concept/wiki pages, FLAT — one concept per note | `99 TEMPLATES/Concept.md` |
-| `03 PROJECTS/` | One subfolder per project: `<Project>.md` index + `Decisions.md` + extras | `99 TEMPLATES/Project.md` |
+| `03 PROJECTS/` | One subfolder per project: `<Project>.md` index + `Decisions.md` + `Meetings.md` (append-only logs, created on first entry) + extras. `Ideas.md` at folder root holds one-liner future-project ideas; substantial ideas graduate to a hub with `status: idea` | `99 TEMPLATES/Project.md` |
 | `04 RESEARCH/` | Research notes / investigations | `99 TEMPLATES/Concept.md` |
 | `05 SOURCES/` | Talk/book/article/video summaries — flat, `source_type` in frontmatter | `99 TEMPLATES/Source.md` |
 | `06 WRITING/` | Blog drafts + project announcement posts | `99 TEMPLATES/Blog Draft.md`, `99 TEMPLATES/Announcement.md` |
