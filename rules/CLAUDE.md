@@ -73,9 +73,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 # CLAUDE Memory
 
-**Claude memory lives in `~/.claude/projects/<slug>/memory` as real directories (harness default). No symlinks anywhere under `~/.claude`.**
+**Canonical Claude memory lives in the vault: `<vault>/97 MEMORY/<project>/`. `~/.claude/projects/<slug>/memory` is a real-directory mirror of it (no symlinks anywhere under `~/.claude`).**
 
-The vault's `97 MEMORY/<project>/` holds mirror copies for Obsidian visibility + iCloud sync + the hourly vault snapshot. After writing or updating memories, refresh the project's mirror (`cp -R` the memory dir over `<vault>/97 MEMORY/<project>/`). Edit canonical, never the mirror. If a `memory` path turns out to be a symlink (legacy arrangement), convert it: move the contents into a real directory at the same path and remove the link.
+Memory write flow: write/update the memory file in `97 MEMORY/<project>/` first, then refresh the harness mirror (`cp -R` the vault folder over `~/.claude/projects/<slug>/memory/`) so sessions load it. Edit canonical, never the mirror. Remote session (vault path missing): write harness-side and flag that the vault canonical needs reconciling next local session. If a `memory` path turns out to be a symlink (legacy arrangement), convert it: move the contents into a real directory at the same path and remove the link.
 
 **Auto-update:** at the end of any substantive task, check whether durable facts surfaced (user preference, correction, project constraint, key decision) and save/update memories then — don't wait to be asked. Update stale memories in place; delete ones proven wrong.
 

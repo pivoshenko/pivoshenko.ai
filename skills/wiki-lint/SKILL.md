@@ -30,7 +30,7 @@ Karpathy lint loop: scan -> report -> fix with approval. Read-only until user ap
    - **secrets** — `rg -i 'api[_-]?key|secret|token|password|_pat_'` across ALL notes incl. daily notes → flag to user, never quote values
    - **layout** — every top-level dir in `03 PROJECTS/` contains `<dirname>.md` index
    - **no symlinks** — nothing under `~/.claude` is a symlink (memory dirs and `CLAUDE.md` are real files; a symlink = legacy arrangement to convert)
-   - **memory mirrors** — each `97 MEMORY/<project>/` diffs clean against its canonical `~/.claude/projects/<slug>/memory`
+   - **memory mirrors** — each `~/.claude/projects/<slug>/memory` diffs clean against its canonical `97 MEMORY/<project>/`
    - **daily-note harvest** — daily notes newer than the last `lint:` LOG entry: list durable items worth extracting (propose, don't auto-file)
    - **rules copies** — `pivoshenko.ai/rules/VAULT.md` diffs clean against vault `CLAUDE.md`; `pivoshenko.ai/rules/CLAUDE.md` diffs clean against `~/.claude/CLAUDE.md` (both canonical files are live, repo holds mirrors)
 3. Report findings grouped by check, one line each, fix proposed per line. Clean -> say so, done.
