@@ -4,6 +4,21 @@ import type { Mcp, Skill } from '@/lib/data'
 import { SectionHeader, TagButton } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
 
+const DOT_COLORS = [
+  'bg-accent-primary',
+  'bg-accent-secondary',
+  'bg-accent-success',
+  'bg-accent-danger',
+  'bg-accent-info',
+]
+
+function dotColor(tags: string[]): string {
+  if (tags.length === 0) return DOT_COLORS[0]
+  let hash = 0
+  for (const c of tags[0]) hash = (hash * 31 + c.charCodeAt(0)) | 0
+  return DOT_COLORS[Math.abs(hash) % DOT_COLORS.length]
+}
+
 type Props = {
   localSkills: Skill[]
   localMcps: Mcp[]
@@ -206,7 +221,9 @@ function SkillCard({
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-3 border-b border-faint space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
+          <span
+            className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor(skill.tags)}`}
+          />
           <span className="type-ui fg-primary font-semibold">{skill.name}</span>
           <div className="ml-auto flex flex-wrap gap-1 justify-end">
             {skill.tags.map((t) => (
@@ -218,17 +235,7 @@ function SkillCard({
           {skill.description || ' '}
         </p>
       </div>
-      {skill.body && <SkillBody body={skill.body} />}
     </article>
-  )
-}
-
-function SkillBody({ body }: { body: string }) {
-  const trimmed = body.length > 520 ? `${body.slice(0, 520)}…` : body
-  return (
-    <pre className="px-3 py-3 type-meta fg-muted whitespace-pre-wrap break-words leading-relaxed font-mono">
-      {trimmed}
-    </pre>
   )
 }
 
@@ -245,7 +252,9 @@ function McpCard({
     <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-2.5 border-b border-faint flex items-center gap-2 flex-wrap">
-        <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
+        <span
+          className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor(mcp.tags)}`}
+        />
         <span className="type-ui fg-primary font-semibold">{mcp.name}</span>
         <div className="ml-auto flex flex-wrap gap-1 justify-end">
           {mcp.tags.map((t) => (
@@ -253,11 +262,6 @@ function McpCard({
           ))}
         </div>
       </div>
-      {mcp.config && (
-        <pre className="px-3 py-3 type-meta fg-secondary whitespace-pre overflow-x-auto leading-relaxed font-mono">
-          <code>{mcp.config}</code>
-        </pre>
-      )}
     </article>
   )
 }
@@ -299,7 +303,9 @@ function ExternalGroups({
                 key={item.id}
                 className="px-2 py-1.5 type-meta fg-secondary flex items-center gap-2 rounded transition-colors flex-wrap"
               >
-                <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent-primary" />
+                <span
+                  className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor(item.tags)}`}
+                />
                 <span className="fg-title truncate">{item.name}</span>
                 {item.tags.length > 0 && (
                   <div className="ml-auto flex flex-wrap gap-1">

@@ -13,7 +13,6 @@ export type Skill = {
   slug: string
   name: string
   description: string
-  body?: string
   source: string
   sourceLabel: string
   local: boolean
@@ -27,7 +26,6 @@ export type Mcp = {
   source: string
   sourceLabel: string
   local: boolean
-  config?: string
   tags: string[]
   updated_at?: string
 }
@@ -70,7 +68,7 @@ function readLocalSkills(): Skill[] {
   )
   return entries.map((slug) => {
     const md = readFileSync(join(skillsDir, slug, 'SKILL.md'), 'utf8')
-    const { data, content } = matter(md)
+    const { data } = matter(md)
     const frontmatterTags = Array.isArray(data.tags)
       ? (data.tags as string[]).map(String)
       : []
@@ -79,7 +77,6 @@ function readLocalSkills(): Skill[] {
       slug,
       name: (data.name as string) ?? slug,
       description: (data.description as string) ?? '',
-      body: content.trim(),
       source: LOCAL_SOURCE,
       sourceLabel: LOCAL_LABEL,
       local: true,
@@ -97,14 +94,12 @@ function readLocalMcps(): Mcp[] {
   const entries = readdirSync(mcpsDir).filter((name) => name.endsWith('.json'))
   return entries.map((file) => {
     const name = file.replace(/\.json$/, '')
-    const raw = readFileSync(join(mcpsDir, file), 'utf8').trim()
     return {
       id: `mcp:${name}`,
       name,
       source: LOCAL_SOURCE,
       sourceLabel: LOCAL_LABEL,
       local: true,
-      config: raw,
       tags: deriveMcpTags(name, LOCAL_LABEL),
     }
   })
