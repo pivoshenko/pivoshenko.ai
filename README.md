@@ -15,7 +15,6 @@ What's in here?
 - Locally authored skills, see [`skills/`](skills)
 - Locally authored MCP definitions, see [`mcps/`](mcps)
 - External skills and MCPs, see [`kasetto.yaml`](kasetto.yaml)
-- My global CLAUDE.md and the vault CLAUDE.md, see [`rules/`](rules)
 
 ## Main principles
 
@@ -28,24 +27,24 @@ What's in here?
 
 An Obsidian vault maintained primarily by Claude Code, inspired by [Karpathy's LLM-maintained notes](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Three pieces, one job each:
 
-1. **Schema in the vault** — the vault's own `CLAUDE.md` holds all conventions (folder map, frontmatter contract, linking rules, standing duties); `INDEX.md` is the catalog the agent reads first; `LOG.md` is an append-only journal of agent actions. See [`rules/VAULT.md`](rules/VAULT.md).
+1. **Schema in the vault** — the vault's own `CLAUDE.md` holds all conventions (folder map, frontmatter contract, linking rules, standing duties); `INDEX.md` is the catalog the agent reads first; `LOG.md` is an append-only journal of agent actions. The schema is a live file in the vault — no repo mirror.
 2. **Workflow skills in this repo** — [`wiki-capture`](skills/wiki-capture), [`wiki-summarize`](skills/wiki-summarize), [`wiki-project`](skills/wiki-project), [`wiki-write`](skills/wiki-write), [`wiki-lint`](skills/wiki-lint), plus the [`obsidian-markdown`](skills/obsidian-markdown) syntax reference. Skills hold process only and defer to the vault schema — zero duplicated conventions.
 3. **Templates in the vault** — one note template per type under `99 TEMPLATES/`, usable both by the skills and manually via Obsidian (including mobile).
 
 Supporting decisions, so the setup stays repeatable:
 
-- **Memory in the wiki** — each `~/.claude/projects/<slug>/memory` is a symlink into the vault's `97 MEMORY/<project>/`, so Claude's persistent memories live in the wiki while the harness reads them natively. The migration rule lives in my global CLAUDE.md, see [`rules/CLAUDE.md`](rules/CLAUDE.md).
+- **Memory in the wiki** — each `~/.claude/projects/<slug>/memory` is a symlink into the vault's `97 MEMORY/<project>/`, so Claude's persistent memories live in the wiki while the harness reads them natively. The migration rule lives in my global CLAUDE.md (see [Rules](#rules)).
 - **No premature tooling** — no Dataview, no Zettelkasten IDs, no embeddings; search is `rg` + `INDEX.md` until the vault passes ~200 notes, then [qmd](https://github.com/tobi/qmd).
 - **Audit + rollback** — `LOG.md` records what agents did; an external git mirror records the content. The mirror's `.git` lives at `~/.vault.git` (outside iCloud, invisible to Obsidian, local-only — never pushed), snapshotted hourly via [`scripts/vault-snapshot.sh`](scripts/vault-snapshot.sh). The scheduler is machine-local setup, deliberately not in dotfiles (it's OS-specific): macOS — a launchd plist in `~/Library/LaunchAgents` running the script hourly; Linux — a cron line (`0 * * * * sh .../scripts/vault-snapshot.sh`).
 
-To repeat it: create the vault folders + `CLAUDE.md`/`INDEX.md`/`LOG.md` per [`rules/VAULT.md`](rules/VAULT.md), copy the templates idea, and sync the `wiki-*` skills via Kasetto (see below).
+To repeat it: create the vault folders + `CLAUDE.md`/`INDEX.md`/`LOG.md` per the vault's own `CLAUDE.md`, copy the templates idea, and sync the `wiki-*` skills via Kasetto (see below).
 
 ## Rules
 
-[`rules/`](rules) holds the CLAUDE.md files used outside this repo:
+The CLAUDE.md files used outside this repository live with their owners:
 
-- [`rules/CLAUDE.md`](rules/CLAUDE.md) — my global CLAUDE.md, **canonical here**: `~/.claude/CLAUDE.md` is a symlink to this file, so every edit lands in git automatically
-- [`rules/VAULT.md`](rules/VAULT.md) — the vault's `CLAUDE.md` (the wiki schema); the live vault file wins, and `wiki-lint` checks this copy for drift
+- My global CLAUDE.md — **canonical in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles)** (`dotfiles/.claude/CLAUDE.md`), deployed to `~/.claude/CLAUDE.md` by dotdrop
+- The vault's `CLAUDE.md` (the wiki schema) — a live file inside the vault itself, no repo mirror
 
 ## Installation
 
