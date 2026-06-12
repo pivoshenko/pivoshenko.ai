@@ -13,7 +13,7 @@ Personal second brain in Obsidian, maintained primarily by Claude Code / Cowork.
 | `04 RESEARCH/` | Research notes / investigations | `99 TEMPLATES/Concept.md` |
 | `05 SOURCES/` | Talk/book/article/video summaries — flat, `source_type` in frontmatter | `99 TEMPLATES/Source.md` |
 | `06 WRITING/` | Blog drafts + project announcement posts | `99 TEMPLATES/Blog Draft.md`, `99 TEMPLATES/Announcement.md` |
-| `97 MEMORY/` | Claude Code persistent memory, one subfolder per project — symlinked from `~/.claude/projects/<slug>/memory` | harness format |
+| `97 MEMORY/` | Mirror copies of Claude Code memory (`~/.claude/projects/<slug>/memory` is canonical — real dirs, no symlinks); refreshed after memory writes | harness format |
 | `98 ATTACHMENTS/` | Binary assets — never touch |
 | `99 TEMPLATES/` | Note-type templates (also used manually via Obsidian) |
 

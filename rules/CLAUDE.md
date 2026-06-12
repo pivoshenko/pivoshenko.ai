@@ -71,11 +71,11 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - If the vault path does not exist on disk (remote/cloud session), say so and hand content back as a paste-ready block — never recreate vault structure elsewhere.
 - This file is canonical at `~/.claude/CLAUDE.md` (real file); `pivoshenko.ai/rules/CLAUDE.md` is a mirror copy — refresh it (and commit) after editing this file. The vault `CLAUDE.md` is likewise canonical in the vault and mirrored as `rules/VAULT.md` — refresh that copy after editing the vault schema (wiki-lint checks both mirrors for drift).
 
-# CLAUDE Memory In Wiki
+# CLAUDE Memory
 
-**Claude memory lives in the vault, symlinked from `~/.claude/projects/<slug>/memory`.**
+**Claude memory lives in `~/.claude/projects/<slug>/memory` as real directories (harness default). No symlinks anywhere under `~/.claude`.**
 
-Canonical store: `<vault>/97 MEMORY/<project>/`. Before writing a memory in a project whose `~/.claude/projects/<slug>/memory` is a real directory (not a symlink), migrate it: move any contents to `<vault>/97 MEMORY/<project>/` (create it), remove the dir, and symlink it to the vault folder. Keep the harness memory format unchanged — the vault is just the physical home.
+The vault's `97 MEMORY/<project>/` holds mirror copies for Obsidian visibility + iCloud sync + the hourly vault snapshot. After writing or updating memories, refresh the project's mirror (`cp -R` the memory dir over `<vault>/97 MEMORY/<project>/`). Edit canonical, never the mirror. If a `memory` path turns out to be a symlink (legacy arrangement), convert it: move the contents into a real directory at the same path and remove the link.
 
 **Auto-update:** at the end of any substantive task, check whether durable facts surfaced (user preference, correction, project constraint, key decision) and save/update memories then — don't wait to be asked. Update stale memories in place; delete ones proven wrong.
 
