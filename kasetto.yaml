@@ -25,10 +25,18 @@ skills:
       - next-best-practices
       - next-upgrade
 
+  - source: https://github.com/cloudflare/skills
+    skills:
+      - cloudflare
+      - web-perf
+
   - source: https://github.com/vercel-labs/agent-skills
     skills:
       - web-design-guidelines
+      - building-components
       - deploy-to-vercel
+      - vercel-deploy
+      - vercel-cli
 
   - source: https://github.com/apollographql/skills
     skills:
@@ -86,3 +94,6 @@ mcps:
       - github
       - motherduck
       - vercel
+      - cloudflare-api
+      - cloudflare-docs
+      - cloudflare-observability
