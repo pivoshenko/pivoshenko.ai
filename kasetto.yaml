@@ -79,6 +79,32 @@ skills:
       - logfire-ui
       - pydantic-ai-harness
 
+  - source: https://github.com/supabase/agent-skills
+    sub-dir: skills
+    skills:
+      - supabase
+      - supabase-postgres-best-practices
+
+  - source: https://github.com/motherduckdb/agent-skills
+    sub-dir: skills
+    skills:
+      - motherduck-connect
+      - motherduck-duckdb-sql
+      - motherduck-explore
+      - motherduck-query
+      - motherduck-rest-api
+      - motherduck-create-dive
+      - motherduck-create-flight
+      - motherduck-ducklake
+      - motherduck-load-data
+      - motherduck-model-data
+      - motherduck-security-governance
+      - motherduck-share-data
+      - motherduck-build-cfa-app
+      - motherduck-build-dashboard
+      - motherduck-build-data-pipeline
+      - motherduck-migrate-to-motherduck
+
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: productivity/skills
     skills:
@@ -108,3 +134,4 @@ mcps:
       - vercel
       - cloudflare
       - logfire
+      - supabase
