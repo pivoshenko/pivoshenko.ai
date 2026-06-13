@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "logfire": {
+      "url": "https://logfire-eu.pydantic.dev/mcp",
+      "type": "http",
+      "headers": {
+        "Authorization": "Bearer ${LOGFIRE_READ_TOKEN}"
+      }
+    }
+  }
+}

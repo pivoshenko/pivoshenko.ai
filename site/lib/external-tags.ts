@@ -21,6 +21,10 @@ export const SKILL_TAGS: Record<string, string[]> = {
   caveman: ['mode'],
   fastapi: ['python', 'api'],
   'building-pydantic-ai-agents': ['ai'],
+  'logfire-instrumentation': ['python', 'observability'],
+  'logfire-query': ['python', 'observability'],
+  'logfire-ui': ['python', 'observability'],
+  'pydantic-ai-harness': ['python', 'ai'],
   'memory-management': ['productivity'],
   start: ['productivity'],
   'task-management': ['productivity'],
@@ -53,4 +57,5 @@ export const MCP_TAGS: Record<string, string[]> = {
   'cloudflare-api': ['cloudflare'],
   'cloudflare-docs': ['cloudflare', 'docs'],
   'cloudflare-observability': ['cloudflare'],
+  logfire: ['observability', 'python'],
 }

@@ -74,6 +74,10 @@ skills:
     sub-dir: skills
     skills:
       - building-pydantic-ai-agents
+      - logfire-instrumentation
+      - logfire-query
+      - logfire-ui
+      - pydantic-ai-harness
 
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: productivity/skills
@@ -105,3 +109,4 @@ mcps:
       - cloudflare-api
       - cloudflare-docs
       - cloudflare-observability
+      - logfire
