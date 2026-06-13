@@ -41,6 +41,11 @@ skills:
     skills:
       - vercel-cli
 
+  - source: https://github.com/vercel/components.build
+    sub-dir: skills
+    skills:
+      - building-components
+
   - source: https://github.com/apollographql/skills
     skills:
       - rust-best-practices
