@@ -106,7 +106,5 @@ mcps:
       - github
       - motherduck
       - vercel
-      - cloudflare-api
-      - cloudflare-docs
-      - cloudflare-observability
+      - cloudflare
       - logfire

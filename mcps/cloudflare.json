@@ -1,11 +1,12 @@
 {
   "mcpServers": {
+    "cloudflare-api": {
+      "url": "https://mcp.cloudflare.com/sse",
+      "type": "sse"
+    },
     "cloudflare-observability": {
       "url": "https://mcp.cloudflare.com/observability/sse",
-      "type": "sse",
-      "headers": {
-        "Authorization": "Bearer ${CLOUDFLARE_API_TOKEN}"
-      }
+      "type": "sse"
     }
   }
 }
