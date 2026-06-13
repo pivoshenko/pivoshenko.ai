@@ -17,6 +17,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
   - `blog-write` — Write/edit posts for `pivoshenko.dev` (interrogate → thesis → DAG outline → per-section draft → anti-slop passes → MDX ship) + `references/anti-slop.md`. Voice rules stay in `pivoshenko-brand`. Tags: `writing`, `blog`.
   - `macos-cleanup` — Deep-clean macOS: junk, app leftovers, dev caches, space/startup audit. Read-only scan (`scripts/scan.sh`) → sized report with safe/risky/skip verdicts → per-category confirm → delete → verify freed. Tags: `macos`, `cleanup`.
   - `macos-maintenance` — Periodic macOS health sweep + tune-up: updates, disk health/SMART, memory pressure, battery, backups, Spotlight, crashes, uptime, startup load. Read-only sweep → ok/attention/action report → confirmed fixes; plus targeted fixes (Spotlight reindex, LS rebuild, DNS/font cache, runaway processes). Complement to `macos-cleanup` (health/updates vs storage split). Tags: `macos`, `maintenance`.
+  - `cloudflare-harden` — Audit + harden live Cloudflare zones/domains (operational config, NOT the upstream `cloudflare` dev skill). Read-only sweep → per-zone ok/attention/action report grouped by category (SSL/TLS, security/WAF/bot, perf/caching, network protocols, DNS hygiene, analytics) → per-category confirm → apply via `cloudflare-api` MCP → verify. `references/best-practices.md` = spec-verified endpoint/value matrix; `scripts/audit.mjs` = read-only sweep (GET-only). Preflight detects narrow MCP token (current `cloudflare-api` token is read-narrow → settings reported manual until broadened). Tags: `cloudflare`, `optimization`, `security`.
 - `mcps/` — Local MCP definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
 - `scripts/vault-snapshot.sh` — hourly vault backup into the external git mirror `~/.vault.git`, driven by launchd (`com.pivoshenko.vault-snapshot`).
 - `site/` — Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, and `../kasetto.yaml` at build time. Card layout with tag filter. No `site/CLAUDE.md` — this section is the source.
@@ -35,7 +36,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 - Local skills: add `tags: [...]` to `SKILL.md` frontmatter. Treat as the source of truth.
 - External skills/MCPs: edit `site/lib/external-tags.ts`. Do not add regex rules — use the explicit per-slug / per-source maps.
-- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`).
+- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`, `cloudflare`, `security`, `optimization`).
 
 ## When editing skills
 
