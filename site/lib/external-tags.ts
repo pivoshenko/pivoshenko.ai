@@ -74,8 +74,7 @@ export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],
   motherduck: ['data', 'sql'],
-  'cloudflare-api': ['cloudflare'],
-  'cloudflare-observability': ['cloudflare'],
+  cloudflare: ['cloudflare'],
   logfire: ['observability', 'python'],
   supabase: ['supabase', 'sql'],
 }
