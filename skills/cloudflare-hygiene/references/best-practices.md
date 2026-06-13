@@ -1,6 +1,6 @@
 # Cloudflare zone best-practices checklist
 
-Full reference for `cloudflare-harden`. Each item: **optimal value · why · endpoint (auto) / dashboard path (manual) · risk**. All endpoints are zone-scoped: `/zones/{zone_id}/...`. Reads = `GET`, applies = `PATCH` (settings) / `POST` (new DNS records) via `mcp__cloudflare-api__execute`.
+Full reference for `cloudflare-hygiene`. Each item: **optimal value · why · endpoint (auto) / dashboard path (manual) · risk**. All endpoints are zone-scoped: `/zones/{zone_id}/...`. Reads = `GET`, applies = `PATCH` (settings) / `POST` (new DNS records) via `mcp__cloudflare-api__execute`.
 
 Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low urgency or judgment call) · `action` (fixable now, named).
 

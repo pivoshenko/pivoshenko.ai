@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Read-only Cloudflare zone audit — reference sweep logic for `cloudflare-harden`.
+// Read-only Cloudflare zone audit — reference sweep logic for `cloudflare-hygiene`.
 // GETs only. NO mutation here; all PATCH/POST live in the confirmed-apply phase.
 //
 // Run directly with a token in env:  CLOUDFLARE_API_TOKEN=... node scripts/audit.mjs

@@ -1,11 +1,11 @@
 ---
-name: cloudflare-harden
+name: cloudflare-hygiene
 description: Audit + harden + optimize live Cloudflare zones/domains — read-only sweep of each zone (SSL/TLS mode, HSTS, min TLS, TLS 1.3, Always-Use-HTTPS, Brotli, HTTP/3, 0-RTT, Early Hints, caching, security level, Bot Fight Mode, WAF, DNS proxy/TTL + SPF/DKIM/DMARC hygiene, DNSSEC) → ok/attention/action report grouped by category → per-category confirm → apply via Cloudflare MCP. Use when the user says "harden my cloudflare", "optimize my cloudflare zones", "audit my domains", "check my cloudflare settings", "secure my dns", "harden my dns", "hide my origin IP", "set up HSTS/DNSSEC", "am I leaking my origin", "is my cloudflare config optimal", or "tune cloudflare". For BUILDING on Cloudflare (Workers/Pages/KV/D1/Terraform) use the cloudflare skill instead.
 tags: [cloudflare, optimization, security]
 updated_at: 2026-06-13
 ---
 
-# Cloudflare Harden
+# Cloudflare Hygiene
 
 Periodic posture sweep over live zones: preflight → sweep (read-only) → report → confirm → apply → verify. Optimization = real wins only: TLS strict, HTTPS forced, modern protocols on, DNS proxied + mail auth complete. No theater (no settings churned that already match optimal, no proxying records that must stay direct). Building on Cloudflare (Workers/Pages/KV/D1) → `cloudflare`, hand off.
 
