@@ -10,6 +10,10 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'startup-pitch': ['startup'],
   'web-design-guidelines': ['frontend', 'design'],
   'deploy-to-vercel': ['vercel', 'deploy'],
+  'vercel-optimize': ['vercel', 'perf'],
+  'vercel-cli': ['vercel', 'deploy'],
+  cloudflare: ['cloudflare'],
+  'web-perf': ['frontend', 'perf'],
   'rust-best-practices': ['rust'],
   'grill-me': ['mode'],
   'improve-codebase-architecture': ['engineering'],
@@ -34,6 +38,8 @@ export const SKILL_TAGS: Record<string, string[]> = {
 export const SOURCE_TAGS: Record<string, string[]> = {
   'vercel-labs/next-skills': ['nextjs'],
   'vercel-labs/agent-skills': ['vercel'],
+  'vercel/vercel': ['vercel'],
+  'cloudflare/skills': ['cloudflare'],
   'ferdinandobons/startup-skill': ['startup'],
   'pydantic/skills': ['python'],
 }
@@ -42,4 +48,7 @@ export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],
   motherduck: ['data', 'sql'],
+  'cloudflare-api': ['cloudflare'],
+  'cloudflare-docs': ['cloudflare', 'docs'],
+  'cloudflare-observability': ['cloudflare'],
 }

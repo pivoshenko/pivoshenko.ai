@@ -33,9 +33,12 @@ skills:
   - source: https://github.com/vercel-labs/agent-skills
     skills:
       - web-design-guidelines
-      - building-components
       - deploy-to-vercel
-      - vercel-deploy
+      - vercel-optimize
+
+  - source: https://github.com/vercel/vercel
+    sub-dir: skills
+    skills:
       - vercel-cli
 
   - source: https://github.com/apollographql/skills
