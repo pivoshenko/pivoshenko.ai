@@ -24,6 +24,21 @@ What's in here?
 - Composability — skills are small, single-purpose, and chainable
 - Source of truth — upstream skills are pulled, not forked, so updates stay free
 
+## Installation
+
+1. Install Kasetto, see the [installation guide](https://github.com/pivoshenko/kasetto#installation)
+2. Sync skills and MCPs into your local Claude Code config — either run:
+
+```shell
+kst sync --config https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
+```
+
+Or add the source to `~/.config/kasetto/config.yaml` and then run `kst sync`:
+
+```yaml
+source: https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
+```
+
 ## Personal wiki (second brain)
 
 An Obsidian vault maintained primarily by Claude Code, inspired by [Karpathy's LLM-maintained notes](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Three pieces, one job each:
@@ -49,18 +64,3 @@ The `instructions/` files **are** the source for my global rules — Kasetto syn
 Other CLAUDE.md files used outside this repository live with their owners:
 
 - The vault's `CLAUDE.md` (the wiki schema) — a live file inside the vault itself, no repo mirror
-
-## Installation
-
-1. Install Kasetto, see the [installation guide](https://github.com/pivoshenko/kasetto#installation)
-2. Sync skills and MCPs into your local Claude Code config — either run:
-
-```shell
-kst sync --config https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
-```
-
-Or add the source to `~/.config/kasetto/config.yaml` and then run `kst sync`:
-
-```yaml
-source: https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
-```
