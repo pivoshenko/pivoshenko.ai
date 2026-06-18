@@ -44,9 +44,10 @@ To repeat it: create the vault folders + `CLAUDE.md`/`INDEX.md`/`LOG.md` per the
 
 Reusable agent rules — the behavioral guardrails that aren't project-specific — live in [`instructions/`](instructions), one Markdown file per rule. Kasetto distributes them as its **instruction** asset kind: each is transformed into the target agent's native instruction file (`CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, …) and merged in as a managed block, so hand edits and other rules survive a re-sync.
 
-The standalone CLAUDE.md files used outside this repository live with their owners:
+The `instructions/` files **are** the source for my global rules — Kasetto syncs them into `~/.claude/CLAUDE.md` (as managed blocks). The old single `CLAUDE.md` in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles) was dropped once these took over, so `dotfiles` no longer deploys it.
 
-- My global CLAUDE.md — **canonical in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles)** (`dotfiles/.claude/CLAUDE.md`), deployed to `~/.claude/CLAUDE.md` by dotdrop. The `instructions/` files are decomposed pieces of these rules; the two overlap and can drift, so reconcile them deliberately rather than assuming they stay in sync.
+Other CLAUDE.md files used outside this repository live with their owners:
+
 - The vault's `CLAUDE.md` (the wiki schema) — a live file inside the vault itself, no repo mirror
 
 ## Installation
