@@ -1,3 +1,10 @@
+---
+name: Wiki & Memory
+description: The Obsidian vault is the canonical second brain and the canonical store for Claude memory; covers routing, write flow, and auto-update.
+tags: [meta, wiki, obsidian]
+updated_at: 2026-06-18
+---
+
 # Personal Wiki
 
 **The vault at `~/Vault` (symlink → `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Vault`) is the user's second brain, maintained primarily by Claude.**

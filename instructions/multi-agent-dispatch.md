@@ -1,3 +1,10 @@
+---
+name: Multi-Agent Dispatch
+description: When work decomposes into a task list, ask Workflow vs Agent team before dispatching; pick each agent's model by its task difficulty.
+tags: [meta, mode]
+updated_at: 2026-06-18
+---
+
 # Multi-Agent Dispatch
 
 **Whenever there is a list of tasks to implement, ask the user whether to use a `Workflow` or a team of `Agent`s before dispatching.**

@@ -1,6 +1,6 @@
 'use client'
 
-import type { Mcp, Skill } from '@/lib/data'
+import type { Instruction, Mcp, Skill } from '@/lib/data'
 import { SectionHeader, TagButton } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
 
@@ -22,31 +22,44 @@ function dotColor(tags: string[]): string {
 type Props = {
   localSkills: Skill[]
   localMcps: Mcp[]
+  localInstructions: Instruction[]
   externalSkills: Skill[]
   externalMcps: Mcp[]
+  externalInstructions: Instruction[]
   sources: string[]
 }
 
 export function Catalog({
   localSkills,
   localMcps,
+  localInstructions,
   externalSkills,
   externalMcps,
+  externalInstructions,
 }: Props) {
   const allTags = useMemo(() => {
     const counts = new Map<string, number>()
     for (const item of [
       ...localSkills,
       ...localMcps,
+      ...localInstructions,
       ...externalSkills,
       ...externalMcps,
+      ...externalInstructions,
     ]) {
       for (const tag of item.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1)
     }
     return Array.from(counts.entries())
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .map(([tag, count]) => ({ tag, count }))
-  }, [localSkills, localMcps, externalSkills, externalMcps])
+  }, [
+    localSkills,
+    localMcps,
+    localInstructions,
+    externalSkills,
+    externalMcps,
+    externalInstructions,
+  ])
 
   const [active, setActive] = useState<Set<string>>(new Set())
 
@@ -55,8 +68,12 @@ export function Catalog({
 
   const fLocalSkills = localSkills.filter((s) => matches(s.tags))
   const fLocalMcps = localMcps.filter((m) => matches(m.tags))
+  const fLocalInstructions = localInstructions.filter((i) => matches(i.tags))
   const fExternalSkills = externalSkills.filter((s) => matches(s.tags))
   const fExternalMcps = externalMcps.filter((m) => matches(m.tags))
+  const fExternalInstructions = externalInstructions.filter((i) =>
+    matches(i.tags),
+  )
 
   function toggle(tag: string) {
     setActive((prev) => {
@@ -96,6 +113,26 @@ export function Catalog({
       </Section>
 
       <Section
+        id="own-instructions"
+        title="own instructions"
+        count={fLocalInstructions.length}
+      >
+        {fLocalInstructions.length === 0 ? (
+          <Empty />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {fLocalInstructions.map((instruction) => (
+              <InstructionCard
+                key={instruction.id}
+                instruction={instruction}
+                onTagClick={toggle}
+              />
+            ))}
+          </div>
+        )}
+      </Section>
+
+      <Section
         id="external-skills"
         title="external skills"
         count={fExternalSkills.length}
@@ -116,6 +153,18 @@ export function Catalog({
           <Empty />
         ) : (
           <ExternalGroups items={fExternalMcps} onTagClick={toggle} />
+        )}
+      </Section>
+
+      <Section
+        id="external-instructions"
+        title="external instructions"
+        count={fExternalInstructions.length}
+      >
+        {fExternalInstructions.length === 0 ? (
+          <Empty />
+        ) : (
+          <ExternalGroups items={fExternalInstructions} onTagClick={toggle} />
         )}
       </Section>
     </div>
@@ -239,6 +288,40 @@ function SkillCard({
   )
 }
 
+function InstructionCard({
+  instruction,
+  onTagClick,
+}: {
+  instruction: Instruction
+  onTagClick: (tag: string) => void
+}) {
+  const path = `${instruction.sourceLabel}/instructions/${instruction.slug}.md`
+  const href = `${instruction.source}/tree/main/instructions/${instruction.slug}.md`
+  return (
+    <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
+      <CardLinkHeader href={href} path={path} />
+      <div className="px-3 py-3 border-b border-faint space-y-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span
+            className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor(instruction.tags)}`}
+          />
+          <span className="type-ui fg-primary font-semibold">
+            {instruction.name}
+          </span>
+          <div className="ml-auto flex flex-wrap gap-1 justify-end">
+            {instruction.tags.map((t) => (
+              <TagPill key={t} tag={t} onClick={onTagClick} />
+            ))}
+          </div>
+        </div>
+        <p className="type-body fg-body pl-3.5 line-clamp-3 min-h-[3.9rem]">
+          {instruction.description || ' '}
+        </p>
+      </div>
+    </article>
+  )
+}
+
 function McpCard({
   mcp,
   onTagClick,
@@ -270,10 +353,10 @@ function ExternalGroups({
   items,
   onTagClick,
 }: {
-  items: Array<Skill | Mcp>
+  items: Array<Skill | Mcp | Instruction>
   onTagClick: (tag: string) => void
 }) {
-  const grouped = new Map<string, Array<Skill | Mcp>>()
+  const grouped = new Map<string, Array<Skill | Mcp | Instruction>>()
   for (const item of items) {
     const list = grouped.get(item.sourceLabel) ?? []
     list.push(item)

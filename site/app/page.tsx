@@ -5,14 +5,16 @@ export default function HomePage() {
   const catalog = loadCatalog()
   const localSkills = catalog.skills.filter((s) => s.local)
   const localMcps = catalog.mcps.filter((m) => m.local)
+  const localInstructions = catalog.instructions.filter((i) => i.local)
   const externalSkills = catalog.skills.filter((s) => !s.local)
   const externalMcps = catalog.mcps.filter((m) => !m.local)
+  const externalInstructions = catalog.instructions.filter((i) => !i.local)
 
   return (
     <div className="space-y-8">
       <section className="space-y-4">
         <p className="type-body fg-body">
-          Curated AI skills and MCPs, synced via{' '}
+          Curated AI skills, MCPs, and instructions, synced via{' '}
           <a
             href="https://kasetto.dev"
             target="_blank"
@@ -35,8 +37,10 @@ export default function HomePage() {
       <Catalog
         localSkills={localSkills}
         localMcps={localMcps}
+        localInstructions={localInstructions}
         externalSkills={externalSkills}
         externalMcps={externalMcps}
+        externalInstructions={externalInstructions}
         sources={catalog.sources}
       />
     </div>

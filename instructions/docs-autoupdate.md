@@ -1,3 +1,10 @@
+---
+name: Docs Autoupdate
+description: When a non-trivial change makes the project's local CLAUDE.md stale, correct the stale lines in the same task.
+tags: [meta, docs]
+updated_at: 2026-06-18
+---
+
 # Docs Autoupdate
 
 **When a non-trivial change makes the project's local `CLAUDE.md` stale, update it in the same task.**

@@ -1,7 +1,12 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
-import { MCP_TAGS, SKILL_TAGS, SOURCE_TAGS } from './external-tags'
+import {
+  INSTRUCTION_TAGS,
+  MCP_TAGS,
+  SKILL_TAGS,
+  SOURCE_TAGS,
+} from './external-tags'
 
 const ROOT = join(process.cwd(), '..')
 const LOCAL_SOURCE = 'https://github.com/pivoshenko/pivoshenko.ai'
@@ -29,8 +34,24 @@ export type Mcp = {
   updated_at?: string
 }
 
+export type Instruction = {
+  id: string
+  slug: string
+  name: string
+  description: string
+  source: string
+  sourceLabel: string
+  local: boolean
+  tags: string[]
+  updated_at?: string
+}
+
 export type KasettoConfig = {
   agent: string[]
+  instructions?: Array<{
+    source: string
+    instructions: '*' | string[]
+  }>
   skills: Array<{
     source: string
     'sub-dir'?: string
@@ -57,6 +78,13 @@ function labelForSource(source: string): string {
 function deriveSkillTags(slug: string, sourceLabel: string): string[] {
   const tags = new Set<string>()
   for (const t of SKILL_TAGS[slug] ?? []) tags.add(t)
+  for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
+  return Array.from(tags)
+}
+
+function deriveInstructionTags(slug: string, sourceLabel: string): string[] {
+  const tags = new Set<string>()
+  for (const t of INSTRUCTION_TAGS[slug] ?? []) tags.add(t)
   for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
   return Array.from(tags)
 }
@@ -115,6 +143,70 @@ function deriveMcpTags(name: string, sourceLabel: string): string[] {
   for (const t of MCP_TAGS[name] ?? []) tags.add(t)
   for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
   return Array.from(tags)
+}
+
+function readLocalInstructions(): Instruction[] {
+  const dir = join(ROOT, 'instructions')
+  const entries = readdirSync(dir).filter((name) => name.endsWith('.md'))
+  return entries.map((file) => {
+    const slug = file.replace(/\.md$/, '')
+    const data = parseFrontmatter(readFileSync(join(dir, file), 'utf8'))
+    const frontmatterTags = Array.isArray(data.tags)
+      ? (data.tags as string[]).map(String)
+      : []
+    return {
+      id: `instruction:${slug}`,
+      slug,
+      name: (data.name as string) ?? slug,
+      description: (data.description as string) ?? '',
+      source: LOCAL_SOURCE,
+      sourceLabel: LOCAL_LABEL,
+      local: true,
+      tags: frontmatterTags.length
+        ? frontmatterTags
+        : deriveInstructionTags(slug, LOCAL_LABEL),
+      updated_at:
+        typeof data.updated_at === 'string' ? data.updated_at : undefined,
+    }
+  })
+}
+
+function readExternalInstructions(
+  config: KasettoConfig,
+  localSlugs: Set<string>,
+): Instruction[] {
+  const out: Instruction[] = []
+  for (const entry of config.instructions ?? []) {
+    const label = labelForSource(entry.source)
+    if (label === LOCAL_LABEL) continue
+    if (entry.instructions === '*') {
+      out.push({
+        id: `instruction:wildcard:${label}`,
+        slug: '*',
+        name: 'all instructions',
+        description: `All instructions published in ${label}`,
+        source: entry.source,
+        sourceLabel: label,
+        local: false,
+        tags: deriveInstructionTags('*', label),
+      })
+      continue
+    }
+    for (const slug of entry.instructions) {
+      if (localSlugs.has(slug)) continue
+      out.push({
+        id: `instruction:${label}:${slug}`,
+        slug,
+        name: slug,
+        description: '',
+        source: entry.source,
+        sourceLabel: label,
+        local: false,
+        tags: deriveInstructionTags(slug, label),
+      })
+    }
+  }
+  return out
 }
 
 function readExternalSkills(
@@ -193,6 +285,7 @@ export function loadCatalog() {
   const config = readKasetto()
   const localSkills = readLocalSkills()
   const localMcps = readLocalMcps()
+  const localInstructions = readLocalInstructions()
   const externalSkills = readExternalSkills(
     config,
     new Set(localSkills.map((s) => s.slug)),
@@ -201,16 +294,26 @@ export function loadCatalog() {
     config,
     new Set(localMcps.map((m) => m.name)),
   )
+  const externalInstructions = readExternalInstructions(
+    config,
+    new Set(localInstructions.map((i) => i.slug)),
+  )
 
   const skills = [...localSkills, ...externalSkills].sort(byUpdatedAtDesc)
   const mcps = [...localMcps, ...externalMcps].sort(byUpdatedAtDesc)
+  const instructions = [...localInstructions, ...externalInstructions].sort(
+    byUpdatedAtDesc,
+  )
 
   return {
     config,
     skills,
     mcps,
+    instructions,
     sources: Array.from(
-      new Set([...skills, ...mcps].map((item) => item.sourceLabel)),
+      new Set(
+        [...skills, ...mcps, ...instructions].map((item) => item.sourceLabel),
+      ),
     ).sort(),
   }
 }

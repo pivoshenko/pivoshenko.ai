@@ -1,6 +1,10 @@
 agent:
   - claude-code
 
+instructions:
+  - source: https://github.com/pivoshenko/pivoshenko.ai
+    instructions: "*"
+
 skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     skills: "*"

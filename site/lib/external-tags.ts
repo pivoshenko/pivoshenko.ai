@@ -70,6 +70,10 @@ export const SOURCE_TAGS: Record<string, string[]> = {
   'motherduckdb/agent-skills': ['motherduck'],
 }
 
+// Local instructions use frontmatter `tags` as the source of truth; this map
+// is for external instruction sources (per-slug overrides).
+export const INSTRUCTION_TAGS: Record<string, string[]> = {}
+
 export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],
