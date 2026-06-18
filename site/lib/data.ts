@@ -1,6 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import matter from 'gray-matter'
 import { parse as parseYaml } from 'yaml'
 import { MCP_TAGS, SKILL_TAGS, SOURCE_TAGS } from './external-tags'
 
@@ -43,6 +42,12 @@ export type KasettoConfig = {
   }>
 }
 
+function parseFrontmatter(md: string): Record<string, unknown> {
+  const m = md.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!m) return {}
+  return (parseYaml(m[1]) as Record<string, unknown>) ?? {}
+}
+
 function labelForSource(source: string): string {
   const m = source.match(/github\.com\/([^/]+\/[^/]+)/)
   if (!m) return source
@@ -68,7 +73,7 @@ function readLocalSkills(): Skill[] {
   )
   return entries.map((slug) => {
     const md = readFileSync(join(skillsDir, slug, 'SKILL.md'), 'utf8')
-    const { data } = matter(md)
+    const data = parseFrontmatter(md)
     const frontmatterTags = Array.isArray(data.tags)
       ? (data.tags as string[]).map(String)
       : []
