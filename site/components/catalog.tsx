@@ -363,11 +363,11 @@ function ExternalGroups({
     grouped.set(item.sourceLabel, list)
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="columns-1 md:columns-2 gap-3">
       {Array.from(grouped.entries()).map(([source, list]) => (
         <article
           key={source}
-          className="rounded border border-ui bg-bg-surface overflow-hidden"
+          className="rounded border border-ui bg-bg-surface overflow-hidden mb-3 break-inside-avoid"
         >
           <a
             href={`https://github.com/${source}`}
