@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import {
   SiteLayout,
   siteMetadata,
@@ -22,5 +23,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <SiteLayout brand="pivoshenko.ai">{children}</SiteLayout>
+  return (
+    <SiteLayout brand="pivoshenko.ai" afterShell={<SpeedInsights />}>
+      {children}
+    </SiteLayout>
+  )
 }
