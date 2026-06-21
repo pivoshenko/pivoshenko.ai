@@ -49,6 +49,10 @@ skills:
     skills:
       - building-components
 
+  - source: https://github.com/apollographql/skills
+    skills:
+      - rust-best-practices
+
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/productivity
     skills:
@@ -104,14 +108,6 @@ skills:
       - motherduck-build-data-pipeline
       - motherduck-migrate-to-motherduck
 
-  # - source: https://github.com/anthropics/knowledge-work-plugins
-  #   sub-dir: productivity/skills
-  #   skills:
-  #     - memory-management
-  #     - start
-  #     - task-management
-  #     - update
-
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
     skills:
@@ -119,7 +115,6 @@ skills:
       - debug
       - deploy-checklist
       - documentation
-      - incident-response
       - standup
       - system-design
       - tech-debt
