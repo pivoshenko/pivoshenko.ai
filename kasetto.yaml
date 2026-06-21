@@ -27,7 +27,6 @@ skills:
   - source: https://github.com/vercel-labs/next-skills
     skills:
       - next-best-practices
-      - next-upgrade
 
   - source: https://github.com/cloudflare/skills
     skills:
@@ -49,10 +48,6 @@ skills:
     sub-dir: skills
     skills:
       - building-components
-
-  - source: https://github.com/apollographql/skills
-    skills:
-      - rust-best-practices
 
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/productivity
@@ -109,13 +104,13 @@ skills:
       - motherduck-build-data-pipeline
       - motherduck-migrate-to-motherduck
 
-  - source: https://github.com/anthropics/knowledge-work-plugins
-    sub-dir: productivity/skills
-    skills:
-      - memory-management
-      - start
-      - task-management
-      - update
+  # - source: https://github.com/anthropics/knowledge-work-plugins
+  #   sub-dir: productivity/skills
+  #   skills:
+  #     - memory-management
+  #     - start
+  #     - task-management
+  #     - update
 
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
