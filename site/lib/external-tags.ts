@@ -1,4 +1,5 @@
 export const SKILL_TAGS: Record<string, string[]> = {
+  'canvas-design': ['design'],
   'doc-coauthoring': ['docs'],
   'frontend-design': ['frontend', 'design'],
   pdf: ['docs'],
@@ -13,6 +14,8 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'vercel-optimize': ['vercel', 'perf'],
   'vercel-cli': ['vercel', 'deploy'],
   'building-components': ['frontend', 'design'],
+  impeccable: ['frontend', 'design'],
+  'emil-design-eng': ['frontend', 'design'],
   cloudflare: ['cloudflare'],
   'web-perf': ['frontend', 'perf'],
   'rust-best-practices': ['rust'],
