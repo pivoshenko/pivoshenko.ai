@@ -11,6 +11,7 @@ skills:
 
   - source: https://github.com/anthropics/skills
     skills:
+      - canvas-design
       - doc-coauthoring
       - frontend-design
       - pdf
@@ -107,6 +108,16 @@ skills:
       - motherduck-build-dashboard
       - motherduck-build-data-pipeline
       - motherduck-migrate-to-motherduck
+
+  - source: https://github.com/pbakaus/impeccable
+    sub-dir: .claude/skills
+    skills:
+      - impeccable
+
+  - source: https://github.com/emilkowalski/skill
+    sub-dir: skills
+    skills:
+      - emil-design-eng
 
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
