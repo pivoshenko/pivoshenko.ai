@@ -31,7 +31,6 @@ skills:
       - web-perf
 
   - source: https://github.com/vercel/next.js
-    sub-dir: tree/canary
     skills:
       - next-dev-loop
       - next-cache-components-optimizer
