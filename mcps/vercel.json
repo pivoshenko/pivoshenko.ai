@@ -4,7 +4,7 @@
       "url": "https://mcp.vercel.com",
       "type": "http",
       "headers": {
-        "Authorization": "Bearer ${KST_VERCEL_TOKEN}"
+        "Authorization": "Bearer ${kst_vercel_token}"
       }
     }
   }
