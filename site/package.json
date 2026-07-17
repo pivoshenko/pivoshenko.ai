@@ -15,22 +15,22 @@
     "check": "biome check . --write"
   },
   "dependencies": {
-    "@vercel/analytics": "^2.0.0",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "lucide-react": "^0.577.0",
-    "next": "^16.2.6",
+    "next": "^16.2.10",
     "pivoshenko.ui": "github:pivoshenko/pivoshenko.ui#v0.9.3",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.19.19",
-    "@types/react": "^19.2.15",
+    "@types/node": "^22.20.1",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.15",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.19",
     "postcss-import": "^16.1.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
