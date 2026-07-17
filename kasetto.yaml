@@ -59,11 +59,20 @@ skills:
     sub-dir: skills/productivity
     skills:
       - grill-me
+      - grilling
 
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/engineering
     skills:
+      - diagnosing-bugs
+      - domain-modeling
+      - grill-with-docs
       - improve-codebase-architecture
+      - prototype
+      - tdd
+      - to-spec
+      - to-tickets
+      - triage
 
   - source: https://github.com/JuliusBrussee/caveman
     sub-dir: skills
