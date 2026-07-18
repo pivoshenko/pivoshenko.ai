@@ -102,6 +102,19 @@ skills:
     skills:
       - emil-design-eng
 
+  - source: https://github.com/hashicorp/agent-skills
+    sub-dir: terraform/code-generation/skills
+    skills:
+      - terraform-style-guide
+      - terraform-test
+      - terraform-search-import
+
+  - source: https://github.com/hashicorp/agent-skills
+    sub-dir: terraform/module-generation/skills
+    skills:
+      - refactor-module
+      - terraform-stacks
+
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
     skills:

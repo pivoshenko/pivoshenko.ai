@@ -59,6 +59,11 @@ export const SKILL_TAGS: Record<string, string[]> = {
   start: ['productivity'],
   'task-management': ['productivity'],
   update: ['productivity'],
+  'terraform-style-guide': ['terraform', 'iac'],
+  'terraform-test': ['terraform', 'iac'],
+  'terraform-search-import': ['terraform', 'iac'],
+  'refactor-module': ['terraform', 'iac'],
+  'terraform-stacks': ['terraform', 'iac'],
   architecture: ['engineering'],
   debug: ['engineering'],
   'deploy-checklist': ['engineering', 'deploy'],
@@ -80,6 +85,7 @@ export const SOURCE_TAGS: Record<string, string[]> = {
   'pydantic/skills': ['python'],
   'supabase/agent-skills': ['supabase'],
   'motherduckdb/agent-skills': ['motherduck'],
+  'hashicorp/agent-skills': ['terraform'],
 }
 
 // Local instructions use frontmatter `tags` as the source of truth; this map

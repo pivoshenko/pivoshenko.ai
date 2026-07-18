@@ -38,7 +38,7 @@ pivoshenko's AI agents workspace — a configuration hub for Claude Code skills,
 
 - Local skills and instructions: add `tags: [...]` to the `SKILL.md` / instruction-file frontmatter. Treat as the source of truth.
 - External skills/MCPs/instructions: edit `site/lib/external-tags.ts`. Do not add regex rules — use the explicit per-slug / per-source maps.
-- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`, `cloudflare`, `security`, `optimization`, `workflow`).
+- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`, `cloudflare`, `security`, `optimization`, `workflow`, `terraform`, `iac`).
 
 ## When editing skills
 
