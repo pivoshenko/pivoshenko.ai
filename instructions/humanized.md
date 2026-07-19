@@ -1,11 +1,11 @@
 ---
-name: Humanized Text
+name: Humanized
 description: Never use typographic special characters like the em dash (—) - use plain "-" instead. Write humanized, natural text, not AI-sounding prose.
 tags: [meta, style]
 updated_at: 2026-07-19
 ---
 
-# Humanized Text
+# Humanized
 
 **No typographic special characters - use plain ASCII punctuation. Text must read like a human wrote it.**
 
