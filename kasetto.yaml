@@ -13,10 +13,10 @@ skills:
     skills:
       - canvas-design
       - doc-coauthoring
-      - frontend-design
       - pdf
-      - pptx
       - skill-creator
+      - web-artifacts-builder
+      - xlsx
 
   - source: https://github.com/ferdinandobons/startup-skill
     skills:
@@ -39,9 +39,9 @@ skills:
 
   - source: https://github.com/vercel-labs/agent-skills
     skills:
-      - web-design-guidelines
       - deploy-to-vercel
       - vercel-optimize
+      - web-design-guidelines
 
   - source: https://github.com/vercel/vercel
     skills:
@@ -60,19 +60,22 @@ skills:
     skills:
       - grill-me
       - grilling
+      - handoff
 
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/engineering
     skills:
+      - codebase-design
       - diagnosing-bugs
       - domain-modeling
-      - grill-with-docs
+      - implement
       - improve-codebase-architecture
       - prototype
       - tdd
       - to-spec
       - to-tickets
       - triage
+      - wayfinder
 
   - source: https://github.com/JuliusBrussee/caveman
     sub-dir: skills
@@ -92,6 +95,7 @@ skills:
       - logfire-query
       - logfire-ui
       - pydantic-ai-harness
+      - pydantic
 
   - source: https://github.com/pbakaus/impeccable
     sub-dir: .claude/skills
@@ -119,12 +123,26 @@ skills:
     sub-dir: engineering/skills
     skills:
       - architecture
+      - code-review
       - debug
-      - deploy-checklist
       - documentation
       - system-design
       - tech-debt
       - testing-strategy
+
+  - source: https://github.com/anthropics/knowledge-work-plugins
+    sub-dir: data/skills
+    skills:
+      - analyze
+      - build-dashboard
+      - create-viz
+      - data-context-extractor
+      - data-visualization
+      - explore-data
+      - sql-queries
+      - statistical-analysis
+      - validate-data
+      - write-query
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai

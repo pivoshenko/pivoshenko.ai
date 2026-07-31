@@ -73,6 +73,16 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'system-design': ['engineering'],
   'tech-debt': ['engineering'],
   'testing-strategy': ['engineering'],
+  analyze: ['data'],
+  'build-dashboard': ['data'],
+  'create-viz': ['data'],
+  'data-context-extractor': ['data'],
+  'data-visualization': ['data'],
+  'explore-data': ['data'],
+  'sql-queries': ['data', 'sql'],
+  'statistical-analysis': ['data'],
+  'validate-data': ['data'],
+  'write-query': ['data', 'sql'],
 }
 
 export const SOURCE_TAGS: Record<string, string[]> = {
