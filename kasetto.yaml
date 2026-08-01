@@ -15,7 +15,6 @@ skills:
       - doc-coauthoring
       - pdf
       - skill-creator
-      - web-artifacts-builder
       - xlsx
 
   - source: https://github.com/ferdinandobons/startup-skill
@@ -58,7 +57,6 @@ skills:
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/productivity
     skills:
-      - grill-me
       - grilling
       - handoff
 
@@ -123,8 +121,6 @@ skills:
     sub-dir: engineering/skills
     skills:
       - architecture
-      - code-review
-      - debug
       - documentation
       - system-design
       - tech-debt
@@ -136,10 +132,7 @@ skills:
       - analyze
       - build-dashboard
       - create-viz
-      - data-context-extractor
-      - data-visualization
       - explore-data
-      - sql-queries
       - statistical-analysis
       - validate-data
       - write-query
