@@ -26,6 +26,8 @@ type Props = {
   externalSkills: Skill[]
   externalMcps: Mcp[]
   externalInstructions: Instruction[]
+  archivedSkills: Skill[]
+  archivedInstructions: Instruction[]
   sources: string[]
 }
 
@@ -36,6 +38,8 @@ export function Catalog({
   externalSkills,
   externalMcps,
   externalInstructions,
+  archivedSkills,
+  archivedInstructions,
 }: Props) {
   const allTags = useMemo(() => {
     const counts = new Map<string, number>()
@@ -46,6 +50,8 @@ export function Catalog({
       ...externalSkills,
       ...externalMcps,
       ...externalInstructions,
+      ...archivedSkills,
+      ...archivedInstructions,
     ]) {
       for (const tag of item.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1)
     }
@@ -59,6 +65,8 @@ export function Catalog({
     externalSkills,
     externalMcps,
     externalInstructions,
+    archivedSkills,
+    archivedInstructions,
   ])
 
   const [active, setActive] = useState<Set<string>>(new Set())
@@ -74,6 +82,11 @@ export function Catalog({
   const fExternalInstructions = externalInstructions.filter((i) =>
     matches(i.tags),
   )
+  const fArchivedSkills = archivedSkills.filter((s) => matches(s.tags))
+  const fArchivedInstructions = archivedInstructions.filter((i) =>
+    matches(i.tags),
+  )
+  const archivedCount = fArchivedSkills.length + fArchivedInstructions.length
 
   function toggle(tag: string) {
     setActive((prev) => {
@@ -165,6 +178,29 @@ export function Catalog({
           <Empty />
         ) : (
           <ExternalGroups items={fExternalInstructions} onTagClick={toggle} />
+        )}
+      </Section>
+
+      <Section id="archived" title="archived" count={archivedCount}>
+        <p className="type-meta fg-muted">
+          Retired from the synced set and parked in <code>archive/</code> — kept
+          for reference, not pulled by Kasetto.
+        </p>
+        {archivedCount === 0 ? (
+          <Empty />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {fArchivedSkills.map((skill) => (
+              <SkillCard key={skill.id} skill={skill} onTagClick={toggle} />
+            ))}
+            {fArchivedInstructions.map((instruction) => (
+              <InstructionCard
+                key={instruction.id}
+                instruction={instruction}
+                onTagClick={toggle}
+              />
+            ))}
+          </div>
         )}
       </Section>
     </div>
@@ -263,10 +299,15 @@ function SkillCard({
   skill: Skill
   onTagClick: (tag: string) => void
 }) {
-  const path = `${skill.sourceLabel}/skills/${skill.slug}`
-  const href = `${skill.source}/tree/main/skills/${skill.slug}`
+  const dir = skill.archived ? 'archive/skills' : 'skills'
+  const path = `${skill.sourceLabel}/${dir}/${skill.slug}`
+  const href = `${skill.source}/tree/main/${dir}/${skill.slug}`
   return (
-    <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
+    <article
+      className={`rounded border border-ui bg-bg-surface overflow-hidden flex flex-col${
+        skill.archived ? ' opacity-60' : ''
+      }`}
+    >
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-3 border-b border-faint space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
@@ -295,10 +336,15 @@ function InstructionCard({
   instruction: Instruction
   onTagClick: (tag: string) => void
 }) {
-  const path = `${instruction.sourceLabel}/instructions/${instruction.slug}.md`
-  const href = `${instruction.source}/tree/main/instructions/${instruction.slug}.md`
+  const dir = instruction.archived ? 'archive/instructions' : 'instructions'
+  const path = `${instruction.sourceLabel}/${dir}/${instruction.slug}.md`
+  const href = `${instruction.source}/tree/main/${dir}/${instruction.slug}.md`
   return (
-    <article className="rounded border border-ui bg-bg-surface overflow-hidden flex flex-col">
+    <article
+      className={`rounded border border-ui bg-bg-surface overflow-hidden flex flex-col${
+        instruction.archived ? ' opacity-60' : ''
+      }`}
+    >
       <CardLinkHeader href={href} path={path} />
       <div className="px-3 py-3 border-b border-faint space-y-2">
         <div className="flex items-center gap-2 flex-wrap">

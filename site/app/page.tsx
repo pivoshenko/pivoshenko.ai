@@ -41,6 +41,8 @@ export default function HomePage() {
         externalSkills={externalSkills}
         externalMcps={externalMcps}
         externalInstructions={externalInstructions}
+        archivedSkills={catalog.archivedSkills}
+        archivedInstructions={catalog.archivedInstructions}
         sources={catalog.sources}
       />
     </div>
