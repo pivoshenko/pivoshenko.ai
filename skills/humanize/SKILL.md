@@ -2,7 +2,7 @@
 name: humanize
 description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. Blog posts for pivoshenko.dev -> blog-write owns the full flow; this skill is the general-purpose pass for everything else.
 tags: [writing, style]
-updated_at: 2026-08-04
+updated_at: 2026-08-09
 ---
 
 # Humanize
@@ -25,6 +25,19 @@ Strip AI tells from text. Keep every fact, change the prose.
 - exception: code syntax, math, non-English text, files that already follow a different convention
 
 Before delivering, scan the result for `—` `–` `…`. Any hit -> not done.
+
+## Headings -> Title Case (hard rule)
+
+House convention: every heading and title is Title Case, sentence-case headings get raised. This is a formatting rule, not a tell - it applies whether or not the text shows AI patterns.
+
+- capitalize the first word, the last word, and every major word (nouns, verbs, adjectives, adverbs, pronouns, subordinating conjunctions)
+- keep lowercase mid-title: articles (a, an, the), coordinating conjunctions (and, or, but, nor, for, so, yet), prepositions of four letters or fewer (of, in, to, on, at, by, from, with)
+- never recase: lowercase brand names (`pivoshenko.dev`, `fish`, `bat`), code identifiers, acronyms, and titles of works quoted from the source - a brand name stays lowercase even in first position
+- scope: markdown headings, document/section titles, table-of-contents entries. Prose sentences, list items, and table cells keep normal sentence capitalization
+
+Example: `## Strategic negotiations and global partnerships` -> `## Strategic Negotiations and Global Partnerships`.
+
+Carve-out - pivoshenko brand surfaces keep sentence case: site copy, UI labels, blog posts, anything under `pivoshenko.<namespace>`. The brand voice is lowercase-by-default and its headings are sentence-case noun phrases (`Recent posts`, `Userstyles`), so raising them there breaks the thing the reader recognizes. `pivoshenko-brand` owns that call; leave those headings alone. Everything else - READMEs, docs, PR bodies, emails, third-party prose - gets Title Case.
 
 ## Tells to kill
 
@@ -51,7 +64,6 @@ Structure:
 - false ranges ("from the Big Bang to dark matter") -> plain list
 - synonym cycling (protagonist / main character / central figure / hero) -> one word
 - bold-header bullets (`**Performance:** ...`) -> prose or plain list
-- Title Case Headings -> sentence case
 - emojis on headings/bullets -> gone
 - staccato drama runs ("No prior. No nostalgia. Gone.") -> one short sentence max
 - aphorism formulas ("X is the language of Y", "X becomes a trap") -> the concrete claim behind it
@@ -67,7 +79,7 @@ Filler:
 
 ## Don't over-flag
 
-One tell means nothing - look for clusters. A single em dash, one triad, polish, formal vocabulary, one short punchy sentence = normal human writing. Never touch quotes, titles, proper names, or examples that discuss a phrase rather than use it. Preserve human signals: weird specific detail, mixed feelings, asides, self-corrections, varied sentence length.
+One tell means nothing - look for clusters. A single em dash, one triad, polish, formal vocabulary, one short punchy sentence = normal human writing. Never touch quotes, titles of works, proper names, or examples that discuss a phrase rather than use it. Preserve human signals: weird specific detail, mixed feelings, asides, self-corrections, varied sentence length.
 
 ## Modes
 
@@ -83,6 +95,7 @@ Report what was fixed as a table - one row per tell category, only categories wi
 |------|------:|----------|
 | em/en dashes | 12 | "policy—announced" -> "policy, announced" |
 | AI words | 5 | delve x2, leverage x2, robust |
+| headings recased | 4 | "Getting started" -> "Getting Started" |
 | rule of three | 2 | "innovation, inspiration, and insights" |
 | filler | 3 | "in order to" x3 |
 

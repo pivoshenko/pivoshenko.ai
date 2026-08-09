@@ -6,7 +6,7 @@ Contents:
 
 1. [Content](#content) - inflated significance, notability, -ing padding, promo tone, weasel attribution, challenges sections, gap-filling
 2. [Vocabulary](#vocabulary) - AI words, copula avoidance
-3. [Structure](#structure) - negative parallelism, rule of three, synonym cycling, false ranges, passive fragments, bold, inline-header lists, title case, emojis, fragmented headers, staccato drama, aphorisms
+3. [Structure](#structure) - negative parallelism, rule of three, synonym cycling, false ranges, passive fragments, bold, inline-header lists, heading case, emojis, fragmented headers, staccato drama, aphorisms
 4. [Filler and tone](#filler-and-tone) - filler, hedging, generic endings, hyphen pairs, authority tropes, signposting, fake-candid openers, chatbot residue, sycophancy, diff-anchored writing
 5. [Punctuation](#punctuation) - dashes, quotes, ellipsis, arrows
 6. [Detection](#detection) - what not to flag, human signals to preserve
@@ -162,11 +162,17 @@ Rewrite when active voice is clearer; don't purge every passive.
 >
 > **After:** The update improves the interface, speeds up load times through optimized algorithms, and adds end-to-end encryption.
 
-### Title case in headings
+### Heading case
 
-> **Before:** ## Strategic Negotiations And Global Partnerships
+Not a tell - the house convention. Headings and titles are Title Case, so sentence-case headings get raised. Small words (and, of, in, to) stay lowercase unless they open or close the title; lowercase brand names and code identifiers never get raised at all. pivoshenko brand surfaces (site copy, UI labels, blog posts) are exempt - they stay sentence case, per `pivoshenko-brand`.
+
+> **Before:** ## Strategic negotiations and global partnerships
 >
-> **After:** ## Strategic negotiations and global partnerships
+> **After:** ## Strategic Negotiations and Global Partnerships
+
+> **Before:** ## What ships in the next fish release
+>
+> **After:** ## What Ships in the Next fish Release
 
 ### Emojis
 
