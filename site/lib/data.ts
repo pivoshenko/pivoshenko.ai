@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import {
@@ -20,6 +20,7 @@ export type Skill = {
   source: string
   sourceLabel: string
   local: boolean
+  archived?: boolean
   tags: string[]
   updated_at?: string
 }
@@ -42,6 +43,7 @@ export type Instruction = {
   source: string
   sourceLabel: string
   local: boolean
+  archived?: boolean
   tags: string[]
   updated_at?: string
 }
@@ -94,8 +96,9 @@ function readKasetto(): KasettoConfig {
   return parseYaml(raw) as KasettoConfig
 }
 
-function readLocalSkills(): Skill[] {
-  const skillsDir = join(ROOT, 'skills')
+function readLocalSkills(baseDir = 'skills', archived = false): Skill[] {
+  const skillsDir = join(ROOT, baseDir)
+  if (!existsSync(skillsDir)) return []
   const entries = readdirSync(skillsDir).filter((name) =>
     statSync(join(skillsDir, name)).isDirectory(),
   )
@@ -106,13 +109,14 @@ function readLocalSkills(): Skill[] {
       ? (data.tags as string[]).map(String)
       : []
     return {
-      id: `skill:${slug}`,
+      id: `skill:${archived ? 'archived:' : ''}${slug}`,
       slug,
       name: (data.name as string) ?? slug,
       description: (data.description as string) ?? '',
       source: LOCAL_SOURCE,
       sourceLabel: LOCAL_LABEL,
       local: true,
+      archived,
       tags: frontmatterTags.length
         ? frontmatterTags
         : deriveSkillTags(slug, LOCAL_LABEL),
@@ -145,8 +149,12 @@ function deriveMcpTags(name: string, sourceLabel: string): string[] {
   return Array.from(tags)
 }
 
-function readLocalInstructions(): Instruction[] {
-  const dir = join(ROOT, 'instructions')
+function readLocalInstructions(
+  baseDir = 'instructions',
+  archived = false,
+): Instruction[] {
+  const dir = join(ROOT, baseDir)
+  if (!existsSync(dir)) return []
   const entries = readdirSync(dir).filter((name) => name.endsWith('.md'))
   return entries.map((file) => {
     const slug = file.replace(/\.md$/, '')
@@ -155,13 +163,14 @@ function readLocalInstructions(): Instruction[] {
       ? (data.tags as string[]).map(String)
       : []
     return {
-      id: `instruction:${slug}`,
+      id: `instruction:${archived ? 'archived:' : ''}${slug}`,
       slug,
       name: (data.name as string) ?? slug,
       description: (data.description as string) ?? '',
       source: LOCAL_SOURCE,
       sourceLabel: LOCAL_LABEL,
       local: true,
+      archived,
       tags: frontmatterTags.length
         ? frontmatterTags
         : deriveInstructionTags(slug, LOCAL_LABEL),
@@ -286,6 +295,13 @@ export function loadCatalog() {
   const localSkills = readLocalSkills()
   const localMcps = readLocalMcps()
   const localInstructions = readLocalInstructions()
+  const archivedSkills = readLocalSkills('archive/skills', true).sort(
+    byUpdatedAtDesc,
+  )
+  const archivedInstructions = readLocalInstructions(
+    'archive/instructions',
+    true,
+  ).sort(byUpdatedAtDesc)
   const externalSkills = readExternalSkills(
     config,
     new Set(localSkills.map((s) => s.slug)),
@@ -310,6 +326,8 @@ export function loadCatalog() {
     skills,
     mcps,
     instructions,
+    archivedSkills,
+    archivedInstructions,
     sources: Array.from(
       new Set(
         [...skills, ...mcps, ...instructions].map((item) => item.sourceLabel),
