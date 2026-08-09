@@ -2,7 +2,7 @@
 name: git-commit
 description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-06-04
+updated_at: 2026-08-09
 ---
 
 # Commit
@@ -45,7 +45,9 @@ Split signals:
 <footer>
 ```
 
-`header` required. `body` required except `docs`; min 20 chars. `footer` optional.
+`header` required. `body` only when the header leaves a real "why" unanswered. `footer` optional.
+
+Default = header only. Most commits ship with no body.
 
 ### Header
 
@@ -91,12 +93,42 @@ SemVer bump column is the canonical mapping used by `cliff.toml` across all repo
 
 ### Body
 
-- Imperative present, same voice as summary.
-- Explain **why**, not what (diff shows what). Old vs new -> show user-visible impact, constraint, or bug being undone.
-- Wrap ~72 chars per line. Blank line between paragraphs.
-- Bullets OK (`- ` prefix), one idea each. Don't bullet a single line.
-- No play-by-play ("first I changed X, then Y"). No "this commit does …". No file lists. No code dumps unless a snippet clarifies a subtle point.
-- Min 20 chars when present. Skip body entirely for trivial `docs`/`chore`/`build` bumps where the header says everything.
+**Hard cap: 3 lines.** One short paragraph, or ≤ 3 bullets. Never both. Never a second paragraph.
+
+Write one only if a reviewer would ask "why?" after reading the header alone. Answer that, stop.
+
+- Imperative present, same voice as summary. Wrap ~72 chars.
+- **Why**, not what — the diff shows what. Name the constraint, the bug undone, or the user-visible impact.
+- No restating the header. No play-by-play ("first I changed X, then Y"). No "this commit does …". No file lists, no code dumps, no summary of the diff.
+- Nothing to say -> no body. Silence beats filler.
+
+Skip when: header is self-explanatory, `docs`/`chore`/`build`/`test` churn, dep bumps, formatting, renames, revert of an obvious mistake.
+
+Good:
+
+```
+fix(auth): reject tokens issued before a password reset
+
+Sessions survived a reset, so a stolen token stayed valid after the
+user rotated their password.
+```
+
+Bad — restates the diff, pads to paragraphs:
+
+```
+fix(auth): reject tokens issued before a password reset
+
+This commit updates the token validation logic in the auth module.
+Previously, the validateToken function did not check the issuedAt
+timestamp against the user's passwordChangedAt field.
+
+Changes:
+- Add passwordChangedAt to the User model
+- Compare iat against passwordChangedAt in validateToken
+- Update the auth tests to cover the new case
+
+This improves the security of the application.
+```
 
 ### Footer
 
