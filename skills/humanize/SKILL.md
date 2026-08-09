@@ -1,6 +1,6 @@
 ---
 name: humanize
-description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece.
+description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece. Skips agent-instruction files (CLAUDE.md, AGENTS.md, context.md, llms.txt, cursor rules) unless the user aims it at one - their terse fragment style is the working format, not a tell.
 tags: [writing, style]
 updated_at: 2026-08-09
 ---
@@ -15,6 +15,14 @@ Strip AI tells from text. Keep every fact, change the prose.
 2. **Never invent facts.** No new names, numbers, dates, quotes, citations. Sentence needs missing detail to work -> ask, or write the plain version without it.
 3. **Match voice.** Formal/casual/technical as intended. User provides own writing sample -> its habits outrank every rule below, including the dash rule.
 4. **Don't sterilize.** Voiceless is as obvious as slop. Essay/opinion/post -> keep opinions, asides, uneven rhythm. Technical/reference -> plain and neutral IS the human voice there.
+
+## Out of scope: agent instruction files
+
+Files written for a model to execute, not for a person to read: `CLAUDE.md`, `AGENTS.md`, `context.md`, `llms.txt`, `.cursor/rules/*`, `GEMINI.md`, `.github/copilot-instructions.md`, and any other agent/system-prompt file. Terse fragments, arrows, abbreviations, and lowercase headings are the working format there - compression is the point, and recasing headings or padding fragments into sentences costs tokens and blurs directives. Skip these files entirely: no rewrite, no heading recase, no punctuation pass.
+
+Same for the prose *inside* a normal file when it is addressed to a model: system prompts, skill bodies, prompt templates in code or fixtures.
+
+Exception - the user aims the skill at one of these deliberately ("humanize my CLAUDE.md", "clean up this system prompt"). Do it, and say once that the file is agent-facing so terseness there was probably intentional. A doc that merely mentions or quotes such a file is ordinary prose; edit it normally.
 
 ## Punctuation -> plain ASCII (hard rule)
 
