@@ -2,66 +2,83 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository purpose
+## What this repo is
 
-pivoshenko's AI agents workspace: a configuration hub for Claude Code skills, MCPs, instructions, and a Next.js site that visualizes the catalog. Primary artifacts are YAML config and Markdown skill/instruction definitions; the site is a thin viewer on top of those files.
+pivoshenko's AI agent workspace. Two things live here:
 
-## Structure
+1. **Source of truth for agent config** — locally authored skills (`skills/`), MCP definitions (`mcps/`), and instruction rules (`instructions/`), plus `kasetto.yaml`, which lists both the local assets and the external upstream repos to pull from. [Kasetto](https://github.com/pivoshenko/kasetto) (`kst sync`) distributes all of it into `~/.claude/`. Instructions land in `~/.claude/CLAUDE.md` as managed blocks, so the files in `instructions/` *are* the global agent rules.
+2. **`site/`** — a Next.js catalog viewer at `ai.pivoshenko.dev` that reads the files above off the parent filesystem at build time.
 
-- `kasetto.yaml`: Kasetto sync config. Lists `agent: [claude-code]` plus per-source `instructions`, `skills`, and `mcps` entries pulled from upstream GitHub repos (the local source uses `"*"` wildcards for each kind). Source of truth for what gets synced.
-- `skills/`: Locally authored skills. Each subdir contains a required `SKILL.md` (frontmatter: `name`, `description`, optional `tags: [...]`, optional `updated_at`) and optional `references/`, `scripts/`, `assets/`.
-  - `git-commit`, `git-branch-create`, `git-pr-create`, `git-branch-sync`, `git-branches-cleanup`: Conventional git workflow skills. Tag: `git`.
-  - `pivoshenko-brand`: Brand style guide (voice + visual rules + UI kit). Tags: `brand`, `design`.
-  - `obsidian-markdown`: Obsidian Flavored Markdown syntax reference (wikilinks, embeds, callouts, properties) + `references/`. In-house adaptation of kepano/obsidian-skills (MIT). Kept active after the wiki was archived: syntax reference, no vault dependency. Tags: `wiki`, `obsidian`.
-  - `blog-write`: Write/edit posts for `pivoshenko.dev` (interrogate -> thesis -> DAG outline -> per-section draft -> anti-slop passes -> MDX ship) + `references/anti-slop.md`. Voice rules stay in `pivoshenko-brand`. Tags: `writing`, `blog`.
-  - `humanize`: General-purpose de-AI edit pass for any prose: tell catalog (inflated significance, AI vocabulary, rule of three, filler, etc.) + plain-ASCII punctuation normalization (no em/en dashes, curly quotes, ellipsis chars, arrows) + Title Case headings (house convention, raises sentence-case headings; lowercase-by-design names stay lowercase; surfaces with a documented sentence-case style guide are exempt) + agent-instruction files skipped entirely (`CLAUDE.md`, `AGENTS.md`, `context.md`, `llms.txt`, cursor rules, system prompts, skill bodies - terse-by-design, unless the user aims the skill at one) + `references/patterns.md` (full before/after examples, loaded on demand). Sole owner of the contract; the old `humanized` instruction rule was dropped in its favor. Blog posts -> `blog-write`, but keep that routing here: the skill body stays abstract and names no other skill or brand, so it is portable outside this repo. Tags: `writing`, `style`.
-  - `macos-cleanup`: Deep-clean macOS: junk, app leftovers, dev caches, space/startup audit. Read-only scan (`scripts/scan.sh`) -> sized report with safe/risky/skip verdicts -> per-category confirm -> delete -> verify freed. Tags: `macos`, `cleanup`.
-  - `macos-maintenance`: Periodic macOS health sweep + tune-up: updates, disk health/SMART, memory pressure, battery, backups, Spotlight, crashes, uptime, startup load. Read-only sweep -> ok/attention/action report -> confirmed fixes; plus targeted fixes (Spotlight reindex, LS rebuild, DNS/font cache, runaway processes). Complement to `macos-cleanup` (health/updates vs storage split). Tags: `macos`, `maintenance`.
-  - `vercel-hygiene`: Audit + harden the 4 brand sites on Vercel (pivoshenko.dev, pivoshenko.startpage, pivoshenko.wallpapers, pivoshenko.ai), team `pivoshenko`. Read-only sweep -> per-site ok/attention/action report -> confirmed fixes. Priority: security headers (absent on all 4) + Speed Insights coverage (only `pivoshenko.dev` has it). Delegates perf/cost -> `vercel-optimize`, CLI -> `vercel-cli`, deploy -> `deploy-to-vercel`. Tags: `vercel`, `nextjs`, `deploy`.
-  - `cloudflare-hygiene`: Audit + harden live Cloudflare zones/domains (operational config, NOT the upstream `cloudflare` dev skill). Read-only sweep -> per-zone ok/attention/action report grouped by category (SSL/TLS, security/WAF/bot, perf/caching, network protocols, DNS hygiene, analytics) -> per-category confirm -> apply via `cloudflare-api` MCP -> verify. `references/best-practices.md` = spec-verified endpoint/value matrix; `scripts/audit.mjs` = read-only sweep (GET-only). Preflight detects narrow MCP token (current `cloudflare-api` token is read-narrow, so settings are reported manual until broadened). Tags: `cloudflare`, `optimization`, `security`.
-- `mcps/`: Local MCP definitions as JSON files (`github.json`, `vercel.json`). Shape: `{ "mcpServers": { "<name>": { ... } } }`.
-- `instructions/`: Locally authored agent instructions (Kasetto's instruction asset kind: distributed as managed blocks into each agent's native instruction file, `CLAUDE.md` / `AGENTS.md` / `.cursor/rules` etc.). One `.md` per rule, with frontmatter (`name`, `description`, `tags`, `updated_at`); body is the rule text. These are the source for the global rules (`andrej-karpathy-workflow`, `comment-punctuation`, `docs-autoupdate`, `multi-agent-dispatch`), which Kasetto syncs into `~/.claude/CLAUDE.md` as managed blocks. Tag: `meta` (+ topic tag). The old monolithic `CLAUDE.md` in `pivoshenko.dotfiles` was removed once these took over, so there is no longer a dotfiles-deployed copy to keep in sync.
-- `archive/`: Retired assets, mirroring the live layout (`archive/skills/`, `archive/instructions/`, `archive/scripts/`). Kasetto only pulls from the top-level `skills/`, `mcps/`, `instructions/`, so anything moved here stops syncing but stays readable. Currently holds the `wiki-*` skills, the `memory` instruction, and `vault-snapshot.sh` (the Obsidian second-brain setup, paused because it didn't change day-to-day agent behavior enough to justify the upkeep), plus the `co-authored-attribution` instruction, retired as no longer needed. Retire by moving, not deleting; the site surfaces these in its `archived` section.
-- `site/`: Next.js 16 site that visualizes the catalog. Reads `../skills/*/SKILL.md`, `../mcps/*.json`, `../instructions/*.md`, `../archive/{skills,instructions}/*`, and `../kasetto.yaml` at build time. Card layout with tag filter; sections are own/external × skills/mcps/instructions, plus a dimmed `archived` section. No `site/CLAUDE.md`. This section is the source.
-- `justfile`: Root recipes that scope into `site/` via `pnpm -C site <cmd>`: `install`, `dev`, `format`, `lint`, `audit`, `check`, `build`, `start`, `update`.
-- `.github/`: `workflows/ci.yaml` (runs `just check` on push/PR), `labels.yaml` (label sync source of truth), `PULL_REQUEST_TEMPLATE.md`. Internal repo, so no release workflow or community files (`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`); do not scaffold them. Skip License + CI badges in the README: these belong only in repos that ship a release.
+Most edits here are Markdown/YAML/JSON config, not code.
 
-## Site stack
+## Commands
 
-- Next.js 16 (App Router, Turbopack), React 19, Tailwind 3, Biome (no eslint/prettier).
-- JetBrains Mono via `next/font/google` loaded inside the shared `SiteLayout`. Single dark theme (`popil`). Light mode and `next-themes` were removed.
-- Data loaded server-side from parent filesystem in `site/lib/data.ts`; types shared via `import type` only so client bundle stays lean. `readLocalSkills`/`readLocalInstructions` are reused for `archive/` with `archived = true`. Archived entries keep their frontmatter tags, count toward the tag filter, and render dimmed with `archive/`-prefixed GitHub links.
-- Tag derivation for external skills/MCPs/instructions lives in `site/lib/external-tags.ts` (explicit maps: `SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`, `INSTRUCTION_TAGS`). Local skills and instructions use frontmatter `tags:` as source of truth and fall back to the maps (`INSTRUCTION_TAGS` is empty for now, since all instructions are local).
-- Shared layout/theme/components live in `pivoshenko.ui` (git-tag-pinned). The site consumes `pivoshenko.ui/tailwind-preset/site`, `pivoshenko.ui/biome.json`, `pivoshenko.ui/tsconfig.base.json`, `pivoshenko.ui/next/config`, `pivoshenko.ui/postcss.config.mjs`, plus components like `TagButton` and `IconButton`. The whole shell is composed via `<SiteLayout brand="pivoshenko.ai">` (from `pivoshenko.ui/next/site-layout`) which owns `<html>`, `<body>`, JetBrains-Mono font loading, `<PageShell>`, and `<Analytics />`. `app/icon.tsx` + `app/opengraph-image.tsx` re-export the shared handlers from `pivoshenko.ui/next/{icon,opengraph-image}`.
+All recipes run from the repo root and delegate into `site/` (`just` + `pnpm`; Node >= 24, pnpm 10.30.3 pinned via `packageManager`).
 
-## Tagging rules
+```shell
+just install   # pnpm -C site install
+just dev       # next dev --turbopack
+just check     # biome check --write + next build (run before committing)
+just lint      # biome lint (read-only, what CI runs)
+just format    # biome format --write
+just build     # next build
+just start     # build + next start
+just audit     # pnpm audit
+just update    # pnpm update
+just test      # no-op while the `.no-tests` sentinel exists
+```
 
-- Local skills and instructions: add `tags: [...]` to the `SKILL.md` / instruction-file frontmatter. Treat as the source of truth.
-- External skills/MCPs/instructions: edit `site/lib/external-tags.ts`. Do not add regex rules. Use the explicit per-slug / per-source maps.
-- New tag categories: keep short, lowercase, single word where possible (`git`, `brand`, `nextjs`, `startup`, `docs`, `frontend`, `vercel`, `deploy`, `rust`, `mode`, `meta`, `cloudflare`, `security`, `optimization`, `workflow`, `terraform`, `iac`).
+There is no test suite. `just test` succeeds only because the empty `.no-tests` file is present; deleting it makes the recipe fail hard (and breaks CI) until a real test command replaces it.
 
-## When editing skills
+CI (`.github/workflows/ci.yaml`, on push to `main` + PRs) runs `just install && just lint && just audit && just test && just build`. Note CI uses `lint` (non-writing), while local `just check` writes formatting fixes — run `just check` locally so CI's lint stays clean.
 
-- Skill body style is "caveman": terse, fragments, arrows for causality, abbreviations OK. See existing local skills for reference.
-- Keep `description` short and operational. It surfaces in the site card and in skill triggering.
-- After editing a skill, no rebuild is needed for the site in dev. Next will pick up the change on next request.
+`.github/workflows/labels.yaml` syncs `.github/labels.yaml` to GitHub labels on push to `main` (needs the `GH_TOKEN` secret).
 
-## Content conventions
+## Asset layout and the sync contract
 
-Frontmatter contract, loader pattern, tag rules, and sort order for catalog entries (skills, MCPs):
+- `kasetto.yaml` decides what actually syncs. The local source (`github.com/pivoshenko/pivoshenko.ai`) uses `"*"` for `instructions` and `skills`, so new files in those dirs sync automatically. **`mcps` are enumerated by name**, so adding `mcps/foo.json` also requires adding `foo` to the `mcps:` list. Currently `mcps/motherduck.json` and `mcps/supabase.json` exist on disk but are not listed, so they show on the site and do not sync.
+- `skills/<slug>/SKILL.md` is required; `references/`, `scripts/`, `assets/` are optional siblings loaded on demand.
+- `instructions/<slug>.md` — one rule per file, frontmatter + rule body.
+- `mcps/<name>.json` — shape is `{ "mcpServers": { "<name>": { ... } } }`. Secrets are Kasetto placeholders (`${kst_github_token}`), never literals.
+- `archive/` mirrors the live layout (`archive/skills/`, `archive/instructions/`, `archive/scripts/`). Kasetto only pulls from the top-level dirs, so **retire by moving here, not deleting** — the site still renders archived entries in a dimmed section.
 
-- Required keys: `name`, `description`, `tags`. `updated_at` (ISO `YYYY-MM-DD`) required once a skill is meaningfully edited after creation.
-- Tags: lowercase, kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`). Local frontmatter `tags` are the source of truth and take precedence over `external-tags.ts` maps.
-- External content tags come from explicit per-slug or per-source maps in `site/lib/external-tags.ts`, with no regex inference.
-- Loader (`site/lib/data.ts`) runs server-side; client components import only types via `import type`.
-- Sort: `updated_at` desc (entries without `updated_at` sort last), ties by `name` ascending.
+## Frontmatter contract
 
-## Required env vars
+Every `SKILL.md` and `instructions/*.md` needs:
 
-None for `site/`. `@vercel/analytics` is wired via the Vercel integration. No other deployables in this repo (`skills/`, `mcps/`, `kasetto.yaml` are config files, not deployed). If a future build needs a secret, add it here as: name · purpose · scope (build/runtime) · visibility (`NEXT_PUBLIC_` public vs secret).
+```yaml
+name: <slug or human name>
+description: <short, operational; surfaces in the site card and in skill triggering>
+tags: [lowercase-kebab]
+updated_at: 2026-08-09 # ISO; required once meaningfully edited after creation
+```
 
-## When editing the site
+Catalog sort is `updated_at` desc, entries without it last, ties by `name` asc (`byUpdatedAtDesc` in `site/lib/data.ts`).
 
-- Run `just check` from the repo root before committing. Biome check + Next build. Both must pass.
-- Server components by default. Add `'use client'` only when a component actually needs hooks/state/event handlers (e.g. `theme-toggle.tsx`, `back-to-top.tsx`, `catalog.tsx`).
-- Match brand tokens from `pivoshenko-brand/references/brand-system.md`: role-based classes from `pivoshenko.ui/tailwind-preset` (`bg-bg-canvas`, `text-fg-default`, `text-accent-*`). No raw `stone-*` or `dark:` chains, since there is a single dark theme (`popil`), with `--*` tokens scoped to `:root` in `pivoshenko.ui/ui/tokens.css` (no `data-flavor` attribute on consumers).
+## Tagging
+
+- Local skills/instructions: frontmatter `tags` is the source of truth and takes precedence over any map.
+- External skills/MCPs/instructions: add explicit entries to the per-slug / per-source maps in `site/lib/external-tags.ts` (`SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`, `INSTRUCTION_TAGS`). No regex inference — the maps are deliberately literal.
+- Tags stay short, lowercase, kebab-case, one word where possible (`git`, `brand`, `nextjs`, `vercel`, `deploy`, `meta`, `security`, `engineering`, ...).
+
+## Skill writing style
+
+Skill bodies are terse to the point of fragments: arrows for causality (`scan -> report -> confirm -> apply`), abbreviations, no prose padding. Read any existing skill in `skills/` before writing a new one. Skills that touch destructive territory (`macos-cleanup`, `cloudflare-hygiene`, `vercel-hygiene`) all follow the same shape: read-only sweep -> categorized report -> explicit per-category confirm -> apply -> verify.
+
+Skills cross-reference by handing off (`macos-cleanup` <-> `macos-maintenance`, `cloudflare-hygiene` -> `cloudflare`). `humanize` is deliberately kept free of references to other skills or this brand so it stays portable.
+
+## Site architecture
+
+- Next.js 16 App Router + Turbopack, React 19, Tailwind 3, Biome 1.9 (no eslint/prettier). Single page (`app/page.tsx`), single client component (`components/catalog.tsx`).
+- `site/lib/data.ts` is the whole data layer. It runs server-side, sets `ROOT = process.cwd()/..`, and reads `../kasetto.yaml`, `../skills/*/SKILL.md`, `../mcps/*.json`, `../instructions/*.md`, plus `../archive/{skills,instructions}` through the same readers with `archived = true`. Client code imports from it with `import type` only, so nothing filesystem-related reaches the bundle.
+- `loadCatalog()` merges local assets with entries derived from `kasetto.yaml`; a `"*"` upstream entry becomes one synthetic "all skills" card. Local slugs shadow external ones.
+- Editing a skill or instruction needs no rebuild in dev — Next re-reads on the next request.
+- **`pivoshenko.ui` (git-tag-pinned, currently `#v0.9.3`) owns nearly all config and chrome.** `next.config.ts`, `postcss.config.mjs`, `biome.json`, `tsconfig.json`, `app/globals.css`, `app/icon.tsx`, and `app/opengraph-image.tsx` are one-line re-exports/extends of it. `app/layout.tsx` composes `<SiteLayout brand="pivoshenko.ai">`, which owns `<html>`/`<body>`, JetBrains Mono, the page shell, and `<Analytics />`. To change the shell, bump the pinned tag rather than adding local markup.
+- Styling uses role-based classes from `pivoshenko.ui/tailwind-preset/site`: foreground roles (`fg-title`, `fg-body`, `fg-muted`), type ramp (`type-body`), surfaces (`bg-bg-surface`), borders (`border-ui`, `border-faint`), accents (`bg-accent-primary|secondary|success|danger|info`). There is one palette, scoped to `:root` in the package's `tokens.css` — no raw `stone-*`, no `dark:` chains, no theme toggle.
+- Deploy is Vercel (`site/vercel.json`); `@vercel/analytics` + `@vercel/speed-insights` are wired via the integration. No env vars are required to build or run the site.
+
+## Repo conventions
+
+- Angular conventional commits (see `skills/git-commit`). Branch, PR, and label workflows are covered by the `git-*` skills; prefer them over raw `gh`/`git` invocations.
+- Internal repo: no `CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `SECURITY.md`, no release workflow, no CI or license badges in the README. Do not scaffold them.
+- README, `CLAUDE.md`, and the site's `archive` section should agree about what is retired and why; update them together when something moves into `archive/`.
