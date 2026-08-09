@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Read-only Cloudflare zone audit — reference sweep logic for `cloudflare-hygiene`.
-// GETs only. NO mutation here; all PATCH/POST live in the confirmed-apply phase.
+// Read-only Cloudflare zone audit: reference sweep logic for `cloudflare-hygiene`
+// GETs only. NO mutation here; all PATCH/POST live in the confirmed-apply phase
 //
 // Run directly with a token in env:  CLOUDFLARE_API_TOKEN=... node scripts/audit.mjs
-// Or feed this logic to `mcp__cloudflare-api__execute` (same endpoints) when driving via MCP.
+// Or feed this logic to `mcp__cloudflare-api__execute` (same endpoints) when driving via MCP
 
 const TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 if (!TOKEN) {
@@ -21,7 +21,7 @@ async function cf(path) {
   return j.result;
 }
 
-// paginated GET — follows result_info.total_pages so large accounts/zones aren't truncated
+// paginated GET: follows result_info.total_pages so large accounts/zones aren't truncated
 async function cfAll(path, perPage = 100) {
   const sep = path.includes("?") ? "&" : "?";
   const out = [];
@@ -62,14 +62,13 @@ const verdict = (cur, opt) =>
 async function auditZone(z) {
   const rows = [];
 
-  // A–D: settings/*  (broad token required; narrow token -> _err -> mark manual)
+  // A-D: settings/*  (broad token required; narrow token -> _err -> mark manual)
   for (const id of SETTINGS) {
     const s = await cf(`/zones/${z.id}/settings/${id}`);
     const cur = s?._err ? undefined : s.value;
     rows.push({ cat: "settings", check: id, current: cur ?? `blocked(${s._err})`, optimal: OPTIMAL[id], verdict: verdict(cur, OPTIMAL[id]) });
   }
 
-  // HSTS (nested under security_header)
   const sh = await cf(`/zones/${z.id}/settings/security_header`);
   const hsts = sh?._err ? undefined : sh.value?.strict_transport_security;
   rows.push({ cat: "settings", check: "hsts", current: hsts ? (hsts.enabled ? `on(max_age=${hsts.max_age})` : "off") : `blocked`, optimal: "on,max_age>=15552000", verdict: hsts?.enabled ? "ok" : hsts ? "action" : "manual" });
@@ -100,7 +99,6 @@ async function auditZone(z) {
     rows.push({ cat: "dns", check: "records", current: `blocked(${recs._err})`, optimal: "-", verdict: "manual" });
   }
 
-  // E: DNSSEC
   const ds = await cf(`/zones/${z.id}/dnssec`);
   rows.push({ cat: "dns", check: "dnssec", current: ds?._err ? `blocked(${ds._err})` : ds.status, optimal: "active", verdict: ds?._err ? "manual" : ds.status === "active" ? "ok" : "action" });
 
