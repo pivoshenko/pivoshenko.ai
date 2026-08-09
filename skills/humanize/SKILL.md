@@ -1,6 +1,6 @@
 ---
 name: humanize
-description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. Blog posts for pivoshenko.dev -> blog-write owns the full flow; this skill is the general-purpose pass for everything else.
+description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece.
 tags: [writing, style]
 updated_at: 2026-08-09
 ---
@@ -32,12 +32,12 @@ House convention: every heading and title is Title Case, sentence-case headings 
 
 - capitalize the first word, the last word, and every major word (nouns, verbs, adjectives, adverbs, pronouns, subordinating conjunctions)
 - keep lowercase mid-title: articles (a, an, the), coordinating conjunctions (and, or, but, nor, for, so, yet), prepositions of four letters or fewer (of, in, to, on, at, by, from, with)
-- never recase: lowercase brand names (`pivoshenko.dev`, `fish`, `bat`), code identifiers, acronyms, and titles of works quoted from the source - a brand name stays lowercase even in first position
+- never recase: names that are lowercase by design (`npm`, `ripgrep`, `fish`), code identifiers, acronyms, and titles of works quoted from the source - such a name stays lowercase even in first position
 - scope: markdown headings, document/section titles, table-of-contents entries. Prose sentences, list items, and table cells keep normal sentence capitalization
 
 Example: `## Strategic negotiations and global partnerships` -> `## Strategic Negotiations and Global Partnerships`.
 
-Carve-out - pivoshenko brand surfaces keep sentence case: site copy, UI labels, blog posts, anything under `pivoshenko.<namespace>`. The brand voice is lowercase-by-default and its headings are sentence-case noun phrases (`Recent posts`, `Userstyles`), so raising them there breaks the thing the reader recognizes. `pivoshenko-brand` owns that call; leave those headings alone. Everything else - READMEs, docs, PR bodies, emails, third-party prose - gets Title Case.
+Exception - a surface with a documented style guide that calls for sentence case keeps sentence case. Brand and product copy, UI labels, and house-styled publications usually have one, and there the heading style is part of what readers recognize. A stated convention outranks this default; a file that merely happens to use sentence case does not - that file is the reason the rule exists.
 
 ## Tells to kill
 

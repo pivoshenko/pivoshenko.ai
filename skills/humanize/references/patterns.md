@@ -164,7 +164,7 @@ Rewrite when active voice is clearer; don't purge every passive.
 
 ### Heading case
 
-Not a tell - the house convention. Headings and titles are Title Case, so sentence-case headings get raised. Small words (and, of, in, to) stay lowercase unless they open or close the title; lowercase brand names and code identifiers never get raised at all. pivoshenko brand surfaces (site copy, UI labels, blog posts) are exempt - they stay sentence case, per `pivoshenko-brand`.
+Not a tell - the house convention. Headings and titles are Title Case, so sentence-case headings get raised. Small words (and, of, in, to) stay lowercase unless they open or close the title; names that are lowercase by design and code identifiers never get raised at all. Surfaces with a documented sentence-case style guide (brand copy, UI labels, house-styled publications) are exempt.
 
 > **Before:** ## Strategic negotiations and global partnerships
 >
