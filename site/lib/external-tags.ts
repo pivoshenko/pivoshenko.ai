@@ -93,8 +93,7 @@ export const SOURCE_TAGS: Record<string, string[]> = {
   'hashicorp/agent-skills': ['terraform'],
 }
 
-// Local instructions use frontmatter `tags` as the source of truth; this map
-// is for external instruction sources (per-slug overrides).
+// external instruction sources only; local ones use frontmatter `tags`
 export const INSTRUCTION_TAGS: Record<string, string[]> = {}
 
 export const MCP_TAGS: Record<string, string[]> = {
