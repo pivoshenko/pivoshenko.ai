@@ -16,6 +16,7 @@ export const SKILL_TAGS: Record<string, string[]> = {
   'building-components': ['frontend', 'design'],
   impeccable: ['frontend', 'design'],
   'emil-design-eng': ['frontend', 'design'],
+  herdr: ['terminal', 'ai'],
   cloudflare: ['cloudflare'],
   'web-perf': ['frontend', 'perf'],
   'rust-best-practices': ['rust'],
