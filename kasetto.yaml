@@ -104,6 +104,11 @@ skills:
     skills:
       - emil-design-eng
 
+  - source: https://github.com/herdrdev/herdr
+    sub-dir: skills
+    skills:
+      - herdr
+
   - source: https://github.com/hashicorp/agent-skills
     sub-dir: plugins/terraform/skills
     skills:
