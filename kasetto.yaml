@@ -13,9 +13,8 @@ skills:
     skills:
       - canvas-design
       - doc-coauthoring
-      - pdf
       - skill-creator
-      - xlsx
+      - pdf
 
   - source: https://github.com/ferdinandobons/startup-skill
     skills:
@@ -100,23 +99,10 @@ skills:
     skills:
       - impeccable
 
-  - source: https://github.com/emilkowalski/skill
-    skills:
-      - emil-design-eng
-
   - source: https://github.com/herdrdev/herdr
     sub-dir: skills
     skills:
       - herdr
-
-  - source: https://github.com/hashicorp/agent-skills
-    sub-dir: plugins/terraform/skills
-    skills:
-      - terraform-style-guide
-      - terraform-test
-      - terraform-search-import
-      - refactor-module
-      - terraform-stacks
 
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
@@ -135,7 +121,6 @@ skills:
       - create-viz
       - explore-data
       - statistical-analysis
-      - validate-data
       - write-query
 
 mcps:
