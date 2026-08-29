@@ -30,7 +30,7 @@ The byline is `Volodymyr Pivoshenko <contact@pivoshenko.dev>` — mail-header st
 ## Casing
 
 - **Brand names are lowercase, always, even at the start of a sentence.** Any `pivoshenko.<namespace>` property follows this rule, and so do the tools the work touches (`bat`, `fish`, `helix`, `ghostty`, `zed` — whatever shows up).
-- **Proper names get title case.** `Volodymyr Pivoshenko`. Job titles too: `Principal AI/R&D Engineer`.
+- **Proper names get title case.** `Volodymyr Pivoshenko`. Job titles too: `Principal AI/ML R&D Engineer`.
 - **Section labels SHOUT, but quietly.** Uppercase, widest tracking, `type-label` size. Loud in form, small in size — they whisper-shout.
 
 ## Words to favor
