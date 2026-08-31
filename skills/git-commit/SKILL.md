@@ -2,7 +2,7 @@
 name: git-commit
 description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-08-09
+updated_at: 2026-08-31
 ---
 
 # Commit
@@ -136,8 +136,8 @@ Trailers only. One per line, `Token: value`, after a single blank line below the
 
 Allowed tokens:
 
-- `BREAKING CHANGE: <summary>` — exact spelling (Angular spec). Detail + migration steps follow on subsequent lines.
-- `DEPRECATED: <what>` — same shape; include upgrade path.
+- `BREAKING CHANGE: <summary>` — exact spelling (Angular spec). Detail + migration steps follow on subsequent lines, ≤ 5 lines.
+- `DEPRECATED: <what>` — same shape; include upgrade path. ≤ 5 lines.
 - `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` — issue auto-close. Multiple -> one per line or comma-separated.
 - `Refs: #<n>` / `See: <url>` — non-closing references.
 
@@ -166,10 +166,10 @@ Footer rules:
 
 ## Revert
 
-`revert: ` + reverted header. Body:
+`revert: ` + reverted header. Body, 2 lines max:
 
 - `This reverts commit <SHA>`
-- reason
+- reason, one line
 
 ## Rules
 

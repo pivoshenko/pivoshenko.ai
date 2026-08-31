@@ -3,7 +3,7 @@ name: git-pr-create
 description: >-
   Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. ALWAYS invoke this skill for ANY PR-creation request, no matter how short or casual. Trigger on every phrasing: "create a PR", "open a PR", "make a PR", "raise a PR", "PR this", "PR please", "let's PR", "send PR", "/git-pr-create", "push and open a PR", "open pull request", "ship this", "ship it", "send for review", "ready for review", "let's merge this", "submit this", "publish this branch", "open a pull request for this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. Do NOT call `gh pr create` directly — this skill owns the entire flow (push, label derivation, title format, body template, safety rules). Even when the request looks like a trivial one-liner, prefer this skill over a raw `gh` call. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-06-04
+updated_at: 2026-08-31
 ---
 
 # Create PR
@@ -71,10 +71,11 @@ Examples:
 ## Body — repo template present
 
 - Use the repo template verbatim as the skeleton (headings, order, checklist items, HTML comments).
-- Fill `Summary` with 1–3 bullets, why > what.
+- Fill `Summary` with 1–3 bullets, why > what. Obey **Length** below.
 - Tick checklist items that actually apply; leave the rest unchecked.
 - If template has a `Resolves:` / `Closes:` / `Fixes:` line and there's a linked issue, fill the number; else drop that line entirely (no `#<n>` placeholder).
 - Preserve untouched any sections you have no content for (e.g. empty `Screenshots`), unless template explicitly says "remove if N/A".
+- Extra prose headings (`Context`, `Testing`, `Notes`, ...) -> ≤ 2 lines each, or leave the placeholder. Never one paragraph per heading.
 
 ## Fallback body template
 
@@ -103,6 +104,43 @@ Use when no repo template exists:
 - Linked issue -> uncomment `Resolves:` line and fill number.
 - Breaking -> add `## Breaking changes` section + migration notes.
 
+## Length
+
+**Hard cap: 10 lines of prose** for the whole body. Headings, checklists and template boilerplate don't count — only text you write.
+
+- `Summary`: 1–3 bullets, **one line each, ≤ 100 chars**. No sub-bullets, no paragraph bullets. Why the char cap -> GitHub soft-wraps, so "one line" alone doesn't bound anything.
+- `Breaking changes`: ≤ 5 lines including migration steps.
+- Any other prose section: ≤ 2 lines, or leave its placeholder untouched.
+- Nothing to say -> leave the section empty. Silence beats filler.
+
+Same prohibitions as the `git-commit` body:
+
+- **Why**, not what — the diff shows what.
+- No restating the title. No file lists, no code dumps, no diff walkthrough.
+- No play-by-play ("first X, then Y"). No "this PR does ...".
+- No test-plan narration unless the template asks for one.
+
+Good:
+
+```markdown
+## Summary
+
+- swap session cookies for OAuth so sessions survive the API split
+- reuse the existing `users` table; no migration needed
+```
+
+Bad — one paragraph per bullet, narrates the diff:
+
+```markdown
+## Summary
+
+- This pull request implements a comprehensive OAuth login flow. It
+  replaces the previous session-cookie approach in `auth/session.ts`
+  with a new `OAuthProvider` class that handles the token exchange.
+- Changes include: adding `oauth.ts`, updating `middleware.ts`,
+  refactoring `validateSession`, and updating the auth tests.
+```
+
 ## Rules
 
 - Never PR from `main`/`master` against `main`/`master`. On base -> stop + ask user to branch (use `git-branch-create`).
@@ -111,4 +149,5 @@ Use when no repo template exists:
 - Push or PR-create fail -> surface + fix root cause. No blind retry.
 - Always add at least one label (mapped from title `<type>`, verified to exist via `gh label list`). Multi-word labels -> quote: `--label "needs review"`. No reviewers / assignees unless asked.
 - Open as ready-for-review (no `--draft`) unless user explicitly asks for a draft PR.
+- Body over 10 prose lines -> cut before creating. No "comprehensive" PR descriptions.
 - No "Generated with Claude Code" / co-author trailers unless asked.
