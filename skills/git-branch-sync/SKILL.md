@@ -2,7 +2,7 @@
 name: git-branch-sync
 description: Fetch the latest base branch and rebase the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /git-branch-sync. Also trigger on "catch up with main", "rebase onto main", "update my branch", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-06-04
+updated_at: 2026-08-31
 ---
 
 # Sync Branch
@@ -15,7 +15,7 @@ Catch current branch up to base. Rebase only. Surface conflicts.
    - `git status --porcelain`
    - `git branch --show-current`
    - `git rev-parse --abbrev-ref --symbolic-full-name @{u}` (upstream if any)
-2. Base: default `main`. Fall back `master`. User names other -> verbatim.
+2. Base: user names one -> verbatim. Else detect: `git symbolic-ref --short refs/remotes/origin/HEAD` -> strip the `origin/`; ref missing -> `git remote set-head origin -a`, re-read; no remote -> `main`, fall back `master`. Why -> rebasing onto `main` in a `develop`-based repo replays the branch onto the wrong parent and manufactures conflicts that aren't real.
 3. Dirty -> stash: `git stash push -u -m "sync-branch auto-stash"`. Pop later. Unsafe (unresolved merge) -> stop + tell user.
 4. On base -> `git pull --ff-only origin <base>`. Fails (local base diverged) -> stop + tell user. No auto-rebase of base itself.
 5. Else:
