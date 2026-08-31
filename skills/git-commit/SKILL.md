@@ -65,7 +65,7 @@ Default = header only. Most commits ship with no body.
 
 Pick the most specific. Behavior change > non-behavior. User-visible > internal.
 
-SemVer bump column is the canonical mapping used by `cliff.toml` across all repositories. `feat!:` / `BREAKING CHANGE:` footer always → MAJOR regardless of type.
+SemVer bump column is the canonical mapping used by `cliff.toml` across all repositories. `feat!:` / `BREAKING CHANGE:` footer always -> MAJOR regardless of type.
 
 | Type         | SemVer | Use when                                           | Examples                                                             |
 | ------------ | ------ | -------------------------------------------------- | -------------------------------------------------------------------- |
@@ -132,7 +132,7 @@ This improves the security of the application.
 
 ### Footer
 
-Trailers only. One per line, `Token: value`, after a single blank line below the body. Order: breaking change → deprecation → refs.
+Trailers only. One per line, `Token: value`, after a single blank line below the body. Order: breaking change -> deprecation -> refs.
 
 Allowed tokens:
 
