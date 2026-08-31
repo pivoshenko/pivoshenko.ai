@@ -3,7 +3,7 @@
 // GETs only. NO mutation here; all PATCH/POST live in the confirmed-apply phase
 //
 // Run directly with a token in env:  CLOUDFLARE_API_TOKEN=... node scripts/audit.mjs
-// Or feed this logic to `mcp__cloudflare-api__execute` (same endpoints) when driving via MCP
+// Or feed this logic to `mcp__cloudflare__execute` (same endpoints, wrapped in cloudflare.request()) when driving via MCP
 
 const TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 if (!TOKEN) {
