@@ -1,13 +1,13 @@
 ---
 name: macos-maintenance
-description: Periodic macOS maintenance + optimization — read-only health sweep (pending OS/brew updates, disk health + SMART, memory pressure + swap, battery condition, Time Machine recency, Spotlight indexing state, crash/panic reports, uptime, login-item load) → ok/attention/action report → confirmed fixes. Use when the user says "maintain my mac", "mac health check", "tune up my mac", "optimize my mac", "run maintenance", "is my mac healthy", "update everything", or wants a periodic once-over. Also covers targeted fixes when a check or the user flags an issue — Spotlight reindex, Launch Services rebuild, DNS/font cache flush, frozen Finder/Dock, runaway process triage. Storage/junk/leftovers/disk-space → macos-cleanup instead.
+description: Periodic macOS maintenance + optimization — read-only health sweep (pending OS/brew updates, disk health + SMART, memory pressure + swap, battery condition, Time Machine recency, Spotlight indexing state, crash/panic reports, uptime, login-item load) -> ok/attention/action report -> confirmed fixes. Use when the user says "maintain my mac", "mac health check", "tune up my mac", "optimize my mac", "run maintenance", "is my mac healthy", "update everything", or wants a periodic once-over. Also covers targeted fixes when a check or the user flags an issue — Spotlight reindex, Launch Services rebuild, DNS/font cache flush, frozen Finder/Dock, runaway process triage. Storage/junk/leftovers/disk-space -> macos-cleanup instead.
 tags: [macos, maintenance]
 updated_at: 2026-06-12
 ---
 
 # macOS Maintenance
 
-Periodic once-over: sweep (read-only) → report → confirm → apply → verify. Optimization = real wins only: updates applied, reboot when due, indexing sane, startup load lean. No snake-oil (`purge`, blind cache wipes, repair-permissions theater). Storage/junk → `macos-cleanup`, hand off.
+Periodic once-over: sweep (read-only) -> report -> confirm -> apply -> verify. Optimization = real wins only: updates applied, reboot when due, indexing sane, startup load lean. No snake-oil (`purge`, blind cache wipes, repair-permissions theater). Storage/junk -> `macos-cleanup`, hand off.
 
 ## Sweep (read-only)
 
@@ -18,7 +18,7 @@ Run all categories, every one shows up in the report — clean ones as "ok", nev
 3. **Memory/CPU** — `memory_pressure` (plain run prints summary); `sysctl vm.swapusage` — heavy swap + warning level -> note worst consumers via `top -l 2 -o mem -n 5 -stats pid,command,cpu,mem`.
 4. **Battery** — `pmset -g batt`; `system_profiler SPPowerDataType | grep -E 'Cycle Count|Condition|Maximum Capacity'` -> Condition ≠ Normal or capacity <80% = attention.
 5. **Backups** — `tmutil destinationinfo` (configured at all?); `tmutil latestbackup` (may need Full Disk Access -> fallback `tmutil listbackups | tail -1`). Last backup >7d = attention; not configured = say so once, user's call.
-6. **Spotlight** — `mdutil -s /` (enabled? stuck "in progress"?); `ps aux | grep -E 'mds_stores|mdworker' | grep -v grep` CPU%. Optimization: big dev trees indexed -> suggest Spotlight Privacy exclusions for build-artifact dirs (`node_modules`, `target`, `.venv` parents) — GUI only, System Settings → Siri & Spotlight.
+6. **Spotlight** — `mdutil -s /` (enabled? stuck "in progress"?); `ps aux | grep -E 'mds_stores|mdworker' | grep -v grep` CPU%. Optimization: big dev trees indexed -> suggest Spotlight Privacy exclusions for build-artifact dirs (`node_modules`, `target`, `.venv` parents) — GUI only, System Settings -> Siri & Spotlight.
 7. **Crashes/panics** — `ls -lt ~/Library/Logs/DiagnosticReports | head`; `ls /Library/Logs/DiagnosticReports 2>/dev/null | grep -i panic`. Repeated crashes of one app or any kernel panic = attention + name it.
 8. **Uptime** — `uptime`. >14d -> recommend reboot (memory leaks + pending updates accumulate; that's the whole fix, no theater).
 9. **Startup load** — `osascript -e 'tell app "System Events" to get name of every login item'` + LaunchAgents count. Just the headcount here — deep dead-agent audit lives in `macos-cleanup`, point there if list looks bloated.

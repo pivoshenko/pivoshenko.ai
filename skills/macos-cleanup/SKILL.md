@@ -1,6 +1,6 @@
 ---
 name: macos-cleanup
-description: Deep-clean macOS — user/system junk (caches, logs, trash, iOS backups), leftovers from deleted apps, dev-tool junk (brew, docker, Xcode, npm/pnpm/uv/cargo caches, stale node_modules), disk-space breakdown + login-items audit. Use when the user says "clean my mac", "free up disk space", "disk is full", "what's eating my storage", "remove app leftovers", "my mac is slow", or any macOS storage/cleanup complaint. Health checks, updates, tune-up ("optimize/maintain my mac") → macos-maintenance instead. Always scans read-only first, reports sizes, deletes only after explicit per-category confirmation.
+description: Deep-clean macOS — user/system junk (caches, logs, trash, iOS backups), leftovers from deleted apps, dev-tool junk (brew, docker, Xcode, npm/pnpm/uv/cargo caches, stale node_modules), disk-space breakdown + login-items audit. Use when the user says "clean my mac", "free up disk space", "disk is full", "what's eating my storage", "remove app leftovers", "my mac is slow", or any macOS storage/cleanup complaint. Health checks, updates, tune-up ("optimize/maintain my mac") -> macos-maintenance instead. Always scans read-only first, reports sizes, deletes only after explicit per-category confirmation.
 tags: [macos, cleanup]
 updated_at: 2026-06-12
 ---
