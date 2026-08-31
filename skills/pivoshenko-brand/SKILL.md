@@ -2,7 +2,7 @@
 name: pivoshenko-brand
 description: Central brand system for Volodymyr Pivoshenko — voice, type, color, layout, iconography. Self-contained; covers any output format (web UI, PDF, slide deck, README, social card, email, terminal/theme port, throwaway mock). Trigger even when the user doesn't say "brand" — any visual or copy decision touching pivoshenko surfaces counts. Also trigger on "make this on brand", "style this", "design a mock", "apply pivoshenko style", "needs to feel like my site", "generate a PDF / slide / poster / card", or any styling work on pivoshenko-adjacent content.
 tags: [brand, design]
-updated_at: 2026-06-06
+updated_at: 2026-08-31
 ---
 
 # pivoshenko-brand
@@ -24,6 +24,8 @@ When porting to a substrate this skill doesn't enumerate, hold the DNA fixed and
 
 SKILL.md is the entry point. Open references only when the task calls for them — keeps context lean.
 
+One rule for the tree: **everything under `preview/` is rendered HTML for a human to look at; everything else is for you to read.** The component cards are the exception worth reaching for — lift their markup instead of reinventing a component.
+
 - `colors_and_type.css` — drop-in role tokens (CSS vars as `R G B` triples) + utility classes + 8 `type-*` recipes. Link or inline for any web prototype.
 - `assets/logo-vp.svg` — canonical `VP` tile (32×32, 4px radius, light fill, dark glyph). The only mark.
 - `assets/social/{github,linkedin,rss}.svg` — Simple Icons brand marks (footer use only).
@@ -35,16 +37,16 @@ SKILL.md is the entry point. Open references only when the task calls for them �
 - `references/visual.md` — deep rationale for color + typography choices (origin / substitution / extension) and long-form spacing/border/layout rules. **Read when extending the palette, porting to a substrate without JetBrains Mono, or auditing a layout.**
 - `references/iconography.md` — Lucide / Simple Icons / VP-mark rules. **Read when placing icons, building a logo lockup, or making a favicon / OG mark.**
 - `references/anti-patterns.md` — do/don't pairs per DNA rule. **Read when a rule feels ambiguous, or when you've drifted and want to diagnose why.**
-- `preview/*.html` — per-recipe component cards. Read on demand:
+- `preview/*.html` — per-recipe component cards. Lift markup from these; read on demand:
   - `colors-*` — palette + accent usage
   - `type-*` — type recipes + foreground ladder
   - `spacing-*` — scale, borders, corners
   - `components-*` — card, button, tag, alert, code, chrome, menu, search, tabs, status, form-inputs, palette-table
-- `index.html`, `components.html` — human preview only. Don't read as agent reference.
+- `preview/index.html`, `preview/components.html` — the two hub pages that frame the cards above for a human browsing them. Open one for the user when they want to *see* the system; they carry no rule you can't get from this file.
 
 ## DNA — identity (won't change across substrates)
 
-Every line here is a hill the brand dies on. Break one → looks like generic SaaS, not pivoshenko. These are *the* anchors — they hold whether the substrate is HTML, a printed booklet, a slide, a podcast cover, or a conference badge.
+Every line here is a hill the brand dies on. Break one -> looks like generic SaaS, not pivoshenko. These are *the* anchors — they hold whether the substrate is HTML, a printed booklet, a slide, a podcast cover, or a conference badge.
 
 1. **Dark only.** No light mode, no toggle, no media-query fallback. The background absorbs; the foreground emits.
 2. **One typeface, monospaced.** The whole brand reads in a single dev/terminal typeface. Headings, body, captions, code — same font. The practitioner's tool is the practitioner's voice.
@@ -127,16 +129,16 @@ If all four questions have answers, the substrate is in. If one stays empty, the
 
 Same brand, different rendering. Each row is a worked instance of the four-question rubric.
 
-- **Web UI (production)** → role tokens + utility classes from `colors_and_type.css` (`bg-page`, `fg-primary`, `border-ui`, `type-label`, `type-meta`). Match patterns in `preview/components-*.html`.
-- **Standalone HTML mock / prototype** → start from `assets/templates/page.html`. Lift markup from `preview/components-*.html`.
-- **PDF** → start from `assets/templates/document.html` (A4, `@page`, page-break hygiene). Render via `chromium --headless --print-to-pdf` or any pipeline that respects `-webkit-print-color-adjust: exact`. Dark by design — including PDFs.
-- **Social card / OG image** → start from `assets/templates/og-card.html` (1200×630, VP tile top-left, title scaled up, one accent line). Hex inlined for `@vercel/og` / satori.
-- **Slide deck / poster** → stack `assets/templates/page.html` clones, one idea per slide. **Avoid `.pptx`** — binary formats fall outside the token system; ship slides as HTML or PDF.
-- **README / GitHub markdown** → no emoji in the body (the repo *description* field is the sole exception, one contextual emoji). Lowercase brand names. Tables + code fences over prose. Mail-header byline footer.
-- **Email / signature** → mono if the client supports it, system fallback otherwise. Plain text preferred. Single-line byline.
-- **Terminal / theme port** → map the hex values to the target tool's syntax. Background = `#1f1f1e`. Body = `#e4e2de`. Accent = `#d97757`. Don't invent shades — every color the port needs is already in the role layer.
-- **Print booklet, podcast cover, conference badge, video lower-third, …** → not enumerated. Walk the four questions above. Pull rationale from `references/visual.md` if substituting the typeface or extending the palette.
-- **No spec given** → ask audience, fidelity, target substrate. Then output.
+- **Web UI (production)** -> role tokens + utility classes from `colors_and_type.css` (`bg-page`, `fg-primary`, `border-ui`, `type-label`, `type-meta`). Match patterns in `preview/components-*.html`.
+- **Standalone HTML mock / prototype** -> start from `assets/templates/page.html`. Lift markup from `preview/components-*.html`.
+- **PDF** -> start from `assets/templates/document.html` (A4, `@page`, page-break hygiene). Render via `chromium --headless --print-to-pdf` or any pipeline that respects `-webkit-print-color-adjust: exact`. Dark by design — including PDFs.
+- **Social card / OG image** -> start from `assets/templates/og-card.html` (1200×630, VP tile top-left, title scaled up, one accent line). Hex inlined for `@vercel/og` / satori.
+- **Slide deck / poster** -> stack `assets/templates/page.html` clones, one idea per slide. **Avoid `.pptx`** — binary formats fall outside the token system; ship slides as HTML or PDF.
+- **README / GitHub markdown** -> no emoji in the body (the repo *description* field is the sole exception, one contextual emoji). Lowercase brand names. Tables + code fences over prose. Mail-header byline footer.
+- **Email / signature** -> mono if the client supports it, system fallback otherwise. Plain text preferred. Single-line byline.
+- **Terminal / theme port** -> map the hex values to the target tool's syntax. Background = `#1f1f1e`. Body = `#e4e2de`. Accent = `#d97757`. Don't invent shades — every color the port needs is already in the role layer.
+- **Print booklet, podcast cover, conference badge, video lower-third, …** -> not enumerated. Walk the four questions above. Pull rationale from `references/visual.md` if substituting the typeface or extending the palette.
+- **No spec given** -> ask audience, fidelity, target substrate. Then output.
 
 ## Quality checklist
 

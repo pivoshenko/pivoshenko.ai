@@ -37,8 +37,8 @@ What never substitutes: a *non*-mono. The moment the typeface stops being monosp
 **Extension rule.** When a new use of color is forced (charts, infographics, a status palette beyond the existing four), derive from the role layer, don't invent:
 
 - **Need a second accent for contrast?** Use `--accent-secondary` `#d4a85a` (warm amber — same temperature family, complementary luminance). Don't introduce a third.
-- **Need a chart palette (3–7 series)?** Walk the existing accent ring — `primary → success → info → warning → danger → secondary` — in that order. Six categorically-distinct, brand-native colors before any invention is required.
-- **Need a tint ramp (heatmap, scale)?** Stay single-hue. Start from `--accent-primary` and step *only luminance*, not saturation: 10% → 25% → 50% → 75% → 100%. Cross-hue ramps (red → yellow → green) are out of brand.
+- **Need a chart palette (3–7 series)?** Walk the existing accent ring — `primary -> success -> info -> warning -> danger -> secondary` — in that order. Six categorically-distinct, brand-native colors before any invention is required.
+- **Need a tint ramp (heatmap, scale)?** Stay single-hue. Start from `--accent-primary` and step *only luminance*, not saturation: 10% -> 25% -> 50% -> 75% -> 100%. Cross-hue ramps (red -> yellow -> green) are out of brand.
 - **Never:** introduce a hue not already in the role layer (no greens that aren't `--accent-success`, no blues that aren't `--accent-info`, no purples ever). The brand's color promise is "this exact ring, used precisely". Breaking it dilutes the rest.
 
 ## Mode
@@ -127,10 +127,10 @@ A 6-step grayscale ladder, named by *role* and *intent*. Each binds to a role to
 
 ## Backgrounds
 
-- **Page:** `--bg-page` → `--bg-canvas` (`#1f1f1e`).
-- **Card:** `--bg-card` → `--bg-surface`.
-- **Elevated:** `--bg-elevated` → `--bg-raised`. Used by popovers and the TOC.
-- **Tag:** `--bg-tag` → `--bg-raised` at 70%.
+- **Page:** `--bg-page` -> `--bg-canvas` (`#1f1f1e`).
+- **Card:** `--bg-card` -> `--bg-surface`.
+- **Elevated:** `--bg-elevated` -> `--bg-raised`. Used by popovers and the TOC.
+- **Tag:** `--bg-tag` -> `--bg-raised` at 70%.
 - **No gradients. No images. No textures, grain, or patterns.**
 
 ## Borders
