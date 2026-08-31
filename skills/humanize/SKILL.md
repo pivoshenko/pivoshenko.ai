@@ -51,7 +51,7 @@ Every heading and title is Title Case; sentence-case headings get raised.
 
 Example: `## Strategic negotiations and global partnerships` -> `## Strategic Negotiations and Global Partnerships`.
 
-Exception - a surface with a documented style guide that calls for sentence case keeps sentence case. Brand and product copy, UI labels, and house-styled publications usually have one, and there the heading style is part of what readers recognize. A stated convention outranks this default; a file that merely happens to use sentence case does not - that file is the reason the rule exists.
+Exception - a surface with a documented style guide that calls for a different casing keeps that casing, whatever it is: sentence case, all-lowercase, all-caps section labels. Brand and product copy, UI labels, and house-styled publications usually have one, and there the heading style is part of what readers recognize - an all-lowercase house voice reads as deliberate, and raising it is the single most visible way this pass can damage a piece it was meant to help. A stated convention outranks this default; a file that merely happens to use a casing does not - that file is the reason the rule exists. Unsure whether a convention is stated or accidental -> leave the casing alone and say so in the findings table; a heading left unraised costs nothing, a house voice flattened costs the author.
 
 ## Tells to kill
 
