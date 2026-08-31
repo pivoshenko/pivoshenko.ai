@@ -1,8 +1,8 @@
 ---
 name: obsidian-markdown
-description: Obsidian Flavored Markdown syntax reference — wikilinks, embeds, callouts, properties/frontmatter, tags, comments, block IDs. Use when creating or editing .md files in an Obsidian vault, or when the user mentions wikilinks, callouts, frontmatter, embeds, or Obsidian notes. The wiki-* skills assume this syntax.
+description: Obsidian Flavored Markdown syntax reference — wikilinks, embeds, callouts, properties/frontmatter, tags, comments, block IDs. Use when creating or editing .md files in an Obsidian vault, when linking or embedding notes, when writing callouts or note frontmatter, or when the user mentions wikilinks, backlinks, block references, or Obsidian notes. Also use before hand-writing Obsidian syntax from memory — the extensions here are not standard markdown and the near-misses (markdown links to vault notes, wrong callout keywords) fail silently in the app.
 tags: [wiki, obsidian]
-updated_at: 2026-06-11
+updated_at: 2026-08-31
 ---
 
 # Obsidian markdown
