@@ -1,6 +1,7 @@
 ---
 name: git-commit
-description: Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing — bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
+description: >-
+  Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing — bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
 updated_at: 2026-08-31
 ---
