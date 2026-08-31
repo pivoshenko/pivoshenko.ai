@@ -1,7 +1,7 @@
 ---
 name: git-pr-create
 description: >-
-  Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. ALWAYS invoke this skill for ANY PR-creation request, no matter how short or casual. Trigger on every phrasing: "create a PR", "open a PR", "make a PR", "raise a PR", "PR this", "PR please", "let's PR", "send PR", "/git-pr-create", "push and open a PR", "open pull request", "ship this", "ship it", "send for review", "ready for review", "let's merge this", "submit this", "publish this branch", "open a pull request for this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. Do NOT call `gh pr create` directly — this skill owns the entire flow (push, label derivation, title format, body template, safety rules). Even when the request looks like a trivial one-liner, prefer this skill over a raw `gh` call. Pushes the branch and opens the PR immediately without asking for confirmation.
+  Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. Use for every PR-creation request no matter how casual: "create/open/make/raise a PR", "PR this", "PR please", "send PR", "/git-pr-create", "open pull request", "ship this", "ship it", "send for review", "ready for review", "submit this", "publish this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. A one-liner ask still counts — this skill owns the whole flow (push, label derivation, title format, body template, safety rules), so reaching for a raw `gh pr create` skips all of it. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
 updated_at: 2026-08-31
 ---
@@ -12,25 +12,27 @@ Open GitHub PR for current branch. No confirm.
 
 ## Flow
 
-1. Parallel:
+1. Base: user names one -> use it. Else detect: `git symbolic-ref --short refs/remotes/origin/HEAD` -> strip the `origin/`; ref missing -> `git remote set-head origin -a`, re-read; no remote -> `main`, fall back `master`. Why -> a wrong base makes the PR diff include commits that aren't yours.
+2. `git fetch origin <base>`. Why -> everything below compares against `origin/<base>`, not the local ref: the local base is often stale or absent entirely (`git-branch-create` branches off `origin/<base>` without ever creating it), so a local-ref diff either errors or replays commits already merged.
+3. Parallel:
    - `git status`
    - `git branch --show-current`
-   - `git log <base>..HEAD --oneline` (`<base>` = user-named, else `main`, fallback `master`)
-   - `git diff <base>...HEAD`
+   - `git log origin/<base>..HEAD --oneline`
+   - `git diff origin/<base>...HEAD`
    - check repo PR template: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/PULL_REQUEST_TEMPLATE.md`, root `PULL_REQUEST_TEMPLATE.md` (first match wins)
-2. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`.
-3. Not pushed / behind -> `git push -u origin <branch>`.
-4. Read **all** branch commits (not just latest). Draft title + body.
+4. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`.
+5. Not pushed / behind -> `git push -u origin <branch>`.
+6. Read **all** branch commits (not just latest). Draft title + body.
    - Template found -> fill that template's structure (preserve headings, checklist items, comment placeholders).
    - No template -> use [fallback body](#fallback-body-template) below.
-5. Derive labels (always pass `--label`):
+7. Derive labels (always pass `--label`):
    - Map title `<type>` -> label: `feat`->`enhancement`, `fix`->`bug`, `docs`->`documentation`, `test`->`tests`, `perf`->`performance`, `refactor`->`refactor`, `build`->`build`, `ci`->`ci`, `chore`->`chore`.
    - Breaking change in commits/body -> add `breaking-change`.
    - Verify labels exist: `gh label list --json name -q '.[].name'`. Drop any missing; never auto-create.
    - At least 1 label required -> if all dropped, fall back to `chore`. If `chore` also missing, surface to user and stop.
-6. Heredoc body so markdown survives shell:
+8. Heredoc body so markdown survives shell:
    ```bash
-   gh pr create --title "feat(auth): add oauth login flow" --label enhancement --body "$(cat <<'EOF'
+   gh pr create --base main --title "feat(auth): add oauth login flow" --label enhancement --body "$(cat <<'EOF'
    # Pull Request Checklist
 
    <!-- Resolves: #123 -->
@@ -47,8 +49,8 @@ Open GitHub PR for current branch. No confirm.
    EOF
    )"
    ```
-   `'EOF'` quoted -> no shell interpolation.
-7. Print PR URL.
+   `'EOF'` quoted -> no shell interpolation. `--base` always passed explicitly -> without it `gh` targets the repo's default branch, silently ignoring a base the user named.
+9. Print PR URL.
 
 ## Title
 
@@ -143,6 +145,7 @@ Bad — one paragraph per bullet, narrates the diff:
 
 ## Rules
 
+- Always pass `--base <base>` — the same base resolved in step 1. Never let `gh` infer it.
 - Never PR from `main`/`master` against `main`/`master`. On base -> stop + ask user to branch (use `git-branch-create`).
 - Never force-push here.
 - Never `--no-verify` unless asked. Why -> pre-push hooks gate CI and secret scans; skipping ships broken code.
