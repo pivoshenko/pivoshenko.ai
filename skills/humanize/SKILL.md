@@ -1,8 +1,8 @@
 ---
 name: humanize
-description: Remove AI-writing tells from any prose and normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."). Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece. Skips agent-instruction files (CLAUDE.md, AGENTS.md, context.md, llms.txt, cursor rules) unless the user aims it at one - their terse fragment style is the working format, not a tell.
+description: Remove AI-writing tells from any prose, normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."), and raise headings to Title Case. Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece. Skips agent-instruction files (CLAUDE.md, AGENTS.md, context.md, llms.txt, cursor rules) unless the user aims it at one - their terse fragment style is the working format, not a tell.
 tags: [writing, style]
-updated_at: 2026-08-09
+updated_at: 2026-08-31
 ---
 
 # Humanize
@@ -24,7 +24,13 @@ Same for the prose *inside* a normal file when it is addressed to a model: syste
 
 Exception - the user aims the skill at one of these deliberately ("humanize my CLAUDE.md", "clean up this system prompt"). Do it, and say once that the file is agent-facing so terseness there was probably intentional. A doc that merely mentions or quotes such a file is ordinary prose; edit it normally.
 
-## Punctuation -> plain ASCII (hard rule)
+## House conventions
+
+The two rules below are **house style, not AI tells**. They run on every pass, on every file this skill touches, whether or not the prose shows a single AI pattern - which is exactly why they need saying out loud: someone who asked for a de-slop pass and got their headings recased should have seen it coming from this section.
+
+Both are defaults, not laws. "punctuation only", "leave the casing", "don't touch my headings" -> honor it for that pass and note in the findings table which convention was skipped. A file with a documented style guide of its own outranks both (see the exceptions under each).
+
+### Punctuation -> plain ASCII
 
 - em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
 - curly quotes ("", '') -> straight `"` `'`
@@ -34,9 +40,9 @@ Exception - the user aims the skill at one of these deliberately ("humanize my C
 
 Before delivering, scan the result for `—` `–` `…`. Any hit -> not done.
 
-## Headings -> Title Case (hard rule)
+### Headings -> Title Case
 
-House convention: every heading and title is Title Case, sentence-case headings get raised. This is a formatting rule, not a tell - it applies whether or not the text shows AI patterns.
+Every heading and title is Title Case; sentence-case headings get raised.
 
 - capitalize the first word, the last word, and every major word (nouns, verbs, adjectives, adverbs, pronouns, subordinating conjunctions)
 - keep lowercase mid-title: articles (a, an, the), coordinating conjunctions (and, or, but, nor, for, so, yet), prepositions of four letters or fewer (of, in, to, on, at, by, from, with)
