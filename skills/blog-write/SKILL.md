@@ -2,7 +2,7 @@
 name: blog-write
 description: Write and edit blog posts for pivoshenko.dev — interrogate for raw material, outline as a dependency graph, confirm sections, draft section-by-section, run anti-slop edit passes, ship as MDX. Use when the user says "write a blog post", "draft a post about X", "edit/revise/improve this article", "tighten this draft", "turn this into a post", "publish to my blog", or shares notes/an experience meant for pivoshenko.dev. The goal is bespoke practitioner writing, not generic AI prose.
 tags: [writing, blog]
-updated_at: 2026-06-11
+updated_at: 2026-08-31
 ---
 
 # Blog write
@@ -48,7 +48,7 @@ Information = DAG. A section may only use concepts established by earlier sectio
 
 ### 4. Draft, section by section
 
-Load `pivoshenko-brand/references/voice.md` first — that file owns the voice. Non-negotiables from it:
+Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) — that file owns the voice. Non-negotiables from it:
 
 - paragraphs 1-3 lines (~240 chars max); a paragraph that grows -> split
 - rhythm: claim, claim, claim, beat
@@ -60,7 +60,7 @@ One section at a time. Each section carries >=1 author-only artifact (number, er
 
 1. **structure** — DAG still holds after drafting drift; every section still earns its edge to the thesis
 2. **slop** — run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X — it's Y"
-3. **voice** — smell test from `voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
+3. **voice** — smell test from `pivoshenko-brand/references/voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
 4. **facts** — every number/command/claim traces to user, vault, or repo. Untraceable -> cut or ask
 
 ### 6. Ship
@@ -68,7 +68,7 @@ One section at a time. Each section carries >=1 author-only artifact (number, er
 - file: `site/content/posts/<kebab-slug>.mdx`
 - frontmatter: `title`, `date` (today, `YYYY-MM-DD`), `description` (1-2 plain sentences, no hype), `tags` (lowercase kebab-case, single word preferred)
 - `just check` from the `pivoshenko.dev` root must pass
-- draft lives in the vault -> set `status: published` + `published_url` there (wiki-write owns vault duties)
+- draft lives in the vault -> set `status: published` + `published_url` on that note; leave the rest of the note alone
 
 ## Rules
 
