@@ -115,7 +115,7 @@ Use when no repo template exists:
 - Any other prose section: ≤ 2 lines, or leave its placeholder untouched.
 - Nothing to say -> leave the section empty. Silence beats filler.
 
-Same prohibitions as the `git-commit` body:
+Prohibitions:
 
 - **Why**, not what — the diff shows what.
 - No restating the title. No file lists, no code dumps, no diff walkthrough.

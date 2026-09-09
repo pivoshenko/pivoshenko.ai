@@ -3,7 +3,7 @@ name: git-commit
 description: >-
   Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing — bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-08-31
+updated_at: 2026-09-09
 ---
 
 # Commit
@@ -41,14 +41,12 @@ Split signals:
 ```
 <header>
 
-<body>
-
 <footer>
 ```
 
-`header` required. `body` only when the header leaves a real "why" unanswered. `footer` optional.
+`header` required. `footer` optional. **No body, ever.**
 
-Default = header only. Most commits ship with no body.
+If the header can't carry the change, the commit isn't atomic -> split it (see **Atomic**). The "why" lives in the PR body, the issue, or the code comment — not here.
 
 ### Header
 
@@ -92,48 +90,9 @@ SemVer bump column is the canonical mapping used by `cliff.toml` across all repo
 - Formatting / whitespace -> separate `chore` commit.
 - Revert -> `revert:` prefix, never one of the above (see **Revert**).
 
-### Body
-
-**Hard cap: 3 lines.** One short paragraph, or ≤ 3 bullets. Never both. Never a second paragraph.
-
-Write one only if a reviewer would ask "why?" after reading the header alone. Answer that, stop.
-
-- Imperative present, same voice as summary. Wrap ~72 chars.
-- **Why**, not what — the diff shows what. Name the constraint, the bug undone, or the user-visible impact.
-- No restating the header. No play-by-play ("first I changed X, then Y"). No "this commit does …". No file lists, no code dumps, no summary of the diff.
-- Nothing to say -> no body. Silence beats filler.
-
-Skip when: header is self-explanatory, `docs`/`chore`/`build`/`test` churn, dep bumps, formatting, renames, revert of an obvious mistake.
-
-Good:
-
-```
-fix(auth): reject tokens issued before a password reset
-
-Sessions survived a reset, so a stolen token stayed valid after the
-user rotated their password.
-```
-
-Bad — restates the diff, pads to paragraphs:
-
-```
-fix(auth): reject tokens issued before a password reset
-
-This commit updates the token validation logic in the auth module.
-Previously, the validateToken function did not check the issuedAt
-timestamp against the user's passwordChangedAt field.
-
-Changes:
-- Add passwordChangedAt to the User model
-- Compare iat against passwordChangedAt in validateToken
-- Update the auth tests to cover the new case
-
-This improves the security of the application.
-```
-
 ### Footer
 
-Trailers only. One per line, `Token: value`, after a single blank line below the body. Order: breaking change -> deprecation -> refs.
+Trailers only. One per line, `Token: value`, after a single blank line below the header. Order: breaking change -> deprecation -> refs.
 
 Allowed tokens:
 
@@ -167,10 +126,9 @@ Footer rules:
 
 ## Revert
 
-`revert: ` + reverted header. Body, 2 lines max:
+`revert: ` + reverted header, then a single line: `This reverts commit <SHA>`.
 
-- `This reverts commit <SHA>`
-- reason, one line
+Reason -> append to that same line only if non-obvious. Nothing else.
 
 ## Rules
 
