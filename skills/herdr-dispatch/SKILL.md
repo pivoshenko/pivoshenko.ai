@@ -21,7 +21,7 @@ printf '%s\n' "$HERDR_WORKSPACE_ID" "$HERDR_TAB_ID" "$HERDR_PANE_ID"
 
 Not inside Herdr -> say so and fall back to the `Agent` tool. Never control a Herdr session from outside it.
 
-## Pane budget
+## Pane Budget
 
 Claude Code's TUI is unusable below ~60 columns, and splitting a tab N ways divides its width by N. Measure, never assume:
 

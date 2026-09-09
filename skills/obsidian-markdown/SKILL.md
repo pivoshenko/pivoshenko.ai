@@ -5,7 +5,7 @@ tags: [wiki, obsidian]
 updated_at: 2026-08-31
 ---
 
-# Obsidian markdown
+# Obsidian Markdown
 
 Obsidian = CommonMark + GFM + extensions below. Standard markdown assumed; this covers only the Obsidian-specific parts. Adapted from [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) (MIT).
 
@@ -50,7 +50,7 @@ More (audio, bases, search embeds, external images) -> [references/EMBEDS.md](re
 
 Types: `note tip info warning example quote bug danger success failure question abstract todo`. Full table + aliases + nesting -> [references/CALLOUTS.md](references/CALLOUTS.md).
 
-## Properties (frontmatter)
+## Properties (Frontmatter)
 
 YAML at top of file. Defaults Obsidian understands: `tags`, `aliases`, `cssclasses`. Lists as YAML lists; links as `related: "[[Other Note]]"` (quoted). Types + tag charset rules -> [references/PROPERTIES.md](references/PROPERTIES.md).
 

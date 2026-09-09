@@ -1,4 +1,4 @@
-# Cloudflare zone best-practices checklist
+# Cloudflare Zone Best-Practices Checklist
 
 Full reference for `cloudflare-hygiene`. Each item: **optimal value · why · endpoint (auto) / dashboard path (manual) · risk**. All endpoints are zone-scoped: `/zones/{zone_id}/...`. Reads = `GET`, applies = `PATCH` (settings) / `POST` (new DNS records) via `mcp__cloudflare__execute`.
 
@@ -18,7 +18,7 @@ Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low u
 | TLS 1.3 | `on` | Faster handshake, modern ciphers. | `settings/tls_1_3` | Low. |
 | HSTS | enabled, `max_age` ≥ 15552000 (6mo), `include_subdomains` on | Forces HTTPS in-browser, blocks SSL-strip. | `settings/security_header` -> `strict_transport_security` | **Hard to undo (browser-cached). Preload near-permanent — opt-in only.** |
 
-## B. Security / WAF / bot
+## B. Security / WAF / Bot
 
 | Check | Optimal | Why | Endpoint | Risk |
 | --- | --- | --- | --- | --- |
@@ -37,7 +37,7 @@ Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low u
 | Leaked Credential Check | enabled | Flags requests using breached credentials. | `leaked-credential-checks` (POST `{enabled:true}`) | **Plan-gated.** |
 | Under Attack mode | **off (situational)** | JS challenge for everyone — incident-only. | `settings/security_level=under_attack` | **Never default-on — challenges all legit users.** |
 
-## C. Performance / caching
+## C. Performance / Caching
 
 | Check | Optimal | Why | Endpoint | Risk |
 | --- | --- | --- | --- | --- |
@@ -48,7 +48,7 @@ Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low u
 | Always Online | `on` | Serves cached copy when origin down. | `settings/always_online` | Low. |
 | Rocket Loader | **case-by-case (default off)** | Defers JS — can break scripts. | `settings/rocket_loader` | **Can break JS — report, don't force.** |
 
-## D. Network protocols
+## D. Network Protocols
 
 | Check | Optimal | Why | Endpoint | Risk |
 | --- | --- | --- | --- | --- |
@@ -58,7 +58,7 @@ Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low u
 | IPv6 Compatibility | `on` | Dual-stack reach. | `settings/ipv6` | Low. |
 | WebSockets | `on` | Needed for WS apps. | `settings/websockets` | Low. |
 
-## E. DNS hygiene
+## E. DNS Hygiene
 
 | Check | Optimal | Why | Action | Risk |
 | --- | --- | --- | --- | --- |
@@ -70,7 +70,7 @@ Verdicts in the report: `ok` (matches optimal) · `attention` (suboptimal, low u
 | Dangling CNAME | none pointing to decommissioned hosts | Subdomain takeover risk. | report -> per-record confirm delete | Confirm truly unused first. |
 | TTLs | auto (`1`) or sane | Faster failover / propagation. | report only | Low. |
 
-## F. Analytics / observability
+## F. Analytics / Observability
 
 | Check | Optimal | Why | Endpoint | Risk |
 | --- | --- | --- | --- | --- |
@@ -97,7 +97,7 @@ query ($zone: String!, $since: Time!) {
 
 ---
 
-## Auto vs manual matrix
+## Auto vs Manual Matrix
 
 "Auto" = applyable via `mcp__cloudflare__execute` **given an authorized session with write scope** (Zone.Settings:Edit + DNS:Edit + Zone:Read, plus Bot Management / SSL where the plan allows). Without it the entire `settings/*`, `dnssec`, and `bot_management` surface returns 9109/10000 and must be done in the dashboard — preflight catches this.
 
@@ -105,7 +105,7 @@ query ($zone: String!, $since: Time!) {
 - **Always manual (off-platform):** registrar-side DS record (DNSSEC step 2), origin-server cert install + Authenticated-Origin-Pulls origin config, mail provider DKIM generation.
 - **Plan-gated:** managed-WAF rule depth + Bot Management beyond Fight Mode + Page Rules count (Free); Page Shield + Leaked Credential Check (Pro+); Logpush (Enterprise) — report the gap, don't pretend.
 
-## Dashboard paths (manual fallback)
+## Dashboard Paths (Manual Fallback)
 
 - SSL/TLS: **SSL/TLS -> Overview / Edge Certificates** (mode, Always-HTTPS, min-TLS, TLS 1.3, HSTS, Auto Rewrites).
 - Security: **Security -> Settings / WAF / Bots / Page Shield** (security level, Bot Fight Mode, managed + custom rules, rate limiting, IP access rules, Page Shield, Authenticated Origin Pulls under SSL/TLS -> Origin Server).

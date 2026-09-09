@@ -36,7 +36,7 @@ Split signals:
 - summary needs "and" / "also" / "+"
 - unsure -> ask user how to group
 
-## Msg format
+## Msg Format
 
 ```
 <header>
@@ -60,7 +60,7 @@ If the header can't carry the change, the commit isn't atomic -> split it (see *
 - whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself.
 - no ticket IDs in header (go in footer). No emoji. No `[WIP]`.
 
-#### Type pick
+#### Type Pick
 
 Pick the most specific. Behavior change > non-behavior. User-visible > internal.
 

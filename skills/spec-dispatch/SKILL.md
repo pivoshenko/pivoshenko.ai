@@ -24,7 +24,7 @@ Read `applyRequires` and `isPlanningComplete`. Tasks artifact missing -> send th
 
 Store-based work -> pass `--store <id>` on every openspec command and keep it sticky.
 
-## Read the queue
+## Read the Queue
 
 ```bash
 openspec instructions apply --change "<name>" --json
@@ -34,7 +34,7 @@ Returns `progress {total, complete, remaining}` and `tasks[]` of `{id, descripti
 
 **The list is flat.** No dependency edges, no file ownership — the `## 1. Backend` / `## 2. Frontend` grouping in `tasks.md` is flattened away. This JSON alone cannot tell you what is safe to run concurrently, and two agents on one file silently clobber each other.
 
-## Make it parallel-safe at authoring time
+## Make It Parallel-Safe at Authoring Time
 
 Do not infer disjointness at dispatch. Force it when tasks are written, in the change root's `openspec/config.yaml`:
 
@@ -49,7 +49,7 @@ These surface under `rules` in `openspec instructions tasks --json`, so the agen
 
 Rules absent, or tasks written without the markers -> **stop and say so.** Offer to add the rules and re-run the tasks artifact. Guessing which tasks are disjoint is how two agents end up editing one file.
 
-## Plan the wave
+## Plan the Wave
 
 Wave = unchecked tasks whose `needs:` are all complete **and** whose `files:` sets are pairwise disjoint. Cap at the pane budget from `herdr-dispatch`. Everything else waits.
 
@@ -57,7 +57,7 @@ Prefer domain and feature boundaries. Never split work that touches one file fro
 
 Brief each worker with: the change name, the exact task text, the `files:` it owns, the paths it must not touch, and the repo's verify command.
 
-## Collect, verify, tick
+## Collect, Verify, Tick
 
 Per finished task, in this order:
 

@@ -1,4 +1,4 @@
-# Visual foundations
+# Visual Foundations
 
 > pivoshenko is the practitioner's notebook — a dark, monospaced workshop where an engineer thinks out loud.
 
@@ -20,7 +20,7 @@ What never substitutes: a *non*-mono. The moment the typeface stops being monosp
 
 **Extension rule.** Need a second face (a hand-set headline, a chart legend, a watermark)? Stay in JBM, change *weight* or *case* instead. The hierarchy is built from one family by mass, not by mixing families.
 
-## Why terracotta `#d97757`
+## Why Terracotta `#d97757`
 
 **Origin.** The accent's job is "look here" — it marks the *subject*, never the *container*. Terracotta was chosen because it satisfies three constraints simultaneously:
 
@@ -45,7 +45,7 @@ What never substitutes: a *non*-mono. The moment the typeface stops being monosp
 
 **Dark only.** No light mode, no media-query fallback, no toggle. Deployed sites set `<meta name="theme-color" content="#1f1f1e">` and `color-scheme: dark`.
 
-## Color — role tokens
+## Color — Role Tokens
 
 Stored as `R G B` triples, consumed via `rgb(var(--token) / <alpha>)`. **One block of values. Re-skin in one place.**
 
@@ -73,13 +73,13 @@ Accent      --accent-primary    #d97757  (terracotta)
             --accent-info       #7ba0c4
 ```
 
-## Color — usage rule
+## Color — Usage Rule
 
 `--accent-primary` is the brand's one accent — link underline, active nav dot, focus ring, copy-success flash. **Never a button fill.** Status accents (`success`/`warning`/`danger`/`info`) appear only as soft washes.
 
 Tailwind's `stone-*` warm-grey ramp is available as raw hex tokens for the rare component that needs a neutral outside the role layer. Reach for it last.
 
-## Semantic status colors
+## Semantic Status Colors
 
 | Role     | FG slot               | hex       |
 |----------|-----------------------|-----------|
@@ -112,7 +112,7 @@ Used for everything — logos, nav, body copy, captions, metadata, code. Eight t
 | `type-caption`      | 12px / 400, relaxed leading                        | post description snippets                 |
 | `type-logo`         | 14px / 600, tight tracking                         | the wordmark in nav                       |
 
-## Foreground utility classes
+## Foreground Utility Classes
 
 A 6-step grayscale ladder, named by *role* and *intent*. Each binds to a role token; rebind the token to change the whole system.
 
@@ -144,13 +144,13 @@ A 6-step grayscale ladder, named by *role* and *intent*. Each binds to a role to
 
 **None.** The system uses 1px borders for separation.
 
-## Corner radii
+## Corner Radii
 
 - **Default: `rounded` (4px).** Cards, tags, copy buttons, list items.
 - **`rounded-full`** for one element only: the palette color swatch circle.
 - **`rounded-lg` (8px)** for one element only: prose `<pre>` code blocks.
 
-## Transparency and blur
+## Transparency and Blur
 
 - **No blur. Anywhere.**
 - **Two uses of transparency:** `bg-tag` (`--border-default` @ 70%) and `border-faint` (same @ 60%).
@@ -161,7 +161,7 @@ A 6-step grayscale ladder, named by *role* and *intent*. Each binds to a role to
 - **No bounce, no spring, no scale.** The reading progress bar sets `transition-none` — it tracks scroll instantly.
 - **No entry animations on page load.** Pages just appear.
 
-## Hover & press
+## Hover & Press
 
 - **Text hover:** color class moves up one step in the foreground ladder.
 - **Active link in nav:** `fg-primary` instead of `fg-subtle`. No pill, no underline, no left border.
@@ -190,7 +190,7 @@ the label sits in a row with border-b border-ui below it
 
 Same card in the palette table, the startpage bookmark grid, and the ports grid.
 
-## Layered/floating elements
+## Layered/Floating Elements
 
 - **No modals, no dialogs.** The TOC opens as a 64-wide popover above its button. That is it.
 - **No tooltips.** Icon buttons rely on `aria-label`.

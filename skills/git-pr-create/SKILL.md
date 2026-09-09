@@ -70,7 +70,7 @@ Examples:
 - `fix(api): handle timeout on retry`
 - `refactor: extract user service`
 
-## Body — repo template present
+## Body — Repo Template Present
 
 - Use the repo template verbatim as the skeleton (headings, order, checklist items, HTML comments).
 - Fill `Summary` with 1–3 bullets, why > what. Obey **Length** below.
@@ -79,7 +79,7 @@ Examples:
 - Preserve untouched any sections you have no content for (e.g. empty `Screenshots`), unless template explicitly says "remove if N/A".
 - Extra prose headings (`Context`, `Testing`, `Notes`, ...) -> ≤ 2 lines each, or leave the placeholder. Never one paragraph per heading.
 
-## Fallback body template
+## Fallback Body Template
 
 Use when no repo template exists:
 

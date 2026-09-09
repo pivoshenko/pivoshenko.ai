@@ -20,7 +20,7 @@ Deep-clean: junk + app leftovers + dev junk + space/startup audit. Destructive t
 
 ## Categories
 
-### User/system junk (mostly safe)
+### User/System Junk (Mostly Safe)
 
 - `~/Library/Caches/*` — per-entry, not wholesale. Skip entries of currently running apps (`pgrep -if <name>`) or tell user to quit them.
 - `~/Library/Logs`, CrashReporter, QuickLook thumbnails, `~/Library/HTTPStorages` — regenerable.
@@ -28,7 +28,7 @@ Deep-clean: junk + app leftovers + dev junk + space/startup audit. Destructive t
 - Mail Downloads cache — safe; Mail data itself off-limits.
 - iOS device backups (`~/Library/Application Support/MobileSync/Backup`) — **user data, not regenerable**. Individual confirm, state device + date per backup (`ls -lt`).
 
-### App leftovers (risky — be conservative)
+### App Leftovers (Risky — Be Conservative)
 
 Locations: Application Support, Caches, Preferences, Containers, Saved Application State, LaunchAgents, Logs, HTTPStorages.
 
@@ -39,7 +39,7 @@ Matching rules:
 - Unsure who owns it -> skip + say so. Missed leftover >> deleted-wrong-thing.
 - Removal -> Trash: `osascript -e 'tell app "Finder" to delete POSIX file "<abs path>"'`.
 
-### Dev junk
+### Dev Junk
 
 - brew: `brew cleanup --prune=all && brew autoremove`.
 - docker (daemon must run): `docker system prune -f`. Never `--volumes` unless user explicitly says volumes.
@@ -50,7 +50,7 @@ Matching rules:
 - Sparkle `PersistentDownloads` (old app-update packages under `~/Library/Caches/<app>/org.sparkle-project.Sparkle/`) — safe, apps re-download pending updates.
 - Stale build dirs (`projects.txt`): only projects untouched 30+ days. Regenerable via install/build (`.next` via next build). >500 MB -> per-project confirm. Never touch a repo's tracked files — `node_modules`/`.venv`/`target`/`.next` only.
 
-### Optimization / space report
+### Optimization / Space Report
 
 - Biggest dirs from scan -> short "what's eating the disk" breakdown.
 - Login items + LaunchAgents/Daemons: flag dead ones (binary or app in `ProgramArguments` no longer exists). Removal = `launchctl bootout gui/$(id -u)/<label>` + plist -> Trash, per-item confirm. Live but unwanted -> report only, let user decide.

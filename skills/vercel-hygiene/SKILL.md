@@ -28,11 +28,11 @@ Mind the two path shapes: sites *import* `pivoshenko.ui/next/config`, but on dis
 
 Repo missing locally -> run the MCP-side checks anyway, mark the code-side ones `skipped (no local repo)`, and name them. Never infer a code-side verdict from the dashboard.
 
-## Sweep (read-only)
+## Sweep (Read-Only)
 
 Every check runs against all 4 sites and appears in the report — clean ones as `ok`, never silently omitted; omission reads as "not checked". Lead with security headers and analytics coverage.
 
-### 1. Security headers
+### 1. Security Headers
 
 - Check: the shared source first — `grep -n headers ~/Development/sources/pivoshenko.ui/ui/next/config.ts` — then per site, `grep -n headers <repo>/site/vercel.json <repo>/site/next.config.ts` and `ls <repo>/site/middleware.ts`.
 - Optimal: `headers()` defined once in `baseNextConfig`, inherited by all 4.
@@ -56,20 +56,20 @@ Every check runs against all 4 sites and appears in the report — clean ones as
 - Dep without a render = **action**, not `ok` — an installed package that nothing mounts collects nothing. Check both halves separately and report them separately.
 - Missing on some sites but not others -> the covered site is the template; mirror its wiring exactly rather than inventing a second pattern.
 
-### 3. `vercel.json` contract
+### 3. `vercel.json` Contract
 
 - Check: read each `<repo>/site/vercel.json`, diff the 4 against each other; `mcp__vercel__get_project` per site to confirm the dashboard agrees on framework / build / install / output.
 - Optimal: all 4 identical — `$schema`, `framework: nextjs`, `buildCommand: pnpm build`, `installCommand: pnpm install --frozen-lockfile`, `outputDirectory: .next`. Any site that differs without a stated reason = **attention**.
 - Dashboard value ≠ file value = **attention** (silent drift: the dashboard wins on some fields and the repo stops being the source of truth).
 - `nodeVersion` is not a `vercel.json` key. Adding it does nothing — the version-controlled lever is `engines.node`. See check 4.
 
-### 4. Node version
+### 4. Node Version
 
 - Check: `grep -A2 '"engines"' <repo>/site/package.json`; `mcp__vercel__get_project` for the dashboard's Node version.
 - Optimal: `engines.node` pins the same major the dashboard runs, in source. Vercel reads `engines.node` and it overrides the dashboard setting, so the repo is where the pin belongs.
 - Open lower bound (`>=N`) while the dashboard runs a newer major = **attention**: it builds fine today and silently floats on the next platform bump.
 
-### 5. Image optimization
+### 5. Image Optimization
 
 - Check: `grep -rn 'next/image' <repo>/site` (used?); `grep -n 'images' <repo>/site/next.config.ts` (`unoptimized`? `remotePatterns`?).
 - Optimal: `next/image` with the pipeline on, or `unoptimized: true` as a stated deliberate trade-off. Remote sources -> `remotePatterns` must list them, else the build fails at runtime.
@@ -81,31 +81,31 @@ Every check runs against all 4 sites and appears in the report — clean ones as
 - Optimal: every dynamic route (RSS, API, OG) sets an explicit `Cache-Control`; static routes need nothing. A fully static site here is `ok`, not a gap.
 - Dynamic route with no cache header = **action** (every request hits a function that could have been cached).
 
-### 7. Runtime on OG + icon routes
+### 7. Runtime on OG + Icon Routes
 
 - Check: `grep -n runtime <repo>/site/app/icon.tsx <repo>/site/app/opengraph-image.tsx`; watch the build output for `The Edge Runtime is deprecated`.
 - Optimal as of Next 16: **`nodejs`**. `export const runtime = 'edge'` is deprecated — it still builds, with a warning, and it forces those routes dynamic (`Using edge runtime on a page currently disables static generation`). An icon and an OG image are exactly the routes you want prerendered.
 - Still on `edge` = **action**: switch to `nodejs` and confirm the routes go static in the build output. Handlers re-export from `pivoshenko.ui`, so this is one shared fix plus a tag bump, not four.
 - **Re-check after any ui tag bump** — shared config drifts silently and nothing in the site repo changes to signal it.
 
-### 8. Env var hygiene
+### 8. Env Var Hygiene
 
 - Check: `ls <repo>/site/.env*`; `grep -rn 'process.env\.' <repo>/site --include=*.ts --include=*.tsx`; `grep -rn 'env' <repo>/site/vercel.json`; `mcp__vercel__get_project` for dashboard env vars.
 - Optimal: no secrets in `vercel.json`, no committed `.env`, and every `process.env.*` read in source has a matching dashboard var.
 - Source reads a var the dashboard doesn't define = **action** (undefined at build, usually a silent empty string rather than a crash). Dashboard defines a var no source reads = **attention** (dead config, or a leftover from a removed integration).
 
-### 9. Domains / redirects
+### 9. Domains / Redirects
 
 - Check: `mcp__vercel__get_project` domains per site vs the table above; confirm the primary resolves and `www.` redirects to apex where it exists.
 - Optimal: exactly the domains listed, no stale preview or one-off domains left assigned.
 - Unrecognized domain on a project = **attention**, name it rather than removing — it may be an intentional alias.
 
-### 10. Functions / crons
+### 10. Functions / Crons
 
 - Check: `grep -n 'functions\|crons' <repo>/site/vercel.json`; `mcp__vercel__list_deployments` for function count.
 - Optimal: for static sites, none — SSG plus edge routes needs no `functions` block. If a site has grown functions, its cost profile changed -> note it and hand off to `vercel-optimize`.
 
-## Report format
+## Report Format
 
 One row per site × check. Verdicts come from the run.
 
@@ -120,7 +120,7 @@ startpage             Analytics / Speed Insights   <verdict>
 
 Collapse to `all 4` only when all four genuinely share a verdict — a collapsed row that hides one differing site is a missed finding. Lead with: "N ok, N attention, N actions available." Then `AskUserQuestion` multiSelect over the `action` items only.
 
-## Actions (each confirmed; side effects stated first)
+## Actions (Each Confirmed; Side Effects Stated First)
 
 Actions are derived from what the sweep found, not from a fixed list. The recurring ones:
 

@@ -7,7 +7,7 @@ updated_at: 2026-08-31
 
 # pivoshenko-brand
 
-## What pivoshenko is
+## What pivoshenko Is
 
 > **pivoshenko is the practitioner's notebook — a dark, monospaced workshop where an engineer thinks out loud.**
 
@@ -44,7 +44,7 @@ One rule for the tree: **everything under `preview/` is rendered HTML for a huma
   - `components-*` — card, button, tag, alert, code, chrome, menu, search, tabs, status, form-inputs, palette-table
 - `preview/index.html`, `preview/components.html` — the two hub pages that frame the cards above for a human browsing them. Open one for the user when they want to *see* the system; they carry no rule you can't get from this file.
 
-## DNA — identity (won't change across substrates)
+## DNA — Identity (Won't Change Across Substrates)
 
 Every line here is a hill the brand dies on. Break one -> looks like generic SaaS, not pivoshenko. These are *the* anchors — they hold whether the substrate is HTML, a printed booklet, a slide, a podcast cover, or a conference badge.
 
@@ -59,11 +59,11 @@ Every line here is a hill the brand dies on. Break one -> looks like generic Saa
 
 Rationale for the typeface and accent — origin, substitution rule, extension rule — lives in `references/visual.md`. Open it when porting to a substrate that can't deliver mono, or when extending the palette.
 
-## Expression — web/CSS substrate (this is one rendering of the DNA)
+## Expression — Web/CSS Substrate (This Is One Rendering of the DNA)
 
 The hex values, class names, and timings below are how DNA #1–#7 render in CSS. They are the *signature*, not the *soul*. A different substrate may pick different signature values for the same DNA.
 
-### Token model
+### Token Model
 
 Tokens are space-separated `R G B` triples so they compose with alpha, consumed via `rgb(var(--token) / <alpha>)`:
 
@@ -91,7 +91,7 @@ Convenience aliases wrap the role tokens so utility classes read naturally: `fg-
 
 For off-DOM contexts that can't resolve CSS variables (`@vercel/og`, `themeColor` meta, headless screenshotters), inline the raw hex values above.
 
-### Web signature values
+### Web Signature Values
 
 - **Page floor:** `--bg-canvas` `#1f1f1e`. Components never read the underlying hex.
 - **Typeface:** `JetBrains Mono` everywhere — body, headings, nav, code. Fallback chain in `colors_and_type.css`.
@@ -101,7 +101,7 @@ For off-DOM contexts that can't resolve CSS variables (`@vercel/og`, `themeColor
 - **Hover:** color class moves up one step in the foreground ladder. No pill, no underline, no left border on active nav.
 - **Wordmark lockup:** `pivoshenko.<namespace>`, dotted — `pivoshenko` in `fg-primary`, the dotted suffix in `fg-muted`. Paired with the `VP` tile.
 
-### Voice (quick reference)
+### Voice (Quick Reference)
 
 - Pragmatic, technical, calm. Practitioner, not marketer.
 - First-person singular. Any `pivoshenko.<namespace>` form stays lowercase, even at sentence start.
@@ -114,7 +114,7 @@ For off-DOM contexts that can't resolve CSS variables (`@vercel/og`, `themeColor
 
 For longer copy work, open `references/voice.md` for the rhythm, refuse-list, microcopy table, and smell test.
 
-## Porting to a new substrate
+## Porting to a New Substrate
 
 The brand outlasts any single medium. When the substrate isn't web — book cover, podcast art, conference badge, video lower-third, printed booklet, a new IDE port — *hold the DNA fixed and re-derive the expression* by walking these four questions:
 
@@ -125,7 +125,7 @@ The brand outlasts any single medium. When the substrate isn't web — book cove
 
 If all four questions have answers, the substrate is in. If one stays empty, the substrate isn't ready — pick a different one or constrain the artifact.
 
-### Substrate cheat sheet
+### Substrate Cheat Sheet
 
 Same brand, different rendering. Each row is a worked instance of the four-question rubric.
 
@@ -140,7 +140,7 @@ Same brand, different rendering. Each row is a worked instance of the four-quest
 - **Print booklet, podcast cover, conference badge, video lower-third, …** -> not enumerated. Walk the four questions above. Pull rationale from `references/visual.md` if substituting the typeface or extending the palette.
 - **No spec given** -> ask audience, fidelity, target substrate. Then output.
 
-## Quality checklist
+## Quality Checklist
 
 Two passes. DNA first (does it *belong* to the brand?), expression second (is it correctly rendered *in this substrate*?).
 
@@ -163,7 +163,7 @@ Two passes. DNA first (does it *belong* to the brand?), expression second (is it
 
 **Final test:** Could this sit next to any other pivoshenko artifact and feel like the same hand made it? If yes, ship. If no, walk `references/anti-patterns.md` to find which rule got bent.
 
-## How to use this skill
+## How to Use This Skill
 
 For a quick artifact (mock, poster, one-pager, slide, social card, PDF), start from `assets/templates/` and link `colors_and_type.css` (or inline its tokens). Lift component patterns from `preview/components-*.html` instead of reinventing. Always read tokens, never hexes.
 

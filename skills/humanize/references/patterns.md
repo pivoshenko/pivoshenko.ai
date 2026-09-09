@@ -1,4 +1,4 @@
-# Humanize patterns - full before/after catalog
+# Humanize Patterns - Full Before/After Catalog
 
 Worked examples for every tell in `SKILL.md`. Load when calibrating an edge case or when a rewrite feels under- or over-done. Same groups as the skill body.
 
@@ -15,7 +15,7 @@ Contents:
 
 ## Content
 
-### Inflated significance
+### Inflated Significance
 
 Watch: stands/serves as, is a testament/reminder, vital/crucial/pivotal role/moment, underscores/highlights its importance, reflects broader, symbolizing its enduring/lasting, setting the stage for, marking/shaping the, key turning point, evolving landscape, indelible mark, deeply rooted.
 
@@ -23,7 +23,7 @@ Watch: stands/serves as, is a testament/reminder, vital/crucial/pivotal role/mom
 >
 > **After:** The Statistical Institute of Catalonia was established in 1989, part of a wider decentralization of administrative functions in Spain.
 
-### Notability and media-coverage padding
+### Notability and Media-Coverage Padding
 
 Watch: independent coverage, local/regional/national media outlets, written by a leading expert, active social media presence.
 
@@ -33,7 +33,7 @@ Watch: independent coverage, local/regional/national media outlets, written by a
 
 If the source gives real context for one citation (what she said, where), keep that one and drop the list. Never invent the context.
 
-### "-ing" padding
+### "-ing" Padding
 
 Watch: trailing highlighting/underscoring/emphasizing..., ensuring..., reflecting/symbolizing..., contributing to..., fostering..., showcasing...
 
@@ -41,7 +41,7 @@ Watch: trailing highlighting/underscoring/emphasizing..., ensuring..., reflectin
 >
 > **After:** The temple is painted blue, green, and gold, colors meant to evoke Texas bluebonnets and the Gulf of Mexico.
 
-### Promotional tone
+### Promotional Tone
 
 Watch: boasts a, vibrant, rich (figurative), profound, showcasing, exemplifies, commitment to, natural beauty, nestled, in the heart of, groundbreaking, renowned, breathtaking, must-visit, stunning.
 
@@ -49,7 +49,7 @@ Watch: boasts a, vibrant, rich (figurative), profound, showcasing, exemplifies, 
 >
 > **After:** Alamata Raya Kobo is a town in the Gonder region of Ethiopia.
 
-### Weasel attribution
+### Weasel Attribution
 
 Watch: industry reports, observers have cited, experts argue, some critics argue, several sources (when few cited).
 
@@ -59,7 +59,7 @@ Watch: industry reports, observers have cited, experts argue, some critics argue
 
 If a real source exists, name it. An unsupported claim gets cut, not decorated.
 
-### Formulaic "Challenges / Future Outlook" sections
+### Formulaic "Challenges / Future Outlook" Sections
 
 Watch: Despite its... faces several challenges..., Despite these challenges, Challenges and Legacy, Future Outlook.
 
@@ -67,7 +67,7 @@ Watch: Despite its... faces several challenges..., Despite these challenges, Cha
 >
 > **After:** Korattur has recurring traffic congestion and water shortages.
 
-### Gap-filling and cutoff disclaimers
+### Gap-Filling and Cutoff Disclaimers
 
 Watch: as of [date], up to my last training update, while specific details are limited..., based on available information, not publicly available, maintains a low profile, keeps personal details private, likely [grew up/studied/began], it is believed that.
 
@@ -85,7 +85,7 @@ Say what isn't known, or cut. Never dress a guess up as fact.
 
 ## Vocabulary
 
-### AI words
+### AI Words
 
 High-frequency: actually, additionally, align with, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (verb), interplay, intricate, key (adjective), landscape (abstract), leverage, pivotal, robust, seamless, showcase, tapestry (abstract), testament, underscore (verb), valuable, vibrant. They co-occur - one is noise, a cluster is a tell.
 
@@ -93,7 +93,7 @@ High-frequency: actually, additionally, align with, crucial, delve, emphasizing,
 >
 > **After:** Somali cuisine also includes camel meat, which is considered a delicacy. Pasta dishes, introduced during Italian colonization, remain common, especially in the south.
 
-### Copula avoidance
+### Copula Avoidance
 
 Watch: serves as / stands as / marks / represents [a], boasts / features / offers [a].
 
@@ -105,7 +105,7 @@ Watch: serves as / stands as / marks / represents [a], boasts / features / offer
 
 ## Structure
 
-### Negative parallelism and tailing negation
+### Negative Parallelism and Tailing Negation
 
 "Not only... but...", "it's not just X, it's Y", and clipped fragments ("no guessing", "no wasted motion") tacked onto sentence ends.
 
@@ -117,7 +117,7 @@ Watch: serves as / stands as / marks / represents [a], boasts / features / offer
 >
 > **After:** The options come from the selected item without forcing the user to guess.
 
-### Rule of three
+### Rule of Three
 
 > **Before:** The event features keynote sessions, panel discussions, and networking opportunities. Attendees can expect innovation, inspiration, and industry insights.
 >
@@ -125,13 +125,13 @@ Watch: serves as / stands as / marks / represents [a], boasts / features / offer
 
 Keep a triad only when all three items are load-bearing facts.
 
-### Synonym cycling
+### Synonym Cycling
 
 > **Before:** The protagonist faces many challenges. The main character must overcome obstacles. The central figure eventually triumphs. The hero returns home.
 >
 > **After:** The protagonist faces many challenges but eventually triumphs and returns home.
 
-### False ranges
+### False Ranges
 
 "From X to Y" where X and Y aren't on a meaningful scale.
 
@@ -139,7 +139,7 @@ Keep a triad only when all three items are load-bearing facts.
 >
 > **After:** The book covers the Big Bang, star formation, and current theories about dark matter.
 
-### Passive voice and subjectless fragments
+### Passive Voice and Subjectless Fragments
 
 > **Before:** No configuration file needed. The results are preserved automatically.
 >
@@ -147,13 +147,13 @@ Keep a triad only when all three items are load-bearing facts.
 
 Rewrite when active voice is clearer; don't purge every passive.
 
-### Boldface overuse
+### Boldface Overuse
 
 > **Before:** It blends **OKRs (Objectives and Key Results)**, **KPIs (Key Performance Indicators)**, and visual strategy tools such as the **Business Model Canvas (BMC)** and **Balanced Scorecard (BSC)**.
 >
 > **After:** It blends OKRs, KPIs, and visual strategy tools like the Business Model Canvas and Balanced Scorecard.
 
-### Inline-header vertical lists
+### Inline-Header Vertical Lists
 
 > **Before:**
 > - **User Experience:** The user experience has been significantly improved with a new interface.
@@ -162,7 +162,7 @@ Rewrite when active voice is clearer; don't purge every passive.
 >
 > **After:** The update improves the interface, speeds up load times through optimized algorithms, and adds end-to-end encryption.
 
-### Heading case
+### Heading Case
 
 Not a tell - the house convention. Headings and titles are Title Case, so sentence-case headings get raised. Small words (and, of, in, to) stay lowercase unless they open or close the title; names that are lowercase by design and code identifiers never get raised at all. Surfaces with a documented sentence-case style guide (brand copy, UI labels, house-styled publications) are exempt.
 
@@ -180,7 +180,7 @@ Not a tell - the house convention. Headings and titles are Title Case, so senten
 >
 > **After:** The product launches in Q3.
 
-### Fragmented headers
+### Fragmented Headers
 
 A heading followed by a one-liner that restates the heading before the real content.
 
@@ -196,7 +196,7 @@ A heading followed by a one-liner that restates the heading before the real cont
 >
 > When users hit a slow page, they leave.
 
-### Staccato drama
+### Staccato Drama
 
 Runs of short declarative fragments engineered for punch. One short sentence for emphasis is fine; a run is a tell.
 
@@ -204,7 +204,7 @@ Runs of short declarative fragments engineered for punch. One short sentence for
 >
 > **After:** AlphaEvolve changed the search because it did not favor symmetry or human-looking designs. That made some of the older assumptions less useful.
 
-### Aphorism formulas
+### Aphorism Formulas
 
 Watch: X is the Y of Z, X becomes a trap, X is not a tool but a mirror, the language/currency/architecture of.
 
@@ -214,9 +214,9 @@ Watch: X is the Y of Z, X becomes a trap, X is not a tool but a mirror, the lang
 
 ---
 
-## Filler and tone
+## Filler and Tone
 
-### Filler phrases
+### Filler Phrases
 
 - "In order to achieve this goal" -> "To achieve this"
 - "Due to the fact that it was raining" -> "Because it was raining"
@@ -225,19 +225,19 @@ Watch: X is the Y of Z, X becomes a trap, X is not a tool but a mirror, the lang
 - "The system has the ability to process" -> "The system can process"
 - "It is important to note that the data shows" -> "The data shows"
 
-### Hedge stacks
+### Hedge Stacks
 
 > **Before:** It could potentially possibly be argued that the policy might have some effect on outcomes.
 >
 > **After:** The policy may affect outcomes.
 
-### Generic upbeat endings
+### Generic Upbeat Endings
 
 > **Before:** The future looks bright for the company. Exciting times lie ahead as they continue their journey toward excellence. This represents a major step in the right direction.
 >
 > **After:** (Cut the paragraph. End on the last concrete fact. If the source states real plans, use those.)
 
-### Hyphenated pair overuse
+### Hyphenated Pair Overuse
 
 AI hyphenates compounds uniformly, even in predicate position. Humans keep the hyphen attributive ("a high-quality report") and often drop it after the noun ("the report is high quality").
 
@@ -245,7 +245,7 @@ AI hyphenates compounds uniformly, even in predicate position. Humans keep the h
 >
 > **After:** The team is cross functional, the report is high quality, and the methodology is data driven.
 
-### Authority tropes
+### Authority Tropes
 
 Watch: the real question is, at its core, in reality, what really matters, fundamentally, the deeper issue, the heart of the matter.
 
@@ -261,7 +261,7 @@ Watch: let's dive in, let's explore, let's break this down, here's what you need
 >
 > **After:** Next.js caches data at multiple layers, including request memoization, the data cache, and the router cache.
 
-### Fake-candid openers
+### Fake-Candid Openers
 
 Watch: Honestly?, Look, Here's the thing, Let's be honest, Real talk - as standalone hooks before an ordinary point.
 
@@ -271,7 +271,7 @@ Watch: Honestly?, Look, Here's the thing, Let's be honest, Real talk - as standa
 
 "Honestly" mid-sentence in casual writing is normal; the tell is the theatrical pause-and-reveal.
 
-### Chatbot residue
+### Chatbot Residue
 
 Watch: I hope this helps, Of course!, Certainly!, Would you like..., Want me to...?, Should I continue?, let me know, here is a...
 
@@ -285,7 +285,7 @@ Watch: I hope this helps, Of course!, Certainly!, Would you like..., Want me to.
 >
 > **After:** The economic factors you mentioned are relevant here.
 
-### Diff-anchored writing
+### Diff-Anchored Writing
 
 Docs or comments narrating a change instead of describing the thing as it is. Only changelogs, release notes, and migration guides are version-scoped.
 
@@ -317,7 +317,7 @@ Same pass for the rest of the ASCII rule:
 
 ## Detection
 
-### What NOT to flag
+### What NOT to Flag
 
 None of these alone indicates AI. Look for clusters, not isolated hits:
 
@@ -335,7 +335,7 @@ None of these alone indicates AI. Look for clusters, not isolated hits:
 
 A single em dash means nothing. Em dashes + rule of three + "vibrant tapestry" + a "Conclusion" section is a confession.
 
-### Human signals - preserve these
+### Human Signals - Preserve These
 
 When present, lean toward leaving the prose alone; over-editing destroys them:
 
