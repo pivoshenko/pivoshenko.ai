@@ -23,23 +23,22 @@ Not inside Herdr -> say so and fall back to the `Agent` tool. Never control a He
 
 ## Pane Budget
 
-Claude Code's TUI is unusable below ~60 columns, and splitting a tab N ways divides its width by N. Measure, never assume:
+Claude Code's TUI is unusable below ~60 columns; budget at 68 so a worker can render a diff rather than merely survive. Splitting a tab N ways divides its width by N.
+
+Workers belong in their own tab — the user's driving pane stays uncluttered and their focus stays where they put it. Create that tab **first**, then measure it:
 
 ```bash
-herdr pane layout --pane "$HERDR_PANE_ID"   # -> .result.layout.area.width
+herdr tab create --label "workers" --cwd "$PWD" --no-focus   # -> .result.tab, .result.root_pane
+herdr pane layout --pane "<root-pane-id>"                    # -> .result.layout.area.width
 ```
+
+**Measure the worker tab's root pane, never `$HERDR_PANE_ID`.** Your own pane is whatever width the user's current split happened to leave it; a fresh tab spans the terminal. Budgeting off your pane under-counts and you spawn fewer workers than actually fit.
 
 | Tab width | 2 panes | 3 panes | 4 panes |
 | --- | --- | --- | --- |
 | 136 | 68 — ok | 45 — too narrow | 34 — unusable |
 
-**Budget = `floor(width / 68)`, minimum 1.** More workers than that -> `herdr tab create`, never thinner splits.
-
-```bash
-herdr tab create --label "workers" --cwd "$PWD" --no-focus   # -> .result.tab, .result.root_pane
-```
-
-Workers belong in their own tab. Keep the user's driving pane uncluttered, and keep their focus where they put it.
+**Budget = `floor(width / 68)`, minimum 1.** More workers than that -> a second tab, never thinner splits.
 
 Tasks beyond the budget wait for a free pane. Reuse a finished worker's pane — an idle agent takes a new prompt — or close it and split fresh. Never queue two tasks into one live agent; it serializes them and you lose the point.
 
@@ -71,7 +70,9 @@ Different `--kind` (`codex`, `gemini`, ...) is the one case where a second pane 
 
 ## Brief
 
-One task per agent. The worker sees none of the parent conversation, so the brief carries everything:
+One task per agent, and per `multi-agent-dispatch` the tasks in a wave are already independent — no task needs another's output, no file is written by two. Panes do not isolate the working tree, so that check happens before dispatch, not here.
+
+The worker sees none of the parent conversation, so the brief carries everything:
 
 - what to do, concretely
 - which paths it owns, and which it must not touch
