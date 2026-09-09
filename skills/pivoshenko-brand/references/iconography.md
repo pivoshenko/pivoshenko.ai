@@ -2,7 +2,7 @@
 
 Read when placing icons, building a logo lockup, or making a favicon / OG mark. The system uses **two icon sources**. Do not invent or hand-roll new icons.
 
-## Lucide (primary)
+## Lucide (Primary)
 
 [Lucide React](https://lucide.dev/) for all interface icons.
 
@@ -17,11 +17,11 @@ For HTML prototypes that can't import the React package:
 <script>lucide.createIcons()</script>
 ```
 
-## Simple Icons (logos only)
+## Simple Icons (Logos Only)
 
 Inline `<svg>` paths from [Simple Icons](https://simpleicons.org/) for the **GitHub, LinkedIn, and RSS** marks in the footer. Render at `w-4 h-4`, inherit `fg-muted`. Saved in `assets/social/`.
 
-## The VP mark
+## The VP Mark
 
 The personal mark is the **`VP` tile** — vendored as `assets/logo-vp.svg`:
 
@@ -48,11 +48,11 @@ Rules:
 - **Always light tile / dark glyph.** Use directly on `--bg-page`.
 - **The accent never fills the tile.** Monochrome only.
 
-## Wordmark lockup
+## Wordmark Lockup
 
 Text, not an asset. `type-logo` reading `pivoshenko.<namespace>`, dotted — `pivoshenko` in `fg-primary`, the dotted suffix in `fg-muted`. Pair with the `VP` tile in every nav bar.
 
-## Emoji and unicode
+## Emoji and Unicode
 
 - **No emoji** in UI, READMEs, commits, or social copy. Lucide only when a glyph is needed. Sole exception: GitHub repo description field (one contextual emoji allowed).
 - **Unicode arrows as text glyphs:** `→` (more), `←` (back), `↗` (external), `·` (separator).

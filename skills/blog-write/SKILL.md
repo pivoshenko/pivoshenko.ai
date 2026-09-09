@@ -5,7 +5,7 @@ tags: [writing, blog]
 updated_at: 2026-08-31
 ---
 
-# Blog write
+# Blog Write
 
 Target: `pivoshenko.dev`, posts at `site/content/posts/*.mdx`.
 
@@ -18,7 +18,7 @@ Goal = bespoke content. The post must contain things only the author could write
 
 ## Flow
 
-### 1. Interrogate — raw material before prose
+### 1. Interrogate — Raw Material Before Prose
 
 Never draft from a one-line idea. Mine the author first:
 
@@ -35,7 +35,7 @@ No raw material for a section -> ask targeted questions, don't pad.
 One sentence the post defends. Reader finishes -> can repeat it back.
 No thesis -> no post, only notes. Say so and help find one.
 
-### 3. Outline as dependency graph
+### 3. Outline as Dependency Graph
 
 Information = DAG. A section may only use concepts established by earlier sections.
 
@@ -46,7 +46,7 @@ Information = DAG. A section may only use concepts established by earlier sectio
 
 **Confirm the outline with the user before drafting.** Outline is cheap, drafts are not.
 
-### 4. Draft, section by section
+### 4. Draft, Section by Section
 
 Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) — that file owns the voice. Non-negotiables from it:
 
@@ -56,7 +56,7 @@ Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not t
 
 One section at a time. Each section carries >=1 author-only artifact (number, error, config, decision + why). Section has none -> back to step 1 for that section, not into generalities.
 
-### 5. Edit passes — separate, in order
+### 5. Edit Passes — Separate, in Order
 
 1. **structure** — DAG still holds after drafting drift; every section still earns its edge to the thesis
 2. **slop** — run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X — it's Y"

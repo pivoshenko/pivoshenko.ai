@@ -33,7 +33,7 @@ Model selection passes through natively, after `--`:
 herdr agent start <name> --kind claude --pane <pane-id> -- --model sonnet
 ```
 
-## Minimum form
+## Minimum Form
 
 Enough to obey this rule without loading anything else. Full procedure -> `herdr-dispatch` skill.
 
@@ -45,7 +45,7 @@ herdr agent prompt <name> "<self-contained brief>" --wait --timeout 600000
 
 Split `right` from a wide pane, `down` from a narrow or tall one. Always pass `--cwd` explicitly and always `--no-focus` - the user's focus stays where they put it. Read every id out of the JSON response; never guess one or infer it from sidebar order.
 
-## Result contract
+## Result Contract
 
 **Never scrape `herdr agent read`.** Alone among the `herdr` commands it returns plain text, not JSON, wrapped in the agent's full TUI chrome - banner, echoed prompt, spinner, status bar. Long responses render on the alternate screen and never reach scrollback at all, so a bigger `--lines` cannot recover them.
 

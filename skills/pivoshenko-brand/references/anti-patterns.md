@@ -1,4 +1,4 @@
-# Anti-patterns
+# Anti-Patterns
 
 > pivoshenko is the practitioner's notebook — a dark, monospaced workshop where an engineer thinks out loud.
 
@@ -8,7 +8,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #1 — Dark only
+## DNA #1 — Dark Only
 
 - ✅ **Do:** ship dark, no toggle, no auto-switch on `prefers-color-scheme: light`.
 - ❌ **Don't:** add a light mode "for accessibility" or "for printing".
@@ -16,7 +16,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #2 — One typeface, monospaced
+## DNA #2 — One Typeface, Monospaced
 
 - ✅ **Do:** use JetBrains Mono for body, headings, captions, code.
 - ❌ **Don't:** introduce a sans-serif for "readability" in long-form prose, or a serif for "elegance" in a deck.
@@ -26,7 +26,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #3 — Grayscale chrome, one accent as subject
+## DNA #3 — Grayscale Chrome, One Accent as Subject
 
 - ✅ **Do:** use `--accent-primary` for a link underline, a status dot, a focus ring, a copy-success flash.
 - ❌ **Don't:** use it as a button background fill ("Subscribe" / "Get started" / "Try now").
@@ -36,7 +36,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #4 — Flat-edge
+## DNA #4 — Flat-Edge
 
 - ✅ **Do:** separate elements with `1px` borders. Use `--bg-surface` to lift a card off `--bg-canvas`.
 - ❌ **Don't:** add `box-shadow`, even "subtle" ones — `0 1px 2px rgba(0,0,0,0.1)`.
@@ -48,7 +48,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #5 — Type and color only
+## DNA #5 — Type and Color Only
 
 - ✅ **Do:** use a terminal screenshot, a code listing, or a mono portrait when imagery is non-negotiable.
 - ❌ **Don't:** use stock photography, illustration packs, isometric "tech" art, AI-generated imagery, 3D renders, or geometric pattern fills.
@@ -56,7 +56,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #6 — One mark: `VP`
+## DNA #6 — One Mark: `VP`
 
 - ✅ **Do:** use the same `VP` tile — light fill, dark glyph, mono 700 — on every surface, every size.
 - ❌ **Don't:** make a per-project glyph (a `T` for the theme work, a `D` for the dev blog, an `A` for AI).
@@ -68,7 +68,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #7 — No emoji
+## DNA #7 — No Emoji
 
 - ✅ **Do:** use a Lucide icon when a glyph is genuinely needed (a chevron, an external-link arrow, a copy icon).
 - ❌ **Don't:** use emoji as section dividers in a README ("## 🚀 Quickstart").
@@ -78,7 +78,7 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## DNA #8 — Voice: practitioner's notebook
+## DNA #8 — Voice: Practitioner's Notebook
 
 - ✅ **Do:** "Execution is cheap now. Code? Generated. UI drafts? Ten in minutes."
 - ❌ **Don't:** "In today's rapidly evolving landscape, AI is transforming how we approach software development."
@@ -93,6 +93,6 @@ The pattern: **Do · Don't · Why it fails.** The "why" is the load-bearing part
 
 ---
 
-## When in doubt
+## When in Doubt
 
 If a proposal triggers the question *"is this on-brand?"*, the answer is almost always no. The brand is decisive — it doesn't sit on the edge of its own rules. When something genuinely is in-brand, you don't have to ask.

@@ -9,7 +9,7 @@ updated_at: 2026-06-12
 
 Periodic once-over: sweep (read-only) -> report -> confirm -> apply -> verify. Optimization = real wins only: updates applied, reboot when due, indexing sane, startup load lean. No snake-oil (`purge`, blind cache wipes, repair-permissions theater). Storage/junk -> `macos-cleanup`, hand off.
 
-## Sweep (read-only)
+## Sweep (Read-Only)
 
 Run all categories, every one shows up in the report — clean ones as "ok", never silently omitted. Warn up front: `softwareupdate -l` + `diskutil verifyVolume` take a minute+.
 
@@ -27,7 +27,7 @@ Run all categories, every one shows up in the report — clean ones as "ok", nev
 
 Table per category: check · finding · verdict (`ok` / `attention` = watch it / `action` = fix available, named). Lead with one-line summary: "N ok, N attention, N actions available". Then `AskUserQuestion` multiSelect over the actions only.
 
-## Actions (each confirmed, side effects stated first)
+## Actions (Each Confirmed, Side Effects Stated First)
 
 - **OS updates**: `sudo softwareupdate -i -a` — sudo -> ask; may require restart, say which updates do.
 - **brew upgrade**: `brew upgrade` — list what bumps first; pinned/work-critical tools -> per-formula `brew upgrade <f>` instead.
@@ -35,7 +35,7 @@ Table per category: check · finding · verdict (`ok` / `attention` = watch it /
 - **Spotlight reindex** (stuck/corrupt index): `sudo mdutil -E /` — **search degraded for hours on big disks, mds burns CPU meanwhile**. One bad folder -> cheaper: add to Spotlight Privacy, wait 1 min, remove -> reindexes just it, no sudo.
 - **First Aid repair** (verify found errors): live `/` can't be repaired mounted -> Recovery Mode First Aid, give steps; data risk = back up first.
 
-## Targeted fixes
+## Targeted Fixes
 
 When sweep or user flags a specific breakage. Same contract: confirm first, side effects stated, verify after.
 

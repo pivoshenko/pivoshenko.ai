@@ -9,14 +9,14 @@ updated_at: 2026-08-31
 
 Strip AI tells from text. Keep every fact, change the prose.
 
-## Ground rules
+## Ground Rules
 
 1. **Preserve information, not shape.** Every claim survives. Compress dull parts, merge/split paragraphs freely. Information beats structure.
 2. **Never invent facts.** No new names, numbers, dates, quotes, citations. Sentence needs missing detail to work -> ask, or write the plain version without it.
 3. **Match voice.** Formal/casual/technical as intended. User provides own writing sample -> its habits outrank every rule below, including the dash rule.
 4. **Don't sterilize.** Voiceless is as obvious as slop. Essay/opinion/post -> keep opinions, asides, uneven rhythm. Technical/reference -> plain and neutral IS the human voice there.
 
-## Out of scope: agent instruction files
+## Out of Scope: Agent Instruction Files
 
 Files written for a model to execute, not for a person to read: `CLAUDE.md`, `AGENTS.md`, `context.md`, `llms.txt`, `.cursor/rules/*`, `GEMINI.md`, `.github/copilot-instructions.md`, and any other agent/system-prompt file. Terse fragments, arrows, abbreviations, and lowercase headings are the working format there - compression is the point, and recasing headings or padding fragments into sentences costs tokens and blurs directives. Skip these files entirely: no rewrite, no heading recase, no punctuation pass.
 
@@ -24,13 +24,13 @@ Same for the prose *inside* a normal file when it is addressed to a model: syste
 
 Exception - the user aims the skill at one of these deliberately ("humanize my CLAUDE.md", "clean up this system prompt"). Do it, and say once that the file is agent-facing so terseness there was probably intentional. A doc that merely mentions or quotes such a file is ordinary prose; edit it normally.
 
-## House conventions
+## House Conventions
 
 The two rules below are **house style, not AI tells**. They run on every pass, on every file this skill touches, whether or not the prose shows a single AI pattern - which is exactly why they need saying out loud: someone who asked for a de-slop pass and got their headings recased should have seen it coming from this section.
 
 Both are defaults, not laws. "punctuation only", "leave the casing", "don't touch my headings" -> honor it for that pass and note in the findings table which convention was skipped. A file with a documented style guide of its own outranks both (see the exceptions under each).
 
-### Punctuation -> plain ASCII
+### Punctuation -> Plain ASCII
 
 - em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
 - curly quotes ("", '') -> straight `"` `'`
@@ -53,7 +53,7 @@ Example: `## Strategic negotiations and global partnerships` -> `## Strategic Ne
 
 Exception - a surface with a documented style guide that calls for a different casing keeps that casing, whatever it is: sentence case, all-lowercase, all-caps section labels. Brand and product copy, UI labels, and house-styled publications usually have one, and there the heading style is part of what readers recognize - an all-lowercase house voice reads as deliberate, and raising it is the single most visible way this pass can damage a piece it was meant to help. A stated convention outranks this default; a file that merely happens to use a casing does not - that file is the reason the rule exists. Unsure whether a convention is stated or accidental -> leave the casing alone and say so in the findings table; a heading left unraised costs nothing, a house voice flattened costs the author.
 
-## Tells to kill
+## Tells to Kill
 
 Full before/after catalog: `references/patterns.md`. Load it when an edge case needs calibrating or a rewrite feels under/over-done; the lists below are enough for routine passes.
 
@@ -91,7 +91,7 @@ Filler:
 - fake-candid openers ("Honestly?", "Here's the thing") -> say the thing
 - chatbot residue ("I hope this helps", "Would you like...", "Great question!") -> gone
 
-## Don't over-flag
+## Don't Over-Flag
 
 One tell means nothing - look for clusters. A single em dash, one triad, polish, formal vocabulary, one short punchy sentence = normal human writing. Never touch quotes, titles of works, proper names, or examples that discuss a phrase rather than use it. Preserve human signals: weird specific detail, mixed feelings, asides, self-corrections, varied sentence length.
 
@@ -101,7 +101,7 @@ One tell means nothing - look for clusters. A single em dash, one triad, polish,
 - **file** -> Read, rewrite prose in place; leave code blocks, frontmatter, data, link targets untouched; report the findings table, don't paste the whole file back
 - **embedded** (step in a bigger job: PR body, commit message, doc) -> output final text only, no ceremony, no table
 
-## Findings table
+## Findings Table
 
 Report what was fixed as a table - one row per tell category, only categories with hits, sorted by count desc:
 

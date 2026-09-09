@@ -21,7 +21,7 @@ Periodic posture sweep over live zones: preflight -> sweep (read-only) -> report
 
    `accountId` is pre-injected; zone ids come from step 2. Returns `{success, status, result, errors, result_info}` — read `errors[0].code` for the 9109 probe, `result_info.total_pages` to paginate. Batch a whole category's GETs into one `execute` call (loop inside the function, return an object) — one round-trip per category beats one per setting. `mcp__cloudflare__search` (OpenAPI spec, refs resolved) for endpoint/body shapes; `mcp__cloudflare__docs` for product behavior.
 
-## Sweep (read-only)
+## Sweep (Read-Only)
 
 Per zone, every category below — each shows in the report, clean ones as "ok", never silently dropped. GETs only here; no mutation. Full endpoint + optimal-value matrix lives in `references/best-practices.md`; `scripts/audit.mjs` is the reference read-only sweep logic (GETs + verdict classifier).
 
@@ -36,7 +36,7 @@ Per zone, every category below — each shows in the report, clean ones as "ok",
 
 Table per zone × category: check · current · optimal · verdict (`ok` / `attention` = watch / `action` = fix available, named). Lead per zone: "Zone X: N ok, N attention, N actions". Then `AskUserQuestion` multiSelect over the actions only. Anything that can break traffic gets its own option, side effects stated first.
 
-## Actions (each confirmed, side effects stated first)
+## Actions (Each Confirmed, Side Effects Stated First)
 
 - **SSL mode -> Full (strict)**: `PATCH settings/ssl {value:"strict"}` — **breaks if origin lacks a valid cert.** Confirm origin has a cert (Cloudflare Origin CA or real CA) before flipping.
 - **Always Use HTTPS / Auto HTTPS Rewrites / min TLS 1.2 / TLS 1.3 on**: `PATCH` each — low risk; min-TLS bump can lock out ancient clients, name it.
@@ -54,7 +54,7 @@ Table per zone × category: check · current · optimal · verdict (`ok` / `atte
 - **Proxy a grey-cloud record**: `PATCH dns_records/{id} {proxied:true}` — **never proxy mail (MX/its A), verification, or services needing direct origin.** Confirm per record.
 - **Add DMARC**: propose `_dmarc.<zone>` TXT (start `v=DMARC1; p=none; rua=mailto:...` for monitoring), confirm value, `POST dns_records`.
 
-## Access setup (when preflight fails)
+## Access Setup (When Preflight Fails)
 
 The `cloudflare` MCP is a remote OAuth server (`https://mcp.cloudflare.com/mcp`) — there is no API token in its config to widen. A 9109/10000 means the authorized Cloudflare account lacks the permission, not that a token needs editing. Two ways out:
 
