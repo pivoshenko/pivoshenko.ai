@@ -21,17 +21,23 @@ Why -> a pane appears in the sidebar, can be read while it runs, can be interrup
 
 ## Relation to Multi-Agent Dispatch
 
-This supersedes **only** the substrate choice in `multi-agent-dispatch` - the sentence naming the `Agent` tool. Every other rule there still holds, now applied to panes:
+This supersedes **only** the substrate choice in `multi-agent-dispatch` - the sentences naming the `Agent` tool. Every other rule there still holds, now applied to panes:
 
+- still establish independence first. A pane is more visible than an in-process agent, not more isolated - two of them writing one file clobber each other exactly the same way, and dependent tasks still go in waves
 - still fan a task list out immediately, one agent per task, launched concurrently, without asking first
 - still pick the model per task by difficulty, never a blanket default
 - still write self-contained prompts - a pane agent sees no more of your conversation than an in-process one would
 
-Model selection passes through natively, after `--`:
+The one rule that does not survive the swap is `isolation: "worktree"`. Panes have no equivalent; they share whatever tree their `--cwd` points at. Give each agent a disjoint set of paths instead, or make the checkouts yourself and start each agent with its own `--cwd`.
+
+Model and effort both pass through natively, after `--`:
 
 ```bash
 herdr agent start <name> --kind claude --pane <pane-id> -- --model sonnet
+herdr agent start <name> --kind claude --pane <pane-id> -- --model opus --effort high
 ```
+
+Only for `--kind claude`. Other kinds take their own flags.
 
 ## Minimum Form
 
