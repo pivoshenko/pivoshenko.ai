@@ -1,7 +1,7 @@
 ---
 name: spec-dispatch
 description: >-
-  Run an OpenSpec change's tasks in parallel — read the task queue, plan file-disjoint waves, dispatch one agent per task, verify, tick the boxes, commit. Use when the user says "dispatch the tasks", "run these tasks in parallel", "fan out the change", "/spec-dispatch", "implement this change with agents", or wants an OpenSpec change implemented by more than one agent at once. Fills the gap in OpenSpec's own `openspec-apply-change`, which is strictly serial and single-agent. Chains to `herdr-dispatch` for the pane mechanics.
+  Run an OpenSpec change's tasks in parallel — read the task queue, plan file-disjoint waves, dispatch one agent per task, verify, tick the boxes, commit. Use when the user says "dispatch the tasks", "run these tasks in parallel", "fan out the change", "/spec-dispatch", "implement this change with agents", or wants an OpenSpec change implemented by more than one agent at once. Fills the gap in OpenSpec's own `openspec-apply-change`, which is strictly serial and single-agent. Works with or without Herdr; chains to `herdr-dispatch` for the pane mechanics when inside it.
 tags: [openspec, agents, herdr]
 updated_at: 2026-09-09
 ---
@@ -12,11 +12,12 @@ openspec queue -> wave plan -> agents -> verify -> tick -> commit.
 
 `openspec-apply-change` walks tasks one at a time in one context. This replaces that loop only. Planning artifacts (`proposal` / `specs` / `design` / `tasks`) stay sequential and stay with you — never fan those out; they need whole-repo context and each depends on the last.
 
-Subagents run in Herdr panes, per the `Herdr` instruction. Mechanics — budget, split, start, brief, collect, blocked, cleanup — belong to `herdr-dispatch`. This skill owns only what is OpenSpec-specific.
+Everything here is substrate-independent. Inside Herdr (`HERDR_ENV=1`) subagents are panes per the `Herdr` instruction, and the mechanics — budget, split, start, brief, collect, blocked, cleanup — belong to `herdr-dispatch`. Outside it, dispatch the same waves with the `Agent` tool. Either way this skill owns only what is OpenSpec-specific.
 
 ## Preconditions
 
 ```bash
+test "${HERDR_ENV:-}" = 1        # decides the substrate only, never whether to proceed
 openspec status --change "<name>" --json
 ```
 
@@ -51,7 +52,9 @@ Rules absent, or tasks written without the markers -> **stop and say so.** Offer
 
 ## Plan the Wave
 
-Wave = unchecked tasks whose `needs:` are all complete **and** whose `files:` sets are pairwise disjoint. Cap at the pane budget from `herdr-dispatch`. Everything else waits.
+Wave = unchecked tasks whose `needs:` are all complete **and** whose `files:` sets are pairwise disjoint. This is `multi-agent-dispatch`'s independence rule, made checkable — the markers do the work you would otherwise be guessing at.
+
+Cap the wave at the pane budget from `herdr-dispatch` inside Herdr; outside it, cap at what you can brief and verify in one pass. Everything else waits.
 
 Prefer domain and feature boundaries. Never split work that touches one file from two directions — that is a merge conflict authored on purpose.
 
