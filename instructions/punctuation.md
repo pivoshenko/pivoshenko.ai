@@ -1,14 +1,14 @@
 ---
-name: Comment Punctuation
-description: Code comments never end with a period, in any language. Docstrings are exempt and keep normal punctuation.
+name: Punctuation
+description: List items never end with a period and em dashes are never used, across everything written from source files to blog posts.
 tags: [meta, style]
-updated_at: 2026-07-19
+updated_at: 2026-09-09
 ---
 
-# Comment Punctuation
+# Punctuation
 
-**Code comments never end with a period. Docstrings are fine.**
+**List items never end with a period.** Bulleted or numbered, fragment or full paragraph, no exceptions. Periods between sentences inside an item stay, only the terminal one is dropped.
 
-In any language (Python, Rust, TypeScript, Go, shell, etc.), do not end a comment with a trailing period, neither inline comments nor full-line comments, single-sentence or otherwise. This applies to comments you write and to comment text you rewrite while editing.
+**Never use an em dash (`—`).** Use a spaced hyphen (` - `) wherever one would go.
 
-Docstrings and doc comments (Python `"""docstrings"""`, Rust `///` / `//!`, JSDoc, Go doc comments, etc.) are documentation, not comments. They keep normal sentence punctuation, including trailing periods.
+Ordinary prose paragraphs keep normal sentence punctuation.
