@@ -21,7 +21,7 @@ Groom the open backlog. Read-only sweep -> bucketed report -> per-category confi
    gh label list --limit 200 --json name -q '.[].name'
    ```
 
-   Why -> one batched fetch, never `gh issue view` per issue. A 60-issue backlog is 60 round trips that way, and the list payload already carries every field the buckets need.
+   Why -> one batched fetch, never `gh issue view` per issue. A 60-issue backlog is 60 round trips that way, and the list payload already carries every field the buckets need
 2. Zero open issues -> say so, stop. No report, no proposals
 3. Corroborating fetch, only if step 1 produced **Closeable** candidates:
 
@@ -29,7 +29,7 @@ Groom the open backlog. Read-only sweep -> bucketed report -> per-category confi
    gh search prs --repo "$(gh repo view --json nameWithOwner -q .nameWithOwner)" --merged --limit 100 --json number,title,body
    ```
 
-   Grep those bodies for `#<n>`. Why -> a merged PR naming the issue is the only close signal that does not require reading the tree.
+   Grep those bodies for `#<n>`. Why -> a merged PR naming the issue is the only close signal that does not require reading the tree
 4. Bucket every open issue into exactly one category. See **Buckets**
 5. Report. One line per issue, grouped, counts in each heading. See **Report Format**
 6. Confirm **per category**, never per issue and never all-at-once. `AskUserQuestion`, multiSelect, one option per non-empty actionable category. Why -> closing is irreversible in effect even though technically reopenable, relabelling is not, and the user is entitled to accept "labels yes, closes no"

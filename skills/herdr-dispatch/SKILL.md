@@ -25,7 +25,7 @@ Not inside Herdr -> say so and fall back to the `Agent` tool. Never control a He
 
 Claude Code's TUI is unusable below ~60 columns; budget at 68 so a worker can render a diff rather than merely survive. Splitting a tab N ways divides its width by N.
 
-Workers belong in their own tab — the user's driving pane stays uncluttered and their focus stays where they put it. Create that tab **first**, then measure it:
+Workers belong in their own tab - the user's driving pane stays uncluttered and their focus stays where they put it. Create that tab **first**, then measure it:
 
 ```bash
 herdr tab create --workspace "$HERDR_WORKSPACE_ID" --label "workers" --cwd "$PWD" --no-focus  # -> .result.tab, .result.root_pane
@@ -38,11 +38,11 @@ herdr pane layout --pane "<root-pane-id>"                    # -> .result.layout
 
 | Tab width | 2 panes | 3 panes | 4 panes |
 | --- | --- | --- | --- |
-| 136 | 68 — ok | 45 — too narrow | 34 — unusable |
+| 136 | 68 - ok | 45 - too narrow | 34 - unusable |
 
 **Budget = `floor(width / 68)`, minimum 1.** More workers than that -> a second tab, never thinner splits.
 
-Tasks beyond the budget wait for a free pane. Reuse a finished worker's pane — an idle agent takes a new prompt — or close it and split fresh. Never queue two tasks into one live agent; it serializes them and you lose the point.
+Tasks beyond the budget wait for a free pane. Reuse a finished worker's pane - an idle agent takes a new prompt - or close it and split fresh. Never queue two tasks into one live agent; it serializes them and you lose the point.
 
 ## Split
 
@@ -62,17 +62,17 @@ herdr agent start "<name>" --kind claude --pane "<pane-id>"
 # -> .result.agent.agent_status == "idle"   (~4s)
 ```
 
-Names match `[a-z][a-z0-9_-]{0,31}` and must be unique among live agents — check `herdr agent list` first. A name follows the pane's current occupant and clears when that agent exits.
+Names match `[a-z][a-z0-9_-]{0,31}` and must be unique among live agents - check `herdr agent list` first. A name follows the pane's current occupant and clears when that agent exits.
 
 `agent start` needs a pane already sitting at its shell prompt; it never creates or moves layout. That is the split's job.
 
-Returns `agent_not_ready` if the agent is blocked during startup — the name still works for `agent read` / `agent send-keys`. Wait for idle before prompting.
+Returns `agent_not_ready` if the agent is blocked during startup - the name still works for `agent read` / `agent send-keys`. Wait for idle before prompting.
 
 Different `--kind` (`codex`, `gemini`, ...) is the one case where a second pane buys something rerunning the same model cannot. Use it for independent review, not for throughput.
 
 ## Brief
 
-One task per agent, and per `multi-agent-dispatch` the tasks in a wave are already independent — no task needs another's output, no file is written by two. Panes do not isolate the working tree, so that check happens before dispatch, not here.
+One task per agent, and per `multi-agent-dispatch` the tasks in a wave are already independent - no task needs another's output, no file is written by two. Panes do not isolate the working tree, so that check happens before dispatch, not here.
 
 The worker sees none of the parent conversation, so the brief carries everything:
 
@@ -85,17 +85,17 @@ The worker sees none of the parent conversation, so the brief carries everything
 herdr agent prompt "<name>" "<brief>" --wait --timeout 600000
 ```
 
-`--wait` needs to observe `working` or `blocked` within five seconds of submission, else `agent_prompt_stalled`. A stall or `timeout` does **not** prove the prompt never landed — inspect with `agent get` and `agent read` before resending. A blind resend double-submits.
+`--wait` needs to observe `working` or `blocked` within five seconds of submission, else `agent_prompt_stalled`. A stall or `timeout` does **not** prove the prompt never landed - inspect with `agent get` and `agent read` before resending. A blind resend double-submits.
 
 `agent prompt` refuses to send into a blocked agent (`agent_blocked`) before writing anything.
 
 ## Collect
 
-Per the `Herdr` instruction: the result file is the completion signal, never scraped screen output. Every brief ends with —
+Per the `Herdr` instruction: the result file is the completion signal, never scraped screen output. Every brief ends with -
 
 > Write your complete result as Markdown to `<path>`. Reply with only that absolute path, nothing else.
 
-— then read that file. No file on disk means not done, regardless of what `--wait` returned.
+Then read that file. No file on disk means not done, regardless of what `--wait` returned.
 
 Verify the work yourself before trusting it. A worker reporting success is a claim, not evidence.
 
@@ -120,14 +120,14 @@ Only after results are collected and verified:
 herdr tab close "<tab-id>"
 ```
 
-Close only what this run created. Never touch a pane, tab, or workspace the user owns. Never `herdr server stop` — it kills every agent on the machine.
+Close only what this run created. Never touch a pane, tab, or workspace the user owns. Never `herdr server stop` - it kills every agent on the machine.
 
 Report every pane id spawned, including ones left running. An agent still alive with no record of why is the failure mode here.
 
 ## Rules
 
-- Read every id from JSON responses. Never guess `w1:p3`, never infer from sidebar order.
-- `--no-focus` on every split and tab create, and `--workspace "$HERDR_WORKSPACE_ID"` on every tab create.
-- One task per agent, one agent per pane.
-- Budget before spawning. Splitting past it makes every worker unreadable, including the ones already running.
-- Verify before believing. Collect before closing.
+- Read every id from JSON responses. Never guess `w1:p3`, never infer from sidebar order
+- `--no-focus` on every split and tab create, and `--workspace "$HERDR_WORKSPACE_ID"` on every tab create
+- One task per agent, one agent per pane
+- Budget before spawning. Splitting past it makes every worker unreadable, including the ones already running
+- Verify before believing. Collect before closing

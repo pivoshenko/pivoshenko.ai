@@ -2,12 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## What this repo is
+## What This Repo Is
 
 pivoshenko's AI agent workspace. Two things live here:
 
-1. **Source of truth for agent config** — locally authored skills (`skills/`), MCP definitions (`mcps/`), and instruction rules (`instructions/`), plus `kasetto.yaml`, which lists both the local assets and the external upstream repos to pull from. [Kasetto](https://github.com/pivoshenko/kasetto) (`kst sync`) distributes all of it into `~/.claude/`. Instructions land in `~/.claude/CLAUDE.md` as managed blocks, so the files in `instructions/` *are* the global agent rules.
-2. **`site/`** — a Next.js catalog viewer at `ai.pivoshenko.dev` that reads the files above off the parent filesystem at build time.
+1. **Source of truth for agent config** - locally authored skills (`skills/`), MCP definitions (`mcps/`), and instruction rules (`instructions/`), plus `kasetto.yaml`, which lists both the local assets and the external upstream repos to pull from. [Kasetto](https://github.com/pivoshenko/kasetto) (`kst sync`) distributes all of it into `~/.claude/`. Instructions land in `~/.claude/CLAUDE.md` as managed blocks, so the files in `instructions/` *are* the global agent rules
+2. **`site/`** - a Next.js catalog viewer at `ai.pivoshenko.dev` that reads the files above off the parent filesystem at build time
 
 Most edits here are Markdown/YAML/JSON config, not code.
 
@@ -29,17 +29,17 @@ just test      # no-op while the `.no-tests` sentinel exists
 
 There is no test suite. `just test` succeeds only because the empty `.no-tests` file at the repo root exists; deleting it makes the recipe fail hard (and breaks CI) until a real test command replaces it.
 
-CI (`.github/workflows/ci.yaml`, push to `main` + PRs, `ubuntu-24.04-arm`, Node 24) runs `just install && just lint && just test && just build`. `just check` is a read-only superset of what CI runs — run it locally before pushing, and `just format` to write fixes.
+CI (`.github/workflows/ci.yaml`, push to `main` + PRs, `ubuntu-24.04-arm`, Node 24) runs `just install && just lint && just test && just build`. `just check` is a read-only superset of what CI runs - run it locally before pushing, and `just format` to write fixes.
 
-## Asset layout and the sync contract
+## Asset Layout and the Sync Contract
 
-- `kasetto.yaml` decides what actually syncs. The local source (`github.com/pivoshenko/pivoshenko.ai`) uses `"*"` for `instructions` and `skills`, so new files in those dirs sync automatically. **`mcps` are enumerated by name** (currently `github`, `vercel`, `cloudflare`, `logfire`), so adding `mcps/foo.json` also requires adding `foo` to the `mcps:` list. `mcps/motherduck.json` and `mcps/supabase.json` exist on disk but are not listed — they show on the site (which globs `mcps/*.json`) and do not sync.
-- `skills/<slug>/SKILL.md` is required; `references/`, `scripts/`, `assets/` are optional siblings loaded on demand (see `skills/pivoshenko-brand` for the full shape).
-- `instructions/<slug>.md` — one rule per file, frontmatter + rule body.
-- `mcps/<name>.json` — shape is `{ "mcpServers": { "<name>": { ... } } }`. Secrets are Kasetto placeholders (`${kst_github_token}`), never literals.
-- `archive/` mirrors the live layout (`archive/skills/`, `archive/instructions/`, `archive/scripts/`). Kasetto only pulls from the top-level dirs, so **retire by moving here, not deleting** — the site still renders archived skills/instructions in a dimmed section.
+- `kasetto.yaml` decides what actually syncs. The local source (`github.com/pivoshenko/pivoshenko.ai`) uses `"*"` for `instructions` and `skills`, so new files in those dirs sync automatically. **`mcps` are enumerated by name** (currently `github`, `vercel`, `cloudflare`, `logfire`), so adding `mcps/foo.json` also requires adding `foo` to the `mcps:` list. `mcps/motherduck.json` and `mcps/supabase.json` exist on disk but are not listed - they show on the site (which globs `mcps/*.json`) and do not sync
+- `skills/<slug>/SKILL.md` is required; `references/`, `scripts/`, `assets/` are optional siblings loaded on demand (see `skills/pivoshenko-brand` for the full shape)
+- `instructions/<slug>.md` - one rule per file, frontmatter + rule body
+- `mcps/<name>.json` - shape is `{ "mcpServers": { "<name>": { ... } } }`. Secrets are Kasetto placeholders (`${kst_github_token}`), never literals
+- `archive/` mirrors the live layout (`archive/skills/`, `archive/instructions/`, `archive/scripts/`). Kasetto only pulls from the top-level dirs, so **retire by moving here, not deleting** - the site still renders archived skills/instructions in a dimmed section
 
-## Frontmatter contract
+## Frontmatter Contract
 
 Every `SKILL.md` and `instructions/*.md` needs:
 
@@ -54,32 +54,32 @@ Catalog sort is `updated_at` desc, entries without it last, ties by `name` asc (
 
 ## Tagging
 
-- Local skills/instructions: frontmatter `tags` is the source of truth and takes precedence over any map.
-- External skills/MCPs/instructions: add explicit entries to the per-slug / per-source maps in `site/lib/external-tags.ts` (`SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`, `INSTRUCTION_TAGS`). No regex inference — the maps are deliberately literal.
-- Tags stay short, lowercase, kebab-case, one word where possible (`git`, `brand`, `vercel`, `deploy`, `meta`, `engineering`, ...).
+- Local skills/instructions: frontmatter `tags` is the source of truth and takes precedence over any map
+- External skills/MCPs/instructions: add explicit entries to the per-slug / per-source maps in `site/lib/external-tags.ts` (`SKILL_TAGS`, `SOURCE_TAGS`, `MCP_TAGS`, `INSTRUCTION_TAGS`). No regex inference - the maps are deliberately literal
+- Tags stay short, lowercase, kebab-case, one word where possible (`git`, `brand`, `vercel`, `deploy`, `meta`, `engineering`, ...)
 
-## Skill writing style
+## Skill Writing Style
 
 Skill bodies are terse to the point of fragments: arrows for causality (`scan -> report -> confirm -> apply`), abbreviations, no prose padding. Read any existing skill in `skills/` before writing a new one. Skills that touch destructive territory (`macos-cleanup`, `cloudflare-hygiene`, `vercel-hygiene`) all follow the same shape: read-only sweep -> categorized report -> explicit per-category confirm -> apply -> verify.
 
 Skills cross-reference by handing off (`macos-cleanup` <-> `macos-maintenance`, `git-commit` <-> `git-pr-create`, `cloudflare-hygiene` -> `cloudflare`). `humanize` is deliberately kept free of references to other skills or this brand so it stays portable.
 
-## Site architecture
+## Site Architecture
 
-- Next.js 16 App Router (Turbopack dev), React 19, Tailwind 3, Biome 1.9 (no eslint/prettier). Single page (`app/page.tsx`), single client component (`components/catalog.tsx`).
-- `site/lib/data.ts` is the whole data layer. It runs server-side, sets `ROOT = process.cwd()/..`, and reads `../kasetto.yaml`, `../skills/*/SKILL.md`, `../mcps/*.json`, `../instructions/*.md`, plus `../archive/{skills,instructions}` through the same readers with `archived = true`. Client code imports from it with `import type` only, so nothing filesystem-related reaches the bundle.
-- `loadCatalog()` merges local assets with entries derived from `kasetto.yaml`; a `"*"` upstream entry becomes one synthetic "all skills"/"all instructions" card. Local slugs shadow same-named external ones.
-- Editing a skill or instruction needs no rebuild in dev — Next re-reads on the next request.
-- **`pivoshenko.ui` (git-tag-pinned dependency, currently `#v0.9.3`) owns nearly all config and chrome.** `next.config.ts`, `postcss.config.mjs`, `biome.json`, `tsconfig.json`, and `app/globals.css` are one-line re-exports/extends of it. `app/layout.tsx` composes `<SiteLayout brand="pivoshenko.ai">` (plus `siteMetadata`/`siteViewport`), which owns `<html>`/`<body>`, the page shell, and analytics; `<SpeedInsights />` is passed via `afterShell`. To change the shell, bump the pinned tag rather than adding local markup.
-- Styling uses role-based classes from `pivoshenko.ui/tailwind-preset/site`: foreground roles (`fg-title`, `fg-body`, `fg-muted`), type ramp (`type-body`), surfaces (`bg-bg-surface`), borders (`border-ui`, `border-faint`), accents (`bg-accent-primary|secondary|success|danger|info`). One palette, no raw `stone-*`, no `dark:` chains, no theme toggle.
-- Deploy is Vercel (`site/vercel.json`: `pnpm build` / `pnpm install --frozen-lockfile`). No env vars are required to build or run the site.
-- `site/pnpm-workspace.yaml` holds pnpm policy only: `onlyBuiltDependencies` and security `overrides` for transitive deps.
+- Next.js 16 App Router (Turbopack dev), React 19, Tailwind 3, Biome 1.9 (no eslint/prettier). Single page (`app/page.tsx`), single client component (`components/catalog.tsx`)
+- `site/lib/data.ts` is the whole data layer. It runs server-side, sets `ROOT = process.cwd()/..`, and reads `../kasetto.yaml`, `../skills/*/SKILL.md`, `../mcps/*.json`, `../instructions/*.md`, plus `../archive/{skills,instructions}` through the same readers with `archived = true`. Client code imports from it with `import type` only, so nothing filesystem-related reaches the bundle
+- `loadCatalog()` merges local assets with entries derived from `kasetto.yaml`; a `"*"` upstream entry becomes one synthetic "all skills"/"all instructions" card. Local slugs shadow same-named external ones
+- Editing a skill or instruction needs no rebuild in dev - Next re-reads on the next request
+- **`pivoshenko.ui` (git-tag-pinned dependency, currently `#v0.9.3`) owns nearly all config and chrome.** `next.config.ts`, `postcss.config.mjs`, `biome.json`, `tsconfig.json`, and `app/globals.css` are one-line re-exports/extends of it. `app/layout.tsx` composes `<SiteLayout brand="pivoshenko.ai">` (plus `siteMetadata`/`siteViewport`), which owns `<html>`/`<body>`, the page shell, and analytics; `<SpeedInsights />` is passed via `afterShell`. To change the shell, bump the pinned tag rather than adding local markup
+- Styling uses role-based classes from `pivoshenko.ui/tailwind-preset/site`: foreground roles (`fg-title`, `fg-body`, `fg-muted`), type ramp (`type-body`), surfaces (`bg-bg-surface`), borders (`border-ui`, `border-faint`), accents (`bg-accent-primary|secondary|success|danger|info`). One palette, no raw `stone-*`, no `dark:` chains, no theme toggle
+- Deploy is Vercel (`site/vercel.json`: `pnpm build` / `pnpm install --frozen-lockfile`). No env vars are required to build or run the site
+- `site/pnpm-workspace.yaml` holds pnpm policy only: `onlyBuiltDependencies` and security `overrides` for transitive deps
 
-## Repo conventions
+## Repo Conventions
 
-- Angular conventional commits (see `skills/git-commit`). Issue, branch, PR, and label workflows are covered by the `git-*` skills; prefer them over raw `gh`/`git` invocations. PRs follow `.github/PULL_REQUEST_TEMPLATE.md`.
-- The `git-*` family is one chain, not a pile: `git-spec-plan` (issue tree) -> `git-spec-dispatch` (parallel waves) or `git-issue-create` -> `git-issue-start` (assign + branch) -> `git-commit` -> `git-pr-create` -> `git-branches-cleanup`, with `git-issue-triage` for backlog grooming. Editing one means checking the neighbours it hands off to.
-- Labels are a namespaced taxonomy shared across every `pivoshenko/*` repo: `type: *`, `priority: *`, `status: *`. Skills resolve labels through candidate chains rather than hardcoding these, so they still work on forks and third-party repos. Never `gh label create` from a skill.
-- Every skill that authors an issue or PR body carries its own `## Length` section: a hard prose cap, a per-section breakdown, and a short structural prohibitions list, followed by a good/bad example pair. `git-pr-create` and `git-commit` are the model. Skills stay self-contained - the caps are duplicated per skill on purpose rather than factored into a shared instruction, and the prohibitions stay structural (why-not-what, no restating the title) rather than policing word choice. `skills/humanize` is the separate de-slop pass for ordinary prose.
-- Internal repo: no `CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `SECURITY.md`, no release workflow or versioning. Do not scaffold them.
-- README, `CLAUDE.md`, and the site's archive section should agree about what is retired and why; update them together when something moves into `archive/`.
+- Angular conventional commits (see `skills/git-commit`). Issue, branch, PR, and label workflows are covered by the `git-*` skills; prefer them over raw `gh`/`git` invocations. PRs follow `.github/PULL_REQUEST_TEMPLATE.md`
+- The `git-*` family is one chain, not a pile: `git-spec-plan` (issue tree) -> `git-spec-dispatch` (parallel waves) or `git-issue-create` -> `git-issue-start` (assign + branch) -> `git-commit` -> `git-pr-create` -> `git-branches-cleanup`, with `git-issue-triage` for backlog grooming. Editing one means checking the neighbours it hands off to
+- Labels are a namespaced taxonomy shared across every `pivoshenko/*` repo: `type: *`, `priority: *`, `status: *`. Skills resolve labels through candidate chains rather than hardcoding these, so they still work on forks and third-party repos. Never `gh label create` from a skill
+- Every skill that authors an issue or PR body carries its own `## Length` section: a hard prose cap, a per-section breakdown, and a short structural prohibitions list, followed by a good/bad example pair. `git-pr-create` and `git-commit` are the model. Skills stay self-contained - the caps are duplicated per skill on purpose rather than factored into a shared instruction, and the prohibitions stay structural (why-not-what, no restating the title) rather than policing word choice. `skills/humanize` is the separate de-slop pass for ordinary prose
+- Internal repo: no `CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `SECURITY.md`, no release workflow or versioning. Do not scaffold them
+- README, `CLAUDE.md`, and the site's archive section should agree about what is retired and why; update them together when something moves into `archive/`

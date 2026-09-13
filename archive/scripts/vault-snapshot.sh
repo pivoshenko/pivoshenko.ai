@@ -1,7 +1,7 @@
 #!/bin/sh
-# Snapshot the Obsidian vault into an external git mirror (~/.vault.git).
-# The .git dir lives OUTSIDE iCloud so sync never touches it; the vault stays git-free.
-# Run by launchd (com.pivoshenko.vault-snapshot) hourly; safe to run manually.
+# Snapshot the Obsidian vault into an external git mirror (~/.vault.git)
+# The .git dir lives OUTSIDE iCloud so sync never touches it; the vault stays git-free
+# Run by launchd (com.pivoshenko.vault-snapshot) hourly; safe to run manually
 
 set -eu
 

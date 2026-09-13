@@ -1,5 +1,5 @@
-/* =============================================================
- * Pivoshenko Design System — Tokens & Utilities
+/* == Pivoshenko Design System: Tokens & Utilities ==
+ *
  * Drop-in CSS for any prototype. Reproduces the exact stack
  * shipped by pivoshenko.ui (the vendored design preset behind
  * pivoshenko.dev, pivoshenko.theme, pivoshenko.ai,
@@ -10,51 +10,51 @@
  * never offer a toggle.
  *
  * Token-driven: every component reads through semantic tokens
- * (`--bg-canvas`, `--fg-default`, `--accent-primary`, …) which
- * resolve to space-separated R G B triples — usable directly
+ * (`--bg-canvas`, `--fg-default`, `--accent-primary`, ...) which
+ * resolve to space-separated R G B triples - usable directly
  * via `rgb(var(--bg-canvas))` or through the named utility
  * classes below.
  *
  * Source of truth for hex values lives in pivoshenko.ui;
- * regenerate via `just vendor-preset`.
- * ============================================================= */
+ * regenerate via `just vendor-preset`
+ */
 
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 :root {
   color-scheme: dark;
 
-  /* --- Type stack ---------------------------------------------- */
+  /* == Type Stack == */
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
     Menlo, Consolas, "Liberation Mono", monospace;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, sans-serif;
 
-  /* =================================================================
-   * Semantic role tokens — values are space-separated R G B triples.
+  /* == Semantic Role Tokens ==
+   * Values are space-separated R G B triples.
    * Use with `rgb(var(--token))` or `rgb(var(--token) / <alpha>)`.
-   * Mirrored from `ui/tokens.css` in pivoshenko.ui.
-   * ================================================================= */
+   * Mirrored from `ui/tokens.css` in pivoshenko.ui
+   */
 
-  /* Background */
+  /* == Background == */
   --bg-canvas:  31 31 30;
   --bg-surface: 38 38 37;
   --bg-raised:  46 46 44;
   --bg-sunken:  26 26 25;
   --bg-overlay: 87 83 78;
 
-  /* Foreground */
+  /* == Foreground == */
   --fg-default: 228 226 222;
   --fg-muted:   184 179 168;
   --fg-subtle:  155 149 138;
   --fg-faint:   120 113 108;
 
-  /* Border */
+  /* == Border == */
   --border-subtle:  38 38 37;
   --border-default: 46 46 44;
   --border-strong:  55 54 52;
 
-  /* Accent */
+  /* == Accent == */
   --accent-primary:   217 119 87;
   --accent-secondary: 212 168 90;
   --accent-success:   138 157 104;
@@ -66,14 +66,14 @@
     border-color 150ms ease;
 }
 
-/* =================================================================
- * Back-compat aliases (legacy slot names).
+/* == Back-Compat Aliases ==
+ * Legacy slot names.
  * Resolved-color form so consumers can use `background: var(--bg-page)`
- * directly. Older preview cards continue to render against these.
- * ================================================================= */
+ * directly. Older preview cards continue to render against these
+ */
 
 :root {
-  /* Surfaces — legacy names */
+  /* == Surfaces - Legacy Names == */
   --bg-page:     rgb(var(--bg-canvas));
   --bg-card:     rgb(var(--bg-surface));
   --bg-elevated: rgb(var(--bg-raised));
@@ -84,7 +84,7 @@
   --surface-1:   rgb(var(--border-default));
   --surface-2:   rgb(var(--border-strong));
 
-  /* Text */
+  /* == Text == */
   --text:        rgb(var(--fg-default));
   --subtext-1:   rgb(var(--fg-muted));
   --subtext-0:   rgb(var(--fg-subtle));
@@ -92,12 +92,12 @@
   --overlay-1:   rgb(var(--fg-faint));
   --overlay-0:   rgb(var(--bg-overlay));
 
-  /* Tags + selection */
+  /* == Tags + Selection == */
   --bg-tag:        rgb(var(--bg-raised) / 0.7);
   --bg-tag-active: rgb(var(--border-strong));
   --selection-bg:  rgb(var(--border-strong));
 
-  /* Foreground roles */
+  /* == Foreground Roles == */
   --fg-primary:   rgb(var(--fg-default));
   --fg-title:     rgb(var(--fg-muted));
   --fg-secondary: rgb(var(--fg-muted));
@@ -105,18 +105,18 @@
   --fg-subtle-c:  rgb(var(--fg-subtle));
   --fg-muted-c:   rgb(var(--fg-faint));
 
-  /* Border roles */
+  /* == Border Roles == */
   --border-ui:    rgb(var(--border-default));
   --border-faint: rgb(var(--border-default) / 0.6);
 
-  /* Decoration */
+  /* == Decoration == */
   --deco-subtle:  rgb(var(--bg-overlay));
 
-  /* Accents — singular */
+  /* == Accents - Singular == */
   --accent:       rgb(var(--accent-primary));
   --accent-soft:  rgb(var(--accent-primary) / 0.16);
 
-  /* Status — semantic FG/BG pairs */
+  /* == Status - Semantic FG/BG Pairs == */
   --status-success-fg: rgb(var(--accent-success));
   --status-success-bg: rgb(var(--accent-success) / 0.16);
   --status-warning-fg: rgb(var(--accent-warning));
@@ -128,8 +128,8 @@
   --status-neutral-fg: rgb(var(--fg-subtle));
   --status-neutral-bg: rgb(var(--bg-raised) / 0.7);
 
-  /* Catppuccin-derived accent slots — back-compat for cards that
-     reference them. Bound to the vendored accent family. */
+  /* Catppuccin-derived accent slots - back-compat for cards that
+     reference them. Bound to the vendored accent family */
   --rosewater: rgb(var(--accent-warning));
   --flamingo:  rgb(var(--accent-secondary));
   --pink:      rgb(var(--accent-danger));
@@ -145,8 +145,8 @@
   --blue:      rgb(var(--accent-info));
   --lavender:  rgb(var(--accent-info));
 
-  /* Stone scale — vendored for the rare case a component needs a raw
-     warm-grey outside the role layer. Avoid in new code; prefer tokens. */
+  /* Stone scale - vendored for the rare case a component needs a raw
+     warm-grey outside the role layer. Avoid in new code; prefer tokens */
   --stone-50:  #fafaf9;
   --stone-100: #f5f5f4;
   --stone-200: #e7e5e4;
@@ -162,9 +162,7 @@
   --white:     #ffffff;
 }
 
-/* =================================================================
- * Base styles
- * ================================================================= */
+/* == Base Styles == */
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -195,7 +193,7 @@ hr { border: 0; border-top: 1px solid rgb(var(--border-default)); }
 
 code, pre { font-family: var(--font-mono); }
 
-/* --- Type recipes -------------------------------------------- */
+/* == Type Recipes == */
 
 .type-heading      { font-size: 16px; font-weight: 600; line-height: 1.4; }
 .type-post-heading { font-size: 20px; font-weight: 600; line-height: 1.3; }
@@ -213,7 +211,7 @@ code, pre { font-family: var(--font-mono); }
   font-family: var(--font-mono); letter-spacing: -0.025em;
 }
 
-/* --- Foreground utilities ------------------------------------- */
+/* == Foreground Utilities == */
 
 .fg-primary   { color: rgb(var(--fg-default)); }
 .fg-title     { color: rgb(var(--fg-muted)); }
@@ -230,7 +228,7 @@ code, pre { font-family: var(--font-mono); }
 .hover-primary:hover   { color: rgb(var(--fg-default)); }
 .hover-secondary:hover { color: rgb(var(--fg-muted)); }
 
-/* --- Backgrounds --------------------------------------------- */
+/* == Backgrounds == */
 
 .bg-page       { background: rgb(var(--bg-canvas)); }
 .bg-canvas     { background: rgb(var(--bg-canvas)); }
@@ -242,7 +240,7 @@ code, pre { font-family: var(--font-mono); }
 .bg-tag        { background: rgb(var(--bg-raised) / 0.7); }
 .bg-tag-active { background: rgb(var(--border-strong)); }
 
-/* --- Borders ------------------------------------------------- */
+/* == Borders == */
 
 .border-ui      { border-color: rgb(var(--border-default)); }
 .border-default { border-color: rgb(var(--border-default)); }
@@ -250,25 +248,25 @@ code, pre { font-family: var(--font-mono); }
 .border-strong  { border-color: rgb(var(--border-strong)); }
 .border-faint   { border-color: rgb(var(--border-default) / 0.6); }
 
-/* --- Decoration ---------------------------------------------- */
+/* == Decoration == */
 
 .deco-subtle { text-decoration-color: rgb(var(--bg-overlay)); }
 .deco-accent { text-decoration-color: rgb(var(--accent-primary)); }
 
-/* --- Accent utilities ---------------------------------------- */
+/* == Accent Utilities == */
 
 .fg-accent          { color: rgb(var(--accent-primary)); }
 .fg-accent-secondary{ color: rgb(var(--accent-secondary)); }
 .bg-accent-soft     { background: rgb(var(--accent-primary) / 0.16); }
 .border-accent      { border-color: rgb(var(--accent-primary)); }
 
-/* Focus ring — keyboard focus only. */
+/* Focus ring - keyboard focus only */
 :where(a, button, [tabindex]):focus-visible {
   outline: 2px solid rgb(var(--accent-primary));
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* --- Tabular nums -------------------------------------------- */
+/* == Tabular Nums == */
 
 .tabular-nums { font-variant-numeric: tabular-nums; }

@@ -183,7 +183,7 @@ export function Catalog({
 
       <Section id="archived" title="archived" count={archivedCount}>
         <p className="type-meta fg-muted">
-          Retired from the synced set and parked in <code>archive/</code> — kept
+          Retired from the synced set and parked in <code>archive/</code> - kept
           for reference, not pulled by Kasetto.
         </p>
         {archivedCount === 0 ? (

@@ -11,10 +11,10 @@ Strip AI tells from text. Keep every fact, change the prose.
 
 ## Ground Rules
 
-1. **Preserve information, not shape.** Every claim survives. Compress dull parts, merge/split paragraphs freely. Information beats structure.
-2. **Never invent facts.** No new names, numbers, dates, quotes, citations. Sentence needs missing detail to work -> ask, or write the plain version without it.
-3. **Match voice.** Formal/casual/technical as intended. User provides own writing sample -> its habits outrank every rule below, including the dash rule.
-4. **Don't sterilize.** Voiceless is as obvious as slop. Essay/opinion/post -> keep opinions, asides, uneven rhythm. Technical/reference -> plain and neutral IS the human voice there.
+1. **Preserve information, not shape.** Every claim survives. Compress dull parts, merge/split paragraphs freely. Information beats structure
+2. **Never invent facts.** No new names, numbers, dates, quotes, citations. Sentence needs missing detail to work -> ask, or write the plain version without it
+3. **Match voice.** Formal/casual/technical as intended. User provides own writing sample -> its habits outrank every rule below, including the dash rule
+4. **Don't sterilize.** Voiceless is as obvious as slop. Essay/opinion/post -> keep opinions, asides, uneven rhythm. Technical/reference -> plain and neutral IS the human voice there
 
 ## Out of Scope: Agent Instruction Files
 
@@ -120,7 +120,7 @@ Report what was fixed as a table - one row per tell category, only categories wi
 
 ## Process
 
-1. Scan for tells above.
-2. Draft rewrite - reads naturally aloud, varied sentence length, is/are/has.
-3. Audit: anything still AI-sounding? any fact not in the source? any `—` `–` `…` left? Fabrication = defect even when it sounds better.
-4. Final rewrite.
+1. Scan for tells above
+2. Draft rewrite - reads naturally aloud, varied sentence length, is/are/has
+3. Audit: anything still AI-sounding? any fact not in the source? any `—` `–` `…` left? Fabrication = defect even when it sounds better
+4. Final rewrite
