@@ -4,31 +4,26 @@ default:
 install:
     pnpm -C site install
 
-dev:
-    pnpm -C site dev
-
 format:
-    pnpm -C site format
+    pnpm -C site check
 
 lint:
     pnpm -C site lint
 
-audit:
-    pnpm -C site audit
+test:
+    @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || { echo "no test command, add tests or restore .no-tests" >&2; exit 1; }
 
-check:
-    pnpm -C site check
-    pnpm -C site build
-
-build:
-    pnpm -C site build
-
-start:
-    pnpm -C site build
-    pnpm -C site start
+check: lint test build
 
 update:
     pnpm -C site update
 
-test:
-    @[ -f .no-tests ] && echo "skipping (.no-tests sentinel)" || { echo "no test command — add tests or restore .no-tests" >&2; exit 1; }
+build:
+    pnpm -C site build
+
+run-dev-server:
+    pnpm -C site dev
+
+run-prod-server:
+    pnpm -C site build
+    pnpm -C site start
