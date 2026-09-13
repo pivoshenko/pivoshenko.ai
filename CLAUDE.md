@@ -78,6 +78,9 @@ Skills cross-reference by handing off (`macos-cleanup` <-> `macos-maintenance`, 
 
 ## Repo conventions
 
-- Angular conventional commits (see `skills/git-commit`). Branch, PR, and label workflows are covered by the `git-*` skills; prefer them over raw `gh`/`git` invocations. PRs follow `.github/PULL_REQUEST_TEMPLATE.md`.
+- Angular conventional commits (see `skills/git-commit`). Issue, branch, PR, and label workflows are covered by the `git-*` skills; prefer them over raw `gh`/`git` invocations. PRs follow `.github/PULL_REQUEST_TEMPLATE.md`.
+- The `git-*` family is one chain, not a pile: `git-spec-plan` (issue tree) -> `git-spec-dispatch` (parallel waves) or `git-issue-create` -> `git-issue-start` (assign + branch) -> `git-commit` -> `git-pr-create` -> `git-branches-cleanup`, with `git-issue-triage` for backlog grooming. Editing one means checking the neighbours it hands off to.
+- Labels are a namespaced taxonomy shared across every `pivoshenko/*` repo: `type: *`, `priority: *`, `status: *`. Skills resolve labels through candidate chains rather than hardcoding these, so they still work on forks and third-party repos. Never `gh label create` from a skill.
+- Every skill that authors an issue or PR body carries its own `## Length` section: a hard prose cap, a per-section breakdown, and a short structural prohibitions list, followed by a good/bad example pair. `git-pr-create` and `git-commit` are the model. Skills stay self-contained - the caps are duplicated per skill on purpose rather than factored into a shared instruction, and the prohibitions stay structural (why-not-what, no restating the title) rather than policing word choice. `skills/humanize` is the separate de-slop pass for ordinary prose.
 - Internal repo: no `CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `SECURITY.md`, no release workflow or versioning. Do not scaffold them.
 - README, `CLAUDE.md`, and the site's archive section should agree about what is retired and why; update them together when something moves into `archive/`.
