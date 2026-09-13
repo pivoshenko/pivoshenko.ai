@@ -2,7 +2,7 @@
 name: git-branch-create
 description: Create a new git branch using a conventional naming scheme. Use when the user asks to create a branch, start a new branch, /git-branch-create, or begin work on a feature/fix. Also trigger on "start work on X", "spin up a branch for Y", "new ticket", "let's start Z", or whenever the user signals they're beginning a discrete new piece of work. Creates and checks out the branch immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-08-31
+updated_at: 2026-09-11
 ---
 
 # Create Branch
@@ -11,6 +11,7 @@ Make + checkout new branch. No confirm.
 
 ## Flow
 
+0. User named an issue (`#42`, "the oauth issue", "start 42") -> stop, this is `git-issue-start`'s flow: it assigns the issue, derives the type from its `type: *` label, and branches using the naming rules below. Why -> branching from an issue without assigning it leaves the tracker claiming nobody picked the work up.
 1. Parallel: `git status` + `git branch --show-current`.
 2. Dirty tree -> stop. Tell user to stash or commit first. Why -> `checkout -b` carries staged + unstaged changes into the new branch silently, mixing them with future work.
 3. Pick base:
@@ -50,6 +51,7 @@ Same set + picks as `git-commit`. See that skill's **Type pick** + **Tiebreakers
 ## Rules
 
 - Derive `type` + desc from intent + diff if avail.
+- Issue number given -> hand to `git-issue-start`. Don't branch from an issue here.
 - User gives name -> verbatim. No rewrite.
 - Never delete/reset existing branches here.
 - Never push new branch unless asked.

@@ -3,7 +3,7 @@ name: git-pr-create
 description: >-
   Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. Use for every PR-creation request no matter how casual: "create/open/make/raise a PR", "PR this", "PR please", "send PR", "/git-pr-create", "open pull request", "ship this", "ship it", "send for review", "ready for review", "submit this", "publish this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. A one-liner ask still counts — this skill owns the whole flow (push, label derivation, title format, body template, safety rules), so reaching for a raw `gh pr create` skips all of it. Boundary with `git-commit`: an explicitly local framing ("commit this", "save my work", "ship this locally") stops at a commit and is `git-commit`'s, not this skill's. Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-08-31
+updated_at: 2026-09-11
 ---
 
 # Create PR
@@ -19,6 +19,10 @@ Open GitHub PR for current branch. No confirm.
    - `git branch --show-current`
    - `git log origin/<base>..HEAD --oneline`
    - `git diff origin/<base>...HEAD`
+   - linked issue, three sources, merged and deduped: the branch link `git config --get branch.$(git branch --show-current).issue` (`git-issue-start` records it there), the branch's commit footers `git log origin/<base>..HEAD --format=%B | grep -oiE '(closes|fixes|resolves) #[0-9]+'`, and a trailing ticket id on the branch name (`git-branch-create`'s optional `-PROJ-123` suffix). Why -> `git-issue-start` opens the branch from an issue and `git-commit` writes the closing trailer, so the number is already on the branch; nobody retypes it
+     - exactly 1 distinct issue -> fill the `Resolves:` line with it
+     - more than 1 -> first fills `Resolves:`, the rest become `Refs: #<n>` lines under it. Why -> a PR closing several issues is normal, but only the primary one belongs in the template's Resolves slot
+     - none -> drop the line entirely. Never emit a `#<n>` placeholder
    - check repo PR template: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/PULL_REQUEST_TEMPLATE.md`, root `PULL_REQUEST_TEMPLATE.md` (first match wins)
 4. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`.
 5. Not pushed / behind -> `git push -u origin <branch>`.
@@ -26,13 +30,26 @@ Open GitHub PR for current branch. No confirm.
    - Template found -> fill that template's structure (preserve headings, checklist items, comment placeholders).
    - No template -> use [fallback body](#fallback-body-template) below.
 7. Derive labels (always pass `--label`):
-   - Map title `<type>` -> label: `feat`->`enhancement`, `fix`->`bug`, `docs`->`documentation`, `test`->`tests`, `perf`->`performance`, `refactor`->`refactor`, `build`->`build`, `ci`->`ci`, `chore`->`chore`.
-   - Breaking change in commits/body -> add `breaking-change`.
-   - Verify labels exist: `gh label list --json name -q '.[].name'`. Drop any missing; never auto-create.
-   - At least 1 label required -> if all dropped, fall back to `chore`. If `chore` also missing, surface to user and stop.
+   - Fetch the repo's labels once: `gh label list --limit 200 --json name -q '.[].name'`. Why -> detection, not hardcoding: this skill syncs globally and runs on forks and third-party repos, where the bare names exist and a namespaced taxonomy does not
+   - Resolve the title `<type>` through its candidate chain, first existing name wins:
+
+     | Intent | Candidate chain |
+     | --- | --- |
+     | `feat` | `type: enhancement` -> `enhancement` -> `feature` |
+     | `fix` | `type: bug` -> `bug` |
+     | `docs` | `type: documentation` -> `documentation` -> `docs` |
+     | `perf` | `type: enhancement` -> `performance` -> `enhancement` |
+     | `refactor` / `chore` / `build` / `ci` | `type: maintenance` -> `maintenance` -> `chore` |
+     | `test` | `type: maintenance` -> `tests` -> `test` |
+     | breaking change in commits/body | `type: breaking` -> `breaking-change` -> `breaking` |
+
+   - Whole chain missing -> drop that label and say which in the output. Never `gh label create`
+   - Exactly one `type: *` label per PR -> title type and breaking both resolving to `type: *` names, breaking wins and the title-type label is dropped
+   - At least 1 label required -> all dropped, resolve the fallback chain `type: maintenance` -> `maintenance` -> `chore`. Nothing in it exists either -> surface to user and stop
+   - Multi-word names must be quoted: `--label "type: bug"`
 8. Heredoc body so markdown survives shell:
    ```bash
-   gh pr create --base main --title "feat(auth): add oauth login flow" --label enhancement --body "$(cat <<'EOF'
+   gh pr create --base main --title "feat(auth): add oauth login flow" --label "type: enhancement" --body "$(cat <<'EOF'
    # Pull Request Checklist
 
    <!-- Resolves: #123 -->
@@ -75,7 +92,7 @@ Examples:
 - Use the repo template verbatim as the skeleton (headings, order, checklist items, HTML comments).
 - Fill `Summary` with 1–3 bullets, why > what. Obey **Length** below.
 - Tick checklist items that actually apply; leave the rest unchecked.
-- If template has a `Resolves:` / `Closes:` / `Fixes:` line and there's a linked issue, fill the number; else drop that line entirely (no `#<n>` placeholder).
+- Template has a `Resolves:` / `Closes:` / `Fixes:` line -> fill it with the issue detected in step 3, extras as `Refs: #<n>` lines under it; nothing detected -> drop the line entirely (no `#<n>` placeholder).
 - Preserve untouched any sections you have no content for (e.g. empty `Screenshots`), unless template explicitly says "remove if N/A".
 - Extra prose headings (`Context`, `Testing`, `Notes`, ...) -> ≤ 2 lines each, or leave the placeholder. Never one paragraph per heading.
 
@@ -103,7 +120,7 @@ Use when no repo template exists:
 ```
 
 - Diff = what. Body = why.
-- Linked issue -> uncomment `Resolves:` line and fill number.
+- Issue detected in step 3 -> uncomment the `Resolves:` line, fill the first number, extras as `Refs: #<n>` lines under it. None detected -> leave both comment lines out.
 - Breaking -> add `## Breaking changes` section + migration notes.
 
 ## Length
@@ -150,7 +167,7 @@ Bad — one paragraph per bullet, narrates the diff:
 - Never force-push here.
 - Never `--no-verify` unless asked. Why -> pre-push hooks gate CI and secret scans; skipping ships broken code.
 - Push or PR-create fail -> surface + fix root cause. No blind retry.
-- Always add at least one label (mapped from title `<type>`, verified to exist via `gh label list`). Multi-word labels -> quote: `--label "needs review"`. No reviewers / assignees unless asked.
+- Always add at least one label (resolved from title `<type>` through its candidate chain against `gh label list`). Multi-word labels -> quote: `--label "type: bug"`. No reviewers / assignees unless asked.
 - Open as ready-for-review (no `--draft`) unless user explicitly asks for a draft PR.
-- Body over 10 prose lines -> cut before creating. No "comprehensive" PR descriptions.
+- Body over 10 prose lines -> cut before creating. No "comprehensive" PR descriptions. Body prose obeys **Length**.
 - No "Generated with Claude Code" / co-author trailers unless asked.
