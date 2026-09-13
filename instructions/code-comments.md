@@ -1,8 +1,10 @@
 ---
 name: Code Comments
-description: Comments never end with a period while docstrings do, and a comment labelling a block takes the form `== Group ==`.
+description: >-
+  Guardrail on comment style: comments never end with a period while docstrings do, and a comment
+  labelling a block takes the form `== Group ==`.
 tags: [meta, style]
-updated_at: 2026-09-09
+updated_at: 2026-09-12
 ---
 
 # Code Comments

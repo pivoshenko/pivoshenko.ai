@@ -1,8 +1,10 @@
 ---
 name: Docs Autoupdate
-description: When a non-trivial change makes the project's local CLAUDE.md stale, correct the stale lines in the same task.
+description: >-
+  Guardrail against stale project docs: when a non-trivial change makes the local CLAUDE.md wrong,
+  correct the stale lines in the same task.
 tags: [meta, docs]
-updated_at: 2026-06-18
+updated_at: 2026-09-12
 ---
 
 # Docs Autoupdate
