@@ -14,7 +14,6 @@ skills:
       - canvas-design
       - doc-coauthoring
       - skill-creator
-      - pdf
 
   - source: https://github.com/ferdinandobons/startup-skill
     skills:
@@ -37,7 +36,6 @@ skills:
 
   - source: https://github.com/vercel-labs/agent-skills
     skills:
-      - deploy-to-vercel
       - vercel-optimize
       - web-design-guidelines
 
@@ -68,16 +66,6 @@ skills:
       - implement
       - improve-codebase-architecture
       - prototype
-      - tdd
-      - to-spec
-      - to-tickets
-      - triage
-      - wayfinder
-
-  - source: https://github.com/JuliusBrussee/caveman
-    sub-dir: skills
-    skills:
-      - caveman
 
   - source: https://github.com/fastapi/fastapi
     sub-dir: fastapi/.agents/skills
