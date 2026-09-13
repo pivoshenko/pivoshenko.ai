@@ -1,9 +1,9 @@
 ---
 name: git-spec-dispatch
 description: >-
-  Execute a GitHub spec issue tree in parallel - read the parent's sub-issues, parse each Contract block, plan file-disjoint waves, dispatch one agent per sub-issue, verify, PR, close, repeat. Use when the user says "dispatch the spec", "run spec 40", "implement #40", "/git-spec-dispatch", "fan out that issue tree", "work the sub-issues in parallel", or hands over a parent issue and expects more than one agent on it. Boundary with `git-spec-plan`: that skill writes the tree (parent, sub-issues, Contract blocks) and this one runs it - a request to break work down, scope a spec, or draft sub-issues is `git-spec-plan`'s, not this skill's. Works with or without Herdr; chains to `herdr-dispatch` for the pane mechanics when inside it.
+  Execute a GitHub spec issue tree in parallel - read the parent's sub-issues, parse each Contract block, plan file-disjoint waves, dispatch one agent per sub-issue, verify, PR, close, repeat. Use when the user says "dispatch the spec", "run spec 40", "implement #40", "/git-spec-dispatch", "fan out that issue tree", "work the sub-issues in parallel", or hands over a parent issue and expects more than one agent on it. Boundary with `git-spec-plan`: that skill writes the tree (parent, sub-issues, Contract blocks) and this one runs it - a request to break work down, scope a spec, or draft sub-issues is `git-spec-plan`'s, not this skill's.
 tags: [git, github, spec, agents]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Spec Dispatch
@@ -12,12 +12,11 @@ issue tree -> wave plan -> agents -> verify -> PR -> close -> repeat.
 
 `git-spec-plan` writes the tree and this runs it. Planning never fans out: the parent's acceptance criteria, the sub-issue split, and the `Contract` blocks that make waves provably safe all need whole-repo context, and each depends on the last. Only sub-issues fan out.
 
-Substrate-independent. Inside Herdr (`HERDR_ENV=1`) subagents are panes per the `herdr-workflow` instruction, and the mechanics - budget, split, start, brief, collect, blocked, cleanup - belong to `herdr-dispatch`. Outside it, dispatch the same waves with the `Agent` tool. Either way this skill owns only what is spec-specific.
+Substrate-independent. Dispatch the waves with whatever subagent mechanism the session provides; the mechanics - budget, start, brief, collect, blocked, cleanup - belong to that layer. This skill owns only what is spec-specific.
 
 ## Preconditions
 
 ```bash
-test "${HERDR_ENV:-}" = 1        # decides the substrate only, never whether to proceed
 gh issue view <parent> --json number,title,state
 ```
 
@@ -38,9 +37,9 @@ Parent closed -> stop and ask; a closed spec is not a work queue. No sub-issues 
    gh issue view <n> --json body -q .body | sed -n 's/^verify: //p'
    ```
    Missing or empty `files:` on any open sub-issue -> **stop, name that issue**, plan nothing. Why -> guessing which tasks are disjoint is how two agents end up editing one file, and the loser's work vanishes silently with no error anywhere
-3. Plan the wave: open sub-issues whose `needs:` are all **closed** and whose `files:` sets are **pairwise disjoint**. Cap at the `herdr-dispatch` pane budget inside Herdr; outside it, cap at what you can brief and verify in one pass. Everything else waits. See **Waves**
+3. Plan the wave: open sub-issues whose `needs:` are all **closed** and whose `files:` sets are **pairwise disjoint**. Cap at what you can brief and verify in one pass. Everything else waits. See **Waves**
 4. Per task in the wave, branch first, then dispatch. Branch via `git-issue-start`'s flow - assign the sub-issue, branch off it, naming per `git-branch-create`. Then one agent per sub-issue, all launched together. Brief shape in **Brief**
-5. Collect. The worker's result file on disk is the completion signal, never scraped screen output. Per `herdr-dispatch`'s result contract: no file -> not done, whatever `--wait` returned
+5. Collect. The worker's result file on disk is the completion signal, never scraped screen output. No file -> not done, whatever the worker's lifecycle state says
 6. Verify: run that sub-issue's own `verify:` command yourself, as a shell command. Not an agent, not a re-read of the worker's summary. Why -> a worker reporting green is a claim; the command is the evidence
 7. Green -> commit via `git-commit`, which reads the branch's issue link and adds the `Closes #<n>` trailer itself, then `git-pr-create`, which fills the template's `Resolves: #<n>` and derives the type label. Merging that PR closes the sub-issue. Red -> leave the sub-issue open, report what failed, and **do not close it to keep moving**
 8. Re-read the tree from step 1. Why -> `state` changed under you when PRs merged, and workers may have edited paths beyond their brief. Never plan a wave off an in-memory copy. Plan the next wave, repeat until every sub-issue is closed
@@ -91,7 +90,7 @@ Write your complete result as Markdown to <path>. Reply with only that absolute 
 
 ## Blocked
 
-A worker hitting an approval or question dialog is parked, not answered. Read it, surface it to the user with its pane id, and leave every other worker running. **Never answer an approval dialog on the user's behalf.** Detail in `herdr-dispatch`.
+A worker hitting an approval or question dialog is parked, not answered. Read it, surface it to the user with the worker's identifier, and leave every other worker running. **Never answer an approval dialog on the user's behalf.**
 
 That sub-issue stays open and drops out of the wave. Plan the next wave without it.
 
@@ -107,7 +106,7 @@ Wave 2 done. #43 merged via #51, #44 still open - `just check` fails on the data
 
 Prohibitions on anything posted:
 
-- State the result, not the process. No pane-by-pane narration, no agent-count bragging
+- State the result, not the process. No agent-by-agent narration, no agent-count bragging
 - No restating the issue or PR title
 - Never report a verify result you did not run
 
