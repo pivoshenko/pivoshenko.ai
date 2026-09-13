@@ -67,7 +67,11 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 | --- | --- |
 | `just install` | Installs `site/` dependencies with pnpm |
 | `just format` | Formats `site/` and applies Biome's safe lint fixes in place |
-| `just lint` | Lints `site/` with Biome without changing files |
+| `just lint` | Runs every linter: the three content linters, then `lint-next` |
+| `just lint-skills` | Validates every `SKILL.md` in `skills/` and `archive/skills/` |
+| `just lint-mcps` | Validates every server definition in `mcps/` against `kasetto.yaml` |
+| `just lint-instructions` | Validates every rule in `instructions/` and `archive/instructions/` |
+| `just lint-next` | Lints `site/` with Biome without changing files |
 | `just test` | Skips while the `.no-tests` sentinel file is present; without it the recipe fails, prompting you to add tests |
 | `just check` | Runs `lint`, then `test`, then `build` in sequence |
 | `just update` | Updates `site/` dependencies with pnpm |
@@ -88,7 +92,7 @@ Workflows live in `.github/workflows`:
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just`, pnpm, and Node 24 with the pnpm cache keyed on `site/pnpm-lock.yaml`; installs the site's dependencies, then lints, tests, and builds it |
+| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just`, pnpm, and Node 24 with the pnpm cache keyed on `site/pnpm-lock.yaml`; installs the site's dependencies, then lints the catalog and the site, tests, and builds it |
 
 CI must be green before a pull request is merged.
 
