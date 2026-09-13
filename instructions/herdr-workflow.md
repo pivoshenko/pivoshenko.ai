@@ -1,16 +1,15 @@
 ---
-name: Herdr
-description: >-
-  Guardrail on where subagents run: inside Herdr (HERDR_ENV=1) every new subagent gets its own
-  pane instead of the in-process Agent tool - visible in the sidebar, readable mid-run,
-  interruptible, and outliving the turn that spawned it.
+name: Herdr Workflow
+description: "Guardrail against invisible delegation in Herdr."
 tags: [herdr, meta, mode]
-updated_at: 2026-09-12
+updated_at: 2026-09-13
 ---
 
-# Herdr
+# Herdr Workflow
 
 **While `HERDR_ENV=1`, every new subagent is a Herdr pane, not the `Agent` tool.**
+
+## Gate
 
 Check before delegating anything:
 
@@ -22,14 +21,14 @@ Fails -> none of this applies, delegate normally.
 
 Why -> a pane appears in the sidebar, can be read while it runs, can be interrupted, and survives the turn that spawned it. An in-process agent is invisible to the user, dies with the turn, and leaves nothing to inspect when it gets something wrong. In-process is cheaper; that is not what is being optimized inside Herdr.
 
-## Relation to Multi-Agent Dispatch
+## Relation to Multi-Agent Workflow
 
-This supersedes **only** the substrate choice in `multi-agent-dispatch` - the sentences naming the `Agent` tool. Every other rule there still holds, now applied to panes:
+This supersedes **only** the substrate choice in `multi-agent-workflow` - the sentences naming the `Agent` tool. Every other rule there still holds, now applied to panes:
 
-- still establish independence first. A pane is more visible than an in-process agent, not more isolated - two of them writing one file clobber each other exactly the same way, and dependent tasks still go in waves
-- still fan a task list out immediately, one agent per task, launched concurrently, without asking first
-- still pick the model per task by difficulty, never a blanket default
-- still write self-contained prompts - a pane agent sees no more of your conversation than an in-process one would
+- Still establish independence first. A pane is more visible than an in-process agent, not more isolated - two of them writing one file clobber each other exactly the same way, and dependent tasks still go in waves
+- Still fan a task list out immediately, one agent per task, launched concurrently, without asking first
+- Still pick the model per task by difficulty, never a blanket default
+- Still write self-contained prompts - a pane agent sees no more of your conversation than an in-process one would
 
 The one rule that does not survive the swap is `isolation: "worktree"`. Panes have no equivalent; they share whatever tree their `--cwd` points at. Give each agent a disjoint set of paths instead, or make the checkouts yourself and start each agent with its own `--cwd`.
 

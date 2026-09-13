@@ -35,7 +35,7 @@ Same set + picks as `git-commit`. See that skill's **Type pick** + **Tiebreakers
 
 ### Desc
 
-- kebab-case. Not camel / snake
+- Kebab-case. Not camel / snake
 - Imperative present: `add`, `fix`, `remove`. Not `added`, `fixes`
 - < ~50 chars, and keeps the whole name ≤ 60. Over -> drop the scope segment first, then cut modifiers, then pick a shorter verb. Never truncate mid-word: `feat/add-oauth-log` reads like a different feature
 - No ticket IDs unless asked. Why -> history readable + tool-agnostic; trackers come+go, branches stay. Asked -> suffix: `feat/add-auth-middleware-PROJ-123`

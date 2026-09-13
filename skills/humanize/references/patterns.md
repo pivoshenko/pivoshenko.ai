@@ -321,17 +321,17 @@ Same pass for the rest of the ASCII rule:
 
 None of these alone indicates AI. Look for clusters, not isolated hits:
 
-- perfect grammar, consistent style, polish - professionals and edited text exist
-- formal or academic vocabulary - AI overuses *specific* words, not all fancy words; leave "ostensibly" alone
-- mixed casual/formal registers - often just a person in a technical field
-- bland dry prose without specific tells - just dry writing
-- one transition word (additionally, however) - a tell only when piled up
-- curly quotes alone - macOS, Word, Docs auto-curl by default
-- em dashes alone - many editors and journalists use them; evidence only with formulaic rhythm alongside
-- one short emphatic sentence - humans land points this way
-- unsourced claims - most of the web is unsourced
-- letter-style salutations/sign-offs - predate chatbots
-- secondhand text - never rewrite watched phrases inside quotes, titles, proper names, or examples that discuss the phrase
+- Perfect grammar, consistent style, polish - professionals and edited text exist
+- Formal or academic vocabulary - AI overuses *specific* words, not all fancy words; leave "ostensibly" alone
+- Mixed casual/formal registers - often just a person in a technical field
+- Bland dry prose without specific tells - just dry writing
+- One transition word (additionally, however) - a tell only when piled up
+- Curly quotes alone - macOS, Word, Docs auto-curl by default
+- Em dashes alone - many editors and journalists use them; evidence only with formulaic rhythm alongside
+- One short emphatic sentence - humans land points this way
+- Unsourced claims - most of the web is unsourced
+- Letter-style salutations/sign-offs - predate chatbots
+- Secondhand text - never rewrite watched phrases inside quotes, titles, proper names, or examples that discuss the phrase
 
 A single em dash means nothing. Em dashes + rule of three + "vibrant tapestry" + a "Conclusion" section is a confession.
 
@@ -339,9 +339,9 @@ A single em dash means nothing. Em dashes + rule of three + "vibrant tapestry" +
 
 When present, lean toward leaving the prose alone; over-editing destroys them:
 
-- specific, unusual, hard-to-fabricate detail ("the lawyer who used to work upstairs from my dentist") - models round off, humans hoard
-- mixed feelings and unresolved tension ("mostly good, but it bothers me and I can't say why")
-- dated, era-bound slang and in-jokes
-- genuine asides, parentheticals, self-corrections
-- varied sentence length - real writing alternates short and long
-- first-person editorial choices the writer can defend
+- Specific, unusual, hard-to-fabricate detail ("the lawyer who used to work upstairs from my dentist") - models round off, humans hoard
+- Mixed feelings and unresolved tension ("mostly good, but it bothers me and I can't say why")
+- Dated, era-bound slang and in-jokes
+- Genuine asides, parentheticals, self-corrections
+- Varied sentence length - real writing alternates short and long
+- First-person editorial choices the writer can defend

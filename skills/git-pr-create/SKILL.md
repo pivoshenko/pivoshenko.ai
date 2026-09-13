@@ -19,11 +19,11 @@ Open GitHub PR for current branch. No confirm.
    - `git branch --show-current`
    - `git log origin/<base>..HEAD --oneline`
    - `git diff origin/<base>...HEAD`
-   - linked issue, three sources, merged and deduped: the branch link `git config --get branch.$(git branch --show-current).issue` (`git-issue-start` records it there), the branch's commit footers `git log origin/<base>..HEAD --format=%B | grep -oiE '(closes|fixes|resolves) #[0-9]+'`, and a trailing ticket id on the branch name (`git-branch-create`'s optional `-PROJ-123` suffix). Why -> `git-issue-start` opens the branch from an issue and `git-commit` writes the closing trailer, so the number is already on the branch; nobody retypes it
-     - exactly 1 distinct issue -> fill the `Resolves:` line with it
-     - more than 1 -> first fills `Resolves:`, the rest become `Refs: #<n>` lines under it. Why -> a PR closing several issues is normal, but only the primary one belongs in the template's Resolves slot
-     - none -> drop the line entirely. Never emit a `#<n>` placeholder
-   - check repo PR template: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/PULL_REQUEST_TEMPLATE.md`, root `PULL_REQUEST_TEMPLATE.md` (first match wins)
+   - Linked issue, three sources, merged and deduped: the branch link `git config --get branch.$(git branch --show-current).issue` (`git-issue-start` records it there), the branch's commit footers `git log origin/<base>..HEAD --format=%B | grep -oiE '(closes|fixes|resolves) #[0-9]+'`, and a trailing ticket id on the branch name (`git-branch-create`'s optional `-PROJ-123` suffix). Why -> `git-issue-start` opens the branch from an issue and `git-commit` writes the closing trailer, so the number is already on the branch; nobody retypes it
+     - Exactly 1 distinct issue -> fill the `Resolves:` line with it
+     - More than 1 -> first fills `Resolves:`, the rest become `Refs: #<n>` lines under it. Why -> a PR closing several issues is normal, but only the primary one belongs in the template's Resolves slot
+     - None -> drop the line entirely. Never emit a `#<n>` placeholder
+   - Check repo PR template: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/PULL_REQUEST_TEMPLATE.md`, root `PULL_REQUEST_TEMPLATE.md` (first match wins)
 4. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`
 5. Not pushed / behind -> `git push -u origin <branch>`
 6. Read **all** branch commits (not just latest). Draft title + body
@@ -77,9 +77,9 @@ Same as commits:
 <type>(<scope>): <short summary>
 ```
 
-- type: `build|chore|ci|docs|feat|fix|perf|refactor|test` (same set + picks as `git-commit`)
-- scope: optional
-- summary: imperative present, lowercase, no `.`
+- Type: `build|chore|ci|docs|feat|fix|perf|refactor|test` (same set + picks as `git-commit`)
+- Scope: optional
+- Summary: imperative present, lowercase, no `.`
 - Whole title ≤ 72 chars (matches `git-commit` header limit)
 
 Examples:

@@ -28,10 +28,10 @@ Prune locals = merged OR remote gone. Destructive -> preview + confirm.
      ```
    - Note: squash-merged PRs leave no merge commit, so they won't appear in **Merged**. Closing the PR deletes the remote -> they show up in **Gone** instead. The Gone bucket is the catch-all for PR-merged work
    - Union. **Exclude**:
-     - current
-     - base (`main`/`master`)
-     - protected: any long-lived branch the repo treats as non-disposable if present (e.g. `develop`, `release/*`, `staging`). Skip silently if none exist
-     - user keep-patterns from step 0 (if provided)
+     - Current
+     - Base (`main`/`master`)
+     - Protected: any long-lived branch the repo treats as non-disposable if present (e.g. `develop`, `release/*`, `staging`). Skip silently if none exist
+     - User keep-patterns from step 0 (if provided)
 4. Print grouped by reason (gone vs merged), one line per branch, no prose. Ask confirm
 5. On confirm:
    - Merged: `git branch -d <name>`. `-d` re-checks against HEAD/upstream, not `origin/<base>`, so it can refuse a branch the Merged bucket listed -> that's a safe refusal, not a bug: report it as skipped, don't reach for `-D`

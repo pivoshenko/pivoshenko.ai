@@ -42,7 +42,7 @@ Table per zone × category: check · current · optimal · verdict (`ok` / `atte
 - **Always Use HTTPS / Auto HTTPS Rewrites / min TLS 1.2 / TLS 1.3 on**: `PATCH` each - low risk; min-TLS bump can lock out ancient clients, name it
 - **HSTS**: `PATCH settings/security_header {value:{strict_transport_security:{enabled,max_age,include_subdomains}}}` (single-setting body wraps in `value`; `nosniff` also available). **Hard to undo - browsers cache it; preload is near-permanent.** Default no preload unless user explicitly opts in
 - **Brotli / Early Hints / HTTP/3 / 0-RTT / IPv6 / WebSockets on**: `PATCH settings/{id} {value:"on"}` each - safe, idempotent
-- **email obfuscation / browser check on**: `PATCH settings/{id} {value:"on"}` - safe
+- **Email obfuscation / browser check on**: `PATCH settings/{id} {value:"on"}` - safe
 - **Bot Fight Mode on**: `PUT bot_management {fight_mode:true}` (whole-object PUT, not a setting PATCH) - safe; can challenge some automation
 - **Rate limiting rule**: `PUT rulesets/phases/http_ratelimit/entrypoint` - protect login/API/expensive endpoints. **Set thresholds from real traffic (use the analytics summary) - too tight = legit 429s.** Confirm the matched path + threshold
 - **Authenticated Origin Pulls**: `PATCH settings/tls_client_auth {value:"on"}` - **origin must be configured to require the CF client cert first, else all traffic 502s.** Two-step, origin-side change owned by user

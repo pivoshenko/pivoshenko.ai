@@ -1,10 +1,8 @@
 ---
 name: Andrej Karpathy Workflow
-description: >-
-  Guardrail against common LLM coding mistakes: think before coding, simplicity first, surgical
-  changes, goal-driven loops.
+description: "Guardrail against coding before thinking: assume nothing, build the smallest thing, verify it."
 tags: [meta, workflow]
-updated_at: 2026-09-12
+updated_at: 2026-09-13
 ---
 
 # Andrej Karpathy Workflow
@@ -13,7 +11,7 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-## 1. Think Before Coding
+## Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
@@ -23,7 +21,7 @@ Before implementing:
 - If a simpler approach exists, say so. Push back when warranted
 - If something is unclear, stop. Name what's confusing. Ask
 
-## 2. Simplicity First
+## Simplicity First
 
 **Minimum code that solves the problem. Nothing speculative.**
 
@@ -35,7 +33,7 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
+## Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
 
@@ -51,7 +49,7 @@ When your changes create orphans:
 
 The test: Every changed line should trace directly to the user's request.
 
-## 4. Goal-Driven Execution
+## Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
 
@@ -68,5 +66,7 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## Signals
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
