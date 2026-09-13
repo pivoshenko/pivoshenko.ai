@@ -2,7 +2,7 @@
 name: git-branch-sync
 description: Fetch the latest base branch and rebase the current branch onto it, surfacing conflicts clearly. Use when the user asks to sync, rebase, update from main, pull latest changes, or /git-branch-sync. Also trigger on "catch up with main", "rebase onto main", "update my branch", or whenever the user signals their branch is stale vs base. Runs immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # Sync Branch
@@ -15,19 +15,21 @@ Catch current branch up to base. Rebase only. Surface conflicts.
    - `git status --porcelain`
    - `git branch --show-current`
    - `git rev-parse --abbrev-ref --symbolic-full-name @{u}` (upstream if any)
+   - Rebase/merge already in progress (`git status` says so) or detached HEAD (`git branch --show-current` empty) -> stop with a one-line explanation. Why -> a second `git rebase` on top of a half-finished one errors confusingly, and there is no current branch to sync
 2. Base: user names one -> verbatim. Else detect: `git symbolic-ref --short refs/remotes/origin/HEAD` -> strip the `origin/`; ref missing -> `git remote set-head origin -a`, re-read; no remote -> `main`, fall back `master`. Why -> rebasing onto `main` in a `develop`-based repo replays the branch onto the wrong parent and manufactures conflicts that aren't real
 3. Dirty -> stash: `git stash push -u -m "sync-branch auto-stash"`. Pop later. Unsafe (unresolved merge) -> stop + tell user
-4. On base -> `git pull --ff-only origin <base>`. Fails (local base diverged) -> stop + tell user. No auto-rebase of base itself
+4. On base -> `git pull --ff-only origin <base>`. Fails (local base diverged) -> pop the stash if step 3 made one (nothing was rewritten), then stop + tell user. No auto-rebase of base itself
 5. Else:
    - `git fetch origin <base>`
    - `git rebase origin/<base>`
+   - No remote -> skip the fetch, `git rebase <base>` (local ref). Local `<base>` absent too -> nothing to sync against; pop the stash if step 3 made one, stop + say so
 6. Conflicts:
    - `git status` -> list conflicted paths
    - Stop + surface. **No** auto-resolve
    - Tell user: resolve, `git add <paths>`, `git rebase --continue`. Mention `git rebase --abort` escape
    - Leave stash in place. Tell user to pop after resolve
 7. Rebase done (clean or aborted) -> pop stash if created
-8. Print one-liner: branch, base, commits replayed, force-push needed?
+8. Print one-liner: branch, base, commits replayed (`git rev-list --count origin/<base>..HEAD` before the rebase vs after), force-push needed? (yes = upstream exists and history was rewritten)
    - 0 commits replayed (already up to date) -> say so explicitly; don't mention force-push (nothing rewritten)
 
 ## Rules

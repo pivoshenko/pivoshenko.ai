@@ -1,8 +1,10 @@
-# Humanize
+# Anti-Slop
 
 Generated prose = text that could exist without its author. The byline could be anyone's, the examples could be anyone's, the conclusion offends no one. This file catches it at two levels - structure and sentence - then states the positive test a section must pass.
 
 `voice.md` in `pivoshenko-brand` owns the refuse-list (hype, vague value, filler) and the rhythm rules. This file adds the tells specific to generated prose. Pattern: **Don't · Why it fails · The move.**
+
+The `humanize` skill's `references/patterns.md` is the canonical catalog of sentence-level tells; this file holds only the blog-shaped material.
 
 ---
 

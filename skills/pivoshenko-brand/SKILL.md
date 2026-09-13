@@ -1,8 +1,15 @@
 ---
 name: pivoshenko-brand
-description: Central brand system for Volodymyr Pivoshenko — voice, type, color, layout, iconography. Self-contained; covers any output format (web UI, PDF, slide deck, README, social card, email, terminal/theme port, throwaway mock). Trigger even when the user doesn't say "brand" — any visual or copy decision touching pivoshenko surfaces counts. Also trigger on "make this on brand", "style this", "design a mock", "apply pivoshenko style", "needs to feel like my site", "generate a PDF / slide / poster / card", or any styling work on pivoshenko-adjacent content.
+description: >-
+  Central brand system for Volodymyr Pivoshenko - voice, type, color, layout, iconography.
+  Self-contained; covers any output format (web UI, PDF, slide deck, README, social card, email,
+  terminal/theme port, throwaway mock). Trigger even when the user does not say "brand" - any visual
+  or copy decision touching pivoshenko surfaces counts, including "make this on brand", "apply
+  pivoshenko style", "needs to feel like my site", and "style this" / "design a mock" / "generate a
+  PDF or poster" when the output is a pivoshenko surface or the author's own material. Long-form posts
+  -> `blog-write`, which consumes this skill's voice.md.
 tags: [brand, design]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # pivoshenko-brand
@@ -32,8 +39,8 @@ One rule for the tree: **everything under `preview/` is rendered HTML for a huma
 - `assets/templates/` - drop-in artifact skeletons. **Start here for any one-shot output** - copy, fill placeholders, don't rebuild from scratch:
   - `page.html` - generic dark page (header + content + footer). Use for one-pagers, mocks, posters
   - `document.html` - print-tuned (A4, `@page`, page-break hygiene). Render to PDF via headless Chrome
-  - `og-card.html` - 1200×630 social/OG card. Hex inlined because `@vercel/og` and most screenshotters don't resolve CSS variables
-- `references/voice.md` - content fundamentals: rhythm, casing, microcopy, refuse-list, smell test. **Read when writing copy** (post, README, social, email)
+  - `og-card.html` - 1200×630 social/OG card. Hex inlined because `@vercel/og` and most screenshotters don't resolve CSS variables. Hexes mirrored by hand from `colors_and_type.css` - re-check after any token change
+- `references/voice.md` - content fundamentals: rhythm, casing, microcopy, refuse-list, smell test. **Read when writing copy** (post, README, social, email). Consumed by the `blog-write` skill, which owns long-form posts - edits here change its non-negotiables
 - `references/visual.md` - deep rationale for color + typography choices (origin / substitution / extension) and long-form spacing/border/layout rules. **Read when extending the palette, porting to a substrate without JetBrains Mono, or auditing a layout.**
 - `references/iconography.md` - Lucide / Simple Icons / VP-mark rules. **Read when placing icons, building a logo lockup, or making a favicon / OG mark.**
 - `references/anti-patterns.md` - do/don't pairs per DNA rule. **Read when a rule feels ambiguous, or when you've drifted and want to diagnose why.**

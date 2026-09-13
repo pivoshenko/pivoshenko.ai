@@ -1,9 +1,16 @@
 ---
 name: git-issue-create
 description: >-
-  Open one standalone GitHub issue with `gh` - duplicate-checked first, conventional title, repo-template-aware body, auto-resolved labels. Use for every issue-filing request no matter how casual: "open an issue", "file a bug", "create issue", "/git-issue-create", "track this", "make a ticket", "raise an issue", "note this down as an issue", "we should fix X later", or whenever the user describes a defect or a wanted capability that is clearly not being built right now. A one-liner ask still counts - this skill owns the whole flow (duplicate search, label resolution, title grammar, body caps), so a raw `gh issue create` skips all of it. Boundary: work starting NOW is not an issue - "let's start X" / "new ticket, begin" goes to `git-branch-create`, and picking up an issue that already exists goes to `git-issue-start`. Breaking one piece of work into a parent plus sub-issues is `git-spec-plan`. Creates the issue immediately without asking for confirmation.
+  Open one standalone GitHub issue with `gh` - duplicate-checked first, conventional title,
+  repo-template-aware body, auto-resolved labels. Use for every issue-filing request however casual:
+  "open an issue", "file a bug", "make a ticket", "/git-issue-create", "track this", "note this down",
+  "we should fix X later", or whenever the user describes a defect or wanted capability that is
+  clearly not being built right now. A raw `gh issue create` skips the duplicate search, label
+  resolution, and body caps this skill owns. Boundary: work starting now goes to `git-branch-create`;
+  an issue that already exists goes to `git-issue-start`; a parent plus sub-issues is `git-spec-plan`.
+  Creates the issue immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Create Issue
@@ -19,9 +26,9 @@ File one standalone issue. No confirm.
    gh issue list --search "<2-4 distinctive keywords>" --state all --limit 10 \
      --json number,title,state,url -q '.[] | "\(.number)\t\(.state)\t\(.title)"'
    ```
-   `--state all` -> a closed issue is the answer often enough that skipping it files the same bug twice. Keywords are nouns from the user's description, not the whole sentence
+   `--state all` -> a closed issue is the answer often enough that skipping it files the same bug twice. Keywords are nouns from the user's description, not the whole sentence. 10 hits returned -> the search was too broad and real duplicates may sit past the cap; narrow the keywords and search again before proceeding
 4. Triage the hits:
-   - Strong match (same defect, same capability) -> print its number, title, state, URL. **Stop.** Offer to comment on it instead (<= 4 prose lines, see **Length**) or reopen it. Why -> a duplicate backlog is worse than a missing issue: every triage pass afterwards pays for it
+   - Strong match (same defect, same capability) -> print its number, title, state, URL. **Stop.** Offer to comment on it instead (<= 4 prose lines, see **Length**); reopening is the user's call, not this skill's. Why -> a duplicate backlog is worse than a missing issue: every triage pass afterwards pays for it
    - Adjacent match (related, not the same) -> proceed, link it in `## Context`
    - No hits -> proceed
 5. Parallel:
@@ -86,7 +93,7 @@ Resolve each intended label through its candidate chain, first existing name win
 | `feat` | `type: enhancement` -> `enhancement` -> `feature` |
 | `fix` | `type: bug` -> `bug` |
 | `docs` | `type: documentation` -> `documentation` -> `docs` |
-| `perf` | `type: enhancement` -> `performance` -> `enhancement` |
+| `perf` | `performance` -> `type: enhancement` -> `enhancement` |
 | `refactor` / `chore` / `build` / `ci` | `type: maintenance` -> `maintenance` -> `chore` |
 | `test` | `type: maintenance` -> `tests` -> `test` |
 | breaking change | `type: breaking` -> `breaking-change` -> `breaking` |
@@ -110,7 +117,7 @@ Resolve each intended label through its candidate chain, first existing name win
 
 ## Fallback Body
 
-No repo template exists in the user's repos, so this is the normal path:
+No template found - the normal case:
 
 ```markdown
 ## Problem

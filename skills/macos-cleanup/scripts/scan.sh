@@ -85,7 +85,7 @@ top "$HOME/.cache" 15 xdg-cache.txt
 
 hr "PROJECT BUILD DIRS under $DEV_ROOT (size / parent last-touched / path)"
 if [ -d "$DEV_ROOT" ]; then
-  find "$DEV_ROOT" -maxdepth 4 -type d \
+  find "$DEV_ROOT" -maxdepth 6 -type d \
     \( -name node_modules -o -name .venv -o -name target -o -name .next \) -prune 2>/dev/null \
   | while IFS= read -r d; do
       kb="$(du -sk "$d" 2>/dev/null | cut -f1)"; [ -n "${kb:-}" ] || continue
@@ -145,7 +145,7 @@ for d in "$HOME/Library/LaunchAgents" /Library/LaunchAgents /Library/LaunchDaemo
 done
 
 hr "BIGGEST DIRS IN \$HOME (for the space report)"
-du -sk "$HOME"/*/ 2>/dev/null | sort -rn | head -n 12 \
+du -sk "$HOME"/*/ "$HOME"/.[!.]*/ 2>/dev/null | sort -rn | head -n 12 \
   | awk -F'\t' '{printf "%8.1fG  %s\n", $1/1048576, $2}'
 
 hr "TIME MACHINE LOCAL SNAPSHOTS (can hold space hostage)"

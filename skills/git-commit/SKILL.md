@@ -1,9 +1,9 @@
 ---
 name: git-commit
 description: >-
-  Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing — bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
+  Run git commit using Angular conventional commit format (header + footer only, no body). Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing - bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Commit
@@ -13,7 +13,7 @@ Conventional commit. No confirm. No dry-run.
 ## Flow
 
 1. Parallel: `git status` + `git diff --staged`
-2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets
+2. Nothing staged -> stage relevant (paths > `-A`). Something already staged -> commit exactly the stage; mention leftover unstaged paths, don't add them. Never `.env` / creds / secrets
 3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`
 4. Read diff -> one commit or many (see **Atomic**) -> write msg
    - Branch linked to an issue -> add the closing trailer. Read the link with `git config --get branch.$(git branch --show-current).issue`; `git-issue-start` records it there. Why -> the branch name carries no ticket id by default, so this is the only durable link between the work and the tracker
@@ -105,17 +105,13 @@ Allowed tokens:
 
 ```
 BREAKING CHANGE: <summary>
-
 <detail + migration>
-
 Fixes #<n>
 ```
 
 ```
 DEPRECATED: <what>
-
 <detail + upgrade path>
-
 Closes #<n>
 ```
 

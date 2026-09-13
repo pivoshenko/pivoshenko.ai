@@ -56,8 +56,11 @@ const OPTIMAL = {
 };
 const SETTINGS = Object.keys(OPTIMAL);
 
-const verdict = (cur, opt) =>
-  cur === undefined ? "manual" : cur === opt ? "ok" : "action";
+// per-setting values also accepted as ok (stricter than baseline is not a drift to "fix")
+const ALSO_OK = { min_tls_version: ["1.3"] };
+
+const verdict = (id, cur, opt) =>
+  cur === undefined ? "manual" : cur === opt || ALSO_OK[id]?.includes(cur) ? "ok" : "action";
 
 async function auditZone(z) {
   const rows = [];
@@ -66,12 +69,12 @@ async function auditZone(z) {
   for (const id of SETTINGS) {
     const s = await cf(`/zones/${z.id}/settings/${id}`);
     const cur = s?._err ? undefined : s.value;
-    rows.push({ cat: "settings", check: id, current: cur ?? `blocked(${s._err})`, optimal: OPTIMAL[id], verdict: verdict(cur, OPTIMAL[id]) });
+    rows.push({ cat: "settings", check: id, current: cur ?? `blocked(${s._err})`, optimal: OPTIMAL[id], verdict: verdict(id, cur, OPTIMAL[id]) });
   }
 
   const sh = await cf(`/zones/${z.id}/settings/security_header`);
   const hsts = sh?._err ? undefined : sh.value?.strict_transport_security;
-  rows.push({ cat: "settings", check: "hsts", current: hsts ? (hsts.enabled ? `on(max_age=${hsts.max_age})` : "off") : `blocked`, optimal: "on,max_age>=15552000", verdict: hsts?.enabled ? "ok" : hsts ? "action" : "manual" });
+  rows.push({ cat: "settings", check: "hsts", current: hsts ? (hsts.enabled ? `on(max_age=${hsts.max_age})` : "off") : `blocked`, optimal: "on,max_age>=15552000", verdict: hsts?.enabled && hsts.max_age >= 15552000 ? "ok" : hsts ? "action" : "manual" });
 
   // B: security level + bot
   const sl = await cf(`/zones/${z.id}/settings/security_level`);

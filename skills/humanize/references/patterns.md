@@ -243,7 +243,7 @@ AI hyphenates compounds uniformly, even in predicate position. Humans keep the h
 
 > **Before:** The team is cross-functional, the report is high-quality, and the methodology is data-driven.
 >
-> **After:** The team is cross functional, the report is high quality, and the methodology is data driven.
+> **After:** The cross-functional team wrote a report that is high quality.
 
 ### Authority Tropes
 
