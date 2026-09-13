@@ -3,7 +3,7 @@ name: git-commit
 description: >-
   Run git commit using Angular conventional commit format. Use when the user asks to commit, create a commit, /git-commit, or save changes to git. Also trigger on "snapshot this", "save my work", "check in changes", "wrap up", "ship this locally", or whenever the user finishes a logical unit of work and the tree is dirty. Boundary with `git-pr-create`: this skill owns only the explicitly local framing — bare "ship this" / "ship it" / "send for review" means the work should leave the machine, which is `git-pr-create`'s flow. Stages relevant files and commits immediately without asking for confirmation.
 tags: [git]
-updated_at: 2026-09-09
+updated_at: 2026-09-11
 ---
 
 # Commit
@@ -16,6 +16,8 @@ Conventional commit. No confirm. No dry-run.
 2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets.
 3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`.
 4. Read diff -> one commit or many (see **Atomic**) -> write msg.
+   - Branch linked to an issue -> add the closing trailer. Read the link with `git config --get branch.$(git branch --show-current).issue`; `git-issue-start` records it there. Why -> the branch name carries no ticket id by default, so this is the only durable link between the work and the tracker.
+   - Many commits from one issue -> the trailer goes on the **last** one only. Why -> every commit carrying `Closes #42` is noise on the issue timeline, and GitHub closes on the first merged one regardless.
 5. Commit now. Many groups + already mass-staged -> `git restore --staged .` to unstage (modern idiom; `git reset HEAD` also fine), then stage+commit per group. Loop til clean.
 6. Print hash + one-liner per commit.
 
@@ -98,7 +100,7 @@ Allowed tokens:
 
 - `BREAKING CHANGE: <summary>` — exact spelling (Angular spec). Detail + migration steps follow on subsequent lines, ≤ 5 lines.
 - `DEPRECATED: <what>` — same shape; include upgrade path. ≤ 5 lines.
-- `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` — issue auto-close. Multiple -> one per line or comma-separated.
+- `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` — issue auto-close. Multiple -> one per line or comma-separated. Auto-filled from `branch.<name>.issue` when set (see Flow step 4).
 - `Refs: #<n>` / `See: <url>` — non-closing references.
 
 ```
