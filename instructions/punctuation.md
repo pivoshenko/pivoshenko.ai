@@ -1,8 +1,10 @@
 ---
 name: Punctuation
-description: List items never end with a period and em dashes are never used, across everything written from source files to blog posts.
+description: >-
+  Guardrail on prose punctuation: list items never end with a period and em dashes are never used,
+  across everything written from source files to blog posts.
 tags: [meta, style]
-updated_at: 2026-09-09
+updated_at: 2026-09-12
 ---
 
 # Punctuation

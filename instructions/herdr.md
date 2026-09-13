@@ -1,8 +1,11 @@
 ---
 name: Herdr
-description: Inside Herdr (HERDR_ENV=1), every new subagent runs in its own pane instead of the in-process Agent tool - visible in the sidebar, readable mid-run, interruptible, and it outlives the turn that spawned it.
+description: >-
+  Guardrail on where subagents run: inside Herdr (HERDR_ENV=1) every new subagent gets its own
+  pane instead of the in-process Agent tool - visible in the sidebar, readable mid-run,
+  interruptible, and outliving the turn that spawned it.
 tags: [herdr, meta, mode]
-updated_at: 2026-09-09
+updated_at: 2026-09-12
 ---
 
 # Herdr

@@ -1,8 +1,10 @@
 ---
 name: Andrej Karpathy Workflow
-description: Behavioral guardrails against common LLM coding mistakes. Think before coding, simplicity first, surgical changes, goal-driven loops.
+description: >-
+  Guardrail against common LLM coding mistakes: think before coding, simplicity first, surgical
+  changes, goal-driven loops.
 tags: [meta, workflow]
-updated_at: 2026-06-18
+updated_at: 2026-09-12
 ---
 
 # Andrej Karpathy Workflow

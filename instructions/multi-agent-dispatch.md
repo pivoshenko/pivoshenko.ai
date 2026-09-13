@@ -1,8 +1,11 @@
 ---
 name: Multi-Agent Dispatch
-description: When work decomposes into a list of independent tasks, fan it out to a team of subagents immediately - one per task, concurrent, model picked per task difficulty. Dependent or file-sharing tasks get sequenced into waves instead.
+description: >-
+  Guardrail against working a task list serially: independent tasks fan out to one subagent each,
+  concurrently, model picked per task difficulty. Dependent or file-sharing tasks get sequenced
+  into waves instead.
 tags: [meta, mode]
-updated_at: 2026-09-09
+updated_at: 2026-09-12
 ---
 
 # Multi-Agent Dispatch
