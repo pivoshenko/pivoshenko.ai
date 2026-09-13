@@ -17,21 +17,23 @@ Two halves, and it matters which one a change belongs to:
 
 - **Content** - `skills/`, `mcps/`, `instructions/`, `archive/`, and `kasetto.yaml`. Markdown and JSON, no build step, consumed by Kasetto
 - **Site** - `site/`, a Next.js app that reads the content at build time and renders it
+- **Scripts** - `scripts/`, zero-dependency Node linters that check the content contract. They run from the repo root, which has no `package.json`, so they cannot import anything from `site/node_modules`
 
 The content is the product. The site is a viewer for it.
 
 ## Commands
 
-`just --list` for the full set, `just check` (lint, then test, then build) is the pre-PR gate and reproduces CI; the table is in `CONTRIBUTING.md`. Two recipes do not do what their names suggest:
+`just --list` for the full set, `just check` (lint, then test, then build) is the pre-PR gate and reproduces CI; the table is in `CONTRIBUTING.md`. Three recipes do not do what their names suggest:
 
 - `just format` runs the site's `check` script (Biome `check --write`), not its `format` script
 - `just test` is a no-op only while the `.no-tests` sentinel at the repo root exists; delete the sentinel when tests are added and the recipe fails loudly until a real command replaces it
+- `just lint-next` is the site's Biome lint, not a Next.js linter. `just lint` is the aggregate above it: the three content linters (`lint-skills`, `lint-mcps`, `lint-instructions`) first, then `lint-next`
 
 ## Content Architecture
 
 ### Skills
 
-One directory per skill under `skills/`, each with a `SKILL.md` and optional `references/`, `scripts/`, `assets/`, `preview/` subdirectories. The `SKILL.md` frontmatter is the contract the site and Kasetto both read - copy its shape from an existing skill:
+One directory per skill under `skills/`, each with a `SKILL.md` and optional `references/`, `scripts/`, `assets/`, `preview/` subdirectories. The `SKILL.md` frontmatter is the contract the site and Kasetto both read, enforced by `just lint-skills` - copy its shape from an existing skill:
 
 - `description` is a routing document, not a summary - it must enumerate the literal phrases that should trigger the skill, and name the boundary against any neighbouring skill it could be confused with
 - `tags` drives the site's filter UI; local skills use frontmatter tags, external ones fall back to the lookup tables in `site/lib/external-tags.ts`
