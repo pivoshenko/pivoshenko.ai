@@ -7,7 +7,18 @@ install:
 format:
     pnpm -C site check
 
-lint:
+lint: lint-skills lint-mcps lint-instructions lint-next
+
+lint-skills:
+    node scripts/lint-skills.mjs
+
+lint-mcps:
+    node scripts/lint-mcps.mjs
+
+lint-instructions:
+    node scripts/lint-instructions.mjs
+
+lint-next:
     pnpm -C site lint
 
 test:
