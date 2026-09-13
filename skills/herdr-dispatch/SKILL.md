@@ -3,7 +3,7 @@ name: herdr-dispatch
 description: >-
   Run a task list across parallel Herdr panes — measure the pane budget, split, start one agent per task, brief them, collect results from files, handle blocked workers, clean up. Use when the user says "dispatch these", "run these in parallel", "fan this out", "spin up agents", "/herdr-dispatch", or whenever work is delegated while `HERDR_ENV=1` and the `Herdr` instruction sends it to panes. The mechanics layer — `spec-dispatch` chains to this for OpenSpec changes. Requires HERDR_ENV=1.
 tags: [herdr, agents]
-updated_at: 2026-09-09
+updated_at: 2026-09-11
 ---
 
 # Herdr Dispatch
@@ -28,9 +28,11 @@ Claude Code's TUI is unusable below ~60 columns; budget at 68 so a worker can re
 Workers belong in their own tab — the user's driving pane stays uncluttered and their focus stays where they put it. Create that tab **first**, then measure it:
 
 ```bash
-herdr tab create --label "workers" --cwd "$PWD" --no-focus   # -> .result.tab, .result.root_pane
+herdr tab create --workspace "$HERDR_WORKSPACE_ID" --label "workers" --cwd "$PWD" --no-focus  # -> .result.tab, .result.root_pane
 herdr pane layout --pane "<root-pane-id>"                    # -> .result.layout.area.width
 ```
+
+**`--workspace` is not optional.** Omit it and the tab is created in whatever workspace currently has focus, which is routinely not yours - the user clicks into another project and every worker tab lands there. `--cwd` still points the agents at the right directory, so the work itself comes out correct and the mistake shows up only as panes scattered in someone else's space. Read the id from `$HERDR_WORKSPACE_ID`, never assume the focused one.
 
 **Measure the worker tab's root pane, never `$HERDR_PANE_ID`.** Your own pane is whatever width the user's current split happened to leave it; a fresh tab spans the terminal. Budgeting off your pane under-counts and you spawn fewer workers than actually fit.
 
@@ -125,7 +127,7 @@ Report every pane id spawned, including ones left running. An agent still alive 
 ## Rules
 
 - Read every id from JSON responses. Never guess `w1:p3`, never infer from sidebar order.
-- `--no-focus` on every split and tab create.
+- `--no-focus` on every split and tab create, and `--workspace "$HERDR_WORKSPACE_ID"` on every tab create.
 - One task per agent, one agent per pane.
 - Budget before spawning. Splitting past it makes every worker unreadable, including the ones already running.
 - Verify before believing. Collect before closing.
