@@ -12,7 +12,7 @@ issue tree -> wave plan -> agents -> verify -> PR -> close -> repeat.
 
 `git-spec-plan` writes the tree and this runs it. Planning never fans out: the parent's acceptance criteria, the sub-issue split, and the `Contract` blocks that make waves provably safe all need whole-repo context, and each depends on the last. Only sub-issues fan out.
 
-Substrate-independent. Inside Herdr (`HERDR_ENV=1`) subagents are panes per the `Herdr` instruction, and the mechanics - budget, split, start, brief, collect, blocked, cleanup - belong to `herdr-dispatch`. Outside it, dispatch the same waves with the `Agent` tool. Either way this skill owns only what is spec-specific.
+Substrate-independent. Inside Herdr (`HERDR_ENV=1`) subagents are panes per the `herdr-workflow` instruction, and the mechanics - budget, split, start, brief, collect, blocked, cleanup - belong to `herdr-dispatch`. Outside it, dispatch the same waves with the `Agent` tool. Either way this skill owns only what is spec-specific.
 
 ## Preconditions
 
@@ -85,9 +85,9 @@ Write your complete result as Markdown to <path>. Reply with only that absolute 
 ```
 
 - `files:` from the `Contract` block is the ownership list, copied not paraphrased
-- name the forbidden paths explicitly when a neighbouring task is close by
+- Name the forbidden paths explicitly when a neighbouring task is close by
 - `verify:` is the sub-issue's own, not a repo-wide default you assumed
-- do not tell a worker to commit, push, PR, or close anything. That happens here, after verify
+- Do not tell a worker to commit, push, PR, or close anything. That happens here, after verify
 
 ## Blocked
 

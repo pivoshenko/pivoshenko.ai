@@ -29,10 +29,10 @@ Bodies obey **Length** below. Labels resolve through the chain below, never hard
 
 A task is right-sized when all four hold:
 
-- one agent can finish it in one context
-- it leaves `verify:` green on its own
-- its `files:` set is nameable now, not after starting
-- its title fits the conventional grammar without "and"
+- One agent can finish it in one context
+- It leaves `verify:` green on its own
+- Its `files:` set is nameable now, not after starting
+- Its title fits the conventional grammar without "and"
 
 Split signals -> title needs "and" / "also"; two unrelated modules; the done-when list has two independent halves.
 
@@ -58,10 +58,10 @@ A pair that is neither disjoint nor ordered by `needs:` is a bug in the tree, no
 <type>(<scope>): <short summary>
 ```
 
-- type from `build|chore|ci|docs|feat|fix|perf|refactor|test`. Type picks + tiebreakers live in `git-commit`
-- scope optional, lowercase, one only
-- summary imperative present, lowercase, no trailing `.`
-- whole title <= 72 chars
+- Type from `build|chore|ci|docs|feat|fix|perf|refactor|test`. Type picks + tiebreakers live in `git-commit`
+- Scope optional, lowercase, one only
+- Summary imperative present, lowercase, no trailing `.`
+- Whole title <= 72 chars
 
 Parent spec issues take a `spec: ` prefix instead: `spec: oauth login`. Sub-issues use ordinary conventional titles.
 
@@ -289,9 +289,9 @@ Prohibitions:
 
 ## When Not to Use This
 
-- one indivisible piece of work, no tree needed -> `git-issue-create`
-- work starting right now, no tracking or decomposition wanted -> `git-branch-create`
-- an existing backlog that needs sorting rather than a new spec -> `git-issue-triage`
+- One indivisible piece of work, no tree needed -> `git-issue-create`
+- Work starting right now, no tracking or decomposition wanted -> `git-branch-create`
+- An existing backlog that needs sorting rather than a new spec -> `git-issue-triage`
 
 ## Rules
 

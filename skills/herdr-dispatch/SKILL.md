@@ -1,16 +1,16 @@
 ---
 name: herdr-dispatch
 description: >-
-  Run a task list across parallel Herdr panes — measure the pane budget, split, start one agent per task, brief them, collect results from files, handle blocked workers, clean up. Use when the user says "dispatch these", "run these in parallel", "fan this out", "spin up agents", "/herdr-dispatch", or whenever work is delegated while `HERDR_ENV=1` and the `Herdr` instruction sends it to panes. The mechanics layer — `spec-dispatch` chains to this for OpenSpec changes. Requires HERDR_ENV=1.
+  Run a task list across parallel Herdr panes — measure the pane budget, split, start one agent per task, brief them, collect results from files, handle blocked workers, clean up. Use when the user says "dispatch these", "run these in parallel", "fan this out", "spin up agents", "/herdr-dispatch", or whenever work is delegated while `HERDR_ENV=1` and the `herdr-workflow` instruction sends it to panes. The mechanics layer — `spec-dispatch` chains to this for OpenSpec changes. Requires HERDR_ENV=1.
 tags: [herdr, agents]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Herdr Dispatch
 
 Budget -> split -> start -> brief -> collect -> verify -> clean up.
 
-The `Herdr` instruction decides *that* subagents become panes. This decides *how*. Policy lives there; do not restate it here.
+The `herdr-workflow` instruction decides *that* subagents become panes. This decides *how*. Policy lives there; do not restate it here.
 
 ## Preconditions
 
@@ -23,35 +23,44 @@ Not inside Herdr -> say so and fall back to the `Agent` tool. Never control a He
 
 ## Pane Budget
 
-Claude Code's TUI is unusable below ~60 columns; budget at 68 so a worker can render a diff rather than merely survive. Splitting a tab N ways divides its width by N.
+Claude Code's TUI is unusable below ~60 columns; budget at 68 so a worker can render a diff rather than merely survive. Height has a floor too - budget 20 rows, below which the transcript scrolls past faster than it can be read.
+
+A tab splits both ways, so the budget is a grid rather than a row. Splitting only one direction wastes the other axis: four columns on a standard tab are 34 wide and unusable, while the same four as a 2x2 sit at the full 68.
 
 Workers belong in their own tab - the user's driving pane stays uncluttered and their focus stays where they put it. Create that tab **first**, then measure it:
 
 ```bash
 herdr tab create --workspace "$HERDR_WORKSPACE_ID" --label "workers" --cwd "$PWD" --no-focus  # -> .result.tab, .result.root_pane
-herdr pane layout --pane "<root-pane-id>"                    # -> .result.layout.area.width
+herdr pane layout --pane "<root-pane-id>"                    # -> .result.layout.area.{width,height}
 ```
 
 **`--workspace` is not optional.** Omit it and the tab is created in whatever workspace currently has focus, which is routinely not yours - the user clicks into another project and every worker tab lands there. `--cwd` still points the agents at the right directory, so the work itself comes out correct and the mistake shows up only as panes scattered in someone else's space. Read the id from `$HERDR_WORKSPACE_ID`, never assume the focused one.
 
-**Measure the worker tab's root pane, never `$HERDR_PANE_ID`.** Your own pane is whatever width the user's current split happened to leave it; a fresh tab spans the terminal. Budgeting off your pane under-counts and you spawn fewer workers than actually fit.
+**Measure the worker tab's root pane, never `$HERDR_PANE_ID`.** Your own pane is whatever the user's current split happened to leave it; a fresh tab spans the terminal. Budgeting off your pane under-counts and you spawn fewer workers than actually fit.
 
-| Tab width | 2 panes | 3 panes | 4 panes |
+| Tab 136 x 43 | Grid | Per pane | |
 | --- | --- | --- | --- |
-| 136 | 68 - ok | 45 - too narrow | 34 - unusable |
+| 4 workers | 2 x 2 | 68 x 21 | ok |
+| 4 workers | 4 x 1 | 34 x 43 | too narrow |
+| 3 workers | 1 x 3 | 136 x 14 | too short |
 
-**Budget = `floor(width / 68)`, minimum 1.** More workers than that -> a second tab, never thinner splits.
+**Budget = `floor(width / 68) * floor(height / 20)`, minimum 1.** A 136 x 43 tab is 2 x 2, so four workers. More than the budget -> a second tab, never thinner splits.
 
 Tasks beyond the budget wait for a free pane. Reuse a finished worker's pane - an idle agent takes a new prompt - or close it and split fresh. Never queue two tasks into one live agent; it serializes them and you lose the point.
 
 ## Split
 
-Wide pane -> `right`. Narrow or tall -> `down`. Avoid repeated same-direction splits that produce unusable slivers.
+Wide pane -> `right`. Narrow or tall -> `down`. Alternating is what builds the grid: a fresh tab is wide, so it splits `right` into two tall halves, and each half then splits `down`. Repeating one direction is what produces unusable slivers.
 
 ```bash
-herdr pane split --current --direction right --cwd "$PWD" --no-focus
+# columns first, from the worker tab's root pane
+herdr pane split --pane "<root-pane-id>" --direction right --cwd "$PWD" --no-focus
 # -> .result.pane.pane_id
+# then rows, once per column
+herdr pane split --pane "<column-pane-id>" --direction down --cwd "$PWD" --no-focus
 ```
+
+Split from an explicit `--pane`, not `--current`, once a grid is involved. `--current` follows focus, and with `--no-focus` on every split focus never moves - so a second `--current` split re-splits the pane you already split.
 
 `--cwd` is explicit, always. Inherited cwd is not guaranteed, and a worker in the wrong directory fails in confusing ways.
 
@@ -72,14 +81,14 @@ Different `--kind` (`codex`, `gemini`, ...) is the one case where a second pane 
 
 ## Brief
 
-One task per agent, and per `multi-agent-dispatch` the tasks in a wave are already independent - no task needs another's output, no file is written by two. Panes do not isolate the working tree, so that check happens before dispatch, not here.
+One task per agent, and per `multi-agent-workflow` the tasks in a wave are already independent - no task needs another's output, no file is written by two. Panes do not isolate the working tree, so that check happens before dispatch, not here.
 
 The worker sees none of the parent conversation, so the brief carries everything:
 
-- what to do, concretely
-- which paths it owns, and which it must not touch
-- the repo's verify command
-- the result contract below
+- What to do, concretely
+- Which paths it owns, and which it must not touch
+- The repo's verify command
+- The result contract below
 
 ```bash
 herdr agent prompt "<name>" "<brief>" --wait --timeout 600000
@@ -91,7 +100,7 @@ herdr agent prompt "<name>" "<brief>" --wait --timeout 600000
 
 ## Collect
 
-Per the `Herdr` instruction: the result file is the completion signal, never scraped screen output. Every brief ends with -
+Per the `herdr-workflow` instruction: the result file is the completion signal, never scraped screen output. Every brief ends with -
 
 > Write your complete result as Markdown to `<path>`. Reply with only that absolute path, nothing else.
 
@@ -129,5 +138,5 @@ Report every pane id spawned, including ones left running. An agent still alive 
 - Read every id from JSON responses. Never guess `w1:p3`, never infer from sidebar order
 - `--no-focus` on every split and tab create, and `--workspace "$HERDR_WORKSPACE_ID"` on every tab create
 - One task per agent, one agent per pane
-- Budget before spawning. Splitting past it makes every worker unreadable, including the ones already running
+- Budget before spawning, on both axes. Splitting past it makes every worker unreadable, including the ones already running
 - Verify before believing. Collect before closing

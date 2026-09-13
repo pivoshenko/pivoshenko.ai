@@ -21,15 +21,15 @@ File one standalone issue. No confirm.
    ```
    `--state all` -> a closed issue is the answer often enough that skipping it files the same bug twice. Keywords are nouns from the user's description, not the whole sentence
 4. Triage the hits:
-   - strong match (same defect, same capability) -> print its number, title, state, URL. **Stop.** Offer to comment on it instead (<= 4 prose lines, see **Length**) or reopen it. Why -> a duplicate backlog is worse than a missing issue: every triage pass afterwards pays for it
-   - adjacent match (related, not the same) -> proceed, link it in `## Context`
-   - no hits -> proceed
+   - Strong match (same defect, same capability) -> print its number, title, state, URL. **Stop.** Offer to comment on it instead (<= 4 prose lines, see **Length**) or reopen it. Why -> a duplicate backlog is worse than a missing issue: every triage pass afterwards pays for it
+   - Adjacent match (related, not the same) -> proceed, link it in `## Context`
+   - No hits -> proceed
 5. Parallel:
-   - repo issue template: `.github/ISSUE_TEMPLATE/*.md`, `.github/ISSUE_TEMPLATE/*.yml`, `.github/issue_template.md`, root `issue_template.md` (first match wins)
+   - Repo issue template: `.github/ISSUE_TEMPLATE/*.md`, `.github/ISSUE_TEMPLATE/*.yml`, `.github/issue_template.md`, root `issue_template.md` (first match wins)
    - `gh label list --limit 200 --json name -q '.[].name'`
 6. Draft title per **Title**. Draft body:
-   - template found -> fill that template's structure (preserve headings, order, checklists, HTML comments). A `*.yml` form -> render its `label`/`attributes` as markdown headings in the same order
-   - none found (the normal case) -> use [Fallback Body](#fallback-body) below
+   - Template found -> fill that template's structure (preserve headings, order, checklists, HTML comments). A `*.yml` form -> render its `label`/`attributes` as markdown headings in the same order
+   - None found (the normal case) -> use [Fallback Body](#fallback-body) below
 7. Resolve labels per **Labels**. Exactly one `type: *`
 8. Heredoc body so markdown survives the shell:
    ```bash
@@ -57,10 +57,10 @@ Same grammar as `git-commit` and `git-pr-create`:
 <type>(<scope>): <short summary>
 ```
 
-- type: `build|chore|ci|docs|feat|fix|perf|refactor|test`. Type picks and tiebreakers live in `git-commit` - use that table, do not re-derive one
-- scope: optional, lowercase, one only
-- summary: imperative present, lowercase, no trailing `.`
-- whole title <= 72 chars
+- Type: `build|chore|ci|docs|feat|fix|perf|refactor|test`. Type picks and tiebreakers live in `git-commit` - use that table, do not re-derive one
+- Scope: optional, lowercase, one only
+- Summary: imperative present, lowercase, no trailing `.`
+- Whole title <= 72 chars
 
 The title is the type signal: `fix(` is what makes `type: bug` the obvious label in step 7.
 

@@ -27,16 +27,16 @@ Mixed concerns -> split. No mega-commit.
 
 Group by:
 
-- **type** - `feat` / `fix` / `docs` / `refactor` / `test` never share
-- **scope** - diff modules/pkgs = diff commits
-- **logical unit** - one thing per commit. Each builds + tests alone
+- **Type** - `feat` / `fix` / `docs` / `refactor` / `test` never share
+- **Scope** - diff modules/pkgs = diff commits
+- **Logical unit** - one thing per commit. Each builds + tests alone
 
 Split signals:
 
 - > 1 unrelated area
-- behavior + format/rename mixed (format separate)
-- summary needs "and" / "also" / "+"
-- unsure -> ask user how to group
+- Behavior + format/rename mixed (format separate)
+- Summary needs "and" / "also" / "+"
+- Unsure -> ask user how to group
 
 ## Msg Format
 
@@ -56,11 +56,11 @@ If the header can't carry the change, the commit isn't atomic -> split it (see *
 <type>(<scope>): <short summary>
 ```
 
-- type: `build|chore|ci|docs|feat|fix|perf|refactor|test`
-- scope: optional. Affected area/module/pkg. Lowercase, kebab/short noun. One scope only - pick the dominant one, else omit
-- summary: imperative present ("add" not "added"/"adds"), lowercase, no trailing `.`
-- whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself
-- no ticket IDs in header (go in footer). No emoji. No `[WIP]`
+- Type: `build|chore|ci|docs|feat|fix|perf|refactor|test`
+- Scope: optional. Affected area/module/pkg. Lowercase, kebab/short noun. One scope only - pick the dominant one, else omit
+- Summary: imperative present ("add" not "added"/"adds"), lowercase, no trailing `.`
+- Whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself
+- No ticket IDs in header (go in footer). No emoji. No `[WIP]`
 
 #### Type Pick
 

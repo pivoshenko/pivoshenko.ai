@@ -51,8 +51,8 @@ No `type: *` label resolved through the chain below. Propose one derived from ti
 
 Has a type, no `priority: *`. Propose a priority **only** where the text gives a real signal:
 
-- crash, data loss, security, production down -> `critical` or `high`
-- anything else -> propose nothing, and say so in the line
+- Crash, data loss, security, production down -> `critical` or `high`
+- Anything else -> propose nothing, and say so in the line
 
 Why -> a guessed priority is worse than an absent one, it makes the backlog look sorted when it isn't.
 
@@ -78,8 +78,8 @@ Title or body overlaps another open issue. Propose linking + the duplicate label
 
 The work appears done, evidenced by one of:
 
-- a merged PR from step 3 references `#<n>`
-- the described defect no longer reproduces in the current tree, verified by actually looking
+- A merged PR from step 3 references `#<n>`
+- The described defect no longer reproduces in the current tree, verified by actually looking
 
 Propose close with `state_reason: completed`. No evidence -> it is not Closeable, it is Stale.
 

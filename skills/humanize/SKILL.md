@@ -32,11 +32,11 @@ Both are defaults, not laws. "punctuation only", "leave the casing", "don't touc
 
 ### Punctuation -> Plain ASCII
 
-- em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
-- curly quotes ("", '') -> straight `"` `'`
+- Em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
+- Curly quotes ("", '') -> straight `"` `'`
 - … -> `...`
 - → -> `->`
-- exception: code syntax, math, non-English text, files that already follow a different convention
+- Exception: code syntax, math, non-English text, files that already follow a different convention
 
 Before delivering, scan the result for `—` `–` `…`. Any hit -> not done.
 
@@ -44,10 +44,10 @@ Before delivering, scan the result for `—` `–` `…`. Any hit -> not done.
 
 Every heading and title is Title Case; sentence-case headings get raised.
 
-- capitalize the first word, the last word, and every major word (nouns, verbs, adjectives, adverbs, pronouns, subordinating conjunctions)
-- keep lowercase mid-title: articles (a, an, the), coordinating conjunctions (and, or, but, nor, for, so, yet), prepositions of four letters or fewer (of, in, to, on, at, by, from, with)
-- never recase: names that are lowercase by design (`npm`, `ripgrep`, `fish`), code identifiers, acronyms, and titles of works quoted from the source - such a name stays lowercase even in first position
-- scope: markdown headings, document/section titles, table-of-contents entries. Prose sentences, list items, and table cells keep normal sentence capitalization
+- Capitalize the first word, the last word, and every major word (nouns, verbs, adjectives, adverbs, pronouns, subordinating conjunctions)
+- Keep lowercase mid-title: articles (a, an, the), coordinating conjunctions (and, or, but, nor, for, so, yet), prepositions of four letters or fewer (of, in, to, on, at, by, from, with)
+- Never recase: names that are lowercase by design (`npm`, `ripgrep`, `fish`), code identifiers, acronyms, and titles of works quoted from the source - such a name stays lowercase even in first position
+- Scope: markdown headings, document/section titles, table-of-contents entries. Prose sentences, list items, and table cells keep normal sentence capitalization
 
 Example: `## Strategic negotiations and global partnerships` -> `## Strategic Negotiations and Global Partnerships`.
 
@@ -59,37 +59,37 @@ Full before/after catalog: `references/patterns.md`. Load it when an edge case n
 
 Content:
 
-- inflated significance: "stands as a testament", "pivotal moment", "underscores the importance", "evolving landscape", "setting the stage for" -> state the plain fact
-- promotional tone: "nestled", "vibrant", "breathtaking", "renowned", "boasts", "rich cultural heritage" -> neutral description
+- Inflated significance: "stands as a testament", "pivotal moment", "underscores the importance", "evolving landscape", "setting the stage for" -> state the plain fact
+- Promotional tone: "nestled", "vibrant", "breathtaking", "renowned", "boasts", "rich cultural heritage" -> neutral description
 - "-ing" padding: trailing "...showcasing/highlighting/reflecting/ensuring..." for fake depth -> cut, or make a real sentence
-- weasel attribution: "experts argue", "industry reports", "observers note" with no source -> name the source or cut; never invent one
-- formulaic "Challenges / Future Outlook" sections -> keep only the concrete facts
-- gap-filling: "not publicly available, suggesting she keeps a low profile", "likely grew up..." -> say what isn't known or cut; never dress a guess as fact
+- Weasel attribution: "experts argue", "industry reports", "observers note" with no source -> name the source or cut; never invent one
+- Formulaic "Challenges / Future Outlook" sections -> keep only the concrete facts
+- Gap-filling: "not publicly available, suggesting she keeps a low profile", "likely grew up..." -> say what isn't known or cut; never dress a guess as fact
 
 Vocabulary:
 
 - AI words: delve, leverage, crucial, pivotal, tapestry, landscape (abstract), testament, underscore, showcase, foster, intricate, seamless, robust, vibrant, enhance, garner -> plain words
-- copula avoidance: "serves as", "stands as", "features", "boasts" -> is / are / has
+- Copula avoidance: "serves as", "stands as", "features", "boasts" -> is / are / has
 
 Structure:
 
 - "not just X, it's Y", tailing negations ("no guessing") -> plain claim
-- rule of three everywhere -> keep the item that carries weight
-- false ranges ("from the Big Bang to dark matter") -> plain list
-- synonym cycling (protagonist / main character / central figure / hero) -> one word
-- bold-header bullets (`**Performance:** ...`) -> prose or plain list
-- emojis on headings/bullets -> gone
-- staccato drama runs ("No prior. No nostalgia. Gone.") -> one short sentence max
-- aphorism formulas ("X is the language of Y", "X becomes a trap") -> the concrete claim behind it
+- Rule of three everywhere -> keep the item that carries weight
+- False ranges ("from the Big Bang to dark matter") -> plain list
+- Synonym cycling (protagonist / main character / central figure / hero) -> one word
+- Bold-header bullets (`**Performance:** ...`) -> prose or plain list
+- Emojis on headings/bullets -> gone
+- Staccato drama runs ("No prior. No nostalgia. Gone.") -> one short sentence max
+- Aphorism formulas ("X is the language of Y", "X becomes a trap") -> the concrete claim behind it
 
 Filler:
 
 - "in order to" -> "to"; "due to the fact that" -> "because"; "it is important to note that" -> cut
-- hedge stacks ("could potentially possibly") -> one hedge max
-- generic upbeat endings ("the future looks bright") -> end on the last concrete fact
-- signposting ("let's dive in", "here's what you need to know") -> just do it
-- fake-candid openers ("Honestly?", "Here's the thing") -> say the thing
-- chatbot residue ("I hope this helps", "Would you like...", "Great question!") -> gone
+- Hedge stacks ("could potentially possibly") -> one hedge max
+- Generic upbeat endings ("the future looks bright") -> end on the last concrete fact
+- Signposting ("let's dive in", "here's what you need to know") -> just do it
+- Fake-candid openers ("Honestly?", "Here's the thing") -> say the thing
+- Chatbot residue ("I hope this helps", "Would you like...", "Great question!") -> gone
 
 ## Don't Over-Flag
 
@@ -97,9 +97,9 @@ One tell means nothing - look for clusters. A single em dash, one triad, polish,
 
 ## Modes
 
-- **pasted text** -> deliver the rewrite + findings table
-- **file** -> Read, rewrite prose in place; leave code blocks, frontmatter, data, link targets untouched; report the findings table, don't paste the whole file back
-- **embedded** (step in a bigger job: PR body, commit message, doc) -> output final text only, no ceremony, no table
+- **Pasted text** -> deliver the rewrite + findings table
+- **File** -> Read, rewrite prose in place; leave code blocks, frontmatter, data, link targets untouched; report the findings table, don't paste the whole file back
+- **Embedded** (step in a bigger job: PR body, commit message, doc) -> output final text only, no ceremony, no table
 
 ## Findings Table
 
