@@ -1,8 +1,8 @@
 ---
 name: obsidian-markdown
-description: Obsidian Flavored Markdown syntax reference — wikilinks, embeds, callouts, properties/frontmatter, tags, comments, block IDs. Use when creating or editing .md files in an Obsidian vault, when linking or embedding notes, when writing callouts or note frontmatter, or when the user mentions wikilinks, backlinks, block references, or Obsidian notes. Also use before hand-writing Obsidian syntax from memory — the extensions here are not standard markdown and the near-misses (markdown links to vault notes, wrong callout keywords) fail silently in the app.
+description: Obsidian Flavored Markdown syntax reference - wikilinks, embeds, callouts, properties/frontmatter, tags, comments, block IDs. Use when creating or editing .md files in an Obsidian vault, when linking or embedding notes, when writing callouts or note frontmatter, or when the user mentions wikilinks, backlinks, block references, or Obsidian notes. Also use before hand-writing Obsidian syntax from memory - the extensions here are not standard markdown and the near-misses (markdown links to vault notes, wrong callout keywords) fail silently in the app.
 tags: [wiki, obsidian]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # Obsidian Markdown
@@ -21,7 +21,7 @@ Obsidian = CommonMark + GFM + extensions below. Standard markdown assumed; this 
 
 In-vault -> wikilink (Obsidian tracks renames). External URL -> `[text](url)`. Never markdown-link vault notes.
 
-Block ID: append `^block-id` to a paragraph. Lists/quotes -> ID on its own line after the block.
+Block ID: `^block-id` at the end of the paragraph's last line, space before it. Lists/quotes -> ID on its own line after the block.
 
 ## Embeds
 
@@ -34,7 +34,7 @@ Block ID: append `^block-id` to a paragraph. Lists/quotes -> ID on its own line 
 ![[document.pdf#page=3]]  PDF page
 ```
 
-More (audio, bases, search embeds, external images) -> [references/EMBEDS.md](references/EMBEDS.md).
+More (audio, bases, search embeds, external images) -> [references/embeds.md](references/embeds.md).
 
 ## Callouts
 
@@ -48,11 +48,11 @@ More (audio, bases, search embeds, external images) -> [references/EMBEDS.md](re
 > [!faq]- Collapsed by default (+ = expanded)
 ```
 
-Types: `note tip info warning example quote bug danger success failure question abstract todo`. Full table + aliases + nesting -> [references/CALLOUTS.md](references/CALLOUTS.md).
+Types: `note tip info warning example quote bug danger success failure question abstract todo`. Full table + aliases + nesting -> [references/callouts.md](references/callouts.md).
 
 ## Properties (Frontmatter)
 
-YAML at top of file. Defaults Obsidian understands: `tags`, `aliases`, `cssclasses`. Lists as YAML lists; links as `related: "[[Other Note]]"` (quoted). Types + tag charset rules -> [references/PROPERTIES.md](references/PROPERTIES.md).
+YAML at top of file. Defaults Obsidian understands: `tags`, `aliases`, `cssclasses`. Lists as YAML lists; links as `related: "[[Other Note]]"` (quoted). Types + tag charset rules -> [references/properties.md](references/properties.md).
 
 ## Tags
 
@@ -63,7 +63,7 @@ YAML at top of file. Defaults Obsidian understands: `tags`, `aliases`, `cssclass
 ```markdown
 ==highlight==
 %%hidden comment%%
-$inline\ math$  /  $$block$$
+$e^{2i\pi}$ inline  /  $$block$$
 Text with footnote[^1].  /  inline.^[Inline footnote.]
 ```
 

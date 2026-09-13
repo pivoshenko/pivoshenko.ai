@@ -1,8 +1,8 @@
 ---
 name: vercel-hygiene
-description: Audit and harden the 4 pivoshenko brand sites on Vercel (pivoshenko.dev, pivoshenko.startpage, pivoshenko.wallpapers, pivoshenko.ai), team `pivoshenko`. Read-only sweep -> per-site report (ok/attention/action) -> confirmed fixes. Emphasizes security headers and analytics coverage. Use when the user says "audit vercel", "check vercel hygiene", "harden the sites", "vercel security", "check analytics coverage", "vercel health check", or wants a periodic once-over of the Vercel setup. Delegates perf/cost -> `vercel-optimize`, CLI ops -> `vercel-cli`, deployments -> `deploy-to-vercel`.
+description: Audit and harden the 4 pivoshenko brand sites on Vercel (pivoshenko.dev, pivoshenko.startpage, pivoshenko.wallpapers, pivoshenko.ai), team `pivoshenko`. Read-only sweep -> per-site report (ok/attention/action) -> confirmed fixes. Emphasizes security headers and analytics coverage. Use when the user says "audit vercel", "check vercel hygiene", "harden the sites", "vercel security", "check analytics coverage", "vercel health check", or wants a periodic once-over of the Vercel setup. Delegates perf/cost -> `vercel-optimize`, CLI ops and deployments -> `vercel-cli` (or the `mcp__vercel__deploy_to_vercel` tool).
 tags: [vercel, nextjs, deploy]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # Vercel Hygiene
@@ -31,6 +31,8 @@ Repo missing locally -> run the MCP-side checks anyway, mark the code-side ones 
 ## Sweep (Read-Only)
 
 Every check runs against all 4 sites and appears in the report - clean ones as `ok`, never silently omitted; omission reads as "not checked". Lead with security headers and analytics coverage.
+
+First, `mcp__vercel__list_projects` on team `pivoshenko`: any project not in the Sites table = **attention**, name it - an unlisted project is exactly the drift this sweep exists to catch.
 
 ### 1. Security Headers
 
@@ -77,14 +79,14 @@ Every check runs against all 4 sites and appears in the report - clean ones as `
 
 ### 6. Caching / ISR
 
-- Check: `ls <repo>/site/app/**/route.ts`; for each, `grep -n 'Cache-Control\|revalidate' `; note which routes use `generateStaticParams`
+- Check: `find <repo>/site/app -name route.ts` (`ls` with `**` misses nested routes without globstar); for each, `grep -n 'Cache-Control\|revalidate' `; note which routes use `generateStaticParams`
 - Optimal: every dynamic route (RSS, API, OG) sets an explicit `Cache-Control`; static routes need nothing. A fully static site here is `ok`, not a gap
 - Dynamic route with no cache header = **action** (every request hits a function that could have been cached)
 
 ### 7. Runtime on OG + Icon Routes
 
 - Check: `grep -n runtime <repo>/site/app/icon.tsx <repo>/site/app/opengraph-image.tsx`; watch the build output for `The Edge Runtime is deprecated`
-- Optimal as of Next 16: **`nodejs`**. `export const runtime = 'edge'` is deprecated - it still builds, with a warning, and it forces those routes dynamic (`Using edge runtime on a page currently disables static generation`). An icon and an OG image are exactly the routes you want prerendered
+- Optimal: **`nodejs`** - the deprecation warning in the build output is the check, trust it over any version claim here. Why -> as of Next 16, `export const runtime = 'edge'` is deprecated and forces those routes dynamic (`Using edge runtime on a page currently disables static generation`); an icon and an OG image are exactly the routes you want prerendered
 - Still on `edge` = **action**: switch to `nodejs` and confirm the routes go static in the build output. Handlers re-export from `pivoshenko.ui`, so this is one shared fix plus a tag bump, not four
 - **Re-check after any ui tag bump** - shared config drifts silently and nothing in the site repo changes to signal it
 
@@ -102,7 +104,7 @@ Every check runs against all 4 sites and appears in the report - clean ones as `
 
 ### 10. Functions / Crons
 
-- Check: `grep -n 'functions\|crons' <repo>/site/vercel.json`; `mcp__vercel__list_deployments` for function count
+- Check: `grep -n 'functions\|crons' <repo>/site/vercel.json`; derive function presence from the repo (`find <repo>/site/app -name route.ts` handlers + the `functions` block); `mcp__vercel__get_deployment` on the latest deployment only to confirm
 - Optimal: for static sites, none - SSG plus edge routes needs no `functions` block. If a site has grown functions, its cost profile changed -> note it and hand off to `vercel-optimize`
 
 ## Report Format
@@ -133,7 +135,7 @@ Actions are derived from what the sweep found, not from a fixed list. The recurr
 
 - Cost analysis, bundle size, perf budgets -> `vercel-optimize`
 - CLI ops (`vercel env`, `vercel domains`, `vercel link`) -> `vercel-cli`
-- Triggering/managing deployments -> `deploy-to-vercel`
+- Triggering/managing deployments -> `vercel-cli` (CLI) or `mcp__vercel__deploy_to_vercel` (MCP)
 
 ## Rules
 

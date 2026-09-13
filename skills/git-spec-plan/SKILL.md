@@ -3,7 +3,7 @@ name: git-spec-plan
 description: >-
   Turn a plan, design discussion, or feature request into a GitHub issue tree - one parent `spec:` issue plus native sub-issues, one per task, each carrying a machine-readable Contract block (`files:` / `needs:` / `verify:`) so the tasks can later be fanned out to parallel agents provably safely. Use when the user says "spec this out", "plan this as issues", "break this into tickets", "/git-spec-plan", "turn this into a spec", "decompose this", "what are the tasks for X", or whenever a design discussion has converged and needs to become tracked work. This is the planning half of spec-driven development; `git-spec-dispatch` is the execution half and reads exactly what this skill writes. Boundary with `git-issue-create`: one indivisible piece of work is a single issue, not a tree.
 tags: [git, github, spec, agents]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Spec Plan
@@ -80,7 +80,7 @@ Resolve each intended label through its candidate chain, first existing name win
 | `feat` | `type: enhancement` -> `enhancement` -> `feature` |
 | `fix` | `type: bug` -> `bug` |
 | `docs` | `type: documentation` -> `documentation` -> `docs` |
-| `perf` | `type: enhancement` -> `performance` -> `enhancement` |
+| `perf` | `performance` -> `type: enhancement` -> `enhancement` |
 | `refactor` / `chore` / `build` / `ci` | `type: maintenance` -> `maintenance` -> `chore` |
 | `test` | `type: maintenance` -> `tests` -> `test` |
 | breaking change | `type: breaking` -> `breaking-change` -> `breaking` |
@@ -90,7 +90,7 @@ Resolve each intended label through its candidate chain, first existing name win
 | blocked | `status: blocked` -> `blocked` |
 | duplicate | `status: duplicate` -> `duplicate` |
 
-- Whole chain missing -> drop that label and say so in the output. NEVER `gh label create`
+- Whole chain missing -> drop that label and say so in the output. Never `gh label create`
 - Exactly one `type: *` label per issue. Pick the dominant type, never two
 - Parent gets the dominant type across the whole change; each sub-issue gets its own
 - `priority: *` only when the user signalled urgency. Never guess a priority
@@ -98,7 +98,7 @@ Resolve each intended label through its candidate chain, first existing name win
 
 ## Parent Body
 
-No repo in this account carries an ISSUE_TEMPLATE, so this fallback is what gets used:
+Check for a repo template per `git-issue-create` step 5; none found (the usual case) -> this fallback:
 
 ```markdown
 ## Problem
@@ -175,25 +175,23 @@ EOF
 `git-spec-dispatch` parses it back with:
 
 ```bash
-gh issue view <n> --json body -q .body | sed -n 's/^files: //p'
-gh issue view <n> --json body -q .body | sed -n 's/^needs: //p'
+gh issue view <n> --json body -q .body | tr -d '\r' | sed -n 's/^files: //p'
+gh issue view <n> --json body -q .body | tr -d '\r' | sed -n 's/^needs: //p'
 ```
 
-Keep the keys at column zero, one per line, exactly these spellings. Anything else and the parse returns empty, which reads as "unmarked" and stops dispatch.
+Keep the keys at column zero, one per line, exactly these spellings. Anything else and the parse returns empty, which reads as "unmarked" and stops dispatch. The `tr -d '\r'` is load-bearing: one web-UI edit converts the body to CRLF, and a trailing CR makes every parsed value mismatch silently.
 
 ## Linking
 
-Native sub-issues, not a checklist. The GitHub MCP tool `sub_issue_write` does this directly. `gh` has no first-class command, so the fallback is the REST API:
+Native sub-issues, not a checklist. `gh` links by plain number:
 
 ```bash
-gh issue view 41 --json id -q .id                 # node id
-gh api repos/{owner}/{repo}/issues/41 -q .id      # database id, what REST wants
-gh api repos/{owner}/{repo}/issues/40/sub_issues -F sub_issue_id=<id>
+gh issue edit <parent> --add-sub-issue <n1>,<n2>
 ```
 
-Why -> the field is the issue's id, never its display number. Pass `41` and the call either 404s or links whichever unrelated issue happens to carry id 41. Resolve the id first, every time.
+The GitHub MCP tool `sub_issue_write` also works. Older gh (< 2.100, no `--add-sub-issue`) only -> REST: `gh api repos/{owner}/{repo}/issues/<parent>/sub_issues -F sub_issue_id=<database id>` (id from `gh api repos/{owner}/{repo}/issues/<n> -q .id`, never the display number - REST 404s on the number or links whichever unrelated issue carries that id).
 
-`{owner}/{repo}` -> `gh repo view --json nameWithOwner -q .nameWithOwner`.
+`{owner}/{repo}` are `gh` placeholders - leave them literal, `gh` fills them from the current remote.
 
 ## Worked Example
 

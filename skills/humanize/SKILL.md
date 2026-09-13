@@ -1,8 +1,8 @@
 ---
 name: humanize
-description: Remove AI-writing tells from any prose, normalize punctuation to plain ASCII (em dash -> hyphen, curly quotes -> straight, ellipsis char -> "..."), and raise headings to Title Case. Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece. Skips agent-instruction files (CLAUDE.md, AGENTS.md, context.md, llms.txt, cursor rules) unless the user aims it at one - their terse fragment style is the working format, not a tell.
+description: Remove AI-writing tells from any prose, normalize punctuation to plain ASCII (em/en dash -> plain punctuation per the replacement order, curly quotes -> straight, ellipsis char -> "..."), and raise headings to Title Case. Use when the user says "humanize this", "make it sound human", "de-AI this", "this reads like ChatGPT", "remove AI patterns", or when editing/reviewing any prose (doc, README, PR description, commit message, email, post) that shows AI tells. The general-purpose de-AI pass for any prose, in any format, unless a more specific writing workflow already owns the piece. Skips agent-instruction files (CLAUDE.md, AGENTS.md, context.md, llms.txt, cursor rules) unless the user aims it at one - their terse fragment style is the working format, not a tell.
 tags: [writing, style]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # Humanize
@@ -30,6 +30,8 @@ The two rules below are **house style, not AI tells**. They run on every pass, o
 
 Both are defaults, not laws. "punctuation only", "leave the casing", "don't touch my headings" -> honor it for that pass and note in the findings table which convention was skipped. A file with a documented style guide of its own outranks both (see the exceptions under each).
 
+pivoshenko surfaces follow `pivoshenko-brand` - sentence-case headings and unicode arrows, and that guide outranks these conventions.
+
 ### Punctuation -> Plain ASCII
 
 - Em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
@@ -38,7 +40,7 @@ Both are defaults, not laws. "punctuation only", "leave the casing", "don't touc
 - → -> `->`
 - Exception: code syntax, math, non-English text, files that already follow a different convention
 
-Before delivering, scan the result for `—` `–` `…`. Any hit -> not done.
+Before delivering, scan the result for `—` `–` `…`, curly quotes, `→`. Any hit -> not done.
 
 ### Headings -> Title Case
 

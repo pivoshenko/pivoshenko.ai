@@ -1,9 +1,16 @@
 ---
 name: git-pr-create
 description: >-
-  Open a GitHub pull request for the current branch using `gh` — conventional title, repo-template-aware body, auto-derived labels, push if needed. Use for every PR-creation request no matter how casual: "create/open/make/raise a PR", "PR this", "PR please", "send PR", "/git-pr-create", "open pull request", "ship this", "ship it", "send for review", "ready for review", "submit this", "publish this branch", or whenever the user signals work on a feature branch should leave their machine and go to GitHub. A one-liner ask still counts — this skill owns the whole flow (push, label derivation, title format, body template, safety rules), so reaching for a raw `gh pr create` skips all of it. Boundary with `git-commit`: an explicitly local framing ("commit this", "save my work", "ship this locally") stops at a commit and is `git-commit`'s, not this skill's. Pushes the branch and opens the PR immediately without asking for confirmation.
+  Open a GitHub pull request for the current branch using `gh` - conventional title,
+  repo-template-aware body, auto-derived labels, push if needed. Use for every PR-creation request
+  however casual: "create/open/raise a PR", "PR this", "send PR", "/git-pr-create", "ship this", "ship
+  it", "send for review", "ready for review", "publish this branch", or whenever the user signals work
+  on a feature branch should leave their machine. A raw `gh pr create` skips the push, label
+  derivation, title format, and safety rules this skill owns. Boundary with `git-commit`: an
+  explicitly local framing ("commit this", "save my work", "ship this locally") stops at a commit.
+  Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Create PR
@@ -12,7 +19,7 @@ Open GitHub PR for current branch. No confirm.
 
 ## Flow
 
-1. Base: user names one -> use it. Else detect: `git symbolic-ref --short refs/remotes/origin/HEAD` -> strip the `origin/`; ref missing -> `git remote set-head origin -a`, re-read; no remote -> `main`, fall back `master`. Why -> a wrong base makes the PR diff include commits that aren't yours
+1. Base: user names one -> use it. Else detect: `git symbolic-ref --short refs/remotes/origin/HEAD` -> strip the `origin/`; ref missing -> `git remote set-head origin -a`, re-read; no remote -> stop; a PR needs a GitHub remote. Why -> a wrong base makes the PR diff include commits that aren't yours
 2. `git fetch origin <base>`. Why -> everything below compares against `origin/<base>`, not the local ref: the local base is often stale or absent entirely (`git-branch-create` branches off `origin/<base>` without ever creating it), so a local-ref diff either errors or replays commits already merged
 3. Parallel:
    - `git status`
@@ -25,7 +32,7 @@ Open GitHub PR for current branch. No confirm.
      - None -> drop the line entirely. Never emit a `#<n>` placeholder
    - Check repo PR template: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/PULL_REQUEST_TEMPLATE.md`, root `PULL_REQUEST_TEMPLATE.md` (first match wins)
 4. 0 commits ahead -> stop. Tell user: nothing to PR; commit first via `git-commit`
-5. Not pushed / behind -> `git push -u origin <branch>`
+5. Not pushed / ahead -> `git push -u origin <branch>`. Diverged from upstream (post-rebase) -> stop; tell user to `git push --force-with-lease` themselves (same rule as `git-branch-sync`)
 6. Read **all** branch commits (not just latest). Draft title + body
    - Template found -> fill that template's structure (preserve headings, checklist items, comment placeholders)
    - No template -> use [fallback body](#fallback-body-template) below
@@ -45,14 +52,14 @@ Open GitHub PR for current branch. No confirm.
 
    - Whole chain missing -> drop that label and say which in the output. Never `gh label create`
    - Exactly one `type: *` label per PR -> title type and breaking both resolving to `type: *` names, breaking wins and the title-type label is dropped
-   - At least 1 label required -> all dropped, resolve the fallback chain `type: maintenance` -> `maintenance` -> `chore`. Nothing in it exists either -> surface to user and stop
+   - At least 1 label required -> all dropped, resolve the fallback chain `type: maintenance` -> `maintenance` -> `chore`. Nothing in it exists either -> surface to user and stop. Why -> label-driven tooling (changelog generators, triage filters) silently skips an unlabeled PR
    - Multi-word names must be quoted: `--label "type: bug"`
 8. Heredoc body so markdown survives shell:
    ```bash
-   gh pr create --base main --title "feat(auth): add oauth login flow" --label "type: enhancement" --body "$(cat <<'EOF'
+   gh pr create --base <base> --title "feat(auth): add oauth login flow" --label "type: enhancement" --body "$(cat <<'EOF'
    # Pull Request Checklist
 
-   <!-- Resolves: #123 -->
+   Resolves: #123
 
    ## Summary
 
@@ -77,7 +84,7 @@ Same as commits:
 <type>(<scope>): <short summary>
 ```
 
-- Type: `build|chore|ci|docs|feat|fix|perf|refactor|test` (same set + picks as `git-commit`)
+- Type: `build|chore|ci|docs|feat|fix|perf|refactor|test` (same set + picks as `git-commit`). Mixed commit types on the branch -> the highest-ranked present wins: `feat` > `fix` > `perf` > `refactor` > rest
 - Scope: optional
 - Summary: imperative present, lowercase, no `.`
 - Whole title ≤ 72 chars (matches `git-commit` header limit)

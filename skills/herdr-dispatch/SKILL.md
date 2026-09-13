@@ -1,7 +1,12 @@
 ---
 name: herdr-dispatch
 description: >-
-  Run a task list across parallel Herdr panes — measure the pane budget, split, start one agent per task, brief them, collect results from files, handle blocked workers, clean up. Use when the user says "dispatch these", "run these in parallel", "fan this out", "spin up agents", "/herdr-dispatch", or whenever work is delegated while `HERDR_ENV=1` and the `herdr-workflow` instruction sends it to panes. The mechanics layer — `spec-dispatch` chains to this for OpenSpec changes. Requires HERDR_ENV=1.
+  Run a task list across parallel Herdr panes - measure the pane budget, split, start one agent per
+  task, brief them, collect results from files, handle blocked workers, clean up. Use when the user
+  says "dispatch these", "run these in parallel", "fan this out", "spin up agents", "/herdr-dispatch",
+  or whenever the `herdr-workflow` instruction sends delegated work to panes. That instruction holds
+  the policy; this is the mechanics. Inspecting or driving existing panes without dispatching work ->
+  the `herdr` skill. Requires HERDR_ENV=1.
 tags: [herdr, agents]
 updated_at: 2026-09-13
 ---
@@ -20,6 +25,8 @@ printf '%s\n' "$HERDR_WORKSPACE_ID" "$HERDR_TAB_ID" "$HERDR_PANE_ID"
 ```
 
 Not inside Herdr -> say so and fall back to the `Agent` tool. Never control a Herdr session from outside it.
+
+Every socket-API subcommand (`tab`, `pane`, `agent ...`) prints a JSON envelope `{id, result}` on stdout by default - no flag needed, pipe to `jq`. The one exception is `agent read`, which is plain text (see Blocked).
 
 ## Pane Budget
 
@@ -71,7 +78,7 @@ herdr agent start "<name>" --kind claude --pane "<pane-id>"
 # -> .result.agent.agent_status == "idle"   (~4s)
 ```
 
-Names match `[a-z][a-z0-9_-]{0,31}` and must be unique among live agents - check `herdr agent list` first. A name follows the pane's current occupant and clears when that agent exits.
+Names match `[a-z][a-z0-9_-]{0,31}` (`herdr agent start` rejects violations as `invalid_agent_name`) and must be unique among live agents - check `herdr agent list` first. A name follows the pane's current occupant and clears when that agent exits.
 
 `agent start` needs a pane already sitting at its shell prompt; it never creates or moves layout. That is the split's job.
 

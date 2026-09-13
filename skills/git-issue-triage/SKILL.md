@@ -3,7 +3,7 @@ name: git-issue-triage
 description: >-
   Groom an open GitHub backlog with `gh` - one read-only sweep, every open issue bucketed into exactly one category (unlabeled, unprioritized, stale, likely duplicate, closeable, blocked, healthy), a per-issue report, per-category confirmation, then batched label / state / comment edits. Use when the user says "triage issues", "groom the backlog", "clean up issues", "/git-issue-triage", "what's in the backlog", "any stale issues", "review my open issues", "the backlog is a mess", "nothing in here is labelled", or otherwise complains about issue clutter. Boundary with `git-issue-create`: that one writes a single new issue, this one only grooms issues that already exist. Boundary with `git-issue-start`: that one picks one issue up and branches, this one never starts work. Destructive - previews everything and confirms per category before touching anything.
 tags: [git, github]
-updated_at: 2026-09-11
+updated_at: 2026-09-13
 ---
 
 # Triage Issues
@@ -17,11 +17,11 @@ Groom the open backlog. Read-only sweep -> bucketed report -> per-category confi
 1. Sweep, read-only, two calls total:
 
    ```bash
-   gh issue list --state open --limit 200 --json number,title,labels,assignees,createdAt,updatedAt,comments
+   gh issue list --state open --limit 200 --json number,title,labels,assignees,createdAt,updatedAt,body
    gh label list --limit 200 --json name -q '.[].name'
    ```
 
-   Why -> one batched fetch, never `gh issue view` per issue. A 60-issue backlog is 60 round trips that way, and the list payload already carries every field the buckets need
+   Why -> one batched fetch, never `gh issue view` per issue. A 60-issue backlog is 60 round trips that way, and the list payload carries every field the buckets need except the Stale comment count, fetched per **Stale**. Not `comments` - that field returns every comment body for every open issue, a context blowout on exactly the big backlogs this skill targets. 200 rows returned -> the cap was hit and the sweep is not authoritative; raise `--limit` or paginate before bucketing, and say so in the report
 2. Zero open issues -> say so, stop. No report, no proposals
 3. Corroborating fetch, only if step 1 produced **Closeable** candidates:
 
@@ -29,7 +29,7 @@ Groom the open backlog. Read-only sweep -> bucketed report -> per-category confi
    gh search prs --repo "$(gh repo view --json nameWithOwner -q .nameWithOwner)" --merged --limit 100 --json number,title,body
    ```
 
-   Grep those bodies for `#<n>`. Why -> a merged PR naming the issue is the only close signal that does not require reading the tree
+   Grep those bodies for `#<n>`. Why -> a merged PR naming the issue is the only close signal that does not require reading the tree. 100 rows returned -> the cap was hit; raise `--limit` or paginate before treating the grep as evidence
 4. Bucket every open issue into exactly one category. See **Buckets**
 5. Report. One line per issue, grouped, counts in each heading. See **Report Format**
 6. Confirm **per category**, never per issue and never all-at-once. `AskUserQuestion`, multiSelect, one option per non-empty actionable category. Why -> closing is irreversible in effect even though technically reopenable, relabelling is not, and the user is entitled to accept "labels yes, closes no"
@@ -65,14 +65,14 @@ Why -> a guessed priority is worse than an absent one, it makes the backlog look
 date -u -v-90d +%Y-%m-%dT%H:%M:%SZ
 ```
 
-Propose one of: ping, close as `not planned`, leave. Pick by the `comments` count already in the sweep payload - a stale issue with real discussion gets **ping**, never close. Why -> people argued about it; closing silently discards that argument.
+Propose one of: ping, close as `not planned`, leave. Pick by the comment count, fetched for the Stale candidates only in a second targeted call - `gh api repos/{owner}/{repo}/issues/<n> -q .comments` returns the bare count, no bodies. A stale issue with real discussion gets **ping**, never close. Why -> people argued about it; closing silently discards that argument.
 
 ### Likely Duplicate
 
 Title or body overlaps another open issue. Propose linking + the duplicate label.
 
 - Keep the **older** number as canonical, propose the label on the newer one
-- Propose the link and the label only. Closing a duplicate is a separate decision the user makes under `Closeable`
+- Propose the link, the label, and closing the newer via `gh issue close <newer> --duplicate-of <older>` in this category's confirm. Why -> `--duplicate-of` records the duplicate relation and the `duplicate` state reason; closing as `completed` or `not planned` misstates why it closed
 
 ### Closeable
 
@@ -100,7 +100,7 @@ Never hardcode the namespaced taxonomy. Detect it with the `gh label list` from 
 | `feat` | `type: enhancement` -> `enhancement` -> `feature` |
 | `fix` | `type: bug` -> `bug` |
 | `docs` | `type: documentation` -> `documentation` -> `docs` |
-| `perf` | `type: enhancement` -> `performance` -> `enhancement` |
+| `perf` | `performance` -> `type: enhancement` -> `enhancement` |
 | `refactor` / `chore` / `build` / `ci` | `type: maintenance` -> `maintenance` -> `chore` |
 | `test` | `type: maintenance` -> `tests` -> `test` |
 | breaking change | `type: breaking` -> `breaking-change` -> `breaking` |
@@ -110,7 +110,7 @@ Never hardcode the namespaced taxonomy. Detect it with the `gh label list` from 
 | blocked | `status: blocked` -> `blocked` |
 | duplicate | `status: duplicate` -> `duplicate` |
 
-- Whole chain missing -> drop that label and say so in the output. NEVER `gh label create`
+- Whole chain missing -> drop that label and say so in the output. Never `gh label create`
 - Exactly one `type: *` label per issue. Pick the dominant type, never two
 - `priority: *` only when the text signalled urgency. Never guess a priority
 - Multi-word label names must be quoted: `--label "type: bug"`
@@ -136,7 +136,7 @@ Stale (3)
 #29   investigate turbopack build times               ->  leave
 
 Likely Duplicate (1)
-#61   sort order wrong on archived skills             ->  link #42 + status: duplicate
+#61   sort order wrong on archived skills             ->  link #42 + status: duplicate + close (--duplicate-of 42)
 
 Closeable (2)
 #34   pin engines.node in site/package.json           ->  close, completed (PR #77)
@@ -159,10 +159,11 @@ gh issue edit 42 58 --add-label "type: bug"
 gh issue edit 42 --add-label "priority: high"
 gh issue close 34 --reason completed --comment "Landed in #77"
 gh issue close 17 --reason "not planned"
+gh issue close 61 --duplicate-of 42
 gh issue comment 48 --body "Blocked on #34 - the loader lands there first."
 ```
 
-- Every close passes an explicit `--reason completed` or `--reason "not planned"`. Why -> without it GitHub records `completed`, so every abandoned spike reads in the timeline as shipped work
+- Every close passes an explicit `--reason completed`, `--reason "not planned"`, or `--duplicate-of <n>`. Why -> without it GitHub records `completed`, so every abandoned spike reads in the timeline as shipped work
 - Edit fails -> surface it, keep going with the rest of the batch, list it as skipped in step 8. No blind retry
 - Comment bodies obey **Comment Length** - 4 lines, facts only
 
@@ -210,7 +211,7 @@ completed first. We should be able to revisit this in the next sprint.
 - Never guess a priority. No urgency signal in the text -> no `priority: *`
 - Never edit issue **titles** or **bodies**. Labels, assignees, state, and comments only. Why -> retitling other people's issues loses their words, and the tracker's value is that it records what they wrote
 - Assignees change only on explicit ask. Unassigning someone is not grooming
-- Never `gh issue view` in a loop. One batched list, per Flow step 1
+- Never `gh issue view` in a loop. One batched list, per Flow step 1; the sole per-issue fetch is the Stale candidates' comment count, per **Stale**
 - Closeable needs evidence - a merged PR or a verified non-repro. "Probably fixed" is Stale
 - Healthy issues are counted, never listed
 - Empty backlog -> say so and stop. Don't manufacture categories

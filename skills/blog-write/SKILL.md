@@ -1,6 +1,6 @@
 ---
 name: blog-write
-description: Write and edit blog posts for pivoshenko.dev — interrogate for raw material, outline as a dependency graph, confirm sections, draft section-by-section, run humanize edit passes, ship as MDX. Use when the user says "write a blog post", "draft a post about X", "edit/revise/improve this article", "tighten this draft", "turn this into a post", "publish to my blog", or shares notes/an experience meant for pivoshenko.dev. The goal is bespoke practitioner writing, not generic AI prose.
+description: Write and edit blog posts for pivoshenko.dev - interrogate for raw material, outline as a dependency graph, confirm sections, draft section-by-section, run the local anti-slop edit passes (references/anti-slop.md), ship as MDX. Use when the user says "write a blog post", "draft a post about X", "edit/revise/improve this article", "tighten this draft", "turn this into a post", "publish to my blog", or shares notes/an experience meant for pivoshenko.dev. The goal is bespoke practitioner writing, not generic AI prose.
 tags: [writing, blog]
 updated_at: 2026-09-13
 ---
@@ -18,7 +18,7 @@ Goal = bespoke content. The post must contain things only the author could write
 
 ## Flow
 
-### Interrogate - Raw Material Before Prose
+### 1. Interrogate - Raw Material Before Prose
 
 Never draft from a one-line idea. Mine the author first:
 
@@ -28,9 +28,10 @@ Never draft from a one-line idea. Mine the author first:
 - The opinion - what they believe that others don't, and why
 
 Source order: user > vault (`06 WRITING` draft, project/source notes) > repo. Never invent.
+Vault path unknown -> ask the user for it; no vault -> the user's own message is the only source.
 No raw material for a section -> ask targeted questions, don't pad.
 
-### Thesis
+### 2. Thesis
 
 One sentence the post defends. Reader finishes -> can repeat it back.
 No thesis -> no post, only notes. Say so and help find one.
@@ -46,24 +47,24 @@ Information = DAG. A section may only use concepts established by earlier sectio
 
 **Confirm the outline with the user before drafting.** Outline is cheap, drafts are not.
 
-### Draft, Section by Section
+### 4. Draft, Section by Section
 
 Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) - that file owns the voice. Non-negotiables from it:
 
-- Paragraphs 1-3 lines (~240 chars max); a paragraph that grows -> split
+- Paragraphs 1-3 lines, never more; a paragraph that grows -> split
 - Rhythm: claim, claim, claim, beat
 - First person singular; lowercase brand/tool names; `posts` never `articles`
 
 One section at a time. Each section carries >=1 author-only artifact (number, error, config, decision + why). Section has none -> back to step 1 for that section, not into generalities.
 
-### Edit Passes - Separate, in Order
+### 5. Edit Passes - Separate, in Order
 
 1. **Structure** - DAG still holds after drafting drift; every section still earns its edge to the thesis
-2. **Humanize** - run `references/humanize.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X - it's Y"
+2. **Anti-slop** - run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X - it's Y"
 3. **Voice** - smell test from `pivoshenko-brand/references/voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
 4. **Facts** - every number/command/claim traces to user, vault, or repo. Untraceable -> cut or ask
 
-### Ship
+### 6. Ship
 
 - File: `site/content/posts/<kebab-slug>.mdx`
 - Frontmatter: `title`, `date` (today, `YYYY-MM-DD`), `description` (1-2 plain sentences, no hype), `tags` (lowercase kebab-case, single word preferred)

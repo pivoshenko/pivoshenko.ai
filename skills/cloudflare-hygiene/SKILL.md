@@ -1,8 +1,8 @@
 ---
 name: cloudflare-hygiene
-description: Audit + harden + optimize live Cloudflare zones/domains — read-only sweep of each zone (SSL/TLS mode, HSTS, min TLS, TLS 1.3, Always-Use-HTTPS, Brotli, HTTP/3, 0-RTT, Early Hints, caching, security level, Bot Fight Mode, WAF, DNS proxy/TTL + SPF/DKIM/DMARC hygiene, DNSSEC) -> ok/attention/action report grouped by category -> per-category confirm -> apply via Cloudflare MCP. Use when the user says "harden my cloudflare", "optimize my cloudflare zones", "audit my domains", "check my cloudflare settings", "secure my dns", "harden my dns", "hide my origin IP", "set up HSTS/DNSSEC", "am I leaking my origin", "is my cloudflare config optimal", or "tune cloudflare". For BUILDING on Cloudflare (Workers/Pages/KV/D1/Terraform) use the cloudflare skill instead.
+description: Audit + harden + optimize live Cloudflare zones/domains - read-only sweep of each zone (SSL/TLS mode, HSTS, min TLS, TLS 1.3, Always-Use-HTTPS, Brotli, HTTP/3, 0-RTT, Early Hints, caching, security level, Bot Fight Mode, WAF, DNS proxy/TTL + SPF/DKIM/DMARC hygiene, DNSSEC) -> ok/attention/action report grouped by category -> per-category confirm -> apply via Cloudflare MCP. Use when the user says "harden my cloudflare", "optimize my cloudflare zones", "audit my domains", "check my cloudflare settings", "secure my dns", "harden my dns", "hide my origin IP", "set up HSTS/DNSSEC", "am I leaking my origin", "is my cloudflare config optimal", or "tune cloudflare". For BUILDING on Cloudflare (Workers/Pages/KV/D1/Terraform) use the cloudflare skill instead.
 tags: [cloudflare, optimization, security]
-updated_at: 2026-08-31
+updated_at: 2026-09-13
 ---
 
 # Cloudflare Hygiene
@@ -11,15 +11,15 @@ Periodic posture sweep over live zones: preflight -> sweep (read-only) -> report
 
 ## Preflight
 
-1. Permission scope - this skill mutates zone settings + DNS, needs an authorized session that can write them. Probe once: `GET /zones/{id}/settings/ssl`. 9109/10000 (Unauthorized) -> scope too narrow, STOP and surface the upgrade path (see Access setup below) before sweeping. Don't limp through a settings-blind run
-2. Enumerate zones - `GET /zones` (paginate). List name · id · plan. Warn: full sweep across N zones takes a moment
+1. Enumerate zones - `GET /zones` (paginate). List name · id · plan. Warn: full sweep across N zones takes a moment
+2. Permission scope - this skill mutates zone settings + DNS, needs an authorized session that can write them. Probe once against the first zone: `GET /zones/{firstZoneId}/settings/ssl`. 9109/10000 (Unauthorized) -> scope too narrow, stop and surface the upgrade path (see Access setup below) before sweeping. Don't limp through a settings-blind run
 3. All work goes through `mcp__cloudflare__execute`, which runs a JS async arrow function - not a plain REST caller. Every call in this skill is shorthand for that shape:
 
    ```js
    async () => cloudflare.request({ method: "GET", path: `/zones/${zoneId}/settings/ssl` })
    ```
 
-   `accountId` is pre-injected; zone ids come from step 2. Returns `{success, status, result, errors, result_info}` - read `errors[0].code` for the 9109 probe, `result_info.total_pages` to paginate. Batch a whole category's GETs into one `execute` call (loop inside the function, return an object) - one round-trip per category beats one per setting. `mcp__cloudflare__search` (OpenAPI spec, refs resolved) for endpoint/body shapes; `mcp__cloudflare__docs` for product behavior
+   `accountId` is pre-injected; zone ids come from step 1. Returns `{success, status, result, errors, result_info}` - read `errors[0].code` for the 9109 probe, `result_info.total_pages` to paginate. Batch a whole category's GETs into one `execute` call (loop inside the function, return an object) - one round-trip per category beats one per setting. `mcp__cloudflare__search` (OpenAPI spec, refs resolved) for endpoint/body shapes; `mcp__cloudflare__docs` for product behavior
 
 ## Sweep (Read-Only)
 
@@ -28,7 +28,7 @@ Per zone, every category below - each shows in the report, clean ones as "ok", n
 1. **SSL/TLS** - `settings/ssl` (want `strict`); `settings/always_use_https` (on); `settings/min_tls_version` (≥1.2); `settings/tls_1_3` (on); `settings/automatic_https_rewrites` (on); `settings/security_header` HSTS (enabled, max-age ≥6mo, includeSubDomains; **preload = opt-in only**)
 2. **Security / WAF / bot** - `rulesets` phases (`http_request_firewall_managed` deployed? `ddos_l7` present?); `settings/security_level` (medium); `bot_management` (Bot Fight Mode on - Free tier); `settings/email_obfuscation` (on); `settings/browser_check` (on); custom firewall ruleset (`http_request_firewall_custom` - any bespoke rules?); **rate limiting** ruleset (`http_ratelimit` phase - login/API endpoints protected?); **IP access rules / Zone Lockdown** (`firewall/access_rules/rules` - stale allowlists?); **Page Shield** (`page_shield` - client-side/Magecart, plan-gated); **Authenticated Origin Pulls** (`settings/tls_client_auth` - mTLS edge->origin so origin only trusts CF); **Leaked Credential Check** (`leaked-credential-checks` - alerts on breached creds, plan-gated). Under Attack mode = situational (incident only), never default-on
 3. **Performance / caching** - `settings/brotli` (on); `settings/early_hints` (on); `settings/cache_level` (aggressive/standard); `settings/browser_cache_ttl`; `settings/rocket_loader` (**case-by-case - can break JS, report don't force**)
-4. **Network protocols** - `settings/http3` (on); `settings/0rtt` (on, idempotent-GET caveat); `settings/ipv6` (on); `settings/websockets` (on); HTTP/2 (on)
+4. **Network protocols** - `settings/http3` (on); `settings/0rtt` (on, idempotent-GET caveat); `settings/ipv6` (on); `settings/websockets` (on). HTTP/2 is automatic with the proxy - no readable setting, don't hunt for one
 5. **DNS hygiene** - `dns_records`: proxiable A/AAAA/CNAME should be **proxied (orange)** unless intentionally direct (flag grey-cloud = origin exposed); `dnssec` (active); parse TXT for **SPF** (root `v=spf1`), **DKIM** (`*._domainkey`), **DMARC** (`_dmarc.<zone>` - flag missing as action); dangling CNAMEs -> takeover risk; low TTLs on stable records
 6. **Analytics / observability** - **Web Analytics** (`/accounts/{acct}/rum/site_info/list` - privacy-first, free; enabled for this zone?); **Security Events** summary (GraphQL `firewallEventsAdaptive` - last 24h threats blocked, top rules/countries -> posture context, not a setting); **Logpush** (`logpush/jobs` - paid/Enterprise, report gap only). Pull the security-events summary read-only so the report shows what the WAF is actually catching, not just whether it's on
 
@@ -66,6 +66,7 @@ The `cloudflare` MCP is a remote OAuth server (`https://mcp.cloudflare.com/mcp`)
 - Sweep = read-only. Change state only via confirmed actions, one at a time -> verify (re-GET, confirm new value) -> next
 - Side effects before confirm, always: SSL-mode origin break, min-TLS client lockout, HSTS/preload permanence, DNSSEC two-step, proxying a direct-only record
 - No churn: a setting already at optimal is `ok`, not an action - don't PATCH it to look busy. Clean zone -> "posture optimal", stop
+- Never report a finding this file predicts - the verdict comes from the run, not from here. Baked-in findings are how an audit skill rots
 - Report-only is valid - fixing is optional, never assumed
 - Free-plan limits: some managed-WAF rules, Bot Management depth, and Page Rules count are plan-gated - report the gap, don't pretend it's fixable on Free
 - Boundaries: Workers/Pages/KV/D1/R2/Terraform -> `cloudflare`; registrar-side DNS, origin-server config, email DNS *content* policy -> out of scope, name it

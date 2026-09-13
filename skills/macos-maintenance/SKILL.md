@@ -1,8 +1,8 @@
 ---
 name: macos-maintenance
-description: Periodic macOS maintenance + optimization — read-only health sweep (pending OS/brew updates, disk health + SMART, memory pressure + swap, battery condition, Time Machine recency, Spotlight indexing state, crash/panic reports, uptime, login-item load) -> ok/attention/action report -> confirmed fixes. Use when the user says "maintain my mac", "mac health check", "tune up my mac", "optimize my mac", "run maintenance", "is my mac healthy", "update everything", or wants a periodic once-over. Also covers targeted fixes when a check or the user flags an issue — Spotlight reindex, Launch Services rebuild, DNS/font cache flush, frozen Finder/Dock, runaway process triage. Storage/junk/leftovers/disk-space -> macos-cleanup instead.
+description: Periodic macOS maintenance + optimization - read-only health sweep (pending OS/brew updates, disk health + SMART, memory pressure + swap, battery condition, Time Machine recency, Spotlight indexing state, crash/panic reports, uptime, login-item load) -> ok/attention/action report -> confirmed fixes. Use when the user says "maintain my mac", "mac health check", "tune up my mac", "optimize my mac", "run maintenance", "is my mac healthy", "update everything", "my mac is slow / hot / fan is loud", or wants a periodic once-over. Also covers targeted fixes when a check or the user flags an issue - Spotlight reindex, Launch Services rebuild, DNS/font cache flush, frozen Finder/Dock, runaway process triage. Storage/junk/leftovers/disk-space -> macos-cleanup instead.
 tags: [macos, maintenance]
-updated_at: 2026-06-12
+updated_at: 2026-09-13
 ---
 
 # macOS Maintenance
@@ -18,7 +18,7 @@ Run all categories, every one shows up in the report - clean ones as "ok", never
 3. **Memory/CPU** - `memory_pressure` (plain run prints summary); `sysctl vm.swapusage` - heavy swap + warning level -> note worst consumers via `top -l 2 -o mem -n 5 -stats pid,command,cpu,mem`
 4. **Battery** - `pmset -g batt`; `system_profiler SPPowerDataType | grep -E 'Cycle Count|Condition|Maximum Capacity'` -> Condition ≠ Normal or capacity <80% = attention
 5. **Backups** - `tmutil destinationinfo` (configured at all?); `tmutil latestbackup` (may need Full Disk Access -> fallback `tmutil listbackups | tail -1`). Last backup >7d = attention; not configured = say so once, user's call
-6. **Spotlight** - `mdutil -s /` (enabled? stuck "in progress"?); `ps aux | grep -E 'mds_stores|mdworker' | grep -v grep` CPU%. Optimization: big dev trees indexed -> suggest Spotlight Privacy exclusions for build-artifact dirs (`node_modules`, `target`, `.venv` parents) - GUI only, System Settings -> Siri & Spotlight
+6. **Spotlight** - `mdutil -s /` (enabled? stuck "in progress"?); `ps aux | grep -E 'mds_stores|mdworker' | grep -v grep` CPU%. Optimization: big dev trees indexed -> suggest Spotlight Privacy exclusions for build-artifact dirs (`node_modules`, `target`, `.venv` parents) - GUI only, System Settings -> Spotlight (Siri & Spotlight on pre-15)
 7. **Crashes/panics** - `ls -lt ~/Library/Logs/DiagnosticReports | head`; `ls /Library/Logs/DiagnosticReports 2>/dev/null | grep -i panic`. Repeated crashes of one app or any kernel panic = attention + name it
 8. **Uptime** - `uptime`. >14d -> recommend reboot (memory leaks + pending updates accumulate; that's the whole fix, no theater)
 9. **Startup load** - `osascript -e 'tell app "System Events" to get name of every login item'` + LaunchAgents count. Just the headcount here - deep dead-agent audit lives in `macos-cleanup`, point there if list looks bloated
@@ -41,7 +41,7 @@ When sweep or user flags a specific breakage. Same contract: confirm first, side
 
 - **"Open With" duplicates** - `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder`. **Resets custom default handlers to Apple defaults - user re-assigns by hand.** No sudo. Verify: dupes gone
 - **DNS stale/failing** - diagnose first: `ping -c 3 8.8.8.8` vs `ping -c 3 google.com` (IP ok + name fails = DNS; both fail = network, out of scope); `scutil --dns | head -30` for stale VPN resolvers (flush won't fix those - point at VPN client). Fix: `sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder`. Instant, no side effects
-- **Garbled fonts** (across apps; one app -> app problem) - `ls -lt ~/Library/Fonts | head`, recently added font often culprit, remove it first. Else `atsutil databases -removeUser && atsutil server -shutdown && atsutil server -ping` (no sudo); still broken -> `sudo atsutil databases -remove`. **Needs relogin to fully take.**
+- **Garbled fonts** (across apps; one app -> app problem) - `ls -lt ~/Library/Fonts | head`, recently added font often culprit, remove it first. Else `atsutil databases -removeUser && atsutil server -shutdown && atsutil server -ping` (no sudo); still broken -> `sudo atsutil databases -remove`. **Needs relogin to fully take**
 - **Frozen UI** - Finder: `killall Finder`; Dock: `killall Dock`; menu bar: `killall SystemUIServer` - all auto-relaunch, no data loss. No audio: `sudo killall coreaudiod` (~2s). **Never `killall WindowServer`** - force-logout, unsaved work dies; prefer reboot
 - **Runaway process** (hot/loud/draining) - `top -l 2 -o cpu -n 10 -stats pid,command,cpu,mem` (second sample is the real one); `ps -Ao pid,pcpu,pmem,etime,comm -r | head -15`; battery angle: `sudo powermetrics -n 1 --samplers tasks | head -40` (fails on some setups -> top is fine). Identify owner before kill: known daemon (`mds*` -> Spotlight above; `bird`/`fileproviderd` = iCloud sync, out of scope, say so) / user app (**unsaved work - confirm saved**) / helper (respawns, safe). Kill: `kill <pid>` -> 5s -> `kill -9 <pid>`; root-owned -> `sudo kill`, ask. Respawns + spins again -> whack-a-mole, find the cause instead
 
@@ -52,4 +52,5 @@ When sweep or user flags a specific breakage. Same contract: confirm first, side
 - Side effects before confirm, always: restart-required updates, hours-long reindex, handler resets, relogin
 - No snake-oil: no `purge`, no "free RAM", no scheduled blind cache wipes, no repair theater. A clean sweep -> "all healthy", stop - don't invent actions
 - User may want the report only - fixing is optional, never assumed
+- Never report a finding this file predicts - the verdict comes from the run, not from here. Baked-in findings are how an audit skill rots
 - Boundaries: disk space/junk/leftovers/dead launch agents -> `macos-cleanup`; iCloud sync internals, Time Machine repair beyond status, Bluetooth -> out of scope, name it instead of improvising
