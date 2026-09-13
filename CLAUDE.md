@@ -17,20 +17,19 @@ All recipes run from the repo root and delegate into `site/` (`just` + `pnpm`; N
 
 ```shell
 just install   # pnpm -C site install
-just dev       # next dev --turbopack
-just check     # biome check . --write, then next build (run before committing)
+just run-dev-server       # next dev --turbopack
+just check     # lint + test + build, read-only (run before committing)
 just lint      # biome lint . (read-only, what CI runs)
-just format    # biome format . --write
+just format    # biome check . --write (format + lint autofix + import sort)
 just build     # next build
-just start     # build + next start
-just audit     # pnpm audit
+just run-prod-server     # build + next start
 just update    # pnpm update
 just test      # no-op while the `.no-tests` sentinel exists
 ```
 
 There is no test suite. `just test` succeeds only because the empty `.no-tests` file at the repo root exists; deleting it makes the recipe fail hard (and breaks CI) until a real test command replaces it.
 
-CI (`.github/workflows/ci.yaml`, push to `main` + PRs, `ubuntu-24.04-arm`, Node 24) runs `just install && just lint && just audit && just test && just build`. CI uses `lint` (non-writing) while local `just check` writes fixes — run `just check` locally so CI's lint stays clean.
+CI (`.github/workflows/ci.yaml`, push to `main` + PRs, `ubuntu-24.04-arm`, Node 24) runs `just install && just lint && just test && just build`. `just check` is a read-only superset of what CI runs — run it locally before pushing, and `just format` to write fixes.
 
 ## Asset layout and the sync contract
 
