@@ -30,7 +30,7 @@
   }
 
   /* Per-variant: only the icon and the strong text take the accent color.
-     No filled bg, no left border accent (per "AI slop" avoidance rule). */
+     No filled bg, no left border accent (per "AI slop" avoidance rule) */
   .a-success .ic, .a-success strong { color: var(--status-success-fg); }
   .a-warning .ic, .a-warning strong { color: var(--status-warning-fg); }
   .a-error   .ic, .a-error strong   { color: var(--status-error-fg); }
@@ -38,11 +38,11 @@
 </style>
 </head>
 <body>
-  <div class="label">INLINE ALERTS — bordered, no fill, no left-accent bar; icon + bold title carry semantic color</div>
+  <div class="label">INLINE ALERTS - bordered, no fill, no left-accent bar; icon + bold title carry semantic color</div>
 
   <div class="alert a-info">
     <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
-    <span><strong>Heads up.</strong> The theme is rendered from a single source — edit the palette JSON and re-run <code>just render</code> to refresh every port.</span>
+    <span><strong>Heads up.</strong> The theme is rendered from a single source - edit the palette JSON and re-run <code>just render</code> to refresh every port.</span>
   </div>
 
   <div class="alert a-success">
@@ -52,7 +52,7 @@
 
   <div class="alert a-warning">
     <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
-    <span><strong>Tera-style mistake.</strong> Templates must not write <code>#{{ color.hex }}</code> — the hex already includes the <code>#</code>.</span>
+    <span><strong>Tera-style mistake.</strong> Templates must not write <code>#{{ color.hex }}</code> - the hex already includes the <code>#</code>.</span>
   </div>
 
   <div class="alert a-error">

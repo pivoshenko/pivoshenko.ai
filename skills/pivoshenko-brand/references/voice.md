@@ -1,8 +1,8 @@
 # Voice
 
-> pivoshenko is the practitioner's notebook — a dark, monospaced workshop where an engineer thinks out loud.
+> pivoshenko is the practitioner's notebook - a dark, monospaced workshop where an engineer thinks out loud.
 
-The voice *is* the notebook. Engineer-precise, first-person, lowercase by default, clipped on purpose. Practitioner, not marketer. Read this when writing anything longer than a button label — copy, headings, microcopy, blog post, email, social.
+The voice *is* the notebook. Engineer-precise, first-person, lowercase by default, clipped on purpose. Practitioner, not marketer. Read this when writing anything longer than a button label - copy, headings, microcopy, blog post, email, social.
 
 ## The Shape of a Sentence
 
@@ -19,26 +19,26 @@ UI drafts? Ten in minutes.
 Tests, docs, summaries? Same story.
 ```
 
-That rhythm — claim, claim, claim, beat — is the signature. Use it anywhere a paragraph wants to land.
+That rhythm - claim, claim, claim, beat - is the signature. Use it anywhere a paragraph wants to land.
 
 ## Person
 
 First person, singular. **I**, **my**, **mine**. Never "we" (no company), never "you" except when making a point at the reader.
 
-The byline is `Volodymyr Pivoshenko <contact@pivoshenko.dev>` — mail-header style. That format is the signature; copy it into footers, signatures, and metadata as-is.
+The byline is `Volodymyr Pivoshenko <contact@pivoshenko.dev>` - mail-header style. That format is the signature; copy it into footers, signatures, and metadata as-is.
 
 ## Casing
 
-- **Brand names are lowercase, always, even at the start of a sentence.** Any `pivoshenko.<namespace>` property follows this rule, and so do the tools the work touches (`bat`, `fish`, `helix`, `ghostty`, `zed` — whatever shows up).
-- **Proper names get title case.** `Volodymyr Pivoshenko`. Job titles too: `Principal AI/ML R&D Engineer`.
-- **Section labels SHOUT, but quietly.** Uppercase, widest tracking, `type-label` size. Loud in form, small in size — they whisper-shout.
+- **Brand names are lowercase, always, even at the start of a sentence.** Any `pivoshenko.<namespace>` property follows this rule, and so do the tools the work touches (`bat`, `fish`, `helix`, `ghostty`, `zed` - whatever shows up)
+- **Proper names get title case.** `Volodymyr Pivoshenko`. Job titles too: `Principal AI/ML R&D Engineer`
+- **Section labels SHOUT, but quietly.** Uppercase, widest tracking, `type-label` size. Loud in form, small in size - they whisper-shout
 
 ## Words to Favor
 
 - `practical notes`, `curated`, `experiments`, `step-by-step`, `baseline`
-- `posts` — never `articles`
-- `ports` — terminal/desktop targets
-- `userstyles` — browser injection layer
+- `posts` - never `articles`
+- `ports` - terminal/desktop targets
+- `userstyles` - browser injection layer
 
 ## Words to Refuse
 
@@ -69,14 +69,14 @@ The whole tone collapses into these small surfaces. Match them.
 
 ## Emoji
 
-Banned in UI, READMEs, commits, and social copy. Lucide icons when a glyph is genuinely needed. **One exception:** GitHub repo *description* field (the one-liner under the repo name) — a single contextual emoji is allowed as visual punctuation against a wall of grey GitHub text. Never inside the README itself.
+Banned in UI, READMEs, commits, and social copy. Lucide icons when a glyph is genuinely needed. **One exception:** GitHub repo *description* field (the one-liner under the repo name) - a single contextual emoji is allowed as visual punctuation against a wall of grey GitHub text. Never inside the README itself.
 
 ## Smell Test
 
 A finished paragraph should:
 
-1. Read like a notebook entry, not a pitch.
-2. Survive being chopped in half — every sentence stands alone.
-3. Lose nothing if every adjective is deleted.
+1. Read like a notebook entry, not a pitch
+2. Survive being chopped in half - every sentence stands alone
+3. Lose nothing if every adjective is deleted
 
-If (1)–(3) hold, it sounds like pivoshenko.
+If (1)-(3) hold, it sounds like pivoshenko.

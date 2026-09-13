@@ -30,14 +30,14 @@ Parent closed -> stop and ask; a closed spec is not a work queue. No sub-issues 
    gh issue view <parent> --json number,title,state
    gh api repos/{owner}/{repo}/issues/<parent>/sub_issues --jq '.[] | {number,title,state}'
    ```
-   `{owner}/{repo}` are `gh` placeholders - leave them literal, `gh` fills them from the current remote. Why -> `gh issue list` has no parent/child filter and native sub-issues surface only through the API, so listing by label or milestone silently returns a different set than the one the spec owns.
+   `{owner}/{repo}` are `gh` placeholders - leave them literal, `gh` fills them from the current remote. Why -> `gh issue list` has no parent/child filter and native sub-issues surface only through the API, so listing by label or milestone silently returns a different set than the one the spec owns
 2. Parse every **open** sub-issue's `## Contract` block:
    ```bash
    gh issue view <n> --json body -q .body | sed -n 's/^files: //p'
    gh issue view <n> --json body -q .body | sed -n 's/^needs: //p'
    gh issue view <n> --json body -q .body | sed -n 's/^verify: //p'
    ```
-   Missing or empty `files:` on any open sub-issue -> **stop, name that issue**, plan nothing. Why -> guessing which tasks are disjoint is how two agents end up editing one file, and the loser's work vanishes silently with no error anywhere.
+   Missing or empty `files:` on any open sub-issue -> **stop, name that issue**, plan nothing. Why -> guessing which tasks are disjoint is how two agents end up editing one file, and the loser's work vanishes silently with no error anywhere
 3. Plan the wave: open sub-issues whose `needs:` are all **closed** and whose `files:` sets are **pairwise disjoint**. Cap at the `herdr-dispatch` pane budget inside Herdr; outside it, cap at what you can brief and verify in one pass. Everything else waits. See **Waves**
 4. Per task in the wave, branch first, then dispatch. Branch via `git-issue-start`'s flow - assign the sub-issue, branch off it, naming per `git-branch-create`. Then one agent per sub-issue, all launched together. Brief shape in **Brief**
 5. Collect. The worker's result file on disk is the completion signal, never scraped screen output. Per `herdr-dispatch`'s result contract: no file -> not done, whatever `--wait` returned

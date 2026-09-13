@@ -9,23 +9,23 @@ updated_at: 2026-08-31
 
 Target: `pivoshenko.dev`, posts at `site/content/posts/*.mdx`.
 
-Goal = bespoke content. The post must contain things only the author could write — numbers, failures, decisions, opinions. Anything the first Google result could say -> delete. Padding is where slop comes from.
+Goal = bespoke content. The post must contain things only the author could write - numbers, failures, decisions, opinions. Anything the first Google result could say -> delete. Padding is where slop comes from.
 
 ## Modes
 
-- **write** — idea/notes -> published MDX. Full flow (1-6).
-- **edit** — existing draft -> improved. Map its headings into sections (step 3), confirm, then 4-6. Present per-section changes; never silently restructure.
+- **write** - idea/notes -> published MDX. Full flow (1-6)
+- **edit** - existing draft -> improved. Map its headings into sections (step 3), confirm, then 4-6. Present per-section changes; never silently restructure
 
 ## Flow
 
-### 1. Interrogate — Raw Material Before Prose
+### 1. Interrogate - Raw Material Before Prose
 
 Never draft from a one-line idea. Mine the author first:
 
-- what happened — the incident, the build, the decision
-- specifics — numbers, commands, configs, error messages, dates
-- the failure — what broke, what was tried and abandoned, what it cost
-- the opinion — what they believe that others don't, and why
+- what happened - the incident, the build, the decision
+- specifics - numbers, commands, configs, error messages, dates
+- the failure - what broke, what was tried and abandoned, what it cost
+- the opinion - what they believe that others don't, and why
 
 Source order: user > vault (`06 WRITING` draft, project/source notes) > repo. Never invent.
 No raw material for a section -> ask targeted questions, don't pad.
@@ -48,7 +48,7 @@ Information = DAG. A section may only use concepts established by earlier sectio
 
 ### 4. Draft, Section by Section
 
-Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) — that file owns the voice. Non-negotiables from it:
+Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) - that file owns the voice. Non-negotiables from it:
 
 - paragraphs 1-3 lines (~240 chars max); a paragraph that grows -> split
 - rhythm: claim, claim, claim, beat
@@ -56,12 +56,12 @@ Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not t
 
 One section at a time. Each section carries >=1 author-only artifact (number, error, config, decision + why). Section has none -> back to step 1 for that section, not into generalities.
 
-### 5. Edit Passes — Separate, in Order
+### 5. Edit Passes - Separate, in Order
 
-1. **structure** — DAG still holds after drafting drift; every section still earns its edge to the thesis
-2. **slop** — run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X — it's Y"
-3. **voice** — smell test from `pivoshenko-brand/references/voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
-4. **facts** — every number/command/claim traces to user, vault, or repo. Untraceable -> cut or ask
+1. **structure** - DAG still holds after drafting drift; every section still earns its edge to the thesis
+2. **slop** - run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X - it's Y"
+3. **voice** - smell test from `pivoshenko-brand/references/voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
+4. **facts** - every number/command/claim traces to user, vault, or repo. Untraceable -> cut or ask
 
 ### 6. Ship
 
@@ -72,6 +72,6 @@ One section at a time. Each section carries >=1 author-only artifact (number, er
 
 ## Rules
 
-- Steps 1-3 are not skippable. A full draft delivered straight from a one-line idea is the failure mode this skill exists to prevent.
-- Never invent metrics, dates, quotes, features.
-- The author's opinion stays the author's. Don't sand off a strong position into "it depends".
+- Steps 1-3 are not skippable. A full draft delivered straight from a one-line idea is the failure mode this skill exists to prevent
+- Never invent metrics, dates, quotes, features
+- The author's opinion stays the author's. Don't sand off a strong position into "it depends"

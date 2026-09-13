@@ -12,14 +12,14 @@ Conventional commit. No confirm. No dry-run.
 
 ## Flow
 
-1. Parallel: `git status` + `git diff --staged`.
-2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets.
-3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`.
-4. Read diff -> one commit or many (see **Atomic**) -> write msg.
-   - Branch linked to an issue -> add the closing trailer. Read the link with `git config --get branch.$(git branch --show-current).issue`; `git-issue-start` records it there. Why -> the branch name carries no ticket id by default, so this is the only durable link between the work and the tracker.
-   - Many commits from one issue -> the trailer goes on the **last** one only. Why -> every commit carrying `Closes #42` is noise on the issue timeline, and GitHub closes on the first merged one regardless.
-5. Commit now. Many groups + already mass-staged -> `git restore --staged .` to unstage (modern idiom; `git reset HEAD` also fine), then stage+commit per group. Loop til clean.
-6. Print hash + one-liner per commit.
+1. Parallel: `git status` + `git diff --staged`
+2. Nothing staged -> stage relevant. Paths > `-A`. Never `.env` / creds / secrets
+3. Parallel: `git diff --staged` (if just staged) + `git log --oneline -5`
+4. Read diff -> one commit or many (see **Atomic**) -> write msg
+   - Branch linked to an issue -> add the closing trailer. Read the link with `git config --get branch.$(git branch --show-current).issue`; `git-issue-start` records it there. Why -> the branch name carries no ticket id by default, so this is the only durable link between the work and the tracker
+   - Many commits from one issue -> the trailer goes on the **last** one only. Why -> every commit carrying `Closes #42` is noise on the issue timeline, and GitHub closes on the first merged one regardless
+5. Commit now. Many groups + already mass-staged -> `git restore --staged .` to unstage (modern idiom; `git reset HEAD` also fine), then stage+commit per group. Loop til clean
+6. Print hash + one-liner per commit
 
 ## Atomic
 
@@ -27,9 +27,9 @@ Mixed concerns -> split. No mega-commit.
 
 Group by:
 
-- **type** — `feat` / `fix` / `docs` / `refactor` / `test` never share
-- **scope** — diff modules/pkgs = diff commits
-- **logical unit** — one thing per commit. Each builds + tests alone.
+- **type** - `feat` / `fix` / `docs` / `refactor` / `test` never share
+- **scope** - diff modules/pkgs = diff commits
+- **logical unit** - one thing per commit. Each builds + tests alone
 
 Split signals:
 
@@ -48,7 +48,7 @@ Split signals:
 
 `header` required. `footer` optional. **No body, ever.**
 
-If the header can't carry the change, the commit isn't atomic -> split it (see **Atomic**). The "why" lives in the PR body, the issue, or the code comment — not here.
+If the header can't carry the change, the commit isn't atomic -> split it (see **Atomic**). The "why" lives in the PR body, the issue, or the code comment - not here.
 
 ### Header
 
@@ -57,10 +57,10 @@ If the header can't carry the change, the commit isn't atomic -> split it (see *
 ```
 
 - type: `build|chore|ci|docs|feat|fix|perf|refactor|test`
-- scope: optional. Affected area/module/pkg. Lowercase, kebab/short noun. One scope only — pick the dominant one, else omit.
+- scope: optional. Affected area/module/pkg. Lowercase, kebab/short noun. One scope only - pick the dominant one, else omit
 - summary: imperative present ("add" not "added"/"adds"), lowercase, no trailing `.`
-- whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself.
-- no ticket IDs in header (go in footer). No emoji. No `[WIP]`.
+- whole header ≤ 72 chars. Tighter is better; aim ≤ 50 for the summary itself
+- no ticket IDs in header (go in footer). No emoji. No `[WIP]`
 
 #### Type Pick
 
@@ -73,7 +73,7 @@ SemVer bump column is the canonical mapping used by `cliff.toml` across all repo
 | **feat**     | MINOR  | New user-visible capability or API                 | new endpoint, new CLI flag, new component, new public function       |
 | **fix**      | PATCH  | Restoring intended behavior after a defect         | crash on null input, wrong calc, regression repair                   |
 | **perf**     | PATCH  | Same behavior, measurably faster / lighter         | cache hot path, drop O(n²) loop, lazy-load                           |
-| **refactor** | PATCH  | Code shape changes; behavior identical             | rename, extract, inline, move file, dedupe — no API or output change |
+| **refactor** | PATCH  | Code shape changes; behavior identical             | rename, extract, inline, move file, dedupe - no API or output change |
 | **test**     | none   | Test files only                                    | add coverage, fix flake, rename test                                 |
 | **docs**     | none   | Docs / comments / `README` / changelog only        | prose edits, JSDoc, ADRs, doc-only typos                             |
 | **build**    | none   | Build system, deps, lockfiles, packaging           | `package.json` deps, `uv.lock`, Dockerfile, bundler config           |
@@ -82,15 +82,15 @@ SemVer bump column is the canonical mapping used by `cliff.toml` across all repo
 
 #### Tiebreakers
 
-- Bug -> `fix` > `refactor` > `chore`.
-- Perf -> `perf` > `refactor`.
-- New feature ships with its tests -> single `feat` commit. Tests for **existing** code -> `test`.
-- README typo -> `docs`. README rewrite that ships new product info -> still `docs` (no code).
-- Bumping a dep that fixes a bug here -> `fix` (your bug) or `build` (just the bump). Pick by user-visible effect.
-- Lockfile-only churn from `install` -> `build`. Tooling config like `biome.json` formatting rules -> `chore`. CI workflow YAML -> `ci`.
-- Renaming for clarity -> `refactor`. Renaming to land a new API -> part of the `feat`.
-- Formatting / whitespace -> separate `chore` commit.
-- Revert -> `revert:` prefix, never one of the above (see **Revert**).
+- Bug -> `fix` > `refactor` > `chore`
+- Perf -> `perf` > `refactor`
+- New feature ships with its tests -> single `feat` commit. Tests for **existing** code -> `test`
+- README typo -> `docs`. README rewrite that ships new product info -> still `docs` (no code)
+- Bumping a dep that fixes a bug here -> `fix` (your bug) or `build` (just the bump). Pick by user-visible effect
+- Lockfile-only churn from `install` -> `build`. Tooling config like `biome.json` formatting rules -> `chore`. CI workflow YAML -> `ci`
+- Renaming for clarity -> `refactor`. Renaming to land a new API -> part of the `feat`
+- Formatting / whitespace -> separate `chore` commit
+- Revert -> `revert:` prefix, never one of the above (see **Revert**)
 
 ### Footer
 
@@ -98,10 +98,10 @@ Trailers only. One per line, `Token: value`, after a single blank line below the
 
 Allowed tokens:
 
-- `BREAKING CHANGE: <summary>` — exact spelling (Angular spec). Detail + migration steps follow on subsequent lines, ≤ 5 lines.
-- `DEPRECATED: <what>` — same shape; include upgrade path. ≤ 5 lines.
-- `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` — issue auto-close. Multiple -> one per line or comma-separated. Auto-filled from `branch.<name>.issue` when set (see Flow step 4).
-- `Refs: #<n>` / `See: <url>` — non-closing references.
+- `BREAKING CHANGE: <summary>` - exact spelling (Angular spec). Detail + migration steps follow on subsequent lines, ≤ 5 lines
+- `DEPRECATED: <what>` - same shape; include upgrade path. ≤ 5 lines
+- `Fixes #<n>` / `Closes #<n>` / `Resolves #<n>` - issue auto-close. Multiple -> one per line or comma-separated. Auto-filled from `branch.<name>.issue` when set (see Flow step 4)
+- `Refs: #<n>` / `See: <url>` - non-closing references
 
 ```
 BREAKING CHANGE: <summary>
@@ -121,10 +121,10 @@ Closes #<n>
 
 Footer rules:
 
-- No `Co-Authored-By:` / "Generated with Claude" / tool-attribution trailers ever, unless user explicitly asks. Why -> standing user policy.
-- No `Signed-off-by:` unless the repository's `CONTRIBUTING` requires DCO.
-- No empty/placeholder trailers. No footer at all is fine.
-- Breaking change without migration steps -> ask user before committing. Reviewers need the upgrade path.
+- No `Co-Authored-By:` / "Generated with Claude" / tool-attribution trailers ever, unless user explicitly asks. Why -> standing user policy
+- No `Signed-off-by:` unless the repository's `CONTRIBUTING` requires DCO
+- No empty/placeholder trailers. No footer at all is fine
+- Breaking change without migration steps -> ask user before committing. Reviewers need the upgrade path
 
 ## Revert
 
@@ -134,6 +134,6 @@ Reason -> append to that same line only if non-obvious. Nothing else.
 
 ## Rules
 
-- One logical change per commit. Else split.
-- Never `--no-verify` / `--no-gpg-sign` unless asked. Why -> hooks catch real failures (lint, type, secret scan); skipping = shipping broken code.
-- Pre-commit hook fail -> fix + re-stage + **new** commit. No amend. Why -> hook fail means the commit didn't happen; `--amend` would modify the **previous** (unrelated) commit and silently rewrite it.
+- One logical change per commit. Else split
+- Never `--no-verify` / `--no-gpg-sign` unless asked. Why -> hooks catch real failures (lint, type, secret scan); skipping = shipping broken code
+- Pre-commit hook fail -> fix + re-stage + **new** commit. No amend. Why -> hook fail means the commit didn't happen; `--amend` would modify the **previous** (unrelated) commit and silently rewrite it

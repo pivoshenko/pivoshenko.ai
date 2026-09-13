@@ -10,7 +10,7 @@ export const metadata = siteMetadata({
   url: 'https://ai.pivoshenko.dev',
   brand: 'pivoshenko.ai',
   title: 'pivoshenko.ai',
-  titleTemplate: '%s — pivoshenko.ai',
+  titleTemplate: '%s - pivoshenko.ai',
   description: 'Curated AI skills and MCPs.',
   ogTitle: 'AI Workspace',
   ogDescription: 'Curated AI skills and MCPs',

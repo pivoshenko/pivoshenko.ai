@@ -59,7 +59,7 @@ branch    feat/add-oauth-login off origin/main
 
 Label chain dropped -> one extra line naming what was skipped. Nothing skipped -> no extra line.
 
-## Ticket IDs In Branch Names
+## Ticket IDs in Branch Names
 
 `git-branch-create` keeps ticket IDs out of branch names unless asked, and starting from an issue does not change that: the link to `#n` rides in `branch.<name>.issue` (step 10), the commit footer (`Closes #42`), and the PR body (`Resolves: #42`) - all three of which a tool actually reads. A branch name is a human label, not a foreign key.
 

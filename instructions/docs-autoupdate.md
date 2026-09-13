@@ -14,10 +14,10 @@ updated_at: 2026-09-12
 Scope: this rule is about the **project-local `CLAUDE.md`** (the one in the repo you are working in), not `~/.claude/CLAUDE.md`.
 
 Trigger: a change is relevant when it alters something a future session would read `CLAUDE.md` to learn:
-- new or removed tool, command, dependency, or config;
-- a new convention, renamed path, or restructured layout;
-- a changed build/test/run/deploy workflow;
-- an architectural shift or new module boundary.
+- New or removed tool, command, dependency, or config
+- A new convention, renamed path, or restructured layout
+- A changed build/test/run/deploy workflow
+- An architectural shift or new module boundary
 
 When triggered, check whether the existing `CLAUDE.md` now describes the repo incorrectly, and if so correct exactly the stale lines. Do not re-read or re-audit the whole file on every change, and do not restate things that are still accurate. If no project `CLAUDE.md` exists, do not create one unless asked.
 
