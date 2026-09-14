@@ -200,7 +200,7 @@ completed first. We should be able to revisit this in the next sprint.
 
 - New standalone issue -> `git-issue-create`
 - Picking a triaged issue up and branching -> `git-issue-start`
-- A triaged issue too big to be one task -> `git-spec-plan`
+- A triaged issue too big to be one task -> say so in the report and let the user split it; never split it yourself
 - Local branch clutter, the same sweep shape one layer down -> `git-branches-cleanup`
 
 ## Rules

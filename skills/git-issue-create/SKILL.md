@@ -7,7 +7,7 @@ description: >-
   "we should fix X later", or whenever the user describes a defect or wanted capability that is
   clearly not being built right now. A raw `gh issue create` skips the duplicate search, label
   resolution, and body caps this skill owns. Boundary: work starting now goes to `git-branch-create`;
-  an issue that already exists goes to `git-issue-start`; a parent plus sub-issues is `git-spec-plan`.
+  an issue that already exists goes to `git-issue-start`.
   Creates the issue immediately without asking for confirmation.
 tags: [git, github]
 updated_at: 2026-09-13
@@ -19,7 +19,7 @@ File one standalone issue. No confirm.
 
 ## Flow
 
-1. Boundary check: is the work starting now? Yes -> hand off to `git-branch-create` (new work) or `git-issue-start` (issue already exists) and stop. Multi-task effort needing a parent plus sub-issues -> `git-spec-plan`. Why -> an issue is a record of work deferred; work in flight belongs on a branch, and a second tracker entry for it just rots
+1. Boundary check: is the work starting now? Yes -> hand off to `git-branch-create` (new work) or `git-issue-start` (issue already exists) and stop. Why -> an issue is a record of work deferred; work in flight belongs on a branch, and a second tracker entry for it just rots
 2. Repo: `gh repo view --json nameWithOwner -q .nameWithOwner`. Fails -> stop, surface the error (no remote, no auth, not a repo). Never guess `owner/name`
 3. Search for duplicates **before drafting anything**:
    ```bash
@@ -193,6 +193,6 @@ approach which presents certain challenges.
 - Never invent acceptance criteria, file paths, numbers, or repro steps. Unknown -> ask or omit
 - Never `--assignee` / `--milestone` / `--project` unless asked. Self-assigning implies you are starting, which is `git-issue-start`
 - Body over 8 prose lines -> cut before creating, not after
-- One issue per invocation. A list of separate problems -> one issue each. One effort needing a parent and sub-issues -> `git-spec-plan`
+- One issue per invocation. A list of separate problems -> one issue each, filed one at a time
 - Never close or edit an existing issue from this skill
 - No "Generated with Claude Code" or co-author trailers
