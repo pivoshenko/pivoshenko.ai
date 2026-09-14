@@ -66,7 +66,7 @@ Retired content, mirroring the live layout (`archive/skills/`, `archive/instruct
 Consequences worth knowing:
 
 - The site is a build-time projection of the repo, so content edits only show up after a rebuild
-- `app/page.tsx` is a server component that calls `loadCatalog()` and splits local/external; `components/catalog.tsx` is the only client component, owning all tag filtering and search
+- `app/page.tsx` is a server component that calls `loadCatalog()` and splits local/external; `components/catalog.tsx` is the only client component, owning all tag filtering and search, plus the sticky table of contents. Its `SECTION_IDS` constant is the scroll-spy's source of truth - adding or renaming a `Section` means editing that list and the `tocItems` array together, or the new section is unreachable from the bar
 - Vercel builds with `site/` as the project root, which still leaves the full repo checked out one level up
 
 For design tokens and semantic utility classes, read `pivoshenko.ui`'s own `CLAUDE.md` instead of inferring the contract from the markup here.
