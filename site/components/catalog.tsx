@@ -2,7 +2,17 @@
 
 import type { Instruction, Mcp, Skill } from '@/lib/data'
 import { SectionHeader, TagButton } from 'pivoshenko.ui'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+
+const SECTION_IDS = [
+  'own-skills',
+  'own-mcps',
+  'own-instructions',
+  'external-skills',
+  'external-mcps',
+  'external-instructions',
+  'archived',
+]
 
 const DOT_COLORS = [
   'bg-accent-primary',
@@ -97,8 +107,36 @@ export function Catalog({
     })
   }
 
+  const tocItems = [
+    { id: 'own-skills', label: 'own skills', count: fLocalSkills.length },
+    { id: 'own-mcps', label: 'own mcps', count: fLocalMcps.length },
+    {
+      id: 'own-instructions',
+      label: 'own instructions',
+      count: fLocalInstructions.length,
+    },
+    {
+      id: 'external-skills',
+      label: 'external skills',
+      count: fExternalSkills.length,
+    },
+    {
+      id: 'external-mcps',
+      label: 'external mcps',
+      count: fExternalMcps.length,
+    },
+    {
+      id: 'external-instructions',
+      label: 'external instructions',
+      count: fExternalInstructions.length,
+    },
+    { id: 'archived', label: 'archived', count: archivedCount },
+  ]
+
   return (
     <div className="space-y-8">
+      <TableOfContents items={tocItems} />
+
       <TagFilter tags={allTags} active={active} onToggle={toggle} />
 
       <Section id="own-skills" title="own skills" count={fLocalSkills.length}>
@@ -207,6 +245,73 @@ export function Catalog({
   )
 }
 
+// Tracks which section owns the viewport, so the sticky bar can mark it.
+// Scroll position rather than IntersectionObserver: the last section is often
+// shorter than the viewport and would never win an observer race.
+function useActiveSection() {
+  const [active, setActive] = useState(SECTION_IDS[0])
+
+  useEffect(() => {
+    const onScroll = () => {
+      // Just below the sticky bar - the first line of content a reader sees
+      const line = 96
+      let current = SECTION_IDS[0]
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) current = id
+      }
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2
+      setActive(atBottom ? SECTION_IDS[SECTION_IDS.length - 1] : current)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
+
+  return active
+}
+
+function TableOfContents({
+  items,
+}: {
+  items: Array<{ id: string; label: string; count: number }>
+}) {
+  const active = useActiveSection()
+
+  return (
+    <nav
+      aria-label="Sections"
+      className="sticky top-0 z-30 -mx-4 px-4 py-2 bg-bg-canvas/90 backdrop-blur-sm border-b border-ui"
+    >
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="type-label fg-subtle">{'//'}</span>
+        {items.map(({ id, label, count }) => {
+          const isActive = active === id
+          return (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={isActive ? 'true' : undefined}
+              className={`type-meta transition-colors ${
+                isActive ? 'fg-primary' : 'fg-muted hover-primary'
+              }${count === 0 ? ' opacity-40' : ''}`}
+            >
+              {label} <span className="fg-muted">({count})</span>
+            </a>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}
+
 function TagFilter({
   tags,
   active,
@@ -243,7 +348,7 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section id={id} className="space-y-3">
+    <section id={id} className="space-y-3 scroll-mt-20">
       <SectionHeader title={title} count={count} />
       {children}
     </section>
