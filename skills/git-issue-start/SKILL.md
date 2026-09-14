@@ -22,7 +22,7 @@ Issue -> assign -> branch -> checked out. No confirm.
    - Number given -> `gh issue view <n> --json number,title,labels,state,assignees,body`
    - Title or topic given ("the oauth issue") -> `gh issue list --search "<terms>" --state open --json number,title --limit 10`, then view the match. Exactly one hit -> take it. Several -> list them, ask which. None -> stop, say so. Why -> guessing an issue number assigns the wrong person to the wrong work and it is invisible until someone reads the tracker
 2. `state == CLOSED` -> stop. Surface number, title, and that it is closed. Never reopen here
-3. Title starts `spec: ` or the issue has sub-issues (`gh issue view <n> --json subIssues -q '.subIssues.nodes | length'` > 0) -> hand off to `git-spec-dispatch`, stop. Why -> a spec parent's work is its sub-issues, one branch and one agent each; a single branch and a single assignment for the whole tree is the wrong unit
+3. The issue has sub-issues (`gh issue view <n> --json subIssues -q '.subIssues.nodes | length'` > 0) -> stop, list the open ones, and ask which to start. Then run this skill again on that number. Why -> a parent's work is its sub-issues, one branch each; a single branch and a single assignment for the whole tree is the wrong unit
 4. Assigned to someone else -> stop and ask before taking it. Own login from `gh api user -q .login`; already yours -> proceed, assignment step is a no-op. Why -> an assignee is a claim by a person, and silently overwriting it is how two people ship the same fix
 5. Dirty tree -> stop. Tell the user to stash or commit first. Same reasoning as `git-branch-create` step 2: `checkout -b` carries staged and unstaged changes into the new branch silently
 6. Derive the branch type from the issue's `type: *` label:
