@@ -3,308 +3,455 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="theme-color" content="#1f1f1e"/>
-<title>Components · Pivoshenko Design System</title>
-<link rel="stylesheet" href="../colors_and_type.css"/>
+<title>pivoshenko - Components</title>
+<link rel="stylesheet" href="_base.css"/>
 <style>
-  html, body { height: 100%; margin: 0; }
-  body { display: flex; }
+  /* == Frame == */
+  /* The hub is a page, not a card, so it drops the preview scaffold's padding and clipping */
+  body { padding: 0; overflow: auto; }
 
-  /* --- Sidebar TOC --- */
-  aside {
-    width: 220px; flex-shrink: 0;
-    border-right: 1px solid var(--border-ui);
-    background: var(--bg-page);
-    position: sticky; top: 0; height: 100vh;
-    overflow-y: auto;
-    padding: 24px 0;
-    box-sizing: border-box;
-  }
-  aside .brand {
-    padding: 0 20px 16px;
-    display: flex; align-items: center; gap: 10px;
-    border-bottom: 1px solid var(--border-faint);
-    text-decoration: none;
-  }
-  aside .brand .mark {
-    width: 24px; height: 24px;
-    background: rgb(var(--fg-default)); color: rgb(var(--bg-canvas));
-    display: grid; place-items: center;
-    font-family: var(--font-mono); font-weight: 700; font-size: 12px;
-    letter-spacing: -0.4px;
-    border-radius: 4px;
-  }
-  aside .brand .name { font-family: var(--font-mono); font-weight: 600; font-size: 13px; letter-spacing: -0.025em; color: var(--fg-primary); }
+  .wrap { max-width: var(--content-max); margin: 0 auto; padding: 0 var(--space-6); }
+  @media (max-width: 640px) { .wrap { padding: 0 var(--space-4); } }
 
-  aside h3 {
-    margin: 24px 20px 6px;
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em;
-    font-weight: 400;
-  }
-  aside ul { list-style: none; margin: 0; padding: 0; }
-  aside a {
-    display: block;
-    padding: 5px 20px;
-    font-family: var(--font-mono); font-size: 12px;
-    color: var(--fg-subtle-c);
-    border-left: 2px solid transparent;
-    text-decoration: none;
-  }
-  aside a:hover { color: var(--fg-primary); }
-  aside a.active { color: var(--fg-primary); border-left-color: var(--accent); }
+  /* == Page Header == */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border-default); }
+  /* The static, non-JS fallback for Contours: a 16px dot grid of overlay0 */
+  .hero__field { position: absolute; inset: 0; background-image: radial-gradient(var(--overlay0) 1px, transparent 1.5px); background-size: 16px 16px; opacity: .5; -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, #000 30%, transparent 78%); mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, #000 30%, transparent 78%); pointer-events: none; }
+  .hero__in { position: relative; padding: var(--space-12) 0; }
+  .hero__title { margin: 0; }
+  .hero__lede { max-width: 62ch; margin: var(--space-4) 0 0; color: var(--fg-muted); }
+  .hero__meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-6); }
 
-  /* --- Main scroll area --- */
-  main { flex: 1; min-width: 0; }
-  .topbar {
-    position: sticky; top: 0; z-index: 5;
-    background: var(--bg-page);
-    border-bottom: 1px solid var(--border-ui);
-    padding: 0 28px; height: 56px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .topbar h1 { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 14px; color: var(--fg-primary); letter-spacing: -0.025em; }
-  .topbar .counter { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted-c); }
+  /* == Body == */
+  .doc { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-8); padding-bottom: var(--space-16); }
+  .sec { padding-top: var(--space-12); }
+  .sec:first-child { padding-top: var(--space-8); }
+  .sec__note { max-width: 70ch; margin: calc(var(--space-2) * -1) 0 var(--space-6); }
 
-  .grid { padding: 28px; display: flex; flex-direction: column; gap: 28px; }
-  section.group { display: flex; flex-direction: column; gap: 16px; }
-  section.group > h2 {
-    margin: 0; padding: 0 0 8px;
-    border-bottom: 1px solid var(--border-faint);
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--fg-muted-c); text-transform: uppercase; letter-spacing: 0.1em;
-    font-weight: 400;
-    scroll-margin-top: 70px;
-  }
+  /* One specimen: its name, the file it lives in, one line from its README, then the thing itself */
+  .item { padding-top: var(--space-8); scroll-margin-top: calc(var(--header-height) + var(--space-4)); }
+  .item__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+  .item__name { margin: 0; }
+  .item__desc { max-width: 76ch; margin: var(--space-2) 0 var(--space-4); color: var(--fg-muted); font-size: 13px; line-height: 20px; }
+  .item__frame { overflow: hidden; }
+  .item__frame iframe { display: block; width: 100%; border: 0; background: var(--bg-canvas); }
 
-  .cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
-  @media (min-width: 1200px) { .cards { grid-template-columns: 1fr 1fr; } }
+  .sec[id] { scroll-margin-top: calc(var(--header-height) + var(--space-4)); }
 
-  .card {
-    border: 1px solid var(--border-ui);
-    background: var(--bg-card);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .card header {
-    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border-faint);
-  }
-  .card header .name { font-family: var(--font-mono); font-size: 13px; color: var(--fg-primary); }
-  .card header a.path {
-    font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted-c);
-    text-decoration: underline; text-decoration-color: var(--deco-subtle);
-    text-underline-offset: 3px;
-  }
-  .card .frame { width: 100%; border: 0; display: block; background: transparent; }
-  .card.full { grid-column: 1 / -1; }
+  @media (max-width: 860px) { .doc { grid-template-columns: minmax(0, 1fr); } .side { display: none; } }
 </style>
 </head>
-
 <body>
-<aside>
-  <a class="brand" href="index.html">
-    <span class="mark">VP</span>
-    <span class="name">pivoshenko.design</span>
-  </a>
-  <h3>Brand</h3>
-  <ul>
-    <li><a href="#brand-mark">Mark</a></li>
-    <li><a href="#brand-iconography">Iconography</a></li>
-    <li><a href="#brand-voice">Voice</a></li>
-  </ul>
-  <h3>Type</h3>
-  <ul>
-    <li><a href="#type-recipes">Recipes</a></li>
-    <li><a href="#type-foreground-ladder">Foreground ladder</a></li>
-  </ul>
-  <h3>Colors</h3>
-  <ul>
-    <li><a href="#colors-accents">Accent slots</a></li>
-    <li><a href="#colors-surfaces">Surface scale</a></li>
-    <li><a href="#colors-accent-in-chrome">Accent in chrome</a></li>
-    <li><a href="#colors-stone">Stone neutrals</a></li>
-  </ul>
-  <h3>Spacing</h3>
-  <ul>
-    <li><a href="#spacing-borders-corners">Borders &amp; corners</a></li>
-    <li><a href="#spacing-scale">Scale</a></li>
-  </ul>
-  <h3>Components</h3>
-  <ul>
-    <li><a href="#components-buttons">Buttons</a></li>
-    <li><a href="#components-form-inputs">Form inputs</a></li>
-    <li><a href="#components-search">Search</a></li>
-    <li><a href="#components-tabs">Tabs</a></li>
-    <li><a href="#components-tags">Tag chips</a></li>
-    <li><a href="#components-status">Status labels</a></li>
-    <li><a href="#components-alerts">Alerts</a></li>
-    <li><a href="#components-menus">Menus</a></li>
-    <li><a href="#components-card">Card</a></li>
-    <li><a href="#components-code">Code</a></li>
-    <li><a href="#components-chrome">Header/footer</a></li>
-    <li><a href="#components-palette-table">Palette table</a></li>
-  </ul>
-</aside>
 
-<main>
-  <div class="topbar">
-    <h1>Components</h1>
-    <span class="counter" id="counter">23 cards · 5 groups</span>
+<header class="pv-header" data-sticky="true">
+  <div class="pv-header__in">
+    <a class="pv-brand" href="index.html">
+      <span class="pv-mark">pv</span>
+      <span class="pv-brand__root">pivoshenko</span><span class="pv-brand__dot">.</span><span class="pv-brand__suffix">design</span>
+    </a>
+    <nav class="pv-nav">
+      <a href="index.html">Foundations</a>
+      <a href="components.html" aria-current="page">Components</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__field" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero__in">
+      <h1 class="hero__title type-display-lg" data-reveal>components</h1>
+      <p class="hero__lede type-lede" data-reveal="2">
+        Twenty specimens, one per component in the design system. Every card is plain HTML built from the
+        pv-* classes in components.css - open one, read it, and lift the markup rather than reinventing it.
+      </p>
+      <div class="hero__meta" data-reveal="3">
+        <span class="pv-tag" data-static="true">20 components</span>
+        <span class="pv-tag" data-static="true">plain HTML, no build</span>
+        <span class="pv-tag" data-static="true">real states, real content</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="doc">
+
+  <div class="side">
+    <nav class="pv-toc" data-sticky="true" aria-label="On this page">
+      <div class="pv-toc__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> on this page</div>
+      <ul>
+        <li data-level="2"><a class="pv-toc__link" href="#chrome">chrome</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#site-header">Site Header</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#site-footer">Site Footer</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#section-heading">Section Heading</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#breadcrumb">Breadcrumb</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#table-of-contents">Table Of Contents</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#back-to-top">Back To Top</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#content">content</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#card">Card</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#list">List</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#stat">Stat</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#media-tile">Media Tile</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#swatch">Swatch</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#empty-state">Empty State</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#reading">reading</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#prose">Prose</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#code-block">Code Block</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#terminal-window">Terminal Window</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#callout">Callout</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#controls">controls</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#tag">Tag</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#arrow-link">Arrow Link</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#search-field">Search Field</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#dropdown">Dropdown</a></li>
+      </ul>
+    </nav>
   </div>
 
-  <div class="grid">
+  <main>
 
-    <section class="group">
-      <h2 id="brand">BRAND</h2>
-      <div class="cards">
-        <article class="card" id="brand-mark">
-          <header><span class="name">Mark</span><a class="path" href="brand-logo.html" target="_blank" rel="noopener">preview/brand-logo.html ↗</a></header>
-          <iframe class="frame" src="brand-logo.html" height="240" loading="lazy" title="Mark"></iframe>
-        </article>
-        <article class="card" id="brand-iconography">
-          <header><span class="name">Iconography</span><a class="path" href="brand-iconography.html" target="_blank" rel="noopener">preview/brand-iconography.html ↗</a></header>
-          <iframe class="frame" src="brand-iconography.html" height="380" loading="lazy" title="Iconography"></iframe>
-        </article>
-        <article class="card full" id="brand-voice">
-          <header><span class="name">Voice</span><a class="path" href="brand-voice.html" target="_blank" rel="noopener">preview/brand-voice.html ↗</a></header>
-          <iframe class="frame" src="brand-voice.html" height="320" loading="lazy" title="Voice"></iframe>
-        </article>
+  <section class="sec">
+    <div class="pv-callout" data-tone="note">
+      <div class="pv-callout__head">
+        <span class="pv-callout__glyph" aria-hidden="true">//</span>
+        <span class="pv-callout__label pv-label">how to read these</span>
       </div>
-    </section>
+      <div class="pv-callout__body">
+        <p style="margin: 0 0 var(--space-3)">
+          Each card shows one component in the states its props allow, with the author's own content. The
+          markup is the rendered output of the React component in the design system, so the class names and
+          data attributes are the contract - copy them exactly. The artifact is the source of truth; when the
+          two disagree, re-sync from it rather than editing here.
+        </p>
+        <a class="pv-link" data-variant="outline" href="https://claude.ai/artifact/VfDdFyysx4jxGW3JgBtUyE">
+          <span>Open the design system</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <section class="group">
-      <h2 id="type">TYPE</h2>
-      <div class="cards">
-        <article class="card full" id="type-recipes">
-          <header><span class="name">Recipes</span><a class="path" href="type-recipes.html" target="_blank" rel="noopener">preview/type-recipes.html ↗</a></header>
-          <iframe class="frame" src="type-recipes.html" height="340" loading="lazy" title="Type recipes"></iframe>
-        </article>
-        <article class="card full" id="type-foreground-ladder">
-          <header><span class="name">Foreground ladder</span><a class="path" href="type-foreground-ladder.html" target="_blank" rel="noopener">preview/type-foreground-ladder.html ↗</a></header>
-          <iframe class="frame" src="type-foreground-ladder.html" height="280" loading="lazy" title="Foreground ladder"></iframe>
-        </article>
-      </div>
-    </section>
+  <section class="sec" id="chrome">
+    <div class="pv-section">
+      <h2 class="pv-section__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> chrome</h2>
+      <span class="pv-section__count">6</span>
+      <span class="pv-section__rule" aria-hidden="true"></span>
+    </div>
+    <p class="sec__note pv-meta">The page's own furniture: what wraps every view and says where you are.</p>
 
-    <section class="group">
-      <h2 id="colors">COLORS</h2>
-      <div class="cards">
-        <article class="card full" id="colors-accents">
-          <header><span class="name">Accent slots</span><a class="path" href="colors-accents.html" target="_blank" rel="noopener">preview/colors-accents.html ↗</a></header>
-          <iframe class="frame" src="colors-accents.html" height="220" loading="lazy" title="Accent slots"></iframe>
-        </article>
-        <article class="card full" id="colors-surfaces">
-          <header><span class="name">Surface scale</span><a class="path" href="colors-surfaces.html" target="_blank" rel="noopener">preview/colors-surfaces.html ↗</a></header>
-          <iframe class="frame" src="colors-surfaces.html" height="260" loading="lazy" title="Surface scale"></iframe>
-        </article>
-        <article class="card full" id="colors-accent-in-chrome">
-          <header><span class="name">Accent in chrome</span><a class="path" href="colors-accent-in-chrome.html" target="_blank" rel="noopener">preview/colors-accent-in-chrome.html ↗</a></header>
-          <iframe class="frame" src="colors-accent-in-chrome.html" height="300" loading="lazy" title="Accent in chrome"></iframe>
-        </article>
-        <article class="card full" id="colors-stone">
-          <header><span class="name">Stone neutrals</span><a class="path" href="colors-stone.html" target="_blank" rel="noopener">preview/colors-stone.html ↗</a></header>
-          <iframe class="frame" src="colors-stone.html" height="200" loading="lazy" title="Stone neutrals"></iframe>
-        </article>
+    <article class="item" id="site-header">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Site Header</h3>
+        <a class="pv-link" href="components-site-header.html" target="_blank" rel="noopener"><span>components-site-header.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
       </div>
-    </section>
+      <p class="item__desc">The shared header: a typeset mark and wordmark, plain nav, and an optional actions slot.</p>
+      <div class="item__frame surface">
+        <iframe src="components-site-header.html" height="600" loading="lazy" title="Site Header"></iframe>
+      </div>
+    </article>
 
-    <section class="group">
-      <h2 id="spacing">SPACING</h2>
-      <div class="cards">
-        <article class="card" id="spacing-borders-corners">
-          <header><span class="name">Borders &amp; corners</span><a class="path" href="spacing-borders-corners.html" target="_blank" rel="noopener">preview/spacing-borders-corners.html ↗</a></header>
-          <iframe class="frame" src="spacing-borders-corners.html" height="300" loading="lazy" title="Borders & corners"></iframe>
-        </article>
-        <article class="card" id="spacing-scale">
-          <header><span class="name">Scale</span><a class="path" href="spacing-scale.html" target="_blank" rel="noopener">preview/spacing-scale.html ↗</a></header>
-          <iframe class="frame" src="spacing-scale.html" height="300" loading="lazy" title="Spacing scale"></iframe>
-        </article>
+    <article class="item" id="site-footer">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Site Footer</h3>
+        <a class="pv-link" href="components-site-footer.html" target="_blank" rel="noopener"><span>components-site-footer.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
       </div>
-    </section>
+      <p class="item__desc">The shared footer: a separate crust band with its own accent tick - a sitemap on one line, the elsewhere marks opposite it, and a dashed bar with the copyright and email.</p>
+      <div class="item__frame surface">
+        <iframe src="components-site-footer.html" height="800" loading="lazy" title="Site Footer"></iframe>
+      </div>
+    </article>
 
-    <section class="group">
-      <h2 id="components">COMPONENTS</h2>
-      <div class="cards">
-        <article class="card" id="components-buttons">
-          <header><span class="name">Buttons</span><a class="path" href="components-buttons.html" target="_blank" rel="noopener">preview/components-buttons.html ↗</a></header>
-          <iframe class="frame" src="components-buttons.html" height="340" loading="lazy" title="Buttons"></iframe>
-        </article>
-        <article class="card" id="components-form-inputs">
-          <header><span class="name">Form inputs</span><a class="path" href="components-form-inputs.html" target="_blank" rel="noopener">preview/components-form-inputs.html ↗</a></header>
-          <iframe class="frame" src="components-form-inputs.html" height="360" loading="lazy" title="Form inputs"></iframe>
-        </article>
-        <article class="card full" id="components-search">
-          <header><span class="name">Search</span><a class="path" href="components-search.html" target="_blank" rel="noopener">preview/components-search.html ↗</a></header>
-          <iframe class="frame" src="components-search.html" height="600" loading="lazy" title="Search"></iframe>
-        </article>
-        <article class="card" id="components-tabs">
-          <header><span class="name">Tabs</span><a class="path" href="components-tabs.html" target="_blank" rel="noopener">preview/components-tabs.html ↗</a></header>
-          <iframe class="frame" src="components-tabs.html" height="300" loading="lazy" title="Tabs"></iframe>
-        </article>
-        <article class="card" id="components-tags">
-          <header><span class="name">Tag chips</span><a class="path" href="components-tags.html" target="_blank" rel="noopener">preview/components-tags.html ↗</a></header>
-          <iframe class="frame" src="components-tags.html" height="280" loading="lazy" title="Tag chips"></iframe>
-        </article>
-        <article class="card" id="components-status">
-          <header><span class="name">Status labels</span><a class="path" href="components-status.html" target="_blank" rel="noopener">preview/components-status.html ↗</a></header>
-          <iframe class="frame" src="components-status.html" height="360" loading="lazy" title="Status labels"></iframe>
-        </article>
-        <article class="card" id="components-alerts">
-          <header><span class="name">Alerts</span><a class="path" href="components-alerts.html" target="_blank" rel="noopener">preview/components-alerts.html ↗</a></header>
-          <iframe class="frame" src="components-alerts.html" height="380" loading="lazy" title="Alerts"></iframe>
-        </article>
-        <article class="card" id="components-menus">
-          <header><span class="name">Menus</span><a class="path" href="components-menus.html" target="_blank" rel="noopener">preview/components-menus.html ↗</a></header>
-          <iframe class="frame" src="components-menus.html" height="340" loading="lazy" title="Menus"></iframe>
-        </article>
-        <article class="card" id="components-card">
-          <header><span class="name">Card</span><a class="path" href="components-card.html" target="_blank" rel="noopener">preview/components-card.html ↗</a></header>
-          <iframe class="frame" src="components-card.html" height="260" loading="lazy" title="Card"></iframe>
-        </article>
-        <article class="card" id="components-code">
-          <header><span class="name">Code</span><a class="path" href="components-code.html" target="_blank" rel="noopener">preview/components-code.html ↗</a></header>
-          <iframe class="frame" src="components-code.html" height="340" loading="lazy" title="Code"></iframe>
-        </article>
-        <article class="card full" id="components-chrome">
-          <header><span class="name">Header / footer</span><a class="path" href="components-chrome.html" target="_blank" rel="noopener">preview/components-chrome.html ↗</a></header>
-          <iframe class="frame" src="components-chrome.html" height="200" loading="lazy" title="Header & footer"></iframe>
-        </article>
-        <article class="card full" id="components-palette-table">
-          <header><span class="name">Palette table</span><a class="path" href="components-palette-table.html" target="_blank" rel="noopener">preview/components-palette-table.html ↗</a></header>
-          <iframe class="frame" src="components-palette-table.html" height="260" loading="lazy" title="Palette table"></iframe>
-        </article>
+    <article class="item" id="section-heading">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Section Heading</h3>
+        <a class="pv-link" href="components-section-heading.html" target="_blank" rel="noopener"><span>components-section-heading.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
       </div>
-    </section>
+      <p class="item__desc">A section label in the house // LABEL form with an optional count and a dashed rule running to an optional action.</p>
+      <div class="item__frame surface">
+        <iframe src="components-section-heading.html" height="340" loading="lazy" title="Section Heading"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="breadcrumb">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Breadcrumb</h3>
+        <a class="pv-link" href="components-breadcrumb.html" target="_blank" rel="noopener"><span>components-breadcrumb.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A path: where this page sits, in mono.</p>
+      <div class="item__frame surface">
+        <iframe src="components-breadcrumb.html" height="300" loading="lazy" title="Breadcrumb"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="table-of-contents">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Table Of Contents</h3>
+        <a class="pv-link" href="components-table-of-contents.html" target="_blank" rel="noopener"><span>components-table-of-contents.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">The headings of a long page, with the one being read marked.</p>
+      <div class="item__frame surface">
+        <iframe src="components-table-of-contents.html" height="440" loading="lazy" title="Table Of Contents"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="back-to-top">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Back To Top</h3>
+        <a class="pv-link" href="components-back-to-top.html" target="_blank" rel="noopener"><span>components-back-to-top.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A small button that appears once the page has scrolled and returns to the start.</p>
+      <div class="item__frame surface">
+        <iframe src="components-back-to-top.html" height="440" loading="lazy" title="Back To Top"></iframe>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec" id="content">
+    <div class="pv-section">
+      <h2 class="pv-section__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> content</h2>
+      <span class="pv-section__count">6</span>
+      <span class="pv-section__rule" aria-hidden="true"></span>
+    </div>
+    <p class="sec__note pv-meta">The things a page is made of: one item, many items, and the numbers over them.</p>
+
+    <article class="item" id="card">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Card</h3>
+        <a class="pv-link" href="components-card.html" target="_blank" rel="noopener"><span>components-card.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">One linked thing: a project, a catalog entry, a doc, a sibling site.</p>
+      <div class="item__frame surface">
+        <iframe src="components-card.html" height="660" loading="lazy" title="Card"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="list">
+      <div class="item__head">
+        <h3 class="item__name type-heading">List</h3>
+        <a class="pv-link" href="components-list.html" target="_blank" rel="noopener"><span>components-list.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">Rows of anything that has a label and a title - posts, releases, changelog entries, files, search results.</p>
+      <div class="item__frame surface">
+        <iframe src="components-list.html" height="620" loading="lazy" title="List"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="stat">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Stat</h3>
+        <a class="pv-link" href="components-stat.html" target="_blank" rel="noopener"><span>components-stat.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">One number with its label - counts, totals, versions.</p>
+      <div class="item__frame surface">
+        <iframe src="components-stat.html" height="440" loading="lazy" title="Stat"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="media-tile">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Media Tile</h3>
+        <a class="pv-link" href="components-media-tile.html" target="_blank" rel="noopener"><span>components-media-tile.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A linked image tile: 16:10 media with an optional index badge, tags, meta values and an action hint.</p>
+      <div class="item__frame surface">
+        <iframe src="components-media-tile.html" height="470" loading="lazy" title="Media Tile"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="swatch">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Swatch</h3>
+        <a class="pv-link" href="components-swatch.html" target="_blank" rel="noopener"><span>components-swatch.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A palette chip that copies its value on click and says "copied" in the success colour.</p>
+      <div class="item__frame surface">
+        <iframe src="components-swatch.html" height="350" loading="lazy" title="Swatch"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="empty-state">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Empty State</h3>
+        <a class="pv-link" href="components-empty-state.html" target="_blank" rel="noopener"><span>components-empty-state.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">Nothing here yet, and what to do about it.</p>
+      <div class="item__frame surface">
+        <iframe src="components-empty-state.html" height="580" loading="lazy" title="Empty State"></iframe>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec" id="reading">
+    <div class="pv-section">
+      <h2 class="pv-section__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> reading</h2>
+      <span class="pv-section__count">4</span>
+      <span class="pv-section__rule" aria-hidden="true"></span>
+    </div>
+    <p class="sec__note pv-meta">Long text, code, and the asides that interrupt them.</p>
+
+    <article class="item" id="prose">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Prose</h3>
+        <a class="pv-link" href="components-prose.html" target="_blank" rel="noopener"><span>components-prose.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">The reading layer: a wrapper that styles plain HTML - headings, paragraphs, lists, links, quotes, code and tables - for articles and docs.</p>
+      <div class="item__frame surface">
+        <iframe src="components-prose.html" height="900" loading="lazy" title="Prose"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="code-block">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Code Block</h3>
+        <a class="pv-link" href="components-code-block.html" target="_blank" rel="noopener"><span>components-code-block.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A block of code with an optional name bar and a copy button.</p>
+      <div class="item__frame surface">
+        <iframe src="components-code-block.html" height="600" loading="lazy" title="Code Block"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="terminal-window">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Terminal Window</h3>
+        <a class="pv-link" href="components-terminal-window.html" target="_blank" rel="noopener"><span>components-terminal-window.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A terminal mock with traffic-light dots, a title and prompt/output lines - for theme ports and CLI projects.</p>
+      <div class="item__frame surface">
+        <iframe src="components-terminal-window.html" height="540" loading="lazy" title="Terminal Window"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="callout">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Callout</h3>
+        <a class="pv-link" href="components-callout.html" target="_blank" rel="noopener"><span>components-callout.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A short aside that names its state in a word.</p>
+      <div class="item__frame surface">
+        <iframe src="components-callout.html" height="640" loading="lazy" title="Callout"></iframe>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec" id="controls">
+    <div class="pv-section">
+      <h2 class="pv-section__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> controls</h2>
+      <span class="pv-section__count">4</span>
+      <span class="pv-section__rule" aria-hidden="true"></span>
+    </div>
+    <p class="sec__note pv-meta">Everything a reader can press, toggle or type into.</p>
+
+    <article class="item" id="tag">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Tag</h3>
+        <a class="pv-link" href="components-tag.html" target="_blank" rel="noopener"><span>components-tag.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A small mono chip for topics, filters and statuses.</p>
+      <div class="item__frame surface">
+        <iframe src="components-tag.html" height="370" loading="lazy" title="Tag"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="arrow-link">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Arrow Link</h3>
+        <a class="pv-link" href="components-arrow-link.html" target="_blank" rel="noopener"><span>components-arrow-link.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A link with a trailing arrow that nudges 4px on hover; also the house button.</p>
+      <div class="item__frame surface">
+        <iframe src="components-arrow-link.html" height="410" loading="lazy" title="Arrow Link"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="search-field">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Search Field</h3>
+        <a class="pv-link" href="components-search-field.html" target="_blank" rel="noopener"><span>components-search-field.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A prompt-style filter input.</p>
+      <div class="item__frame surface">
+        <iframe src="components-search-field.html" height="390" loading="lazy" title="Search Field"></iframe>
+      </div>
+    </article>
+
+    <article class="item" id="dropdown">
+      <div class="item__head">
+        <h3 class="item__name type-heading">Dropdown</h3>
+        <a class="pv-link" href="components-dropdown.html" target="_blank" rel="noopener"><span>components-dropdown.html</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+      <p class="item__desc">A small menu hanging off a button - links, actions, or a select.</p>
+      <div class="item__frame surface">
+        <iframe src="components-dropdown.html" height="730" loading="lazy" title="Dropdown"></iframe>
+      </div>
+    </article>
+  </section>
+
+  </main>
 
   </div>
-</main>
+</div>
+
+<footer class="pv-footer">
+  <div class="pv-footer__in">
+    <div class="pv-footer__top">
+      <nav class="pv-footer__nav">
+        <a class="pv-footer__navlink" href="index.html">Foundations</a>
+        <a class="pv-footer__navlink" href="components.html" aria-current="page">Components</a>
+        <a class="pv-footer__navlink" href="https://claude.ai/artifact/VfDdFyysx4jxGW3JgBtUyE">Design system</a>
+      </nav>
+      <div class="pv-footer__marks">
+        <a class="pv-footer__mark" href="https://github.com/pivoshenko" aria-label="GitHub">gh</a>
+        <a class="pv-footer__mark" href="https://www.linkedin.com/in/pivoshenko" aria-label="LinkedIn">in</a>
+        <a class="pv-footer__mark" href="https://pivoshenko.dev/rss.xml" aria-label="RSS">rss</a>
+      </div>
+    </div>
+    <div class="pv-footer__bar">
+      <span class="pv-meta">2026 Volodymyr Pivoshenko &lt;contact@pivoshenko.dev&gt;</span>
+      <span class="pv-meta">Mirror of the design system artifact</span>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="pv-top" id="top" data-shown="false" data-align="end" data-inline="false" tabindex="-1" aria-hidden="true" title="Back to top">
+  <span class="pv-top__glyph" aria-hidden="true">&#8593;</span>
+  <span class="pv-top__label">Top</span>
+</button>
 
 <script>
-  // Scroll-spy: highlight the sidebar item for the section currently in view
-  (function () {
-    const links = Array.from(document.querySelectorAll('aside a[href^="#"]'));
-    const targets = links
-      .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
-      .filter(Boolean);
-    if (!targets.length) return;
+  // == Scroll Spy And Back To Top ==
+  // The hub is built from the components it documents, so its own rail tracks the window
+  var links = Array.prototype.slice.call(document.querySelectorAll(".pv-toc__link"));
+  var heads = links.map(function (link) { return document.getElementById(link.getAttribute("href").slice(1)); });
+  var button = document.getElementById("top");
+  var offset = 120;
+  var pending = 0;
 
-    const setActive = (id) => {
-      links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
-    };
+  function read() {
+    pending = 0;
+    var at = 0;
+    heads.forEach(function (head, i) { if (head && head.getBoundingClientRect().top <= offset) at = i; });
+    links.forEach(function (link, i) {
+      if (i === at) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        const inView = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.target.offsetTop - b.target.offsetTop);
-        if (inView.length) setActive(inView[0].target.id);
-      },
-      { rootMargin: "-70px 0px -60% 0px", threshold: 0 }
-    );
-    targets.forEach((t) => io.observe(t));
-  })();
+    var shown = (window.pageYOffset || document.documentElement.scrollTop) > 400;
+    button.setAttribute("data-shown", shown ? "true" : "false");
+    button.tabIndex = shown ? 0 : -1;
+    if (shown) button.removeAttribute("aria-hidden");
+    else button.setAttribute("aria-hidden", "true");
+  }
+
+  window.addEventListener("scroll", function () { if (!pending) pending = requestAnimationFrame(read); }, { passive: true });
+
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  button.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  });
+
+  read();
 </script>
+
 </body>
 </html>

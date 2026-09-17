@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Site Header</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  /* Headers are full-bleed, so the body drops its gutter and each label carries its own */
+  body { padding: 0; overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+
+  .pad { padding: var(--space-4) var(--space-6) var(--space-2); }
+
+  /* The sticky specimen needs something to scroll under it */
+  .scroller { height: 168px; overflow-y: auto; }
+  .scroller__fill { padding: var(--space-4) var(--space-6) var(--space-12); }
+</style>
+</head>
+<body>
+
+<div class="pad spread">
+  <span class="pv-label">Site Header</span>
+  <span class="pv-meta">one header, any accent</span>
+</div>
+
+<!-- == Default == -->
+
+<header class="pv-header" data-accent="peach" data-sticky="false">
+  <div class="pv-header__in">
+    <a class="pv-brand" href="#">
+      <span class="pv-mark" aria-hidden="true">PI</span>
+      <span><span class="pv-brand__root">pivoshenko</span><span class="pv-brand__dot">.</span><span class="pv-brand__suffix">dev</span></span>
+    </a>
+    <nav class="pv-nav" aria-label="Primary">
+      <a href="#" aria-current="page">Home</a>
+      <a href="#">Blog</a>
+      <a href="#">Projects</a>
+      <a href="#">Uses</a>
+    </nav>
+  </div>
+</header>
+<div class="pad spec__name">peach - the default accent. Suffix, tick and active-nav bar all read <code>var(--accent)</code></div>
+
+<!-- == With An Action == -->
+
+<header class="pv-header" data-accent="blue" data-sticky="false">
+  <div class="pv-header__in">
+    <a class="pv-brand" href="#">
+      <span class="pv-mark" aria-hidden="true">PI</span>
+      <span><span class="pv-brand__root">pivoshenko</span><span class="pv-brand__dot">.</span><span class="pv-brand__suffix">ai</span></span>
+    </a>
+    <nav class="pv-nav" aria-label="Primary">
+      <a href="#" aria-current="page">Skills</a>
+      <a href="#">Servers</a>
+      <a href="#">Source</a>
+    </nav>
+    <div class="pv-header__actions">
+      <a class="pv-link" href="#" data-variant="outline"><span>Repo</span><span class="pv-link__arrow" aria-hidden="true">&#8599;</span></a>
+    </div>
+  </div>
+</header>
+<div class="pad spec__name">blue, with an actions slot. A sibling site tells itself apart by repointing one token</div>
+
+<!-- == Mark Off == -->
+
+<header class="pv-header" data-accent="green" data-sticky="false">
+  <div class="pv-header__in">
+    <a class="pv-brand" href="#">
+      <span><span class="pv-brand__root">pivoshenko</span><span class="pv-brand__dot">.</span><span class="pv-brand__suffix">theme</span></span>
+    </a>
+    <nav class="pv-nav" aria-label="Primary">
+      <a href="#" aria-current="page">Flavors</a>
+      <a href="#">Ports</a>
+      <a href="#">Install</a>
+    </nav>
+  </div>
+</header>
+<div class="pad spec__name">green, wordmark only - <code>mark={false}</code> drops the tile</div>
+
+<!-- == Sticky == -->
+
+<div class="scroller">
+  <header class="pv-header" data-accent="mauve" data-sticky="true">
+    <div class="pv-header__in">
+      <a class="pv-brand" href="#">
+        <span class="pv-mark" aria-hidden="true">PI</span>
+        <span><span class="pv-brand__root">pivoshenko</span><span class="pv-brand__dot">.</span><span class="pv-brand__suffix">wallpapers</span></span>
+      </a>
+      <nav class="pv-nav" aria-label="Primary">
+        <a href="#" aria-current="page">Gallery</a>
+        <a href="#">About</a>
+      </nav>
+    </div>
+  </header>
+  <div class="scroller__fill stack">
+    <p class="note" style="margin: 0">Scroll this panel: the sticky header keeps its place on a <code>scrim</code> fill under a 12px backdrop blur.</p>
+    <div class="pv-section">
+      <h2 class="pv-section__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> recent sets</h2>
+      <span class="pv-section__rule" aria-hidden="true"></span>
+    </div>
+    <ul class="pv-rows" style="--lead: 72px">
+      <li><a class="pv-row" href="#"><span class="pv-row__lead pv-meta">Mar 2026</span><span class="pv-row__body"><span class="pv-row__title">Ash ridges</span></span><span class="pv-row__trail pv-meta">3840&#215;2160</span><span class="pv-row__go" aria-hidden="true">&#8594;</span></a></li>
+      <li><a class="pv-row" href="#"><span class="pv-row__lead pv-meta">Feb 2026</span><span class="pv-row__body"><span class="pv-row__title">Contour study</span></span><span class="pv-row__trail pv-meta">3840&#215;2160</span><span class="pv-row__go" aria-hidden="true">&#8594;</span></a></li>
+      <li><a class="pv-row" href="#"><span class="pv-row__lead pv-meta">Jan 2026</span><span class="pv-row__body"><span class="pv-row__title">Warm ash</span></span><span class="pv-row__trail pv-meta">5120&#215;2880</span><span class="pv-row__go" aria-hidden="true">&#8594;</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="pad spec__name" style="padding-bottom: var(--space-6)">mauve, <code>sticky</code> (the default) - scroll the panel above</div>
+
+</body>
+</html>

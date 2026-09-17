@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Table Of Contents</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  /* The real thing tracks the window; here the article scrolls inside the card */
+  body { padding: 0; overflow: hidden; }
+
+  .doc { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-8); height: 100vh; padding: var(--space-6); box-sizing: border-box; overflow-y: auto; }
+  .doc h2 { scroll-margin-top: var(--space-4); }
+  .side { position: sticky; top: 0; align-self: start; }
+
+  @media (max-width: 640px) { .doc { grid-template-columns: minmax(0, 1fr); } .side { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="doc" id="doc">
+  <div class="side">
+    <nav class="pv-toc" data-sticky="false" aria-label="On this page">
+      <div class="pv-toc__title pv-label"><span class="pv-section__slash" aria-hidden="true">//</span> on this page</div>
+      <ul>
+        <li data-level="2"><a class="pv-toc__link" href="#principles" aria-current="true">Principles</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#color">Color</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#accent">The accent channel</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#type">Type</a></li>
+        <li data-level="3"><a class="pv-toc__link" href="#display">The display face</a></li>
+        <li data-level="2"><a class="pv-toc__link" href="#pattern">Pattern</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="pv-prose">
+    <h2 id="principles">Principles</h2>
+    <p>Terminal, not template. Structure comes from <code>//</code> labels, hairlines and tabular numbers.</p>
+    <p>Scroll the article: the rail marks whichever heading you are reading, and clicking a line scrolls to it.</p>
+    <h2 id="color">Color</h2>
+    <p>Popil, warm ash, 26 slots. Build with role tokens, never raw slots.</p>
+    <h3 id="accent">The accent channel</h3>
+    <p>Components read <code>var(--accent)</code>. A site repoints it once and every accent place follows.</p>
+    <h2 id="type">Type</h2>
+    <p>JetBrains Mono sets everything by default, at weights 100 to 800.</p>
+    <h3 id="display">The display face</h3>
+    <p>Martian Mono is for page titles and large headers only - tight tracking, weight 700.</p>
+    <h2 id="pattern">Pattern</h2>
+    <p>One drifting field of lines per viewport, masked away from the copy, one variant per site.</p>
+    <p>Levels 2 to 4 indent. Anything deeper is noise - cut the list instead.</p>
+  </div>
+</div>
+
+<script>
+  // == Scroll Spy ==
+  // Whichever heading is last past the offset is the one being read
+  var doc = document.getElementById("doc");
+  var links = Array.prototype.slice.call(document.querySelectorAll(".pv-toc__link"));
+  var heads = links.map(function (link) { return document.getElementById(link.getAttribute("href").slice(1)); });
+  var offset = 24;
+  var pending = 0;
+
+  function mark() {
+    pending = 0;
+    var at = 0;
+    heads.forEach(function (head, i) { if (head && head.getBoundingClientRect().top <= doc.getBoundingClientRect().top + offset) at = i; });
+    links.forEach(function (link, i) {
+      if (i === at) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  doc.addEventListener("scroll", function () { if (!pending) pending = requestAnimationFrame(mark); }, { passive: true });
+
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  links.forEach(function (link, i) {
+    link.addEventListener("click", function (event) {
+      if (!heads[i]) return;
+      event.preventDefault();
+      heads[i].scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  mark();
+</script>
+
+</body>
+</html>

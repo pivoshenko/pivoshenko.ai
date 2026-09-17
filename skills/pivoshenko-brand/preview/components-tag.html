@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Tag</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Tag</span>
+    <span class="pv-meta">topics, filters, statuses</span>
+  </div>
+
+  <!-- == Filters == -->
+
+  <div class="spec">
+    <div class="pv-tags">
+      <button type="button" class="pv-tag" aria-pressed="true"><span>git</span><span class="pv-tag__count">10</span></button>
+      <button type="button" class="pv-tag" aria-pressed="false"><span>openspec</span><span class="pv-tag__count">5</span></button>
+      <button type="button" class="pv-tag" aria-pressed="false"><span>macos</span><span class="pv-tag__count">2</span></button>
+      <button type="button" class="pv-tag" aria-pressed="false"><span>vercel</span><span class="pv-tag__count">2</span></button>
+      <button type="button" class="pv-tag" aria-pressed="false"><span>writing</span><span class="pv-tag__count">2</span></button>
+      <button type="button" class="pv-tag" aria-pressed="false"><span>brand</span><span class="pv-tag__count">1</span></button>
+    </div>
+    <span class="spec__name">Filter toggles. The pressed one inverts to an <code>fg-default</code> fill with <code>bg-canvas</code> text</span>
+  </div>
+
+  <!-- == Statuses == -->
+
+  <div class="spec">
+    <div class="pv-tags">
+      <span class="pv-tag" data-static="true" data-tone="success"><span class="pv-tag__dot" aria-hidden="true"></span><span>in sync</span></span>
+      <span class="pv-tag" data-static="true" data-tone="warning"><span class="pv-tag__dot" aria-hidden="true"></span><span>archived</span></span>
+      <span class="pv-tag" data-static="true" data-tone="danger"><span class="pv-tag__dot" aria-hidden="true"></span><span>broken</span></span>
+      <span class="pv-tag" data-static="true" data-tone="info"><span class="pv-tag__dot" aria-hidden="true"></span><span>external</span></span>
+    </div>
+    <span class="spec__name">A status tag keeps its word beside the dot - never colour alone</span>
+  </div>
+
+  <!-- == Links And Plain Chips == -->
+
+  <div class="spec">
+    <div class="pv-tags">
+      <a class="pv-tag" href="#"><span>spec-apply</span></a>
+      <a class="pv-tag" href="#"><span>herdr-dispatch</span></a>
+      <span class="pv-tag" data-static="true"><span>agents</span></span>
+      <span class="pv-tag" data-static="true"><span>rust</span></span>
+    </div>
+    <span class="spec__name">Links hover to <code>fg-default</code>; static chips label a card and do not move</span>
+  </div>
+
+  <p class="note" style="margin: 0">
+    Labels are lowercase and hyphenated, exactly as the catalog writes them. Tags sit a step above a card on
+    <code>bg-raised</code> and still carry <code>border-card</code> and <code>shadow-rest</code>.
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,63 +1,105 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-accent="peach">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#1f1f1e" />
     <title>{{ TITLE }} - pivoshenko</title>
-    <!-- Token CSS. When inlining, paste the contents of colors_and_type.css inside a <style> tag instead. -->
+
+    <!--
+      The tokens and the pv-* component classes. When the output has to be a single
+      file, paste the contents of both stylesheets inside a <style> tag instead.
+      data-accent on <html> above repoints --accent for the whole page: peach,
+      yellow, green, teal, sky, sapphire, blue, lavender, mauve, pink, flamingo,
+      rosewater, maroon, red. One accent per surface, kept for the life of the surface.
+    -->
     <link rel="stylesheet" href="../../colors_and_type.css" />
+    <link rel="stylesheet" href="../../components.css" />
+
     <style>
-      /* page-local layout only - do NOT redefine tokens or colors here */
-      body {
-        margin: 0;
-        background: var(--bg-page);
-        color: rgb(var(--fg-default));
-        font-family: var(--font-mono);
-      }
-      .shell { max-width: 1152px; margin: 0 auto; padding: 0 16px; }
-      header.site,
-      footer.site {
-        border-color: rgb(var(--border-default));
-      }
-      header.site { border-bottom: 1px solid; padding: 20px 0; }
-      footer.site { border-top: 1px solid; padding: 20px 0; margin-top: 64px; }
-      .lockup { display: flex; align-items: center; gap: 10px; }
-      .vp {
-        width: 24px; height: 24px; border-radius: 4px;
-        background: rgb(var(--fg-default));
-        color: rgb(var(--bg-canvas));
-        display: grid; place-items: center;
-        font-weight: 700; font-size: 12px; letter-spacing: -0.5px;
-      }
-      main { padding: 48px 0; }
-      h1.type-post-heading { margin: 0 0 24px; }
-      .meta { color: rgb(var(--fg-faint)); }
+      /* Page-local layout only - never redefine a token or a colour here */
+      main { padding: var(--space-12) 0; }
+      .page-head { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-12); }
+      .page-head h1 { margin: 0; }
+      .page-body { max-width: 76ch; }
     </style>
   </head>
+
   <body>
-    <header class="site">
-      <div class="shell lockup">
-        <span class="vp">VP</span>
-        <span class="type-logo">
-          <span style="color: rgb(var(--fg-default))">pivoshenko</span><span style="color: rgb(var(--fg-muted))">.{{ SURFACE }}</span>
-        </span>
+    <header class="pv-header" data-sticky="true">
+      <div class="pv-header__in">
+        <a class="pv-brand" href="/">
+          <!-- The mark is typeset, never an image: first two letters, accent notch -->
+          <span class="pv-mark">{{ INITIALS }}</span>
+          <span>
+            <span class="pv-brand__root">pivoshenko</span
+            ><span class="pv-brand__dot">.</span
+            ><span class="pv-brand__suffix">{{ SURFACE }}</span>
+          </span>
+        </a>
+        <nav class="pv-nav" aria-label="Primary">
+          <a href="/" aria-current="page">home</a>
+          <a href="/blog">blog</a>
+          <a href="/projects">projects</a>
+        </nav>
       </div>
     </header>
 
-    <main class="shell">
-      <div class="type-label" style="color: rgb(var(--fg-faint)); margin-bottom: 8px">{{ KICKER }}</div>
-      <h1 class="type-post-heading">{{ TITLE }}</h1>
+    <div class="wrap">
+      <main>
+        <div class="page-head">
+          <p class="pv-label" data-reveal>{{ KICKER }}</p>
+          <h1 class="type-display-lg" data-reveal="2">{{ TITLE }}</h1>
+          <p class="type-lede fg-muted page-body" data-reveal="3">{{ LEDE }}</p>
+        </div>
 
-      <p class="type-body" style="color: rgb(var(--fg-muted))">
-        {{ BODY }}
-      </p>
-    </main>
+        <section data-reveal="4">
+          <div class="pv-section">
+            <span class="pv-section__slash">//</span>
+            <h2 class="pv-section__title pv-label">{{ SECTION }}</h2>
+            <span class="pv-section__rule"></span>
+          </div>
 
-    <footer class="site">
-      <div class="shell type-meta meta">
-        2026 Volodymyr Pivoshenko &lt;contact@pivoshenko.dev&gt;
+          <div class="pv-grid">
+            <!-- Lift the markup for any other component from preview/components-*.html -->
+            <a class="pv-card" href="#">
+              <div class="pv-card__top">
+                <span class="pv-card__glyph">&#9654;</span>
+                <h3 class="pv-card__title">{{ CARD_TITLE }}</h3>
+              </div>
+              <p class="pv-card__desc">{{ CARD_DESC }}</p>
+              <div class="pv-card__foot">
+                <div class="pv-tags">
+                  <span class="pv-tag" data-static="true">{{ TAG }}</span>
+                </div>
+                <span class="pv-meta">{{ DATE }}</span>
+              </div>
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="pv-footer">
+      <div class="pv-footer__in">
+        <div class="pv-footer__top">
+          <nav class="pv-footer__nav" aria-label="Footer">
+            <a class="pv-footer__navlink" href="/">home</a>
+            <a class="pv-footer__navlink" href="/blog">blog</a>
+            <a class="pv-footer__navlink" href="/projects">projects</a>
+          </nav>
+          <!-- Mono chips, not brand logos -->
+          <div class="pv-footer__marks">
+            <a class="pv-footer__mark" href="https://github.com/pivoshenko" aria-label="GitHub">gh</a>
+            <a class="pv-footer__mark" href="https://linkedin.com/in/pivoshenko" aria-label="LinkedIn">in</a>
+            <a class="pv-footer__mark" href="/rss.xml" aria-label="RSS">rss</a>
+          </div>
+        </div>
+        <div class="pv-footer__bar pv-meta">
+          <span>2026 Volodymyr Pivoshenko</span>
+          <a class="pv-footer__email" href="mailto:contact@pivoshenko.dev">contact@pivoshenko.dev</a>
+        </div>
       </div>
     </footer>
   </body>
