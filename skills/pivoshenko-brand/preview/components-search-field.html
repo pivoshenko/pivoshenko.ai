@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Search Field</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+
+  .stack { max-width: 460px; }
+
+  /* Focus is a real state, not a variant - this pins it open so it reads without tabbing */
+  .is-focus { border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Search Field</span>
+    <span class="pv-meta">a prompt, not a form</span>
+  </div>
+
+  <div class="spec">
+    <div class="pv-field">
+      <span class="pv-field__ps" aria-hidden="true">&#10095;</span>
+      <input class="pv-field__input" type="search" placeholder="filter skills..." aria-label="Filter skills"/>
+      <kbd class="pv-field__hint">/</kbd>
+    </div>
+    <span class="spec__name">Empty, with a shortcut chip. The placeholder sits at <code>fg-faint</code></span>
+  </div>
+
+  <div class="spec">
+    <div class="pv-field">
+      <span class="pv-field__ps" aria-hidden="true">&#10095;</span>
+      <input class="pv-field__input" type="search" value="spec-" aria-label="Filter skills"/>
+      <kbd class="pv-field__hint">/</kbd>
+    </div>
+    <span class="spec__name">Filtering is instant - there is no submit button</span>
+  </div>
+
+  <div class="spec">
+    <div class="pv-field is-focus" data-accent="blue">
+      <span class="pv-field__ps" aria-hidden="true">&#10095;</span>
+      <input class="pv-field__input" type="search" placeholder="filter servers..." aria-label="Filter servers"/>
+    </div>
+    <span class="spec__name">Focus, held open: the field's border turns accent and the input draws no ring of its own</span>
+  </div>
+
+  <p class="note" style="margin: 0">
+    Pair it with Tag filters above a grid or list. When a filter empties the list, show an Empty State with a
+    way to clear it.
+  </p>
+</div>
+
+</body>
+</html>

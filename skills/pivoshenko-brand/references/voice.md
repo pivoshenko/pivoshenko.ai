@@ -31,7 +31,10 @@ The byline is `Volodymyr Pivoshenko <contact@pivoshenko.dev>` - mail-header styl
 
 - **Brand names are lowercase, always, even at the start of a sentence.** Any `pivoshenko.<namespace>` property follows this rule, and so do the tools the work touches (`bat`, `fish`, `helix`, `ghostty`, `zed` - whatever shows up)
 - **Proper names get title case.** `Volodymyr Pivoshenko`. Job titles too: `Principal AI/ML R&D Engineer`
-- **Section labels SHOUT, but quietly.** Uppercase, widest tracking, `type-label` size. Loud in form, small in size - they whisper-shout
+- **Sentence case for titles and nav.** `Recent projects`, not `Recent Projects`
+- **Tags and catalog names are lowercase and hyphenated, exactly as in the repo.** `spec-apply`, `openspec`, `pivoshenko-brand`. Never re-cased for prose, never pluralised into something the repo does not call it
+- **Section labels are written lowercase and rendered uppercase, with `//` in front.** Write `recent posts`; the page shows `// RECENT POSTS`, the `//` in the accent. Loud in form, small in size - they whisper-shout. Why -> the casing is presentation, so the copy stays readable in a CMS, a feed and a diff
+- **No numbers in nav or section headings.** `Recent posts`, never `1. Recent posts` or `Step 2`. A number implies a sequence the reader is being marched through
 
 ## Words to Favor
 
@@ -53,23 +56,32 @@ If a sentence would survive in a SaaS landing page, rewrite it.
 
 The whole tone collapses into these small surfaces. Match them.
 
-| Surface           | Pattern                                |
-|-------------------|----------------------------------------|
-| Empty state       | `No posts yet.` (one sentence, period) |
-| More-link         | `All posts →`                          |
-| Back-link         | `← Back`                               |
-| External link     | `Repository ↗`                         |
-| Separator         | `·` (middle dot, never a slash)        |
-| Tag chip          | lowercase-hyphenated, no `#`           |
-| Date (detail)     | `Mar 20, 2026`                         |
-| Date (list)       | `Mar 20`                               |
-| Date (archive)    | `Mar 2026`                             |
-| Reading time      | `5 min read`                           |
-| Footer copyright  | `2026 Volodymyr Pivoshenko <contact@pivoshenko.dev>` |
+| Surface          | Pattern                                              |
+|------------------|------------------------------------------------------|
+| Empty state      | `No posts yet.` (one sentence, period)               |
+| More-link        | `All posts →`                                        |
+| Back-link        | `← Back`                                             |
+| External link    | `Repository ↗`                                       |
+| Separator        | `·` (middle dot, never a slash)                      |
+| Tag chip         | lowercase-hyphenated, no `#`                         |
+| Date (detail)    | `Mar 20, 2026`                                       |
+| Date (list)      | `Mar 20`                                             |
+| Date (archive)   | `Mar 2026`                                           |
+| Reading time     | `5 min read`                                         |
+| Size             | `8.47 MB`                                            |
+| Dimensions       | `3840×2160` (a real ×, not an `x`)                   |
+| Section label    | written `recent posts`, rendered `// RECENT POSTS`   |
+| Footer copyright | `2026 Volodymyr Pivoshenko <contact@pivoshenko.dev>` |
+
+## Numbers
+
+Numbers are **tabular** wherever they sit in a column - dates, sizes, counts, hex values. `type-meta` and `Stat` set `font-variant-numeric: tabular-nums` for exactly this. Why -> a list of dates that does not align down the page is the fastest way to make a catalog look unbuilt.
+
+Spell them the brand's way: `Mar 2026`, `8.47 MB`, `3840×2160`. One unit, one space, no parenthetical conversions.
 
 ## Emoji
 
-Banned in UI, READMEs, commits, and social copy. Lucide icons when a glyph is genuinely needed. **One exception:** GitHub repo *description* field (the one-liner under the repo name) - a single contextual emoji is allowed as visual punctuation against a wall of grey GitHub text. Never inside the README itself.
+Banned in UI, READMEs, commits, and social copy. Where a symbol genuinely helps, use a geometric glyph from the brand's set - `→ ↗ ★ ❯ ● ▶ ◐ ◇`. See `iconography.md`. **One exception:** GitHub repo *description* field (the one-liner under the repo name) - a single contextual emoji is allowed as visual punctuation against a wall of grey GitHub text. Never inside the README itself.
 
 ## Smell Test
 

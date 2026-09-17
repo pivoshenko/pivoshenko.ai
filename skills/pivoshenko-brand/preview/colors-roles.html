@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Colors - Role Tokens</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); align-items: start; }
+
+  /* The grounds demo nests one role inside the next, so each step is read against the one below it */
+  .ground { padding: var(--space-4); border-radius: var(--radius-lg); }
+  .ground__tag { display: inline-flex; gap: var(--space-2); padding: 2px var(--space-2); border-radius: var(--radius-sm); }
+  .ground__well { display: flex; align-items: center; gap: var(--space-2); height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-md); }
+
+  .roles { width: 100%; border-collapse: collapse; }
+  .roles th, .roles td { padding: 6px var(--space-2) 6px 0; text-align: left; border-bottom: 1px solid var(--border-subtle); vertical-align: baseline; }
+  .roles th { color: var(--fg-subtle); font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+  .roles td { font-size: 12px; line-height: 18px; font-variant-numeric: tabular-nums; }
+  .roles .tok { color: var(--fg-default); }
+  .roles .cr { text-align: right; padding-right: 0; color: var(--fg-subtle); }
+
+  /* Border weights shown as bare boxes so only the outline differs */
+  .edges { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
+  .edge { padding: var(--space-3); border-radius: var(--radius-md); background: var(--bg-surface); }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Role Tokens</span>
+    <span class="pv-meta">every role doing its own job</span>
+  </div>
+
+  <div class="cols">
+
+    <!-- == Grounds == -->
+    <div class="stack">
+      <div class="pv-section type-label">
+        <span class="pv-section__slash">//</span>
+        <h2 class="pv-section__title">backgrounds</h2>
+        <span class="pv-section__rule"></span>
+      </div>
+
+      <div class="ground bg-canvas" style="border: 1px solid var(--border-default)">
+        <p class="type-meta" style="margin: 0 0 var(--space-3)">bg-canvas - the page itself</p>
+
+        <div class="ground surface" style="margin-bottom: var(--space-3)">
+          <p class="type-meta" style="margin: 0 0 var(--space-2)">bg-surface + border-card + shadow-rest</p>
+          <p class="type-body fg-muted" style="margin: 0 0 var(--space-3)">
+            A card. The fill alone is one step off the page; the outline and the lit top edge are
+            what make it read as raised.
+          </p>
+          <div class="row">
+            <span class="ground__tag bg-raised fg-subtle" style="border: 1px solid var(--border-card); box-shadow: var(--shadow-rest); font-size: 12px">bg-raised</span>
+            <span class="ground__well bg-sunken fg-subtle" style="border: 1px solid var(--border-card); font-size: 12px"><span class="fg-accent">&#10095;</span> bg-sunken</span>
+          </div>
+        </div>
+
+        <div class="ground" style="background: var(--bg-overlay); opacity: .8">
+          <p class="type-meta fg-default" style="margin: 0">bg-overlay - scrim fill, used at 80%</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- == Foregrounds And Edges == -->
+    <div class="stack">
+      <div class="pv-section type-label">
+        <span class="pv-section__slash">//</span>
+        <h2 class="pv-section__title">foregrounds</h2>
+        <span class="pv-section__rule"></span>
+      </div>
+
+      <table class="roles">
+        <thead>
+          <tr><th>Token</th><th>At Its Real Size</th><th class="cr">On Canvas</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tok">fg-default</td><td><span class="type-heading fg-default">Kasetto</span></td><td class="cr">12.8:1</td></tr>
+          <tr><td class="tok">fg-muted</td><td><span class="type-body fg-muted">A paragraph of body copy.</span></td><td class="cr">7.9:1</td></tr>
+          <tr><td class="tok">fg-subtle</td><td><span class="type-meta">Mar 2026 - 5 min read</span></td><td class="cr">5.6:1</td></tr>
+          <tr><td class="tok">fg-faint</td><td><span class="fg-faint" style="font-size: 12px">Disabled</span> <span class="fg-faint">&#183;</span> <span class="fg-faint">&#8250;</span></td><td class="cr">3.4:1</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin: 0">
+        fg-faint fails for body-size text. It is for separators, disabled states and 24px+ only -
+        see type-foreground-ladder.html.
+      </p>
+
+      <div class="pv-section type-label" style="margin-top: var(--space-2)">
+        <span class="pv-section__slash">//</span>
+        <h2 class="pv-section__title">borders</h2>
+        <span class="pv-section__rule"></span>
+      </div>
+
+      <div class="edges">
+        <div class="edge border-subtle"><span class="type-meta">border-subtle</span><br/><span class="note">inside a surface</span></div>
+        <div class="edge border-default"><span class="type-meta">border-default</span><br/><span class="note">page hairlines</span></div>
+        <div class="edge border-strong"><span class="type-meta">border-strong</span><br/><span class="note">dashed rules, hover</span></div>
+        <div class="edge border-card"><span class="type-meta">border-card</span><br/><span class="note">raised surfaces</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

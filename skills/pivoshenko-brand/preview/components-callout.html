@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Callout</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+
+  .stack { max-width: 680px; }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Callout</span>
+    <span class="pv-meta">five tones, each named in a word</span>
+  </div>
+
+  <div class="pv-callout" data-tone="note">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph" aria-hidden="true">//</span>
+      <span class="pv-callout__label pv-label">note</span>
+    </div>
+    <div class="pv-callout__body">Colour never carries the meaning on its own - every callout says its state in a word.</div>
+  </div>
+
+  <div class="pv-callout" data-tone="info">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph" aria-hidden="true">&#9679;</span>
+      <span class="pv-callout__label pv-label">heads up</span>
+    </div>
+    <div class="pv-callout__body">This page is a build-time projection of the repo; edits belong in <code>skills/</code>.</div>
+  </div>
+
+  <div class="pv-callout" data-tone="success">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph" aria-hidden="true">&#10003;</span>
+      <span class="pv-callout__label pv-label">in sync</span>
+    </div>
+    <div class="pv-callout__body">The local agent config matches <code>kasetto.yaml</code>.</div>
+  </div>
+
+  <div class="pv-callout" data-tone="warning">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph" aria-hidden="true">&#9650;</span>
+      <span class="pv-callout__label pv-label">archived</span>
+    </div>
+    <div class="pv-callout__body">Kept under <code>archive/</code> for reference. It is no longer synced.</div>
+  </div>
+
+  <div class="pv-callout" data-tone="danger" role="alert">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph" aria-hidden="true">&#10005;</span>
+      <span class="pv-callout__label pv-label">broken</span>
+    </div>
+    <div class="pv-callout__body">The upstream server moved; this entry 404s.</div>
+  </div>
+
+  <p class="note" style="margin: 0">
+    The <code>title</code> defaults to the tone name, so <code>note</code> reads as NOTE until you give it a
+    better word. One or two sentences; longer guidance belongs in the page copy.
+  </p>
+</div>
+
+</body>
+</html>

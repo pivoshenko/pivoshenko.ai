@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Empty State</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Empty State</span>
+    <span class="pv-meta">nothing here yet, and what to do about it</span>
+  </div>
+
+  <div class="spec">
+    <div class="pv-empty">
+      <div class="pv-empty__glyph" aria-hidden="true">&#9676;</div>
+      <p class="pv-empty__title">No results</p>
+      <p class="pv-empty__desc">Nothing matches that filter. Clear it or try a broader term.</p>
+      <div class="pv-empty__action">
+        <a class="pv-link" href="#" data-variant="outline"><span>Clear filter</span><span class="pv-link__arrow" aria-hidden="true">&#8594;</span></a>
+      </div>
+    </div>
+    <span class="spec__name">An empty filter, with the one action that fixes it</span>
+  </div>
+
+  <div class="spec">
+    <div class="pv-empty">
+      <div class="pv-empty__glyph" aria-hidden="true">&#9634;</div>
+      <p class="pv-empty__title">Nothing archived yet</p>
+      <p class="pv-empty__desc">Retired skills and servers land here, with a line in the README saying why.</p>
+    </div>
+    <span class="spec__name">A section that is simply empty needs no action at all</span>
+  </div>
+
+  <p class="note" style="margin: 0">
+    A dashed <code>border-strong</code> outline, centred, the glyph in the accent. Say what is missing and the
+    one thing that fixes it - no apologies, no illustrations.
+  </p>
+</div>
+
+</body>
+</html>

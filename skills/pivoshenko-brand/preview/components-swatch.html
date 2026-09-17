@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Swatch</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-3); }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Swatch</span>
+    <span class="pv-meta">click to copy</span>
+  </div>
+
+  <div class="spec">
+    <div class="swatches">
+      <button type="button" class="pv-swatch" data-copied="false" aria-label="Copy peach #d97757">
+        <span class="pv-swatch__chip" style="background: var(--peach)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">peach</span><span class="pv-swatch__hex" aria-live="polite">#d97757</span></span>
+      </button>
+      <button type="button" class="pv-swatch" data-copied="false" aria-label="Copy yellow #d4a85a">
+        <span class="pv-swatch__chip" style="background: var(--yellow)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">yellow</span><span class="pv-swatch__hex" aria-live="polite">#d4a85a</span></span>
+      </button>
+      <button type="button" class="pv-swatch" data-copied="true" aria-label="Copy green #8a9d68">
+        <span class="pv-swatch__chip" style="background: var(--green)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">green</span><span class="pv-swatch__hex" aria-live="polite">copied</span></span>
+      </button>
+      <button type="button" class="pv-swatch" data-copied="false" aria-label="Copy blue #7ba0c4">
+        <span class="pv-swatch__chip" style="background: var(--blue)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">blue</span><span class="pv-swatch__hex" aria-live="polite">#7ba0c4</span></span>
+      </button>
+      <button type="button" class="pv-swatch" data-copied="false" aria-label="Copy mauve #b88aa0">
+        <span class="pv-swatch__chip" style="background: var(--mauve)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">mauve</span><span class="pv-swatch__hex" aria-live="polite">#b88aa0</span></span>
+      </button>
+      <button type="button" class="pv-swatch" data-copied="false" aria-label="Copy base #1f1f1e">
+        <span class="pv-swatch__chip" style="background: var(--base)"></span>
+        <span class="pv-swatch__body"><span class="pv-swatch__name">base</span><span class="pv-swatch__hex" aria-live="polite">#1f1f1e</span></span>
+      </button>
+    </div>
+    <span class="spec__name">The third one is held in its copied state - the value swaps for <code>copied</code> in <code>accent-success</code></span>
+  </div>
+
+  <p class="note" style="margin: 0">
+    Chips are painted from <code>var(--token)</code>, so the grid follows the system rather than a copy of it.
+    The hex is the subject matter here, which is the one place it belongs. Hover lifts the card 2px and grows
+    the chip from 72px to 80px. Grid it at 120px minimum columns.
+  </p>
+</div>
+
+<script>
+  // == Copy ==
+  // Same contract as the component: write the value, hold "copied" for 1.2s, then restore
+  document.querySelectorAll(".pv-swatch").forEach(function (swatch) {
+    var hex = swatch.querySelector(".pv-swatch__hex");
+    var value = (swatch.getAttribute("aria-label") || "").split(" ").pop();
+    swatch.addEventListener("click", function () {
+      try { navigator.clipboard.writeText(value); } catch (error) { /* no clipboard in this context */ }
+      swatch.setAttribute("data-copied", "true");
+      hex.textContent = "copied";
+      setTimeout(function () {
+        swatch.setAttribute("data-copied", "false");
+        hex.textContent = value;
+      }, 1200);
+    });
+  });
+</script>
+
+</body>
+</html>

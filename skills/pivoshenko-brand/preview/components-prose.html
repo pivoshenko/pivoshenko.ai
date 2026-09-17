@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Prose</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Prose</span>
+    <span class="pv-meta">the reading layer - plain HTML, no classes inside</span>
+  </div>
+
+  <div class="pv-prose">
+    <h2>The reading layer</h2>
+    <p>
+      Everything inside Prose is plain HTML. Headings, paragraphs, lists, quotes, code and tables inherit the
+      system without a single class, so markdown output can be dropped in whole. The measure is 76ch and the
+      wrapper sets it - never size the paragraphs.
+    </p>
+    <ul>
+      <li>List markers take the accent</li>
+      <li><code>inline code</code> sits on <code>bg-raised</code> in <code>accent-secondary</code></li>
+      <li><a href="#">Links</a> are underlined in the accent at a 3px offset</li>
+    </ul>
+    <blockquote>Quotes are a hairline and quieter text - no oversized quote marks, no italics.</blockquote>
+    <h3>Tokens worth knowing</h3>
+    <table>
+      <thead>
+        <tr><th>token</th><th>use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>bg-surface</td><td>Cards, tiles, callouts</td></tr>
+        <tr><td>bg-sunken</td><td>Inputs, title bars, path strips</td></tr>
+        <tr><td>crust</td><td>Code bodies, terminals, the footer band</td></tr>
+      </tbody>
+    </table>
+    <h3>Snippets</h3>
+    <p>A plain <code>pre</code> inside prose is enough when the snippet is not the point:</p>
+    <pre><code>just lint-skills
+just check</code></pre>
+    <hr/>
+    <p>
+      <strong>Headings inside prose start at h2</strong> - the page title lives above it, set in the display
+      face. Anything the system does not style stays unstyled on purpose.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

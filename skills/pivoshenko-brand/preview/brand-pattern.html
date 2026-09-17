@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Brand - Contours</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  body { overflow: auto; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: var(--space-4); }
+
+  .var { display: flex; flex-direction: column; border: 1px solid var(--border-card); border-radius: var(--radius-lg); background: var(--bg-surface); box-shadow: var(--shadow-rest); overflow: hidden; }
+  .var__field { position: relative; height: 150px; background: var(--bg-canvas); overflow: hidden; }
+  .var__field svg { display: block; width: 100%; height: 100%; }
+  .var__body { display: grid; gap: 2px; padding: var(--space-3) var(--space-4) var(--space-4); }
+  .var__name { color: var(--fg-default); font-size: 13px; line-height: 20px; font-weight: 600; }
+  .var__desc { color: var(--fg-muted); font-size: 12px; line-height: 18px; }
+
+  /* Lines are overlay0; every fifth index line takes the accent, as the live field draws them */
+  .ln { fill: none; stroke: var(--overlay0); stroke-width: 1; }
+  .ln.ix { stroke: var(--accent); stroke-width: 1.25; }
+  .rg { fill: var(--bg-canvas); stroke: var(--overlay0); stroke-width: 1; }
+  .rg.ix { stroke: var(--accent); }
+  .dt { fill: var(--overlay0); }
+  .dt.ix { fill: var(--accent); }
+
+  /* == Mask And Lake == */
+  /* The .pv-contours mask and lake rules are the real ones. They target <canvas>, so the two
+     rules below re-aim the same declarations at the <svg> these stills are drawn with */
+  .pv-contours svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .pv-contours[data-lake="true"] svg { transform: perspective(900px) rotateX(52deg) scale(1.9) translateY(8%); transform-origin: 50% 70%; }
+
+  .copy { position: absolute; inset: 0; display: grid; align-content: center; gap: var(--space-2); padding: var(--space-4); }
+  .copy h3 { margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 600; letter-spacing: -.025em; }
+
+  /* == Fallback == */
+  .fallback { position: relative; height: 150px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--bg-canvas); overflow: hidden; }
+  .fallback::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(var(--overlay0) 1px, transparent 1.5px); background-size: 16px 16px; opacity: .6; }
+</style>
+</head>
+<body>
+
+<div class="stack">
+  <div class="spread">
+    <span class="pv-label">Contours</span>
+    <span class="pv-meta">the signature background</span>
+  </div>
+  <p class="note" style="margin: 0">
+    A slowly drifting field of lines drawn from noise, in overlay0, with every fifth index line in
+    --accent. One field per viewport, masked away from the copy. Each frame below is a still of the
+    same field - what the live component adds is drift, a ground that lifts under the cursor
+    (bump 0.16, reach 210px), a ring on click, and a fresh seed per page.
+  </p>
+
+  <div class="grid">
+    <div class="var">
+      <div class="var__field"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path class="ln" d="M238 126L238 126M238 126L238 126M238 126L238 126M238 126L238 126"/>
+<path class="ln" d="M224 49.6L211 56M238 53.2L224 49.6M239.6 56L238 53.2M211 56L224 58.1M224 58.1L238 57.6M238 57.6L239.6 56M0.2 112L0 111.2M0 112.2L0.2 112M238 120.8L234 126M245.9 126L238 120.8M234 126L238 130.8M238 130.8L245.9 126"/>
+<path class="ln" d="M0 5.1L7.3 0M18.4 0L28 3.1M28 3.1L32.4 0M84 13.2L72.9 14M86.5 14L84 13.2M195.3 0L196 0.1M196 0.1L196.3 0M42 25.5L38.2 28M46.9 28L42 25.5M70 16.5L66.7 28M72.9 14L84 17.3M84 17.3L86.5 14M154 27.6L153.7 28M155 28L154 27.6M38.2 28L42 30.9M42 30.9L46.9 28M66.7 28L70 29M70 29L73.8 28M153.7 28L154 29.8M154 29.8L155 28M210 41.2L208.3 42M224 40L210 41.2M227 42L224 40M208.3 42L204.2 56M227 42L238 47.4M242.8 56L238 47.4M4 70L0 66.1M204.2 56L210 59.3M210 59.3L224 61.4M224 61.4L238 61M238 61L242.8 56M0 75.5L4 70M21.3 84L14 78.1M6.4 84L14 89.6M14 89.6L21.3 84M1.1 98L4.5 112M0 115.3L4.5 112M84 122.5L78.6 126M98 122.6L84 122.5M112 121.9L98 122.6M126 123.3L112 121.9M140 126L126 123.3M140 126L140 126M238 115.7L230 126M252 123L238 115.7M253 126L252 123M78.6 126L84 132.6M84 132.6L98 128.6M98 128.6L112 128.8M112 128.8L126 128.5M126 128.5L140 126M140 126L140 126M230 126L238 135.6M238 135.6L252 126.8M252 126.8L253 126M56 153.4L54.4 154M58.7 154L56 153.4"/>
+<path class="ln" d="M1.5 14L14 3.8M14 3.8L28 6.4M28 6.4L37.2 0M70 11.3L65.8 14M84 9.8L70 11.3M96.5 14L84 9.8M137.7 0L140 1.7M140 1.7L154 2.2M154 2.2L166.5 0M168.4 0L176.6 14M187.3 14L196 9.6M196 9.6L210 0.8M210 0.8L214.3 0M249.3 0L252 1.3M252 1.3L255.7 0M1.5 14L14 27.3M16.1 28L14 27.3M42 20.7L31.1 28M56 27.8L42 20.7M65.8 14L56 27.8M96.5 14L87 28M154 20.9L149.2 28M168 24.4L154 20.9M176.6 14L182 15.2M182 15.2L187.3 14M0 30.2L14 28.4M14 28.4L16.1 28M31.1 28L42 36.4M42 36.4L56 28.3M56 28.3L70 32.5M70 32.5L84 29.3M84 29.3L87 28M112 38.7L98 37M123.5 42L112 38.7M140 40.9L132.1 42M149.2 28L140 40.9M162.7 42L168 32.3M168 32.3L168.7 28M210 36.1L197.1 42M224 32.4L210 36.1M238 41.4L224 32.4M238.9 42L238 41.4M95.6 42L98 44.2M98 44.2L112 47.7M112 47.7L123.5 42M132.1 42L140 44.2M140 44.2L154 47.5M154 47.5L162.7 42M172.3 56L168 48.7M197.1 42L198.2 56M238.9 42L246 56M13.4 70L0 56.9M98 68.5L94.6 70M102.1 70L98 68.5M125.2 56L126 56.8M126 56.8L126.8 56M163.7 56L168 58M168 58L172.3 56M198.2 56L210 62.7M210 62.7L224 64.7M224 64.7L238 64.3M238 64.3L246 56M13.4 70L14 70.5M28 77.8L14 70.5M29.4 84L28 77.8M94.6 70L98 73.4M98 73.4L102.1 70M11.9 98L14 96.6M14 96.6L28 86.2M28 86.2L29.4 84M11.9 98L8.8 112M56 111.6L55.1 112M57.2 112L56 111.6M238 110.6L235.9 112M252 110.3L238 110.6M253 112L252 110.3M0 118.5L8.8 112M55.1 112L56 112.5M56 112.5L57.2 112M84 118.4L72.5 126M98 118.5L84 118.4M112 117.3L98 118.5M126 118.8L112 117.3M140 121.1L126 118.8M143.5 126L140 121.1M235.9 112L226 126M253 112L257.4 126M70 134.9L69.1 140M72.5 126L70 134.9M84.2 140L98 131.9M98 131.9L112 132M112 132L126 132.9M126 132.9L140 131.5M140 131.5L143.5 126M226 126L237.3 140M238.5 140L252 130.5M252 130.5L257.4 126M0.4 154L0 153.7M56 150.3L46.8 154M69.1 140L56 150.3M71 154L84 140.3M84 140.3L84.2 140M112 150.1L99.7 154M116.2 154L112 150.1M237.3 140L238 140.4M238 140.4L238.5 140"/>
+<path class="ln ix" d="M9.7 14L14 10.5M14 10.5L28 9.6M28 9.6L41.9 0M70 8.4L61.3 14M84 6.4L70 8.4M96.4 0L84 6.4M106.8 0L112 4.2M115.1 0L112 4.2M152.4 14L154 13.6M154 13.6L154.9 14M197.7 14L210 3.5M210 3.5L224 2.3M224 2.3L236.2 14M240.4 14L252 7M252 7L266 1.8M9.7 14L14 18.6M28 23.8L14 18.6M42 15.9L28 23.8M56 21.4L42 15.9M61.3 14L56 21.4M100.5 28L112 17.2M112 17.2L126 17.8M126 17.8L140 17.1M140 17.1L152.4 14M154.9 14L154 14.2M173.2 28L182 19.6M182 19.6L196 16.2M196 16.2L197.7 14M224 25.2L218.2 28M236.2 14L238 17.9M238 17.9L240.4 14M0 34.9L14 34.1M14 34.1L28 32M28 32L42 41.9M42 41.9L56 36.4M56 36.4L70 36M70 36L84 35.6M84 35.6L89.9 42M100.5 28L112 33.6M126 37.6L112 33.6M140 34.5L126 37.6M144.7 28L140 34.5M173.2 28L177.4 42M196 38.6L185.7 42M210 31.1L196 38.6M218.2 28L210 31.1M229.6 28L238 33.2M249.7 42L238 33.2M13.1 56L0 50.9M28 52.3L15.5 56M35.4 56L28 52.3M89.9 42L98 49.2M98 49.2L111.4 56M177.4 42L182 51.9M185.7 42L182 51.9M249.7 42L249.2 56M13.1 56L14 56.8M15.5 56L14 56.8M35.4 56L34.8 70M56 56.4L48.4 70M63.6 70L56 56.4M84 69.3L82 70M98 63.2L84 69.3M111.4 56L98 63.2M128.8 70L140 57.4M140 57.4L154 58.6M154 58.6L168 63.2M168 63.2L182 57.8M182 57.8L196 61.3M196 61.3L210 66.1M210 66.1L224 68M224 68L238 67.6M238 67.6L249.2 56M34.8 70L34.3 84M48.4 70L56 74.9M56 74.9L63.6 70M82 70L84 71.8M84 71.8L96.2 84M102.4 84L112 77.6M112 77.6L126 71.1M126 71.1L128.8 70M22.5 98L28 94M28 94L34.3 84M96.2 84L98 84.6M98 84.6L102.4 84M13.1 112L14 109.1M14 109.1L22.5 98M42 108.2L34.6 112M56 101.6L42 108.2M70 109L56 101.6M76.8 112L70 109M182 110.3L179.8 112M188.8 112L182 110.3M238 105.4L228.4 112M252 98.5L238 105.4M260 112L252 98.5M0 121.6L13.1 112M34.6 112L42 123.4M42 123.4L56 124M56 124L59.1 126M76.8 112L84 114.3M98 114.4L84 114.3M112 112.8L98 114.4M126 114.2L112 112.8M140 116.3L126 114.2M146.9 126L140 116.3M179.8 112L182 115.9M182 115.9L188.8 112M224 119.5L219.5 126M228.4 112L224 119.5M260 112L261.8 126M0.5 140L0 139.6M59.1 126L65.2 140M89.6 140L98 135.1M98 135.1L112 135.1M112 135.1L126 137.3M126 137.3L140 137M140 137L146.9 126M219.5 126L224 132.3M224 132.3L229.1 140M243.7 140L252 134.2M252 134.2L261.8 126M0.5 140L14 153.4M14.5 154L14 153.4M42 152.8L38.8 154M56 147.3L42 152.8M65.2 140L56 147.3M78.4 154L84 148.1M84 148.1L89.6 140M112 146.1L98 148.9M120.5 154L112 146.1M229.1 140L238 144.9M238 144.9L243.7 140"/>
+<path class="ln" d="M22.3 14L28 12.9M28 12.9L33 14M46 0L52.7 14M70 5.5L56.8 14M84 3.1L70 5.5M89.9 0L84 3.1M200.8 14L210 6.1M210 6.1L224 9.3M224 9.3L228.9 14M249.9 14L252 12.8M252 12.8L266 6.6M22.3 14L28 16.4M33 14L28 16.4M52.7 14L56 15.1M56.8 14L56 15.1M110.9 28L112 27M112 27L126 23.3M126 23.3L140 27.6M140 27.6L140.2 28M177.8 28L182 23.9M182 23.9L196 20.4M196 20.4L200.8 14M224 18.5L210 26.3M228.9 14L224 18.5M249.9 14L249.9 28M0 39.5L14 39.8M14 39.8L28 39.1M28 39.1L32.1 42M60.2 42L70 39.4M70 39.4L84 41.8M84 41.8L84.2 42M110.9 28L112 28.5M126 32.4L112 28.5M140 28.2L126 32.4M140.2 28L140 28.2M177.8 28L182 36.1M196 34.8L182 36.1M207.5 28L196 34.8M249.9 28L252 29M257.2 42L252 29M14 46.1L0 45.1M28 45L14 46.1M32.1 42L28 45M60.2 42L61 56M84.2 42L98 54.2M98 54.2L101.5 56M257.2 42L252.8 56M61 56L70 67.9M84 63.1L70 67.9M98 57.8L84 63.1M101.5 56L98 57.8M162.3 70L168 68.4M168 68.4L178.2 70M191.2 70L196 69.5M196 69.5L210 69.6M210 69.6L213.5 70M243.2 70L252 58.8M252 58.8L252.8 56M39.2 84L42 74.9M42 74.9L56 80.9M56 80.9L65.6 84M126.7 84L140 75.7M140 75.7L154 79.3M154 79.3L162.3 70M178.2 70L178.7 84M191.2 70L183.2 84M213.5 70L224 73.8M224 73.8L238 72.8M238 72.8L243.2 70M255.7 84L252 76.8M39.2 84L39 98M56 90.3L44.4 98M65.6 84L70 86.6M70 86.6L84 85.6M84 85.6L98 89.8M98 89.8L112 88.6M112 88.6L126 84.4M126 84.4L126.7 84M178.7 84L182 85.1M182 85.1L183.2 84M224 96.6L222.6 98M227.1 98L224 96.6M247.7 84L242.2 98M255.7 84L256.6 98M39 98L42 99.2M44.4 98L42 99.2M61.2 98L70 103.7M84 109.1L70 103.7M98 109.1L84 109.1M112 107.1L98 109.1M126 108.9L112 107.1M140 111.1L126 108.9M140.7 112L140 111.1M182 105.8L174.2 112M196 108.2L182 105.8M202.6 112L196 108.2M222.6 98L218.6 112M227.1 98L238 100.2M242.2 98L238 100.2M256.6 98L266 111M0 124.8L14 117.3M14 117.3L28 120.9M28 120.9L32 126M140.7 112L150.4 126M174.2 112L182 125.9M182 125.9L183 126M202.6 112L206.5 126M218.6 112L210.5 126M13.3 140L0 129.8M32 126L42 129.5M42 129.5L56 131.2M56 131.2L61.4 140M95.1 140L98 138.3M98 138.3L112 138.3M112 138.3L120.2 140M150.4 126L144.6 140M183 126L196 127.9M196 127.9L206.5 126M210.5 126L221.8 140M248.9 140L252 137.8M252 137.8L266 126.3M13.3 140L14 140.7M25.5 154L14 140.7M42 149.3L30 154M56 144.2L42 149.3M61.4 140L56 144.2M95.1 140L98 143.1M112 142.2L98 143.1M120.2 140L126 148.1M126 148.1L140 144.8M140 144.8L144.6 140M221.8 140L224 142.2M224 142.2L238 149.5M238 149.5L248.9 140"/>
+<path class="ln" d="M50 0L56 9M70 2.6L56 9M82.7 0L70 2.6M203.9 14L210 8.8M210 8.8L222 14M260.5 14L266 11.5M183.1 28L196 24.6M196 24.6L203.9 14M222 14L210 22.1M260.5 14L266 25.3M183.1 28L196 31.1M201.2 28L196 31.1M263.9 42L266 31.7M66.2 56L70 45.6M70 45.6L84 54.2M84 54.2L86.6 56M263.9 42L259.4 56M66.2 56L70 61M84 56.9L70 61M86.6 56L84 56.9M259.4 56L255.7 70M140 84L140 84M140 84L140 84M191 84L196 78.3M196 78.3L210 74M210 74L224 83.4M224 83.4L238 82.5M238 82.5L239.3 84M255.7 70L262.7 84M69.5 98L70 97.4M70 97.4L84 93.4M84 93.4L98 95M98 95L112 94.8M112 94.8L126 91.8M126 91.8L140 84M140 84L154 94M154 94L168 89.9M168 89.9L182 92.5M182 92.5L191 84M224 84.7L210.6 98M238 86.9L224 84.7M239.3 84L238 86.9M262.7 84L261.3 98M69.5 98L70 98.3M84 102.1L70 98.3M98 102.1L84 102.1M112 101.1L98 102.1M126 103L112 101.1M140 103.3L126 103M146.7 112L140 103.3M182 101.3L168.5 112M196 101.8L182 101.3M210 99.8L196 101.8M210.6 98L210 99.8M261.3 98L266 104.4M9.3 126L14 123.9M14 123.9L18.5 126M146.7 112L153.8 126M168.5 112L172 126M9.3 126L14 129.4M18.5 126L14 129.4M28.7 140L42 133.3M42 133.3L56 137.5M56 137.5L57.5 140M153.8 126L154 131.7M156 140L154 131.7M172 126L178.5 140M189.2 140L196 138.4M196 138.4L210 132.7M210 132.7L216 140M255.1 140L266 131.9M28.7 140L42 145.9M56 141.2L42 145.9M57.5 140L56 141.2M143.5 154L154 142.3M154 142.3L156 140M178.5 140L172.7 154M189.2 140L196 147.2M210 149.1L196 147.2M216 140L224 148.2M224 148.2L237.9 154M255.1 140L266 153.4"/>
+<path class="ln" d="M54 0L56 2.9M67.9 0L56 2.9M207 14L210 11.5M210 11.5L215.8 14M207 14L210 18M215.8 14L210 18M266 56L266 56M266 56L262.8 70M199.3 84L210 78.7M210 78.7L217.7 84M262.8 70L266 76.4M199.3 84L210 91.7M217.7 84L210 91.7M152.8 112L154 108.8M154 108.8L156.6 112M152.8 112L154 114.5M156.6 112L154 114.5M36.4 140L42 137.2M42 137.2L49.6 140M209.6 140L210 139.8M210 139.8L210.1 140M262.6 140L266 137.5M36.4 140L42 142.5M49.6 140L42 142.5M209.6 140L210 140.2M210.1 140L210 140.2M262.6 140L266 144.1"/>
+<path class="ln" d="M208.7 84L210 83.3M210 83.3L211 84M208.7 84L210 85M211 84L210 85"/>
+      </svg></div>
+      <div class="var__body">
+        <span class="var__name">topo</span>
+        <span class="var__desc">Default. Contour lines of a hill field, every fifth an index line in the accent</span>
+      </div>
+    </div>
+
+    <div class="var">
+      <div class="var__field"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path class="rg" d="M0 152L0 -2.8L4 -2.5L8 -3.2L12 -5.4L16 -6.8L20 -8.2L24 -9L28 -6.9L32 -4.6L36 -2.8L40 -3L44 -4.1L48 -4.4L52 -4L56 -3L60 -3.4L64 -4.9L68 -6L72 -6.3L76 -6.8L80 -6.3L84 -5.5L88 -1.5L92 2.6L96 3.7L100 4.3L104 3L108 0.9L112 1.9L116 5L120 5.5L124 4.2L128 2L132 0.1L136 -1.7L140 -2.5L144 -3.2L148 -6.1L152 -7.8L156 -6.7L160 -5.1L164 -5L168 -5.4L172 -6.9L176 -7.6L180 -7L184 -9.9L188 -12.9L192 -12.5L196 -10.4L200 -7.9L204 -6.4L208 -7.4L212 -9.5L216 -7.3L220 -2.1L224 -0.1L228 -0.1L232 2.8L236 5.4L240 5.4L244 5.4L248 3.9L252 1.7L256 2.2L260 7.8L260 152Z"/>
+<path class="rg" d="M0 152L0 18.9L4 17.3L8 15.2L12 16.1L16 18.2L20 18L24 17.3L28 15.9L32 12.8L36 10.4L40 10.1L44 12.4L48 13.7L52 12.7L56 12.3L60 12.7L64 11.8L68 9.3L72 8.5L76 10.7L80 12.1L84 11.4L88 12L92 12.9L96 13.1L100 12.9L104 10.2L108 6.4L112 4.7L116 5L120 5.6L124 8L128 10.9L132 11.1L136 9.9L140 8.2L144 7.9L148 7.5L152 5.6L156 2.2L160 -1.6L164 -3.7L168 -3.7L172 -3L176 -1.9L180 0L184 2.4L188 3.5L192 3.7L196 4.5L200 5.9L204 8.4L208 11.2L212 13.4L216 11.8L220 8.5L224 8.2L228 10.7L232 15L236 18L240 18L244 18L248 17.7L252 18.4L256 18.4L260 18.4L260 152Z"/>
+<path class="rg" d="M0 152L0 28.8L4 27.3L8 24.1L12 21L16 18L20 15.8L24 15.2L28 14L32 13L36 13.2L40 14.4L44 15.2L48 15.6L52 18.5L56 22.6L60 26.4L64 29.8L68 31.5L72 31.6L76 29L80 26L84 25L88 26.3L92 28.6L96 28.9L100 25.6L104 21.1L108 18.1L112 16.5L116 14.5L120 14.2L124 14.8L128 14.1L132 13.7L136 13.6L140 13.1L144 13.9L148 18.3L152 21.6L156 22.5L160 24L164 25.2L168 25L172 24.1L176 24.3L180 25.8L184 27.1L188 27.9L192 27.4L196 26.2L200 26.5L204 28.4L208 29.8L212 30.1L216 30.2L220 30.1L224 29.7L228 29.1L232 27.2L236 25.8L240 25.8L244 25.8L248 25.3L252 26.4L256 25.3L260 12.1L260 152Z"/>
+<path class="rg" d="M0 152L0 32.3L4 31.8L8 31.9L12 32.8L16 34.1L20 35.9L24 36.6L28 37.6L32 38.8L36 38.3L40 37.8L44 38.1L48 38.2L52 38.6L56 38.2L60 37.4L64 36.7L68 35.4L72 35L76 35.8L80 35.5L84 34.6L88 33.6L92 32.9L96 32.5L100 30.3L104 28.8L108 29.5L112 29.8L116 30.1L120 29.7L124 27.3L128 25.9L132 26.4L136 28.7L140 31.4L144 32.2L148 33.6L152 34L156 34.1L160 37.3L164 40.3L168 40.6L172 41.1L176 41.9L180 42.8L184 44.4L188 46.2L192 44.4L196 38.8L200 34.7L204 32.7L208 30.8L212 30.3L216 30.9L220 33L224 35L228 34.6L232 33.1L236 31.9L240 31.9L244 31.9L248 32.7L252 35L256 33L260 25L260 152Z"/>
+<path class="rg ix" d="M0 152L0 44.5L4 44.1L8 43.2L12 43.8L16 44.2L20 43.1L24 42.5L28 42.4L32 44.4L36 48.9L40 52.9L44 56.5L48 58L52 57.3L56 56.3L60 55.7L64 55.2L68 53.1L72 52L76 48.9L80 45.3L84 45.8L88 48.1L92 49L96 49.2L100 50.3L104 50.3L108 49.4L112 50.8L116 54.2L120 55.1L124 55.7L128 56.1L132 54.1L136 51.9L140 50.3L144 49.9L148 49.2L152 47L156 43.8L160 42.5L164 43.2L168 43.6L172 45.1L176 47.3L180 49.3L184 52.5L188 54.7L192 54.9L196 54.5L200 52.6L204 49.4L208 47.4L212 47L216 46.7L220 46.9L224 48.3L228 50.3L232 52.3L236 53L240 53L244 53L248 54.3L252 55.1L256 54.8L260 55.7L260 152Z"/>
+<path class="rg" d="M0 152L0 67.3L4 67.7L8 67.5L12 65.2L16 63.4L20 64.4L24 65.3L28 62.5L32 59.2L36 59.2L40 60.9L44 62.6L48 63.2L52 59L56 54.7L60 54.5L64 55.6L68 54.8L72 54.6L76 57.4L80 60.9L84 65L88 66.1L92 64L96 63.3L100 64.1L104 64.9L108 64.8L112 64.6L116 64.6L120 64.3L124 62.4L128 60.1L132 60.1L136 59.2L140 58.2L144 58.2L148 59.3L152 60.3L156 60.4L160 60.4L164 59.8L168 59.4L172 58.2L176 57.4L180 58.5L184 61.1L188 63.1L192 63.1L196 62.5L200 61.7L204 62.4L208 64L212 65.2L216 65.1L220 65.4L224 66.1L228 66.1L232 65.5L236 65L240 65L244 65L248 65.6L252 66.1L256 64.9L260 68.9L260 152Z"/>
+<path class="rg" d="M0 152L0 81L4 80.4L8 78.8L12 77.2L16 74.6L20 72L24 71.1L28 70.1L32 69.4L36 68.1L40 66.5L44 65.4L48 65L52 66.5L56 68.9L60 73L64 75.1L68 74L72 73.3L76 72.1L80 69.9L84 67.8L88 67.9L92 70L96 70.9L100 72.2L104 73.9L108 75.4L112 77.9L116 79.7L120 79.9L124 79L128 77.4L132 75.8L136 74.6L140 73.2L144 73.3L148 74L152 73.7L156 73L160 72.4L164 73L168 73.1L172 73.6L176 75.9L180 77.1L184 76.9L188 76.4L192 76.1L196 75.8L200 77.2L204 78.9L208 79.4L212 80.2L216 80.8L220 82.4L224 82.9L228 81L232 80.5L236 80.6L240 80.6L244 80.6L248 82.2L252 81.3L256 81.6L260 73L260 152Z"/>
+<path class="rg" d="M0 152L0 86.4L4 85.4L8 84.5L12 85.2L16 84.3L20 80.7L24 78.7L28 78.5L32 79.2L36 81.9L40 84.8L44 86.5L48 86.9L52 86.2L56 86L60 88.1L64 88.6L68 87.4L72 86.9L76 86.1L80 83.9L84 81.2L88 81.8L92 84L96 84.6L100 84.6L104 86.3L108 90.4L112 91.3L116 88.8L120 88.1L124 88.2L128 86.7L132 85.4L136 82.5L140 78.3L144 78L148 80L152 83.2L156 88.5L160 93.1L164 94.9L168 94.6L172 92.5L176 90.5L180 89.3L184 86.7L188 85.3L192 84.3L196 82.6L200 84.2L204 88.2L208 91.1L212 92.3L216 90.5L220 86.5L224 84.4L228 84.2L232 86.1L236 87.8L240 87.8L244 87.8L248 87.2L252 88.5L256 88.1L260 89.3L260 152Z"/>
+<path class="rg" d="M0 152L0 98L4 97.9L8 96.3L12 93.2L16 92.1L20 94.3L24 95.9L28 95.3L32 94.8L36 96.1L40 99L44 101.4L48 102.1L52 99.8L56 96.2L60 94.3L64 94L68 92.6L72 92L76 93.3L80 95.2L84 98.1L88 103L92 107.3L96 108.1L100 106.2L104 103.7L108 102.1L112 99.3L116 95.9L120 95.2L124 95.1L128 94.2L132 93.1L136 91.8L140 90.3L144 90.9L148 94.9L152 98L156 98.7L160 98.9L164 99.9L168 100.1L172 100.7L176 101.9L180 102L184 99.1L188 95.9L192 95.4L196 94.9L200 96L204 99.2L208 104.2L212 107.6L216 107.6L220 106.6L224 104.2L228 100.9L232 97.2L236 95L240 95L244 95L248 94.8L252 96.1L256 95.8L260 99.2L260 152Z"/>
+<path class="rg ix" d="M0 152L0 116.3L4 115.5L8 114.6L12 113.9L16 111.7L20 107.9L24 106.1L28 109.1L32 112.9L36 114.8L40 115.8L44 116.6L48 116.7L52 113.3L56 109.8L60 110.2L64 112.2L68 113.4L72 113.7L76 113.9L80 113.9L84 114.4L88 116.7L92 119.1L96 119.5L100 118L104 114.4L108 110.5L112 110L116 111.5L120 112L124 112.5L128 112.5L132 111.9L136 109.1L140 105.8L144 105.2L148 105.4L152 107.1L156 109.4L160 110.9L164 111.2L168 111.1L172 110.6L176 111.1L180 112.3L184 111.6L188 110.8L192 110.1L196 109.2L200 110.8L204 113.2L208 114.8L212 115.7L216 116.9L220 119.5L224 119.6L228 115.8L232 112.1L236 110.5L240 110.4L244 110.4L248 110.6L252 NaNL256 NaNL260 NaNL260 152Z"/>
+<path class="rg" d="M0 152L0 NaNL4 NaNL8 NaNL12 NaNL16 NaNL20 NaNL24 NaNL28 NaNL32 NaNL36 NaNL40 NaNL44 NaNL48 NaNL52 NaNL56 NaNL60 NaNL64 NaNL68 NaNL72 NaNL76 NaNL80 NaNL84 NaNL88 NaNL92 NaNL96 NaNL100 NaNL104 NaNL108 NaNL112 NaNL116 NaNL120 NaNL124 NaNL128 NaNL132 NaNL136 NaNL140 NaNL144 NaNL148 NaNL152 NaNL156 NaNL160 NaNL164 NaNL168 NaNL172 NaNL176 NaNL180 NaNL184 NaNL188 NaNL192 NaNL196 NaNL200 NaNL204 NaNL208 NaNL212 NaNL216 NaNL220 NaNL224 NaNL228 NaNL232 NaNL236 NaNL240 NaNL244 NaNL248 NaNL252 NaNL256 NaNL260 NaNL260 152Z"/>
+<path class="rg" d="M0 152L0 NaNL4 NaNL8 NaNL12 NaNL16 NaNL20 NaNL24 NaNL28 NaNL32 NaNL36 NaNL40 NaNL44 NaNL48 NaNL52 NaNL56 NaNL60 NaNL64 NaNL68 NaNL72 NaNL76 NaNL80 NaNL84 NaNL88 NaNL92 NaNL96 NaNL100 NaNL104 NaNL108 NaNL112 NaNL116 NaNL120 NaNL124 NaNL128 NaNL132 NaNL136 NaNL140 NaNL144 NaNL148 NaNL152 NaNL156 NaNL160 NaNL164 NaNL168 NaNL172 NaNL176 NaNL180 NaNL184 NaNL188 NaNL192 NaNL196 NaNL200 NaNL204 NaNL208 NaNL212 NaNL216 NaNL220 NaNL224 NaNL228 NaNL232 NaNL236 NaNL240 NaNL244 NaNL248 NaNL252 NaNL256 NaNL260 NaNL260 152Z"/>
+      </svg></div>
+      <div class="var__body">
+        <span class="var__name">ridge</span>
+        <span class="var__desc">Stacked ridgelines, each row painted over the one behind. Denser and more graphic - footers, section breaks</span>
+      </div>
+    </div>
+
+    <div class="var">
+      <div class="var__field"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<circle class="dt" cx="8" cy="8" r="2.3"/>
+<circle class="dt" cx="20" cy="8" r="1.9"/>
+<circle class="dt" cx="32" cy="8" r="1.7"/>
+<circle class="dt" cx="44" cy="8" r="1.7"/>
+<circle class="dt" cx="56" cy="8" r="2"/>
+<circle class="dt" cx="68" cy="8" r="1.5"/>
+<circle class="dt" cx="80" cy="8" r="1.3"/>
+<circle class="dt" cx="92" cy="8" r="1.3"/>
+<circle class="dt" cx="104" cy="8" r="1.9"/>
+<circle class="dt" cx="116" cy="8" r="2"/>
+<circle class="dt" cx="128" cy="8" r="1.7"/>
+<circle class="dt" cx="140" cy="8" r="1.7"/>
+<circle class="dt" cx="152" cy="8" r="2.3"/>
+<circle class="dt" cx="164" cy="8" r="1.6"/>
+<circle class="dt" cx="176" cy="8" r="1.7"/>
+<circle class="dt" cx="188" cy="8" r="2.2"/>
+<circle class="dt" cx="200" cy="8" r="2.3"/>
+<circle class="dt" cx="212" cy="8" r="2"/>
+<circle class="dt" cx="224" cy="8" r="1.7"/>
+<circle class="dt" cx="236" cy="8" r="1.8"/>
+<circle class="dt" cx="248" cy="8" r="1.8"/>
+<circle class="dt" cx="8" cy="20" r="2"/>
+<circle class="dt" cx="20" cy="20" r="2.1"/>
+<circle class="dt" cx="32" cy="20" r="2.3"/>
+<circle class="dt" cx="44" cy="20" r="2.1"/>
+<circle class="dt" cx="56" cy="20" r="1.8"/>
+<circle class="dt" cx="68" cy="20" r="2.1"/>
+<circle class="dt" cx="80" cy="20" r="1.6"/>
+<circle class="dt" cx="92" cy="20" r="1.5"/>
+<circle class="dt" cx="104" cy="20" r="1.2"/>
+<circle class="dt" cx="116" cy="20" r="1.3"/>
+<circle class="dt" cx="128" cy="20" r="1.4"/>
+<circle class="dt" cx="140" cy="20" r="1.6"/>
+<circle class="dt" cx="152" cy="20" r="1.3"/>
+<circle class="dt" cx="164" cy="20" r="1.9"/>
+<circle class="dt" cx="176" cy="20" r="1.6"/>
+<circle class="dt" cx="188" cy="20" r="1.6"/>
+<circle class="dt" cx="200" cy="20" r="1.8"/>
+<circle class="dt" cx="212" cy="20" r="1.5"/>
+<circle class="dt" cx="224" cy="20" r="1.5"/>
+<circle class="dt" cx="236" cy="20" r="1.5"/>
+<circle class="dt" cx="248" cy="20" r="1.8"/>
+<circle class="dt" cx="8" cy="32" r="2.1"/>
+<circle class="dt" cx="20" cy="32" r="2.3"/>
+<circle class="dt" cx="32" cy="32" r="2.3"/>
+<circle class="dt ix" cx="44" cy="32" r="2.6"/>
+<circle class="dt" cx="56" cy="32" r="2.2"/>
+<circle class="dt" cx="68" cy="32" r="1.7"/>
+<circle class="dt" cx="80" cy="32" r="1.9"/>
+<circle class="dt" cx="92" cy="32" r="2.2"/>
+<circle class="dt" cx="104" cy="32" r="1.6"/>
+<circle class="dt" cx="116" cy="32" r="1.4"/>
+<circle class="dt" cx="128" cy="32" r="1"/>
+<circle class="dt" cx="140" cy="32" r="1.7"/>
+<circle class="dt" cx="152" cy="32" r="1.4"/>
+<circle class="dt" cx="164" cy="32" r="1.9"/>
+<circle class="dt" cx="176" cy="32" r="1.9"/>
+<circle class="dt" cx="188" cy="32" r="1.1"/>
+<circle class="dt" cx="200" cy="32" r="1.1"/>
+<circle class="dt" cx="212" cy="32" r="1.6"/>
+<circle class="dt" cx="224" cy="32" r="1.6"/>
+<circle class="dt" cx="236" cy="32" r="1.6"/>
+<circle class="dt" cx="248" cy="32" r="1.3"/>
+<circle class="dt" cx="8" cy="44" r="1.8"/>
+<circle class="dt" cx="20" cy="44" r="1.4"/>
+<circle class="dt" cx="32" cy="44" r="1.5"/>
+<circle class="dt" cx="44" cy="44" r="1.8"/>
+<circle class="dt" cx="56" cy="44" r="1.7"/>
+<circle class="dt" cx="68" cy="44" r="1.8"/>
+<circle class="dt ix" cx="80" cy="44" r="2.4"/>
+<circle class="dt" cx="92" cy="44" r="2.3"/>
+<circle class="dt ix" cx="104" cy="44" r="2.5"/>
+<circle class="dt" cx="116" cy="44" r="2"/>
+<circle class="dt" cx="128" cy="44" r="1.8"/>
+<circle class="dt" cx="140" cy="44" r="1.8"/>
+<circle class="dt" cx="152" cy="44" r="2.1"/>
+<circle class="dt" cx="164" cy="44" r="1.4"/>
+<circle class="dt" cx="176" cy="44" r="1.6"/>
+<circle class="dt" cx="188" cy="44" r="1.6"/>
+<circle class="dt" cx="200" cy="44" r="1.5"/>
+<circle class="dt" cx="212" cy="44" r="1.6"/>
+<circle class="dt" cx="224" cy="44" r="1.6"/>
+<circle class="dt" cx="236" cy="44" r="1.5"/>
+<circle class="dt" cx="248" cy="44" r="1.6"/>
+<circle class="dt" cx="8" cy="56" r="1.5"/>
+<circle class="dt" cx="20" cy="56" r="1.5"/>
+<circle class="dt" cx="32" cy="56" r="2"/>
+<circle class="dt" cx="44" cy="56" r="1.7"/>
+<circle class="dt" cx="56" cy="56" r="1.7"/>
+<circle class="dt" cx="68" cy="56" r="2"/>
+<circle class="dt" cx="80" cy="56" r="1.9"/>
+<circle class="dt" cx="92" cy="56" r="1.8"/>
+<circle class="dt" cx="104" cy="56" r="2.2"/>
+<circle class="dt" cx="116" cy="56" r="2.3"/>
+<circle class="dt" cx="128" cy="56" r="2"/>
+<circle class="dt" cx="140" cy="56" r="1.9"/>
+<circle class="dt" cx="152" cy="56" r="2.2"/>
+<circle class="dt" cx="164" cy="56" r="2.3"/>
+<circle class="dt" cx="176" cy="56" r="1.9"/>
+<circle class="dt" cx="188" cy="56" r="1.9"/>
+<circle class="dt" cx="200" cy="56" r="1.8"/>
+<circle class="dt" cx="212" cy="56" r="1.2"/>
+<circle class="dt" cx="224" cy="56" r="1"/>
+<circle class="dt" cx="236" cy="56" r="1.1"/>
+<circle class="dt" cx="248" cy="56" r="1.4"/>
+<circle class="dt" cx="8" cy="68" r="2.3"/>
+<circle class="dt" cx="20" cy="68" r="2"/>
+<circle class="dt" cx="32" cy="68" r="2.2"/>
+<circle class="dt" cx="44" cy="68" r="2"/>
+<circle class="dt" cx="56" cy="68" r="2.3"/>
+<circle class="dt" cx="68" cy="68" r="2.3"/>
+<circle class="dt" cx="80" cy="68" r="1.5"/>
+<circle class="dt" cx="92" cy="68" r="1.5"/>
+<circle class="dt" cx="104" cy="68" r="2"/>
+<circle class="dt" cx="116" cy="68" r="1.8"/>
+<circle class="dt" cx="128" cy="68" r="1.5"/>
+<circle class="dt" cx="140" cy="68" r="1.5"/>
+<circle class="dt" cx="152" cy="68" r="2.3"/>
+<circle class="dt" cx="164" cy="68" r="2"/>
+<circle class="dt" cx="176" cy="68" r="1.9"/>
+<circle class="dt" cx="188" cy="68" r="2.1"/>
+<circle class="dt" cx="200" cy="68" r="2.4"/>
+<circle class="dt" cx="212" cy="68" r="1.7"/>
+<circle class="dt" cx="224" cy="68" r="1.6"/>
+<circle class="dt" cx="236" cy="68" r="1.6"/>
+<circle class="dt" cx="248" cy="68" r="1.7"/>
+<circle class="dt" cx="8" cy="80" r="1.7"/>
+<circle class="dt" cx="20" cy="80" r="2"/>
+<circle class="dt" cx="32" cy="80" r="1.9"/>
+<circle class="dt" cx="44" cy="80" r="1.1"/>
+<circle class="dt" cx="56" cy="80" r="1.8"/>
+<circle class="dt" cx="68" cy="80" r="2.2"/>
+<circle class="dt" cx="80" cy="80" r="1.6"/>
+<circle class="dt" cx="92" cy="80" r="1.3"/>
+<circle class="dt" cx="104" cy="80" r="1.9"/>
+<circle class="dt" cx="116" cy="80" r="1.7"/>
+<circle class="dt" cx="128" cy="80" r="1.4"/>
+<circle class="dt" cx="140" cy="80" r="2"/>
+<circle class="dt" cx="152" cy="80" r="2"/>
+<circle class="dt" cx="164" cy="80" r="1.8"/>
+<circle class="dt" cx="176" cy="80" r="1.7"/>
+<circle class="dt" cx="188" cy="80" r="1.7"/>
+<circle class="dt" cx="200" cy="80" r="2.1"/>
+<circle class="dt" cx="212" cy="80" r="2.1"/>
+<circle class="dt" cx="224" cy="80" r="2.1"/>
+<circle class="dt" cx="236" cy="80" r="2"/>
+<circle class="dt" cx="248" cy="80" r="2.2"/>
+<circle class="dt" cx="8" cy="92" r="1.8"/>
+<circle class="dt" cx="20" cy="92" r="1.5"/>
+<circle class="dt" cx="32" cy="92" r="1.7"/>
+<circle class="dt" cx="44" cy="92" r="2.1"/>
+<circle class="dt" cx="56" cy="92" r="1.8"/>
+<circle class="dt" cx="68" cy="92" r="1.6"/>
+<circle class="dt" cx="80" cy="92" r="1.5"/>
+<circle class="dt" cx="92" cy="92" r="1.3"/>
+<circle class="dt" cx="104" cy="92" r="1.4"/>
+<circle class="dt" cx="116" cy="92" r="1.7"/>
+<circle class="dt" cx="128" cy="92" r="1.7"/>
+<circle class="dt" cx="140" cy="92" r="1.5"/>
+<circle class="dt" cx="152" cy="92" r="1.3"/>
+<circle class="dt" cx="164" cy="92" r="1.7"/>
+<circle class="dt" cx="176" cy="92" r="1.6"/>
+<circle class="dt" cx="188" cy="92" r="1.5"/>
+<circle class="dt" cx="200" cy="92" r="1.7"/>
+<circle class="dt" cx="212" cy="92" r="2.2"/>
+<circle class="dt" cx="224" cy="92" r="2.3"/>
+<circle class="dt" cx="236" cy="92" r="2.3"/>
+<circle class="dt" cx="248" cy="92" r="1.9"/>
+<circle class="dt" cx="8" cy="104" r="1.3"/>
+<circle class="dt" cx="20" cy="104" r="1.6"/>
+<circle class="dt" cx="32" cy="104" r="1.8"/>
+<circle class="dt" cx="44" cy="104" r="1.8"/>
+<circle class="dt" cx="56" cy="104" r="2.1"/>
+<circle class="dt" cx="68" cy="104" r="1.6"/>
+<circle class="dt" cx="80" cy="104" r="1.6"/>
+<circle class="dt" cx="92" cy="104" r="1.7"/>
+<circle class="dt" cx="104" cy="104" r="2.1"/>
+<circle class="dt" cx="116" cy="104" r="2"/>
+<circle class="dt" cx="128" cy="104" r="1.7"/>
+<circle class="dt" cx="140" cy="104" r="1.3"/>
+<circle class="dt" cx="152" cy="104" r="0.9"/>
+<circle class="dt" cx="164" cy="104" r="1.3"/>
+<circle class="dt" cx="176" cy="104" r="1.4"/>
+<circle class="dt" cx="188" cy="104" r="1.3"/>
+<circle class="dt" cx="200" cy="104" r="1.4"/>
+<circle class="dt" cx="212" cy="104" r="2.2"/>
+<circle class="dt" cx="224" cy="104" r="2.2"/>
+<circle class="dt" cx="236" cy="104" r="2.2"/>
+<circle class="dt" cx="248" cy="104" r="1.8"/>
+<circle class="dt" cx="8" cy="116" r="1.5"/>
+<circle class="dt" cx="20" cy="116" r="0.9"/>
+<circle class="dt" cx="32" cy="116" r="1.5"/>
+<circle class="dt" cx="44" cy="116" r="1.7"/>
+<circle class="dt" cx="56" cy="116" r="1.7"/>
+<circle class="dt" cx="68" cy="116" r="1.7"/>
+<circle class="dt" cx="80" cy="116" r="1.7"/>
+<circle class="dt" cx="92" cy="116" r="1.7"/>
+<circle class="dt" cx="104" cy="116" r="1.6"/>
+<circle class="dt" cx="116" cy="116" r="1.6"/>
+<circle class="dt" cx="128" cy="116" r="1.6"/>
+<circle class="dt" cx="140" cy="116" r="1.5"/>
+<circle class="dt" cx="152" cy="116" r="1.2"/>
+<circle class="dt" cx="164" cy="116" r="1.6"/>
+<circle class="dt" cx="176" cy="116" r="1.6"/>
+<circle class="dt" cx="188" cy="116" r="1.8"/>
+<circle class="dt" cx="200" cy="116" r="1.8"/>
+<circle class="dt" cx="212" cy="116" r="1.7"/>
+<circle class="dt" cx="224" cy="116" r="1.6"/>
+<circle class="dt" cx="236" cy="116" r="1.7"/>
+<circle class="dt" cx="248" cy="116" r="NaN"/>
+<circle class="dt" cx="8" cy="128" r="1.5"/>
+<circle class="dt" cx="20" cy="128" r="1.2"/>
+<circle class="dt" cx="32" cy="128" r="2"/>
+<circle class="dt" cx="44" cy="128" r="2.4"/>
+<circle class="dt" cx="56" cy="128" r="2.3"/>
+<circle class="dt" cx="68" cy="128" r="1.8"/>
+<circle class="dt" cx="80" cy="128" r="1.9"/>
+<circle class="dt" cx="92" cy="128" r="1.7"/>
+<circle class="dt" cx="104" cy="128" r="1.6"/>
+<circle class="dt" cx="116" cy="128" r="2"/>
+<circle class="dt" cx="128" cy="128" r="2.3"/>
+<circle class="dt ix" cx="140" cy="128" r="2.6"/>
+<circle class="dt" cx="152" cy="128" r="1.7"/>
+<circle class="dt" cx="164" cy="128" r="1"/>
+<circle class="dt" cx="176" cy="128" r="1.1"/>
+<circle class="dt" cx="188" cy="128" r="1.6"/>
+<circle class="dt" cx="200" cy="128" r="1.9"/>
+<circle class="dt" cx="212" cy="128" r="1"/>
+<circle class="dt" cx="224" cy="128" r="0.9"/>
+<circle class="dt" cx="236" cy="128" r="NaN"/>
+<circle class="dt" cx="248" cy="128" r="NaN"/>
+<circle class="dt" cx="8" cy="140" r="NaN"/>
+<circle class="dt" cx="20" cy="140" r="NaN"/>
+<circle class="dt" cx="32" cy="140" r="NaN"/>
+<circle class="dt" cx="44" cy="140" r="NaN"/>
+<circle class="dt" cx="56" cy="140" r="NaN"/>
+<circle class="dt" cx="68" cy="140" r="NaN"/>
+<circle class="dt" cx="80" cy="140" r="NaN"/>
+<circle class="dt" cx="92" cy="140" r="NaN"/>
+<circle class="dt" cx="104" cy="140" r="NaN"/>
+<circle class="dt" cx="116" cy="140" r="NaN"/>
+<circle class="dt" cx="128" cy="140" r="NaN"/>
+<circle class="dt" cx="140" cy="140" r="NaN"/>
+<circle class="dt" cx="152" cy="140" r="NaN"/>
+<circle class="dt" cx="164" cy="140" r="NaN"/>
+<circle class="dt" cx="176" cy="140" r="NaN"/>
+<circle class="dt" cx="188" cy="140" r="NaN"/>
+<circle class="dt" cx="200" cy="140" r="NaN"/>
+<circle class="dt" cx="212" cy="140" r="NaN"/>
+<circle class="dt" cx="224" cy="140" r="NaN"/>
+<circle class="dt" cx="236" cy="140" r="NaN"/>
+<circle class="dt" cx="248" cy="140" r="NaN"/>
+      </svg></div>
+      <div class="var__body">
+        <span class="var__name">dots</span>
+        <span class="var__desc">A grid of dots that swell where the ground rises. The quietest - behind dense content</span>
+      </div>
+    </div>
+
+    <div class="var">
+      <div class="var__field"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path class="ln" d="M224 56L210 56M238 56L224 56M210 56L224 56M224 56L238 56M252 126L238 126M238 126L252 126"/>
+<path class="ln" d="M0 0L14 0M14 0L28 0M84 14L70 14M70 14L70 28M70 14L84 14M224 42L210 42M210 42L210 56M224 42L238 42M238 56L238 42M210 56L224 56M224 56L238 56M28 84L14 84M0 84L14 84M14 84L28 84M0 98L0 112M98 126L84 126M112 126L98 126M126 126L112 126M140 126L126 126M238 112L224 126M252 126L238 112M84 126L98 126M98 126L112 126M112 126L126 126M126 126L140 126M224 126L238 140M238 140L252 126"/>
+<path class="ln" d="M0 14L14 0M14 0L28 0M28 0L42 0M84 14L70 14M98 14L84 14M140 0L154 0M154 0L168 0M168 0L182 14M182 14L196 14M196 14L210 0M0 14L14 28M42 14L28 28M56 28L42 14M70 14L56 28M98 14L84 28M154 14L154 28M168 28L154 14M0 28L14 28M28 28L42 42M42 42L56 28M56 28L70 28M70 28L84 28M112 42L98 42M126 42L112 42M140 42L126 42M154 28L140 42M168 42L168 28M210 42L196 42M224 28L210 42M238 42L224 28M98 42L112 42M112 42L126 42M126 42L140 42M140 42L154 42M154 42L168 42M168 56L168 42M196 42L196 56M238 42L252 56M14 70L0 56M196 56L210 56M210 56L224 70M224 70L238 70M238 70L252 56M28 84L14 70M14 98L28 84M14 98L14 112M252 112L238 112M0 112L14 112M84 112L70 126M98 112L84 112M112 112L98 112M126 112L112 112M140 126L126 112M238 112L224 126M252 112L252 126M70 126L70 140M84 140L98 126M98 126L112 126M112 126L126 126M126 126L140 126M224 126L238 140M238 140L252 126M56 154L42 154M70 140L56 154M70 154L84 140M112 154L98 154"/>
+<path class="ln ix" d="M14 14L28 14M28 14L42 0M70 14L56 14M84 0L70 14M98 0L84 0M196 14L210 0M210 0L224 0M224 0L238 14M238 14L252 14M252 14L266 0M28 28L14 14M42 14L28 28M56 28L42 14M56 14L56 28M98 28L112 14M112 14L126 14M126 14L140 14M140 14L154 14M168 28L182 14M182 14L196 14M0 28L14 28M14 28L28 28M28 28L42 42M42 42L56 42M56 42L70 42M70 42L84 42M98 28L112 28M126 42L112 28M140 28L126 42M168 28L182 42M196 42L182 42M210 28L196 42M224 28L210 28M224 28L238 28M252 42L238 28M14 56L0 56M28 56L14 56M42 56L28 56M84 42L98 56M98 56L112 56M182 42L182 56M182 42L182 56M252 42L252 56M42 56L28 70M56 56L42 70M70 70L56 56M98 70L84 70M112 56L98 70M126 70L140 56M140 56L154 56M154 56L168 70M168 70L182 56M182 56L196 56M196 56L210 70M210 70L224 70M224 70L238 70M238 70L252 56M28 70L28 84M42 70L56 70M56 70L70 70M84 70L98 84M98 84L112 84M112 84L126 70M28 98L28 84M14 112L28 98M42 112L28 112M56 98L42 112M70 112L56 98M238 112L224 112M252 98L238 112M266 112L252 98M0 126L14 112M28 112L42 126M42 126L56 126M70 112L84 112M98 112L84 112M112 112L98 112M126 112L112 112M140 112L126 112M140 126L140 112M224 112L224 126M266 112L266 126M56 126L70 140M84 140L98 140M98 140L112 140M112 140L126 140M126 140L140 140M140 140L140 126M224 126L224 140M238 140L252 140M252 140L266 126M0 140L14 154M56 154L42 154M70 140L56 154M84 154L84 140M112 140L98 154M126 154L112 140M224 140L238 140"/>
+<path class="ln" d="M42 0L56 14M70 0L56 14M84 0L70 0M196 14L210 0M210 0L224 14M252 14L266 0M112 28L126 28M126 28L140 28M182 28L196 14M224 14L210 28M252 14L252 28M0 42L14 42M14 42L28 42M56 42L70 42M70 42L84 42M126 28L112 28M140 28L126 28M182 28L182 42M196 28L182 42M210 28L196 28M252 42L252 28M14 42L0 42M28 42L14 42M56 42L56 56M84 42L98 56M252 42L252 56M56 56L70 70M84 70L70 70M98 56L84 70M168 70L182 70M196 70L210 70M238 70L252 56M42 84L42 70M42 70L56 84M56 84L70 84M126 84L140 70M140 70L154 84M154 84L168 70M182 70L182 84M196 70L182 84M210 70L224 70M224 70L238 70M252 84L252 70M42 84L42 98M56 84L42 98M70 84L84 84M84 84L98 84M98 84L112 84M112 84L126 84M252 84L238 98M252 84L252 98M56 98L70 98M84 112L70 98M98 112L84 112M112 112L98 112M126 112L112 112M140 112L126 112M182 112L168 112M196 112L182 112M224 98L224 112M224 98L238 98M252 98L266 112M0 126L14 112M14 112L28 126M140 112L154 126M168 112L182 126M196 112L210 126M224 112L210 126M14 140L0 126M28 126L42 126M42 126L56 126M56 126L56 140M98 140L112 140M112 140L126 140M154 126L140 140M182 126L196 126M196 126L210 126M210 126L224 140M252 140L266 126M28 154L14 140M42 154L28 154M56 140L42 154M112 140L98 140M126 140L126 154M126 154L140 140M224 140L238 154M238 154L252 140"/>
+<path class="ln" d="M56 0L56 14M70 0L56 14M84 0L70 0M210 14L224 14M182 28L196 28M196 28L210 14M224 14L210 28M266 14L266 28M182 28L196 28M266 42L266 28M70 56L70 42M70 42L84 56M266 42L266 56M84 56L70 56M266 56L252 70M196 84L210 70M210 70L224 84M224 84L238 84M252 70L266 84M70 98L84 98M84 98L98 98M98 98L112 98M112 98L126 98M126 98L140 84M140 84L154 98M154 98L168 84M168 84L182 98M182 98L196 84M224 84L210 98M238 84L224 84M266 84L266 98M84 98L70 98M98 98L84 98M112 98L98 98M126 98L112 98M140 98L126 98M140 112L140 98M182 98L168 112M196 98L182 98M210 98L196 98M140 112L154 126M168 112L168 126M28 140L42 140M42 140L56 140M154 140L154 126M168 126L182 140M196 140L210 126M210 126L210 140M252 140L266 126M28 140L42 140M56 140L42 140M140 154L154 140M182 140L168 154M196 140L196 154M210 154L196 154M210 140L224 154M224 154L238 154M252 140L266 154"/>
+<path class="ln" d="M70 0L56 0M266 56L266 70M196 84L210 84M210 84L224 84M196 84L210 98M224 84L210 98M42 140L56 140M56 140L42 140"/>
+      </svg></div>
+      <div class="var__body">
+        <span class="var__name">step</span>
+        <span class="var__desc">The same contours with every crossing snapped to the grid, so lines run at right angles. Catalog and docs pages</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="var">
+      <div class="var__field">
+        <div class="pv-contours" data-mask="radial"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path class="ln" d="M238 126L238 126M238 126L238 126M238 126L238 126M238 126L238 126"/>
+<path class="ln" d="M224 49.6L211 56M238 53.2L224 49.6M239.6 56L238 53.2M211 56L224 58.1M224 58.1L238 57.6M238 57.6L239.6 56M0.2 112L0 111.2M0 112.2L0.2 112M238 120.8L234 126M245.9 126L238 120.8M234 126L238 130.8M238 130.8L245.9 126"/>
+<path class="ln" d="M0 5.1L7.3 0M18.4 0L28 3.1M28 3.1L32.4 0M84 13.2L72.9 14M86.5 14L84 13.2M195.3 0L196 0.1M196 0.1L196.3 0M42 25.5L38.2 28M46.9 28L42 25.5M70 16.5L66.7 28M72.9 14L84 17.3M84 17.3L86.5 14M154 27.6L153.7 28M155 28L154 27.6M38.2 28L42 30.9M42 30.9L46.9 28M66.7 28L70 29M70 29L73.8 28M153.7 28L154 29.8M154 29.8L155 28M210 41.2L208.3 42M224 40L210 41.2M227 42L224 40M208.3 42L204.2 56M227 42L238 47.4M242.8 56L238 47.4M4 70L0 66.1M204.2 56L210 59.3M210 59.3L224 61.4M224 61.4L238 61M238 61L242.8 56M0 75.5L4 70M21.3 84L14 78.1M6.4 84L14 89.6M14 89.6L21.3 84M1.1 98L4.5 112M0 115.3L4.5 112M84 122.5L78.6 126M98 122.6L84 122.5M112 121.9L98 122.6M126 123.3L112 121.9M140 126L126 123.3M140 126L140 126M238 115.7L230 126M252 123L238 115.7M253 126L252 123M78.6 126L84 132.6M84 132.6L98 128.6M98 128.6L112 128.8M112 128.8L126 128.5M126 128.5L140 126M140 126L140 126M230 126L238 135.6M238 135.6L252 126.8M252 126.8L253 126M56 153.4L54.4 154M58.7 154L56 153.4"/>
+<path class="ln" d="M1.5 14L14 3.8M14 3.8L28 6.4M28 6.4L37.2 0M70 11.3L65.8 14M84 9.8L70 11.3M96.5 14L84 9.8M137.7 0L140 1.7M140 1.7L154 2.2M154 2.2L166.5 0M168.4 0L176.6 14M187.3 14L196 9.6M196 9.6L210 0.8M210 0.8L214.3 0M249.3 0L252 1.3M252 1.3L255.7 0M1.5 14L14 27.3M16.1 28L14 27.3M42 20.7L31.1 28M56 27.8L42 20.7M65.8 14L56 27.8M96.5 14L87 28M154 20.9L149.2 28M168 24.4L154 20.9M176.6 14L182 15.2M182 15.2L187.3 14M0 30.2L14 28.4M14 28.4L16.1 28M31.1 28L42 36.4M42 36.4L56 28.3M56 28.3L70 32.5M70 32.5L84 29.3M84 29.3L87 28M112 38.7L98 37M123.5 42L112 38.7M140 40.9L132.1 42M149.2 28L140 40.9M162.7 42L168 32.3M168 32.3L168.7 28M210 36.1L197.1 42M224 32.4L210 36.1M238 41.4L224 32.4M238.9 42L238 41.4M95.6 42L98 44.2M98 44.2L112 47.7M112 47.7L123.5 42M132.1 42L140 44.2M140 44.2L154 47.5M154 47.5L162.7 42M172.3 56L168 48.7M197.1 42L198.2 56M238.9 42L246 56M13.4 70L0 56.9M98 68.5L94.6 70M102.1 70L98 68.5M125.2 56L126 56.8M126 56.8L126.8 56M163.7 56L168 58M168 58L172.3 56M198.2 56L210 62.7M210 62.7L224 64.7M224 64.7L238 64.3M238 64.3L246 56M13.4 70L14 70.5M28 77.8L14 70.5M29.4 84L28 77.8M94.6 70L98 73.4M98 73.4L102.1 70M11.9 98L14 96.6M14 96.6L28 86.2M28 86.2L29.4 84M11.9 98L8.8 112M56 111.6L55.1 112M57.2 112L56 111.6M238 110.6L235.9 112M252 110.3L238 110.6M253 112L252 110.3M0 118.5L8.8 112M55.1 112L56 112.5M56 112.5L57.2 112M84 118.4L72.5 126M98 118.5L84 118.4M112 117.3L98 118.5M126 118.8L112 117.3M140 121.1L126 118.8M143.5 126L140 121.1M235.9 112L226 126M253 112L257.4 126M70 134.9L69.1 140M72.5 126L70 134.9M84.2 140L98 131.9M98 131.9L112 132M112 132L126 132.9M126 132.9L140 131.5M140 131.5L143.5 126M226 126L237.3 140M238.5 140L252 130.5M252 130.5L257.4 126M0.4 154L0 153.7M56 150.3L46.8 154M69.1 140L56 150.3M71 154L84 140.3M84 140.3L84.2 140M112 150.1L99.7 154M116.2 154L112 150.1M237.3 140L238 140.4M238 140.4L238.5 140"/>
+<path class="ln ix" d="M9.7 14L14 10.5M14 10.5L28 9.6M28 9.6L41.9 0M70 8.4L61.3 14M84 6.4L70 8.4M96.4 0L84 6.4M106.8 0L112 4.2M115.1 0L112 4.2M152.4 14L154 13.6M154 13.6L154.9 14M197.7 14L210 3.5M210 3.5L224 2.3M224 2.3L236.2 14M240.4 14L252 7M252 7L266 1.8M9.7 14L14 18.6M28 23.8L14 18.6M42 15.9L28 23.8M56 21.4L42 15.9M61.3 14L56 21.4M100.5 28L112 17.2M112 17.2L126 17.8M126 17.8L140 17.1M140 17.1L152.4 14M154.9 14L154 14.2M173.2 28L182 19.6M182 19.6L196 16.2M196 16.2L197.7 14M224 25.2L218.2 28M236.2 14L238 17.9M238 17.9L240.4 14M0 34.9L14 34.1M14 34.1L28 32M28 32L42 41.9M42 41.9L56 36.4M56 36.4L70 36M70 36L84 35.6M84 35.6L89.9 42M100.5 28L112 33.6M126 37.6L112 33.6M140 34.5L126 37.6M144.7 28L140 34.5M173.2 28L177.4 42M196 38.6L185.7 42M210 31.1L196 38.6M218.2 28L210 31.1M229.6 28L238 33.2M249.7 42L238 33.2M13.1 56L0 50.9M28 52.3L15.5 56M35.4 56L28 52.3M89.9 42L98 49.2M98 49.2L111.4 56M177.4 42L182 51.9M185.7 42L182 51.9M249.7 42L249.2 56M13.1 56L14 56.8M15.5 56L14 56.8M35.4 56L34.8 70M56 56.4L48.4 70M63.6 70L56 56.4M84 69.3L82 70M98 63.2L84 69.3M111.4 56L98 63.2M128.8 70L140 57.4M140 57.4L154 58.6M154 58.6L168 63.2M168 63.2L182 57.8M182 57.8L196 61.3M196 61.3L210 66.1M210 66.1L224 68M224 68L238 67.6M238 67.6L249.2 56M34.8 70L34.3 84M48.4 70L56 74.9M56 74.9L63.6 70M82 70L84 71.8M84 71.8L96.2 84M102.4 84L112 77.6M112 77.6L126 71.1M126 71.1L128.8 70M22.5 98L28 94M28 94L34.3 84M96.2 84L98 84.6M98 84.6L102.4 84M13.1 112L14 109.1M14 109.1L22.5 98M42 108.2L34.6 112M56 101.6L42 108.2M70 109L56 101.6M76.8 112L70 109M182 110.3L179.8 112M188.8 112L182 110.3M238 105.4L228.4 112M252 98.5L238 105.4M260 112L252 98.5M0 121.6L13.1 112M34.6 112L42 123.4M42 123.4L56 124M56 124L59.1 126M76.8 112L84 114.3M98 114.4L84 114.3M112 112.8L98 114.4M126 114.2L112 112.8M140 116.3L126 114.2M146.9 126L140 116.3M179.8 112L182 115.9M182 115.9L188.8 112M224 119.5L219.5 126M228.4 112L224 119.5M260 112L261.8 126M0.5 140L0 139.6M59.1 126L65.2 140M89.6 140L98 135.1M98 135.1L112 135.1M112 135.1L126 137.3M126 137.3L140 137M140 137L146.9 126M219.5 126L224 132.3M224 132.3L229.1 140M243.7 140L252 134.2M252 134.2L261.8 126M0.5 140L14 153.4M14.5 154L14 153.4M42 152.8L38.8 154M56 147.3L42 152.8M65.2 140L56 147.3M78.4 154L84 148.1M84 148.1L89.6 140M112 146.1L98 148.9M120.5 154L112 146.1M229.1 140L238 144.9M238 144.9L243.7 140"/>
+<path class="ln" d="M22.3 14L28 12.9M28 12.9L33 14M46 0L52.7 14M70 5.5L56.8 14M84 3.1L70 5.5M89.9 0L84 3.1M200.8 14L210 6.1M210 6.1L224 9.3M224 9.3L228.9 14M249.9 14L252 12.8M252 12.8L266 6.6M22.3 14L28 16.4M33 14L28 16.4M52.7 14L56 15.1M56.8 14L56 15.1M110.9 28L112 27M112 27L126 23.3M126 23.3L140 27.6M140 27.6L140.2 28M177.8 28L182 23.9M182 23.9L196 20.4M196 20.4L200.8 14M224 18.5L210 26.3M228.9 14L224 18.5M249.9 14L249.9 28M0 39.5L14 39.8M14 39.8L28 39.1M28 39.1L32.1 42M60.2 42L70 39.4M70 39.4L84 41.8M84 41.8L84.2 42M110.9 28L112 28.5M126 32.4L112 28.5M140 28.2L126 32.4M140.2 28L140 28.2M177.8 28L182 36.1M196 34.8L182 36.1M207.5 28L196 34.8M249.9 28L252 29M257.2 42L252 29M14 46.1L0 45.1M28 45L14 46.1M32.1 42L28 45M60.2 42L61 56M84.2 42L98 54.2M98 54.2L101.5 56M257.2 42L252.8 56M61 56L70 67.9M84 63.1L70 67.9M98 57.8L84 63.1M101.5 56L98 57.8M162.3 70L168 68.4M168 68.4L178.2 70M191.2 70L196 69.5M196 69.5L210 69.6M210 69.6L213.5 70M243.2 70L252 58.8M252 58.8L252.8 56M39.2 84L42 74.9M42 74.9L56 80.9M56 80.9L65.6 84M126.7 84L140 75.7M140 75.7L154 79.3M154 79.3L162.3 70M178.2 70L178.7 84M191.2 70L183.2 84M213.5 70L224 73.8M224 73.8L238 72.8M238 72.8L243.2 70M255.7 84L252 76.8M39.2 84L39 98M56 90.3L44.4 98M65.6 84L70 86.6M70 86.6L84 85.6M84 85.6L98 89.8M98 89.8L112 88.6M112 88.6L126 84.4M126 84.4L126.7 84M178.7 84L182 85.1M182 85.1L183.2 84M224 96.6L222.6 98M227.1 98L224 96.6M247.7 84L242.2 98M255.7 84L256.6 98M39 98L42 99.2M44.4 98L42 99.2M61.2 98L70 103.7M84 109.1L70 103.7M98 109.1L84 109.1M112 107.1L98 109.1M126 108.9L112 107.1M140 111.1L126 108.9M140.7 112L140 111.1M182 105.8L174.2 112M196 108.2L182 105.8M202.6 112L196 108.2M222.6 98L218.6 112M227.1 98L238 100.2M242.2 98L238 100.2M256.6 98L266 111M0 124.8L14 117.3M14 117.3L28 120.9M28 120.9L32 126M140.7 112L150.4 126M174.2 112L182 125.9M182 125.9L183 126M202.6 112L206.5 126M218.6 112L210.5 126M13.3 140L0 129.8M32 126L42 129.5M42 129.5L56 131.2M56 131.2L61.4 140M95.1 140L98 138.3M98 138.3L112 138.3M112 138.3L120.2 140M150.4 126L144.6 140M183 126L196 127.9M196 127.9L206.5 126M210.5 126L221.8 140M248.9 140L252 137.8M252 137.8L266 126.3M13.3 140L14 140.7M25.5 154L14 140.7M42 149.3L30 154M56 144.2L42 149.3M61.4 140L56 144.2M95.1 140L98 143.1M112 142.2L98 143.1M120.2 140L126 148.1M126 148.1L140 144.8M140 144.8L144.6 140M221.8 140L224 142.2M224 142.2L238 149.5M238 149.5L248.9 140"/>
+<path class="ln" d="M50 0L56 9M70 2.6L56 9M82.7 0L70 2.6M203.9 14L210 8.8M210 8.8L222 14M260.5 14L266 11.5M183.1 28L196 24.6M196 24.6L203.9 14M222 14L210 22.1M260.5 14L266 25.3M183.1 28L196 31.1M201.2 28L196 31.1M263.9 42L266 31.7M66.2 56L70 45.6M70 45.6L84 54.2M84 54.2L86.6 56M263.9 42L259.4 56M66.2 56L70 61M84 56.9L70 61M86.6 56L84 56.9M259.4 56L255.7 70M140 84L140 84M140 84L140 84M191 84L196 78.3M196 78.3L210 74M210 74L224 83.4M224 83.4L238 82.5M238 82.5L239.3 84M255.7 70L262.7 84M69.5 98L70 97.4M70 97.4L84 93.4M84 93.4L98 95M98 95L112 94.8M112 94.8L126 91.8M126 91.8L140 84M140 84L154 94M154 94L168 89.9M168 89.9L182 92.5M182 92.5L191 84M224 84.7L210.6 98M238 86.9L224 84.7M239.3 84L238 86.9M262.7 84L261.3 98M69.5 98L70 98.3M84 102.1L70 98.3M98 102.1L84 102.1M112 101.1L98 102.1M126 103L112 101.1M140 103.3L126 103M146.7 112L140 103.3M182 101.3L168.5 112M196 101.8L182 101.3M210 99.8L196 101.8M210.6 98L210 99.8M261.3 98L266 104.4M9.3 126L14 123.9M14 123.9L18.5 126M146.7 112L153.8 126M168.5 112L172 126M9.3 126L14 129.4M18.5 126L14 129.4M28.7 140L42 133.3M42 133.3L56 137.5M56 137.5L57.5 140M153.8 126L154 131.7M156 140L154 131.7M172 126L178.5 140M189.2 140L196 138.4M196 138.4L210 132.7M210 132.7L216 140M255.1 140L266 131.9M28.7 140L42 145.9M56 141.2L42 145.9M57.5 140L56 141.2M143.5 154L154 142.3M154 142.3L156 140M178.5 140L172.7 154M189.2 140L196 147.2M210 149.1L196 147.2M216 140L224 148.2M224 148.2L237.9 154M255.1 140L266 153.4"/>
+<path class="ln" d="M54 0L56 2.9M67.9 0L56 2.9M207 14L210 11.5M210 11.5L215.8 14M207 14L210 18M215.8 14L210 18M266 56L266 56M266 56L262.8 70M199.3 84L210 78.7M210 78.7L217.7 84M262.8 70L266 76.4M199.3 84L210 91.7M217.7 84L210 91.7M152.8 112L154 108.8M154 108.8L156.6 112M152.8 112L154 114.5M156.6 112L154 114.5M36.4 140L42 137.2M42 137.2L49.6 140M209.6 140L210 139.8M210 139.8L210.1 140M262.6 140L266 137.5M36.4 140L42 142.5M49.6 140L42 142.5M209.6 140L210 140.2M210.1 140L210 140.2M262.6 140L266 144.1"/>
+<path class="ln" d="M208.7 84L210 83.3M210 83.3L211 84M208.7 84L210 85M211 84L210 85"/>
+        </svg></div>
+        <div class="copy">
+          <h3>Recent posts</h3>
+          <p class="type-body fg-muted" style="margin: 0">The mask pulls the field away from the copy.</p>
+        </div>
+      </div>
+      <div class="var__body">
+        <span class="var__name">mask="radial"</span>
+        <span class="var__desc">Keeps copy on clean bg-canvas. mask="bottom" fades the field downward instead; mask="none" leaves it whole</span>
+      </div>
+    </div>
+
+    <div class="var">
+      <div class="var__field">
+        <div class="pv-contours" data-lake="true"><svg viewBox="0 0 260 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path class="ln" d="M238 126L238 126M238 126L238 126M238 126L238 126M238 126L238 126"/>
+<path class="ln" d="M224 49.6L211 56M238 53.2L224 49.6M239.6 56L238 53.2M211 56L224 58.1M224 58.1L238 57.6M238 57.6L239.6 56M0.2 112L0 111.2M0 112.2L0.2 112M238 120.8L234 126M245.9 126L238 120.8M234 126L238 130.8M238 130.8L245.9 126"/>
+<path class="ln" d="M0 5.1L7.3 0M18.4 0L28 3.1M28 3.1L32.4 0M84 13.2L72.9 14M86.5 14L84 13.2M195.3 0L196 0.1M196 0.1L196.3 0M42 25.5L38.2 28M46.9 28L42 25.5M70 16.5L66.7 28M72.9 14L84 17.3M84 17.3L86.5 14M154 27.6L153.7 28M155 28L154 27.6M38.2 28L42 30.9M42 30.9L46.9 28M66.7 28L70 29M70 29L73.8 28M153.7 28L154 29.8M154 29.8L155 28M210 41.2L208.3 42M224 40L210 41.2M227 42L224 40M208.3 42L204.2 56M227 42L238 47.4M242.8 56L238 47.4M4 70L0 66.1M204.2 56L210 59.3M210 59.3L224 61.4M224 61.4L238 61M238 61L242.8 56M0 75.5L4 70M21.3 84L14 78.1M6.4 84L14 89.6M14 89.6L21.3 84M1.1 98L4.5 112M0 115.3L4.5 112M84 122.5L78.6 126M98 122.6L84 122.5M112 121.9L98 122.6M126 123.3L112 121.9M140 126L126 123.3M140 126L140 126M238 115.7L230 126M252 123L238 115.7M253 126L252 123M78.6 126L84 132.6M84 132.6L98 128.6M98 128.6L112 128.8M112 128.8L126 128.5M126 128.5L140 126M140 126L140 126M230 126L238 135.6M238 135.6L252 126.8M252 126.8L253 126M56 153.4L54.4 154M58.7 154L56 153.4"/>
+<path class="ln" d="M1.5 14L14 3.8M14 3.8L28 6.4M28 6.4L37.2 0M70 11.3L65.8 14M84 9.8L70 11.3M96.5 14L84 9.8M137.7 0L140 1.7M140 1.7L154 2.2M154 2.2L166.5 0M168.4 0L176.6 14M187.3 14L196 9.6M196 9.6L210 0.8M210 0.8L214.3 0M249.3 0L252 1.3M252 1.3L255.7 0M1.5 14L14 27.3M16.1 28L14 27.3M42 20.7L31.1 28M56 27.8L42 20.7M65.8 14L56 27.8M96.5 14L87 28M154 20.9L149.2 28M168 24.4L154 20.9M176.6 14L182 15.2M182 15.2L187.3 14M0 30.2L14 28.4M14 28.4L16.1 28M31.1 28L42 36.4M42 36.4L56 28.3M56 28.3L70 32.5M70 32.5L84 29.3M84 29.3L87 28M112 38.7L98 37M123.5 42L112 38.7M140 40.9L132.1 42M149.2 28L140 40.9M162.7 42L168 32.3M168 32.3L168.7 28M210 36.1L197.1 42M224 32.4L210 36.1M238 41.4L224 32.4M238.9 42L238 41.4M95.6 42L98 44.2M98 44.2L112 47.7M112 47.7L123.5 42M132.1 42L140 44.2M140 44.2L154 47.5M154 47.5L162.7 42M172.3 56L168 48.7M197.1 42L198.2 56M238.9 42L246 56M13.4 70L0 56.9M98 68.5L94.6 70M102.1 70L98 68.5M125.2 56L126 56.8M126 56.8L126.8 56M163.7 56L168 58M168 58L172.3 56M198.2 56L210 62.7M210 62.7L224 64.7M224 64.7L238 64.3M238 64.3L246 56M13.4 70L14 70.5M28 77.8L14 70.5M29.4 84L28 77.8M94.6 70L98 73.4M98 73.4L102.1 70M11.9 98L14 96.6M14 96.6L28 86.2M28 86.2L29.4 84M11.9 98L8.8 112M56 111.6L55.1 112M57.2 112L56 111.6M238 110.6L235.9 112M252 110.3L238 110.6M253 112L252 110.3M0 118.5L8.8 112M55.1 112L56 112.5M56 112.5L57.2 112M84 118.4L72.5 126M98 118.5L84 118.4M112 117.3L98 118.5M126 118.8L112 117.3M140 121.1L126 118.8M143.5 126L140 121.1M235.9 112L226 126M253 112L257.4 126M70 134.9L69.1 140M72.5 126L70 134.9M84.2 140L98 131.9M98 131.9L112 132M112 132L126 132.9M126 132.9L140 131.5M140 131.5L143.5 126M226 126L237.3 140M238.5 140L252 130.5M252 130.5L257.4 126M0.4 154L0 153.7M56 150.3L46.8 154M69.1 140L56 150.3M71 154L84 140.3M84 140.3L84.2 140M112 150.1L99.7 154M116.2 154L112 150.1M237.3 140L238 140.4M238 140.4L238.5 140"/>
+<path class="ln ix" d="M9.7 14L14 10.5M14 10.5L28 9.6M28 9.6L41.9 0M70 8.4L61.3 14M84 6.4L70 8.4M96.4 0L84 6.4M106.8 0L112 4.2M115.1 0L112 4.2M152.4 14L154 13.6M154 13.6L154.9 14M197.7 14L210 3.5M210 3.5L224 2.3M224 2.3L236.2 14M240.4 14L252 7M252 7L266 1.8M9.7 14L14 18.6M28 23.8L14 18.6M42 15.9L28 23.8M56 21.4L42 15.9M61.3 14L56 21.4M100.5 28L112 17.2M112 17.2L126 17.8M126 17.8L140 17.1M140 17.1L152.4 14M154.9 14L154 14.2M173.2 28L182 19.6M182 19.6L196 16.2M196 16.2L197.7 14M224 25.2L218.2 28M236.2 14L238 17.9M238 17.9L240.4 14M0 34.9L14 34.1M14 34.1L28 32M28 32L42 41.9M42 41.9L56 36.4M56 36.4L70 36M70 36L84 35.6M84 35.6L89.9 42M100.5 28L112 33.6M126 37.6L112 33.6M140 34.5L126 37.6M144.7 28L140 34.5M173.2 28L177.4 42M196 38.6L185.7 42M210 31.1L196 38.6M218.2 28L210 31.1M229.6 28L238 33.2M249.7 42L238 33.2M13.1 56L0 50.9M28 52.3L15.5 56M35.4 56L28 52.3M89.9 42L98 49.2M98 49.2L111.4 56M177.4 42L182 51.9M185.7 42L182 51.9M249.7 42L249.2 56M13.1 56L14 56.8M15.5 56L14 56.8M35.4 56L34.8 70M56 56.4L48.4 70M63.6 70L56 56.4M84 69.3L82 70M98 63.2L84 69.3M111.4 56L98 63.2M128.8 70L140 57.4M140 57.4L154 58.6M154 58.6L168 63.2M168 63.2L182 57.8M182 57.8L196 61.3M196 61.3L210 66.1M210 66.1L224 68M224 68L238 67.6M238 67.6L249.2 56M34.8 70L34.3 84M48.4 70L56 74.9M56 74.9L63.6 70M82 70L84 71.8M84 71.8L96.2 84M102.4 84L112 77.6M112 77.6L126 71.1M126 71.1L128.8 70M22.5 98L28 94M28 94L34.3 84M96.2 84L98 84.6M98 84.6L102.4 84M13.1 112L14 109.1M14 109.1L22.5 98M42 108.2L34.6 112M56 101.6L42 108.2M70 109L56 101.6M76.8 112L70 109M182 110.3L179.8 112M188.8 112L182 110.3M238 105.4L228.4 112M252 98.5L238 105.4M260 112L252 98.5M0 121.6L13.1 112M34.6 112L42 123.4M42 123.4L56 124M56 124L59.1 126M76.8 112L84 114.3M98 114.4L84 114.3M112 112.8L98 114.4M126 114.2L112 112.8M140 116.3L126 114.2M146.9 126L140 116.3M179.8 112L182 115.9M182 115.9L188.8 112M224 119.5L219.5 126M228.4 112L224 119.5M260 112L261.8 126M0.5 140L0 139.6M59.1 126L65.2 140M89.6 140L98 135.1M98 135.1L112 135.1M112 135.1L126 137.3M126 137.3L140 137M140 137L146.9 126M219.5 126L224 132.3M224 132.3L229.1 140M243.7 140L252 134.2M252 134.2L261.8 126M0.5 140L14 153.4M14.5 154L14 153.4M42 152.8L38.8 154M56 147.3L42 152.8M65.2 140L56 147.3M78.4 154L84 148.1M84 148.1L89.6 140M112 146.1L98 148.9M120.5 154L112 146.1M229.1 140L238 144.9M238 144.9L243.7 140"/>
+<path class="ln" d="M22.3 14L28 12.9M28 12.9L33 14M46 0L52.7 14M70 5.5L56.8 14M84 3.1L70 5.5M89.9 0L84 3.1M200.8 14L210 6.1M210 6.1L224 9.3M224 9.3L228.9 14M249.9 14L252 12.8M252 12.8L266 6.6M22.3 14L28 16.4M33 14L28 16.4M52.7 14L56 15.1M56.8 14L56 15.1M110.9 28L112 27M112 27L126 23.3M126 23.3L140 27.6M140 27.6L140.2 28M177.8 28L182 23.9M182 23.9L196 20.4M196 20.4L200.8 14M224 18.5L210 26.3M228.9 14L224 18.5M249.9 14L249.9 28M0 39.5L14 39.8M14 39.8L28 39.1M28 39.1L32.1 42M60.2 42L70 39.4M70 39.4L84 41.8M84 41.8L84.2 42M110.9 28L112 28.5M126 32.4L112 28.5M140 28.2L126 32.4M140.2 28L140 28.2M177.8 28L182 36.1M196 34.8L182 36.1M207.5 28L196 34.8M249.9 28L252 29M257.2 42L252 29M14 46.1L0 45.1M28 45L14 46.1M32.1 42L28 45M60.2 42L61 56M84.2 42L98 54.2M98 54.2L101.5 56M257.2 42L252.8 56M61 56L70 67.9M84 63.1L70 67.9M98 57.8L84 63.1M101.5 56L98 57.8M162.3 70L168 68.4M168 68.4L178.2 70M191.2 70L196 69.5M196 69.5L210 69.6M210 69.6L213.5 70M243.2 70L252 58.8M252 58.8L252.8 56M39.2 84L42 74.9M42 74.9L56 80.9M56 80.9L65.6 84M126.7 84L140 75.7M140 75.7L154 79.3M154 79.3L162.3 70M178.2 70L178.7 84M191.2 70L183.2 84M213.5 70L224 73.8M224 73.8L238 72.8M238 72.8L243.2 70M255.7 84L252 76.8M39.2 84L39 98M56 90.3L44.4 98M65.6 84L70 86.6M70 86.6L84 85.6M84 85.6L98 89.8M98 89.8L112 88.6M112 88.6L126 84.4M126 84.4L126.7 84M178.7 84L182 85.1M182 85.1L183.2 84M224 96.6L222.6 98M227.1 98L224 96.6M247.7 84L242.2 98M255.7 84L256.6 98M39 98L42 99.2M44.4 98L42 99.2M61.2 98L70 103.7M84 109.1L70 103.7M98 109.1L84 109.1M112 107.1L98 109.1M126 108.9L112 107.1M140 111.1L126 108.9M140.7 112L140 111.1M182 105.8L174.2 112M196 108.2L182 105.8M202.6 112L196 108.2M222.6 98L218.6 112M227.1 98L238 100.2M242.2 98L238 100.2M256.6 98L266 111M0 124.8L14 117.3M14 117.3L28 120.9M28 120.9L32 126M140.7 112L150.4 126M174.2 112L182 125.9M182 125.9L183 126M202.6 112L206.5 126M218.6 112L210.5 126M13.3 140L0 129.8M32 126L42 129.5M42 129.5L56 131.2M56 131.2L61.4 140M95.1 140L98 138.3M98 138.3L112 138.3M112 138.3L120.2 140M150.4 126L144.6 140M183 126L196 127.9M196 127.9L206.5 126M210.5 126L221.8 140M248.9 140L252 137.8M252 137.8L266 126.3M13.3 140L14 140.7M25.5 154L14 140.7M42 149.3L30 154M56 144.2L42 149.3M61.4 140L56 144.2M95.1 140L98 143.1M112 142.2L98 143.1M120.2 140L126 148.1M126 148.1L140 144.8M140 144.8L144.6 140M221.8 140L224 142.2M224 142.2L238 149.5M238 149.5L248.9 140"/>
+<path class="ln" d="M50 0L56 9M70 2.6L56 9M82.7 0L70 2.6M203.9 14L210 8.8M210 8.8L222 14M260.5 14L266 11.5M183.1 28L196 24.6M196 24.6L203.9 14M222 14L210 22.1M260.5 14L266 25.3M183.1 28L196 31.1M201.2 28L196 31.1M263.9 42L266 31.7M66.2 56L70 45.6M70 45.6L84 54.2M84 54.2L86.6 56M263.9 42L259.4 56M66.2 56L70 61M84 56.9L70 61M86.6 56L84 56.9M259.4 56L255.7 70M140 84L140 84M140 84L140 84M191 84L196 78.3M196 78.3L210 74M210 74L224 83.4M224 83.4L238 82.5M238 82.5L239.3 84M255.7 70L262.7 84M69.5 98L70 97.4M70 97.4L84 93.4M84 93.4L98 95M98 95L112 94.8M112 94.8L126 91.8M126 91.8L140 84M140 84L154 94M154 94L168 89.9M168 89.9L182 92.5M182 92.5L191 84M224 84.7L210.6 98M238 86.9L224 84.7M239.3 84L238 86.9M262.7 84L261.3 98M69.5 98L70 98.3M84 102.1L70 98.3M98 102.1L84 102.1M112 101.1L98 102.1M126 103L112 101.1M140 103.3L126 103M146.7 112L140 103.3M182 101.3L168.5 112M196 101.8L182 101.3M210 99.8L196 101.8M210.6 98L210 99.8M261.3 98L266 104.4M9.3 126L14 123.9M14 123.9L18.5 126M146.7 112L153.8 126M168.5 112L172 126M9.3 126L14 129.4M18.5 126L14 129.4M28.7 140L42 133.3M42 133.3L56 137.5M56 137.5L57.5 140M153.8 126L154 131.7M156 140L154 131.7M172 126L178.5 140M189.2 140L196 138.4M196 138.4L210 132.7M210 132.7L216 140M255.1 140L266 131.9M28.7 140L42 145.9M56 141.2L42 145.9M57.5 140L56 141.2M143.5 154L154 142.3M154 142.3L156 140M178.5 140L172.7 154M189.2 140L196 147.2M210 149.1L196 147.2M216 140L224 148.2M224 148.2L237.9 154M255.1 140L266 153.4"/>
+<path class="ln" d="M54 0L56 2.9M67.9 0L56 2.9M207 14L210 11.5M210 11.5L215.8 14M207 14L210 18M215.8 14L210 18M266 56L266 56M266 56L262.8 70M199.3 84L210 78.7M210 78.7L217.7 84M262.8 70L266 76.4M199.3 84L210 91.7M217.7 84L210 91.7M152.8 112L154 108.8M154 108.8L156.6 112M152.8 112L154 114.5M156.6 112L154 114.5M36.4 140L42 137.2M42 137.2L49.6 140M209.6 140L210 139.8M210 139.8L210.1 140M262.6 140L266 137.5M36.4 140L42 142.5M49.6 140L42 142.5M209.6 140L210 140.2M210.1 140L210 140.2M262.6 140L266 144.1"/>
+<path class="ln" d="M208.7 84L210 83.3M210 83.3L211 84M208.7 84L210 85M211 84L210 85"/>
+        </svg></div>
+      </div>
+      <div class="var__body">
+        <span class="var__name">lake</span>
+        <span class="var__desc">Tilts the field into perspective for a floating-surface look. Heroes and covers</span>
+      </div>
+    </div>
+
+    <div class="var">
+      <div class="fallback"></div>
+      <div class="var__body">
+        <span class="var__name">static fallback</span>
+        <span class="var__desc">No JS, or prefers-reduced-motion with no canvas: a 16px dot grid of overlay0 at 60%. The same recipe as the media placeholder</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv-callout" data-tone="note">
+    <div class="pv-callout__head">
+      <span class="pv-callout__glyph">&#9679;</span>
+      <span class="pv-callout__label type-label">rules</span>
+    </div>
+    <div class="pv-callout__body">
+      <p style="margin: 0 0 var(--space-2)">
+        Pick one variant per site and keep it - vary the seed from page to page, never the variant.
+      </p>
+      <p style="margin: 0">
+        One field per viewport. Interactive in page headers, quiet in footers. Under
+        prefers-reduced-motion the live field renders one still frame with no interaction, which is
+        what these specimens are.
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

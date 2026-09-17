@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Components - Back To Top</title>
+<link rel="stylesheet" href="_base.css"/>
+<style>
+  /* == Frame == */
+  /* The real thing watches the window; here the page scrolls inside the card */
+  body { padding: 0; overflow: hidden; }
+
+  .doc { height: 100vh; padding: var(--space-6); box-sizing: border-box; overflow-y: auto; }
+  .note code, .spec__name code { color: var(--fg-default); }
+</style>
+</head>
+<body>
+
+<div class="doc stack" id="doc">
+  <div class="spread">
+    <span class="pv-label">Back To Top</span>
+    <span class="pv-meta">appears once the page scrolls</span>
+  </div>
+
+  <div class="spec">
+    <div class="row" style="justify-content: flex-end">
+      <button type="button" class="pv-top" data-inline="true" data-align="end" title="Back to top">
+        <span class="pv-top__glyph" aria-hidden="true">&#8593;</span>
+        <span class="pv-top__label">Top</span>
+      </button>
+    </div>
+    <span class="spec__name"><code>inline</code> - the same button in flow, always visible, for the end of an article</span>
+  </div>
+
+  <p class="note" style="margin: 0">
+    Scroll this panel past 120px and the fixed one fades in at the bottom right. Until then it is out of the
+    tab order and hidden from assistive tech. Click it to return: smoothly, or instantly under reduced motion.
+  </p>
+
+  <div class="pv-prose">
+    <h2>A page long enough to scroll</h2>
+    <p>One per page, fixed bottom right, above everything else. On phones it shrinks to the glyph alone.</p>
+    <p>The threshold is the only thing worth tuning: far enough down that the button is not competing with the page header, close enough that it appears before a reader wants it.</p>
+    <p>Everything below is filler so this panel has somewhere to go.</p>
+    <p>Terminal, not template. Structure comes from labels, hairlines and tabular numbers.</p>
+    <p>One accent at a time. A site points the channel at one palette slot and spends it in the same few places.</p>
+    <p>Detail over decoration. The notched mark, dashed rules, the cursor glow, an arrow that nudges 4px.</p>
+    <p>Calm motion. Things rise in once and drift slowly; nothing bounces or loops fast.</p>
+    <p>Dates read <code>Mar 2026</code>, sizes <code>8.47 MB</code>, and every number is tabular.</p>
+    <p>That is the bottom of the panel.</p>
+  </div>
+</div>
+
+<button type="button" class="pv-top" id="top" data-shown="false" data-align="end" data-inline="false" tabindex="-1" aria-hidden="true" title="Back to top">
+  <span class="pv-top__glyph" aria-hidden="true">&#8593;</span>
+  <span class="pv-top__label">Top</span>
+</button>
+
+<script>
+  // == Shown State ==
+  // The component's whole behaviour: a threshold, a data attribute, and a scroll back
+  var doc = document.getElementById("doc");
+  var button = document.getElementById("top");
+  var threshold = 120;
+  var pending = 0;
+
+  function read() {
+    pending = 0;
+    var shown = doc.scrollTop > threshold;
+    button.setAttribute("data-shown", shown ? "true" : "false");
+    button.tabIndex = shown ? 0 : -1;
+    if (shown) button.removeAttribute("aria-hidden");
+    else button.setAttribute("aria-hidden", "true");
+  }
+
+  doc.addEventListener("scroll", function () { if (!pending) pending = requestAnimationFrame(read); }, { passive: true });
+
+  button.addEventListener("click", function () {
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    doc.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  });
+
+  read();
+</script>
+
+</body>
+</html>
