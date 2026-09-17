@@ -3,7 +3,7 @@ name: spec-propose
 description: >-
   Draft the OpenSpec change artifacts - `proposal.md`, the `specs/` delta, `design.md`, `tasks.md` - on a fresh branch, install the wave rules that make `tasks.md` parallel-safe, validate, and commit. Use when the user says "propose this", "write the proposal", "spec this out", "/spec-propose", "turn this into an OpenSpec change", "plan this as a change", "decompose this", "what are the tasks for X", or whenever a design discussion has converged and needs artifacts. Wraps `/opsx:propose` and owns only the git seam it ignores - branch first, issue link so the later commit and PR close the ticket, commit after. Boundaries: still working out what the change even is -> `spec-explore`; artifacts already written and ready to build -> `spec-apply`; one indivisible piece of work needing no spec at all -> `git-branch-create`; a tracked ticket rather than a spec -> `git-issue-create`. This skill plans and stops - it never implements.
 tags: [spec, openspec, agents]
-updated_at: 2026-09-14
+updated_at: 2026-09-17
 ---
 
 # Spec Propose
@@ -68,24 +68,7 @@ openspec instructions <artifact-id> --change "<name>" --json
 
 ## Tasks Shape
 
-What step 5's rules buy you:
-
-```markdown
-## 1. Data layer
-
-- [ ] 1.1 Add the tag index
-      files: site/lib/data.ts
-      needs: none
-- [ ] 1.2 Wire filtering into the catalog
-      files: site/components/catalog.tsx
-      needs: 1.1
-
-## 2. UI
-
-- [ ] 2.1 Add the tag chip component
-      files: site/components/tag-chips.tsx
-      needs: none
-```
+What step 5's rules buy you -> [references/tasks-shape.md](references/tasks-shape.md).
 
 - `files:` every path the task will write. Comma separated. Required, never empty
 - `needs:` the `N.M` labels that must be ticked first, or `none`. Required

@@ -5,7 +5,7 @@ tags: [meta, wiki, obsidian]
 updated_at: 2026-06-18
 ---
 
-# Personal Wiki
+# Memory
 
 **The vault at `~/Vault` (symlink → `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Vault`) is the user's second brain, maintained primarily by Claude.**
 

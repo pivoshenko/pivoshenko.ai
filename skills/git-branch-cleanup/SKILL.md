@@ -1,11 +1,11 @@
 ---
-name: git-branches-cleanup
-description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /git-branches-cleanup. Also trigger on "tidy git branches", "remove old branches", "I'm done with these branches", "branch graveyard", or whenever the user complains about local branch clutter. Reports what will be deleted and asks before deleting anything.
+name: git-branch-cleanup
+description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /git-branch-cleanup. Also trigger on "tidy git branches", "remove old branches", "I'm done with these branches", "branch graveyard", or whenever the user complains about local branch clutter. Reports what will be deleted and asks before deleting anything.
 tags: [git]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
-# Cleanup Branches
+# Git Branch Cleanup
 
 Prune locals = merged OR remote gone. Destructive -> preview + confirm.
 

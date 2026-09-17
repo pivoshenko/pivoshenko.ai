@@ -3,10 +3,10 @@ name: git-issue-triage
 description: >-
   Groom an open GitHub backlog with `gh` - one read-only sweep, every open issue bucketed into exactly one category (unlabeled, unprioritized, stale, likely duplicate, closeable, blocked, healthy), a per-issue report, per-category confirmation, then batched label / state / comment edits. Use when the user says "triage issues", "groom the backlog", "clean up issues", "/git-issue-triage", "what's in the backlog", "any stale issues", "review my open issues", "the backlog is a mess", "nothing in here is labelled", or otherwise complains about issue clutter. Boundary with `git-issue-create`: that one writes a single new issue, this one only grooms issues that already exist. Boundary with `git-issue-start`: that one picks one issue up and branches, this one never starts work. Destructive - previews everything and confirms per category before touching anything.
 tags: [git, github]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
-# Triage Issues
+# Git Issue Triage
 
 Groom the open backlog. Read-only sweep -> bucketed report -> per-category confirm -> apply -> verify.
 
@@ -117,36 +117,7 @@ Never hardcode the namespaced taxonomy. Detect it with the `gh label list` from 
 
 ## Report Format
 
-Grouped by bucket, count in the heading, one line per issue, no prose between groups:
-
-```
-Unlabeled (4)
-#42   catalog sort drops entries with no updated_at   ->  type: bug
-#51   add rss feed to the site                        ->  type: enhancement
-#58   kasetto sync skips unlisted mcps                ->  type: documentation
-#63   pnpm audit noise on every ci run                ->  needs a human read
-
-Unprioritized (2)
-#42   catalog sort drops entries with no updated_at   ->  priority: high (data loss)
-#51   add rss feed to the site                        ->  no signal, propose nothing
-
-Stale (3)
-#17   spike: alternate theme tokens                   ->  close, not planned
-#23   revisit biome rule set                          ->  ping (11 comments)
-#29   investigate turbopack build times               ->  leave
-
-Likely Duplicate (1)
-#61   sort order wrong on archived skills             ->  link #42 + status: duplicate + close (--duplicate-of 42)
-
-Closeable (2)
-#34   pin engines.node in site/package.json           ->  close, completed (PR #77)
-#39   drop the edge runtime from icon route           ->  close, completed (PR #81)
-
-Blocked (1)
-#48   migrate catalog reads to the new loader         ->  status: blocked + comment (waits on #34)
-
-Healthy: 9
-```
+Grouped by bucket, count in the heading, one line per issue, no prose between groups -> [references/report-format.md](references/report-format.md).
 
 Titles truncate at 50 chars. Lead with: "N open, N actionable across M categories."
 
@@ -201,7 +172,7 @@ completed first. We should be able to revisit this in the next sprint.
 - New standalone issue -> `git-issue-create`
 - Picking a triaged issue up and branching -> `git-issue-start`
 - A triaged issue too big to be one task -> say so in the report and let the user split it; never split it yourself
-- Local branch clutter, the same sweep shape one layer down -> `git-branches-cleanup`
+- Local branch clutter, the same sweep shape one layer down -> `git-branch-cleanup`
 
 ## Rules
 

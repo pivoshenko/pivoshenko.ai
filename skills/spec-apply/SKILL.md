@@ -11,7 +11,7 @@ description: >-
   fold into the specs -> `spec-archive`; a plain GitHub issue with no OpenSpec change behind it ->
   `git-issue-start`.
 tags: [openspec, spec, agents]
-updated_at: 2026-09-14
+updated_at: 2026-09-17
 ---
 
 # Spec Apply
@@ -124,23 +124,7 @@ git branch -d <change>/<task-id>
 
 ## Brief
 
-The worker sees none of this conversation. Everything it needs goes in the brief:
-
-```
-Implement task 1.2 of OpenSpec change add-catalog-filtering, in the worktree
-/Users/me/src/pivoshenko.ai-1-2, on branch add-catalog-filtering/1-2.
-
-Task: 1.2 Tag chip component - render one chip per tag, click toggles its selected state.
-
-You own exactly these paths: site/components/tag-chips.tsx
-Do not create, edit, or delete anything else. Do not touch
-openspec/changes/add-catalog-filtering/tasks.md. Other tasks from this wave are in
-flight in sibling worktrees whose branches all merge back into the same base.
-
-Verify with: just check
-
-Write your complete result as Markdown to <path>. Reply with only that absolute path, nothing else.
-```
+The worker sees none of this conversation. Everything it needs goes in the brief -> [references/worker-brief.md](references/worker-brief.md).
 
 - The path is that task's worktree from **Isolation**, never the main checkout
 - The task text is the `N.M` line from `tasks.md`, verbatim

@@ -5,7 +5,7 @@ tags: [git]
 updated_at: 2026-09-13
 ---
 
-# Sync Branch
+# Git Branch Sync
 
 Catch current branch up to base. Rebase only. Surface conflicts.
 

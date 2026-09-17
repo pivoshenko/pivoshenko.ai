@@ -6,7 +6,7 @@ tags: [git]
 updated_at: 2026-09-13
 ---
 
-# Commit
+# Git Commit
 
 Conventional commit. No confirm. No dry-run.
 
