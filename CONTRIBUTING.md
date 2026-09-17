@@ -7,6 +7,7 @@
     - [How to Submit an Enhancement](#how-to-submit-an-enhancement)
   - [Code Contributions](#code-contributions)
     - [Local Development](#local-development)
+    - [Authoring Skills](#authoring-skills)
     - [CI/CD](#cicd)
     - [Branches](#branches)
     - [Commits](#commits)
@@ -85,6 +86,25 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 
 > [!IMPORTANT]
 > Behavioral code changes should include or update tests.
+
+### Authoring Skills
+
+A skill is a directory under `skills/` holding a `SKILL.md` and, when it needs them, `references/`, `scripts/`, `assets/`, and `preview/` subdirectories.
+
+`SKILL.md` carries instructions and nothing else - prose, rules, numbered flow steps, and the short inline commands those steps run. Every artifact an agent copies out, fills in, or matches its own output against lives in a subdirectory and is referenced from `SKILL.md` by relative path:
+
+| Directory | What goes there |
+| --- | --- |
+| `references/` | Body templates, report formats, output shapes, syntax tables, and any long-form background the flow links rather than inlines |
+| `scripts/` | Executable helpers the flow invokes |
+| `assets/` | Files shipped as-is - CSS, HTML templates, images, fonts |
+| `preview/` | Renderable demos of what the skill produces |
+
+The test for a fenced block: if an agent would copy it out or match against it, it is an artifact and it moves, however short. A snippet that only illustrates the rule in the sentence above it may stay inline, under roughly ten lines.
+
+Why this matters: `SKILL.md` is loaded in full every time the skill triggers, while a reference is read only when the step that needs it runs. An inlined template costs context on every invocation and buries the flow it interrupts.
+
+Link a reference the way the existing skills do - `Full table -> [references/callouts.md](references/callouts.md)` - so the agent knows what it will get before spending a read.
 
 ### CI/CD
 

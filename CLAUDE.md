@@ -33,7 +33,7 @@ The content is the product. The site is a viewer for it.
 
 ### Skills
 
-One directory per skill under `skills/`, each with a `SKILL.md` and optional `references/`, `scripts/`, `assets/`, `preview/` subdirectories. The `SKILL.md` frontmatter is the contract the site and Kasetto both read, enforced by `just lint-skills` - copy its shape from an existing skill:
+One directory per skill under `skills/`, each with a `SKILL.md` and optional `references/`, `scripts/`, `assets/`, `preview/` subdirectories. `SKILL.md` holds instructions only - any artifact an agent copies out or matches its output against (body template, report format, worker brief, task shape) belongs in `references/` and is linked by relative path, because `SKILL.md` loads in full on every trigger while a reference is read only when its step runs. The rule is in `CONTRIBUTING.md`. The `SKILL.md` frontmatter is the contract the site and Kasetto both read, enforced by `just lint-skills` - copy its shape from an existing skill:
 
 - `description` is a routing document, not a summary - it must enumerate the literal phrases that should trigger the skill, and name the boundary against any neighbouring skill it could be confused with
 - `tags` drives the site's filter UI; local skills use frontmatter tags, external ones fall back to the lookup tables in `site/lib/external-tags.ts`
@@ -73,4 +73,4 @@ For design tokens and semantic utility classes, read `pivoshenko.ui`'s own `CLAU
 
 ## Conventions
 
-Commits, branches, and CI are covered in `CONTRIBUTING.md`. Commit scopes used here are the asset kind or area (`skills`, `mcps`, `instructions`, `justfile`, `site`).
+Commits, branches, CI, and the skill-authoring rule are covered in `CONTRIBUTING.md`. Commit scopes used here are the asset kind or area (`skills`, `mcps`, `instructions`, `justfile`, `site`).

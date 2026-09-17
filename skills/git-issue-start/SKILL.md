@@ -12,7 +12,7 @@ tags: [git, github]
 updated_at: 2026-09-13
 ---
 
-# Start Issue
+# Git Issue Start
 
 Issue -> assign -> branch -> checked out. No confirm.
 

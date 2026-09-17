@@ -2,7 +2,7 @@
 name: vercel-hygiene
 description: Audit and harden the 4 pivoshenko brand sites on Vercel (pivoshenko.dev, pivoshenko.startpage, pivoshenko.wallpapers, pivoshenko.ai), team `pivoshenko`. Read-only sweep -> per-site report (ok/attention/action) -> confirmed fixes. Emphasizes security headers and analytics coverage. Use when the user says "audit vercel", "check vercel hygiene", "harden the sites", "vercel security", "check analytics coverage", "vercel health check", or wants a periodic once-over of the Vercel setup. Delegates perf/cost -> `vercel-optimize`, CLI ops and deployments -> `vercel-cli` (or the `mcp__vercel__deploy_to_vercel` tool).
 tags: [vercel, nextjs, deploy]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
 # Vercel Hygiene
@@ -109,16 +109,7 @@ First, `mcp__vercel__list_projects` on team `pivoshenko`: any project not in the
 
 ## Report Format
 
-One row per site × check. Verdicts come from the run.
-
-```
-Site                  Check                        Verdict
-─────────────────     ──────────────────────────   ────────
-all 4                 Security headers             <verdict>
-pivoshenko.dev        Analytics / Speed Insights   <verdict>
-startpage             Analytics / Speed Insights   <verdict>
-...
-```
+One row per site x check, verdicts from the run -> [references/report-format.md](references/report-format.md).
 
 Collapse to `all 4` only when all four genuinely share a verdict - a collapsed row that hides one differing site is a missed finding. Lead with: "N ok, N attention, N actions available." Then `AskUserQuestion` multiSelect over the `action` items only.
 

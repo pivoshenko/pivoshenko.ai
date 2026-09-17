@@ -1,11 +1,11 @@
 ---
-name: Punctuation
-description: "Guardrail against typographic drift."
+name: Text Style
+description: "Guardrail against typographic and formatting drift in anything written."
 tags: [meta, style]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
-# Punctuation
+# Text Style
 
 Applies to everything written: source files, docs, commit messages, PR bodies, issues, and posts.
 
@@ -29,6 +29,8 @@ The em dash is the absolute one: never emit it, in any position, for any reason.
 ## Headings
 
 **Headings are Title Case**, at every level, including the ones inside a document body rather than only its title.
+
+**Exactly one blank line above a heading and one below it.** Never a heading butted against the text above or below it, never two blank lines on either side. The only heading without a blank line above is the one opening the file, which still takes one blank line after the frontmatter fence.
 
 ## Prose
 

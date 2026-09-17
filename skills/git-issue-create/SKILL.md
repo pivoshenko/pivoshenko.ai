@@ -10,10 +10,10 @@ description: >-
   an issue that already exists goes to `git-issue-start`.
   Creates the issue immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
-# Create Issue
+# Git Issue Create
 
 File one standalone issue. No confirm.
 
@@ -117,18 +117,7 @@ Resolve each intended label through its candidate chain, first existing name win
 
 ## Fallback Body
 
-No template found - the normal case:
-
-```markdown
-## Problem
-
-<1-3 lines. What is wrong or missing, and the consequence. Not the solution.>
-
-## Done when
-
-- <observable condition, checkable by someone who did not write this>
-- <...>
-```
+No template found - the normal case. Fill [references/issue-body.md](references/issue-body.md).
 
 Optional, only when it carries a fact:
 

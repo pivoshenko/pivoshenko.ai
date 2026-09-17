@@ -10,10 +10,10 @@ description: >-
   explicitly local framing ("commit this", "save my work", "ship this locally") stops at a commit.
   Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-09-13
+updated_at: 2026-09-17
 ---
 
-# Create PR
+# Git PR Create
 
 Open GitHub PR for current branch. No confirm.
 
@@ -105,26 +105,7 @@ Examples:
 
 ## Fallback Body Template
 
-Use when no repo template exists:
-
-```markdown
-# Pull Request Checklist
-
-<!-- Optional - uncomment if this PR closes an issue -->
-<!-- Resolves: #issue-number-here -->
-
-## Summary
-
-<1-3 bullets. Why > what.>
-
-## Checklist
-
-- [ ] My code follows the project style guidelines
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings or errors
-```
+Use when no repo template exists -> fill [references/pr-body.md](references/pr-body.md).
 
 - Diff = what. Body = why
 - Issue detected in step 3 -> uncomment the `Resolves:` line, fill the first number, extras as `Refs: #<n>` lines under it. None detected -> leave both comment lines out

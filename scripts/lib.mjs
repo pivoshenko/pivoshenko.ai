@@ -122,7 +122,7 @@ function isRealDate(s) {
 
 // == Punctuation ==
 
-// Mirrors instructions/punctuation.md
+// Mirrors the Characters section of instructions/text-style.md
 const BANNED = [
   ['—', 'em dash, use a spaced hyphen " - "'],
   ['–', 'en dash, use a plain hyphen "-"'],
@@ -137,7 +137,7 @@ const BANNED = [
 // These two document the banned characters, so they quote them on purpose
 const PUNCTUATION_ALLOWLIST = [
   'skills/humanize/',
-  'instructions/punctuation.md',
+  'instructions/text-style.md',
 ]
 
 export function checkPunctuation(path, text, report) {
