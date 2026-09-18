@@ -1,0 +1,15 @@
+id = "agents.fleet"
+name = "Agents Fleet"
+version = "101.0"
+min_herdr_version = "0.7.0"
+description = "agents.fleet - a status page for every coding agent on this machine"
+platforms = ["linux", "macos", "windows"]
+
+[[startup]]
+command = ["node", "plugin/start.mjs"]
+
+[[actions]]
+id = "open"
+title = "Open agents.fleet"
+contexts = ["workspace"]
+command = ["node", "plugin/open.mjs"]

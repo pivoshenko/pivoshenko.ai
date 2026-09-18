@@ -1,0 +1,90 @@
+:root {
+  --rosewater: #ddc7c2;
+  --flamingo: #dd797e;
+  --pink: #c89aa4;
+  --mauve: #b88aa0;
+  --red: #e05d55;
+  --maroon: #d2897c;
+  --peach: #d97757;
+  --yellow: #d4a85a;
+  --green: #8a9d68;
+  --teal: #83aaa0;
+  --sky: #68a8b3;
+  --sapphire: #6499b1;
+  --blue: #7ba0c4;
+  --lavender: #a89bb5;
+  --text: #e4e2de;
+  --subtext1: #b8b3a8;
+  --subtext0: #9b958a;
+  --overlay2: #a8a29e;
+  --overlay1: #78716c;
+  --overlay0: #57534e;
+  --surface2: #373634;
+  --surface1: #2e2e2c;
+  --surface0: #262625;
+  --base: #1f1f1e;
+  --mantle: #1a1a19;
+  --crust: #151514;
+  --bg-canvas: #1f1f1e;
+  --bg-surface: #262625;
+  --bg-raised: #2e2e2c;
+  --bg-sunken: #1a1a19;
+  --bg-overlay: #57534e;
+  --fg-default: #e4e2de;
+  --fg-muted: #b8b3a8;
+  --fg-subtle: #9b958a;
+  --fg-faint: #78716c;
+  --border-default: #2e2e2c;
+  --border-subtle: #262625;
+  --border-strong: #373634;
+  --border-card: rgba(87, 83, 78, 0.6);
+  --accent-primary: #d97757;
+  --accent-secondary: #d4a85a;
+  --accent-success: #8a9d68;
+  --accent-warning: #d4a85a;
+  --accent-danger: #e05d55;
+  --accent-info: #7ba0c4;
+  --on-accent: #1f1f1e;
+  --accent-glow: rgba(217, 119, 87, 0.14);
+  --selection: rgba(217, 119, 87, 0.28);
+  --scrim: rgba(21, 21, 20, 0.72);
+  --accent: var(--accent-primary);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+  --shadow-rest: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 24px -18px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+  --shadow-float: 0 24px 64px -16px rgba(0, 0, 0, 0.7);
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 600ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Martian Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+[data-accent="peach"] { --accent: var(--peach); }
+[data-accent="yellow"] { --accent: var(--yellow); }
+[data-accent="green"] { --accent: var(--green); }
+[data-accent="teal"] { --accent: var(--teal); }
+[data-accent="sky"] { --accent: var(--sky); }
+[data-accent="sapphire"] { --accent: var(--sapphire); }
+[data-accent="blue"] { --accent: var(--blue); }
+[data-accent="lavender"] { --accent: var(--lavender); }
+[data-accent="mauve"] { --accent: var(--mauve); }
+[data-accent="pink"] { --accent: var(--pink); }
+[data-accent="flamingo"] { --accent: var(--flamingo); }
+[data-accent="rosewater"] { --accent: var(--rosewater); }
+[data-accent="maroon"] { --accent: var(--maroon); }
+[data-accent="red"] { --accent: var(--red); }
