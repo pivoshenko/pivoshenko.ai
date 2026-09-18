@@ -182,7 +182,6 @@ function AgentCard({ agent, onOpen }) {
         }
       },
     },
-    agent.pane ? h(JumpLink, { pane: agent.pane }) : null,
     h(
       P.Card,
       {
@@ -190,9 +189,16 @@ function AgentCard({ agent, onOpen }) {
         accent: s.accent,
         glyph: statusIcon(agent.status),
 
-        eyebrow: [agent.repo ?? agent.cwd ?? "unknown repository", agent.pane, age(agent.idleMs)]
-          .filter(Boolean)
-          .join(" · "),
+        eyebrow: [
+          h(
+            "span",
+            { key: "t", className: "fleet-card__eye" },
+            [agent.repo ?? agent.cwd ?? "unknown repository", agent.pane, age(agent.idleMs)]
+              .filter(Boolean)
+              .join(" · "),
+          ),
+          agent.pane ? h(JumpLink, { key: "j", pane: agent.pane }) : null,
+        ],
         title: agent.name ?? agent.title ?? agent.pane,
 
         description: agent.name ? agent.title : null,
@@ -314,7 +320,7 @@ function JumpLink({ pane, label }) {
     label
       ? h("span", null, { idle: "jump to pane", going: "jumping", done: "focused", failed: "failed" }[state])
       : null,
-    h(Icon, { name: "jump", size: label ? 14 : 15 }),
+    h(Icon, { name: "jump", size: label ? 14 : 13 }),
   );
 }
 

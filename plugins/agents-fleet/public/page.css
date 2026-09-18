@@ -216,7 +216,6 @@ body {
 }
 
 .fleet-hit {
-  position: relative;
   cursor: pointer;
 }
 
@@ -539,16 +538,24 @@ body {
   margin: 0;
 }
 
+.fleet-card__eye {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-card__eyebrow .fleet-jump {
+  margin-block: -3px;
+}
+
 .fleet-jump {
-  position: absolute;
-  z-index: 2;
-  top: var(--space-3);
-  right: var(--space-3);
   display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   padding: 0;
   background: transparent;
   color: var(--fg-faint);
@@ -594,7 +601,6 @@ body {
 }
 
 .fleet-jump--wide {
-  position: static;
   gap: var(--space-2);
   width: auto;
   height: 28px;
