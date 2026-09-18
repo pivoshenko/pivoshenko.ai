@@ -16,6 +16,7 @@ What's in here?
 - Locally authored MCP definitions, see [`mcps/`](mcps)
 - Locally authored instructions (`CLAUDE.md` / `AGENTS.md` / `.cursor/rules` ... rule fragments), see [`instructions/`](instructions)
 - External skills, MCPs, and instructions, see [`kasetto.yaml`](kasetto.yaml)
+- Herdr plugins, the only executable content here, see [`plugins/`](plugins)
 - Retired skills and instructions, kept for reference but no longer synced, see [`archive/`](archive)
 
 ## Main Principles
@@ -39,6 +40,26 @@ Or add the source to `~/.config/kasetto/config.yaml` and then run `kst sync`:
 ```yaml
 source: https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
 ```
+
+## Plugins
+
+[`plugins/`](plugins) holds [Herdr](https://herdr.dev) plugins: workflow tools that run as real processes rather than prompt fragments. Kasetto does not distribute them - it knows only skills, MCPs, and instructions - so nothing under `plugins/` appears in [`kasetto.yaml`](kasetto.yaml) and nothing syncs it. The site ignores the directory too, since it reads `skills/`, `mcps/`, and `instructions/` by name.
+
+They are installed by Herdr itself, listed one per line in [`herdr.plugins`](https://github.com/pivoshenko/pivoshenko.dotfiles/blob/main/herdr.plugins) in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles) and applied by `just install-herdr-plugins`:
+
+```shell
+herdr plugin install pivoshenko/pivoshenko.ai/plugins/<name>
+```
+
+This is the one exception to the rule that content here is Markdown and JSON with no build step, so it comes with its own constraints:
+
+- A plugin is ordinary code that runs as your user and can call the full Herdr CLI, so review a manifest before installing it
+- Plugins are global to the user, and a `[[startup]]` hook runs on every Herdr session, in every project
+- Herdr has no `plugin update` in v1, so refreshing a plugin means reinstalling it
+
+### agents.fleet
+
+[`plugins/agents-fleet`](plugins/agents-fleet) is a status page for every coding agent on the machine: a board of who is working, who is waiting on you, and what each one is doing right now, plus what closed agents produced.
 
 ## Rules
 
