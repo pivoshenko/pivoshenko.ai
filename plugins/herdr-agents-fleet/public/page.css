@@ -120,6 +120,8 @@ body {
 
 .fleet-hero .pv-stat__value {
   color: var(--accent);
+  font-size: clamp(28px, 2.6vw, 42px);
+  line-height: 1.16;
 }
 
 @media (max-width: 720px) {
