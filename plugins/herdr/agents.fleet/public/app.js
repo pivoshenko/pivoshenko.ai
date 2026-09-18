@@ -723,7 +723,7 @@ function App() {
 
     h(
       "section",
-      { className: "fleet-in fleet-block fleet-stale" },
+      { className: "fleet-in fleet-block fleet-stale", "data-accent": STATUS.stale.accent },
       h(P.SectionHeading, {
         title: "stale agents",
         count: staleShown.length,
@@ -747,7 +747,7 @@ function App() {
 
     h(
       "section",
-      { className: "fleet-in fleet-block fleet-finished" },
+      { className: "fleet-in fleet-block fleet-finished", "data-accent": STATUS.done.accent },
       h(P.SectionHeading, {
         title: "finished agents",
         count: closedShown.length,
