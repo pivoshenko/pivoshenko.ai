@@ -45,9 +45,9 @@ const STATUS = {
   blocked: { icon: "blocked", word: "blocked", accent: "yellow", hint: "waiting on you" },
   working: { icon: "working", word: "working", accent: "blue", spin: true, hint: "running now" },
   done: { icon: "done", word: "done", accent: "green", hint: "finished, unread" },
-  idle: { icon: "idle", word: "idle", accent: "peach", quiet: true, hint: "nothing queued" },
+  idle: { icon: "idle", word: "idle", accent: "sapphire", quiet: true, hint: "nothing queued" },
   stale: { icon: "stale", word: "stale", accent: "mauve", quiet: true, hint: "no herdr pane, last seen only" },
-  unknown: { icon: "idle", word: "unknown", accent: "peach", quiet: true, hint: "unclassified" },
+  unknown: { icon: "idle", word: "unknown", accent: "lavender", quiet: true, hint: "unclassified" },
 };
 const ORDER = ["blocked", "working", "done", "idle", "stale", "unknown"];
 const OPTIONAL = new Set(["stale", "unknown"]);
