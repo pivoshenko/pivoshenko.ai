@@ -43,12 +43,12 @@ source: https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
 
 ## Plugins
 
-[`plugins/`](plugins) holds [Herdr](https://herdr.dev) plugins: workflow tools that run as real processes rather than prompt fragments. Kasetto does not distribute them - it knows only skills, MCPs, and instructions - so nothing under `plugins/` appears in [`kasetto.yaml`](kasetto.yaml) and nothing syncs it. The site ignores the directory too, since it reads `skills/`, `mcps/`, and `instructions/` by name.
+[`plugins/`](plugins) holds agent-host plugins, one directory per host, so far only [`plugins/herdr`](plugins/herdr) for [Herdr](https://herdr.dev): workflow tools that run as real processes rather than prompt fragments. Kasetto does not distribute them - it knows only skills, MCPs, and instructions - so nothing under `plugins/` appears in [`kasetto.yaml`](kasetto.yaml) and nothing syncs it. The site ignores the directory too, since it reads `skills/`, `mcps/`, and `instructions/` by name.
 
 They are installed by Herdr itself, listed one per line in [`herdr.plugins`](https://github.com/pivoshenko/pivoshenko.dotfiles/blob/main/herdr.plugins) in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles) and applied by `just install-herdr-plugins`:
 
 ```shell
-herdr plugin install pivoshenko/pivoshenko.ai/plugins/<name>
+herdr plugin install pivoshenko/pivoshenko.ai/plugins/herdr/<name>
 ```
 
 This is the one exception to the rule that content here is Markdown and JSON with no build step, so it comes with its own constraints:
@@ -59,7 +59,7 @@ This is the one exception to the rule that content here is Markdown and JSON wit
 
 ### agents.fleet
 
-[`plugins/herdr-agents-fleet`](plugins/herdr-agents-fleet) is a status page for every coding agent on the machine: a board of who is working, who is waiting on you, and what each one is doing right now, plus what closed agents produced.
+[`plugins/herdr/agents.fleet`](plugins/herdr/agents.fleet) is a status page for every coding agent on the machine: a board of who is working, who is waiting on you, and what each one is doing right now, plus what closed agents produced.
 
 ## Rules
 
