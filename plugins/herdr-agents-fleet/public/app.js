@@ -751,8 +751,13 @@ function App() {
       className: "fleet-foot",
       pattern: true,
       patternVariant: "ridge",
-      copyright: "\u00a9 2026 Volodymyr Pivoshenko",
-      email: "contact@pivoshenko.dev",
+      copyright: h(
+        React.Fragment,
+        null,
+        "2026 Volodymyr Pivoshenko <",
+        h("a", { className: "pv-footer__email", href: "mailto:contact@pivoshenko.dev" }, "contact@pivoshenko.dev"),
+        ">",
+      ),
     }),
 
     h(P.BackToTop, { accent: "blue", glyph: h(Icon, { name: "top", size: 14 }) }),
