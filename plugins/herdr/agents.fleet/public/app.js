@@ -253,7 +253,7 @@ function ClosedCard({ agent, onOpen }) {
       P.Card,
       {
         className: "fleet-card",
-        accent: "sapphire",
+        accent: STATUS.done.accent,
         glyph: h(Icon, { name: "done" }),
         eyebrow: [agent.repo ?? "unknown repository", age(Date.now() - Date.parse(agent.endedAt))]
           .filter(Boolean)
@@ -275,10 +275,10 @@ function ClosedCard({ agent, onOpen }) {
   );
 }
 
-function Fold({ label, count, open, onToggle, accent, children }) {
+function Fold({ label, count, open, onToggle, children }) {
   return h(
     "div",
-    { className: "fleet-fold", "data-accent": accent },
+    { className: "fleet-fold" },
     h(P.SectionHeading, {
       title: label,
       count,
@@ -345,10 +345,10 @@ function ToolList({ lines }) {
   );
 }
 
-function UsedList({ label, items, empty, accent }) {
+function UsedList({ label, items, empty }) {
   return h(
     "div",
-    { className: "fleet-used", "data-accent": accent },
+    { className: "fleet-used" },
     h(
       "div",
       { className: "pv-label fleet-used__head" },
@@ -385,9 +385,8 @@ function Activity({ agent, onClose }) {
   }, [onClose]);
 
   if (!agent) return null;
-  const s = STATUS[agent.status] ?? STATUS.unknown;
-
   const finished = Array.isArray(agent.wrote);
+  const s = STATUS[agent.status] ?? (finished ? STATUS.done : STATUS.unknown);
   const subs = agent.subagents ?? [];
   const [showTools, setShowTools] = useState(false);
   const [showTalk, setShowTalk] = useState(true);
@@ -497,7 +496,6 @@ function Activity({ agent, onClose }) {
             count: (agent.turns ?? []).length,
             open: showTalk,
             onToggle: () => setShowTalk((v) => !v),
-            accent: "blue",
           },
           h(Conversation, { turns: agent.turns ?? [] }),
         ),
@@ -508,12 +506,11 @@ function Activity({ agent, onClose }) {
             count: finished ? agent.wrote.length + agent.edited.length : agent.recent?.length ?? 0,
             open: showTools,
             onToggle: () => setShowTools((v) => !v),
-            accent: "peach",
           },
           h(ToolList, { lines }),
         ),
-        h(UsedList, { label: "skills used", items: skills, accent: "teal", empty: "no skill invoked in this session" }),
-        h(UsedList, { label: "mcp servers used", items: mcps, accent: "lavender", empty: "no mcp server called in this session" }),
+        h(UsedList, { label: "skills used", items: skills, empty: "no skill invoked in this session" }),
+        h(UsedList, { label: "mcp servers used", items: mcps, empty: "no mcp server called in this session" }),
         h(
           "dl",
           { className: "fleet-kv" },
