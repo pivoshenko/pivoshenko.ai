@@ -599,7 +599,7 @@
     var nav = props.nav || [];
     var links = props.links || [];
     return h("footer", { className: cx("pv-footer", props.className), "data-accent": props.accent },
-      props.pattern ? h(Contours, { mask: "radial", levels: 10, cell: 16, speed: 0.5, opacity: 0.55, accentEvery: 0, seed: 7, interactive: false, variant: props.patternVariant }) : null,
+      props.pattern ? h(Contours, { mask: "radial", levels: 10, cell: 16, speed: 0.5, opacity: 0.55, accentEvery: 0, seed: 7, interactive: props.patternInteractive === true, variant: props.patternVariant }) : null,
       h("div", { className: "pv-footer__in" },
         (nav.length || links.length) ? h("div", { className: "pv-footer__top" },
           h("nav", { className: "pv-footer__nav", "aria-label": props.navLabel || "Sitemap" },
