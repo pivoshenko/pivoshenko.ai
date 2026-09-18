@@ -479,12 +479,14 @@ body {
   line-height: 16px;
 }
 
-.fleet-finished {
+.fleet-finished,
+.fleet-stale {
   margin-top: var(--space-12);
   margin-bottom: var(--space-16);
 }
 
-.fleet-finished .fleet-board {
+.fleet-finished .fleet-board,
+.fleet-stale .fleet-board {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 

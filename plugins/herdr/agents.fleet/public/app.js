@@ -506,6 +506,7 @@ function App() {
   const [repo, setRepo] = useState("all");
   const [open, setOpen] = useState(null);
   const [showClosed, setShowClosed] = useState(false);
+  const [showStale, setShowStale] = useState(false);
 
   const agents = fleet?.agents ?? [];
   const close = useCallback(() => setOpen(null), []);
@@ -529,9 +530,11 @@ function App() {
     });
   }, [agents, q, status, repo]);
 
-  const columns = ORDER.map((k) => [k, shown.filter((a) => a.status === k)]).filter(
-    ([k, list]) => !OPTIONAL.has(k) || list.length,
-  );
+  const columns = ORDER.filter((k) => k !== "stale")
+    .map((k) => [k, shown.filter((a) => a.status === k)])
+    .filter(([k, list]) => !OPTIONAL.has(k) || list.length);
+
+  const staleShown = shown.filter((a) => a.status === "stale");
 
   const closed = fleet?.closed ?? [];
   const closedShown = useMemo(() => {
@@ -720,9 +723,33 @@ function App() {
 
     h(
       "section",
+      { className: "fleet-in fleet-block fleet-stale" },
+      h(P.SectionHeading, {
+        title: "stale agents",
+        count: staleShown.length,
+        level: 2,
+        action: h(
+          P.Tag,
+          { pressable: true, active: showStale, onClick: () => setShowStale((v) => !v) },
+          showStale ? "hide" : "show",
+        ),
+      }),
+      showStale
+        ? staleShown.length
+          ? h(
+              "div",
+              { className: "fleet-board" },
+              staleShown.map((a) => h(AgentCard, { key: a.id, agent: a, onOpen: setOpen })),
+            )
+          : h("p", { className: "fleet-used__none" }, "nothing stale")
+        : h("p", { className: "fleet-used__none" }, `${staleShown.length} agents with no herdr pane`),
+    ),
+
+    h(
+      "section",
       { className: "fleet-in fleet-block fleet-finished" },
       h(P.SectionHeading, {
-        title: "finished",
+        title: "finished agents",
         count: closedShown.length,
         level: 2,
         action: h(
