@@ -49,7 +49,7 @@ function Icon({ name, size = 16, spin = false, className }) {
 
 const STATUS = {
   blocked: { icon: "blocked", word: "blocked", accent: "yellow", hint: "waiting on you" },
-  working: { icon: "working", word: "working", accent: "peach", spin: true, hint: "running now" },
+  working: { icon: "working", word: "working", accent: "blue", spin: true, hint: "running now" },
   done: { icon: "done", word: "done", accent: "green", hint: "finished, unread" },
   idle: { icon: "idle", word: "idle", accent: "peach", quiet: true, hint: "nothing queued" },
   stale: { icon: "stale", word: "stale", accent: "mauve", quiet: true, hint: "no herdr pane, last seen only" },
@@ -596,7 +596,7 @@ function App() {
           "div",
           { className: "pv-stats" },
           h(P.Stat, { value: counts.blocked ?? 0, label: "blocked", hint: "waiting on you", accent: "yellow" }),
-          h(P.Stat, { value: counts.working ?? 0, label: "working", hint: "running now", accent: "peach" }),
+          h(P.Stat, { value: counts.working ?? 0, label: "working", hint: "running now", accent: "blue" }),
           h(P.Stat, {
             value: (counts.idle ?? 0) + (counts.done ?? 0),
             label: "quiet",
