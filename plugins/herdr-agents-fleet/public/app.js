@@ -761,7 +761,7 @@ function App() {
       email: "contact@pivoshenko.dev",
     }),
 
-    h(P.BackToTop, { accent: "peach" }),
+    h(P.BackToTop, { accent: "blue" }),
 
     opened ? h(Activity, { agent: opened, onClose: close }) : null,
   );
