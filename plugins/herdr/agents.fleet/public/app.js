@@ -792,7 +792,6 @@ function App() {
       className: "fleet-foot",
       pattern: true,
       patternVariant: "ridge",
-      patternInteractive: true,
       copyright: h(
         React.Fragment,
         null,
