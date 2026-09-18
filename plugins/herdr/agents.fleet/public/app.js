@@ -762,7 +762,7 @@ function App() {
 
     h(
       "section",
-      { className: "fleet-in fleet-block fleet-finished", "data-accent": STATUS.done.accent },
+      { className: "fleet-in fleet-block fleet-finished", "data-accent": "peach" },
       h(P.SectionHeading, {
         title: "finished agents",
         count: closedShown.length,
