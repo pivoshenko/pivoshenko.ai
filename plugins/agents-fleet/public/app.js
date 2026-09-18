@@ -9,6 +9,7 @@ const PATHS = {
   working: ["path|M21 12a9 9 0 1 1-4.5-7.79"],
   done: ["circle|12,12,9", "path|M8.5 12.5l2.5 2.5 4.5-5"],
   idle: ["circle|12,12,9"],
+  stale: ["circle|12,12,9", "path|M12 7.5v4.5l3 1.5"],
   branch: ["circle|6,18,3", "circle|6,6,3", "circle|18,6,3", "path|M9 6h5a4 4 0 0 1 4 4v1M6 9v6"],
   terminal: ["path|M4 17l5-5-5-5", "path|M12 19h8"],
   arrow: ["path|M5 12h14", "path|M13 6l6 6-6 6"],
@@ -52,9 +53,11 @@ const STATUS = {
   working: { icon: "working", word: "working", accent: "peach", spin: true, hint: "running now" },
   done: { icon: "done", word: "done", accent: "green", hint: "finished, unread" },
   idle: { icon: "idle", word: "idle", accent: "peach", quiet: true, hint: "nothing queued" },
+  stale: { icon: "stale", word: "stale", accent: "mauve", quiet: true, hint: "no herdr pane, last seen only" },
   unknown: { icon: "idle", word: "unknown", accent: "peach", quiet: true, hint: "unclassified" },
 };
-const ORDER = ["blocked", "working", "done", "idle", "unknown"];
+const ORDER = ["blocked", "working", "done", "idle", "stale", "unknown"];
+const OPTIONAL = new Set(["stale", "unknown"]);
 
 function statusIcon(key, size) {
   const s = STATUS[key] ?? STATUS.unknown;
@@ -571,7 +574,7 @@ function App() {
   }, [agents, q, status, repo]);
 
   const columns = ORDER.map((k) => [k, shown.filter((a) => a.status === k)]).filter(
-    ([k, list]) => k !== "unknown" || list.length,
+    ([k, list]) => !OPTIONAL.has(k) || list.length,
   );
 
   const closed = fleet?.closed ?? [];
