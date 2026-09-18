@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { join, extname, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
-import { collect, focusPane } from "./fleet.mjs";
+import { collect } from "./fleet.mjs";
 
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "public");
 const PORT = Number(process.env.FLEET_PORT ?? 7777);
@@ -80,33 +80,6 @@ const server = createServer(async (req, res) => {
     req.on("close", () => {
       clearInterval(ka);
       clients.delete(res);
-    });
-    return;
-  }
-
-  if (url.pathname === "/api/focus") {
-    const origin = req.headers.origin;
-    const allowed = !origin || origin === `http://127.0.0.1:${PORT}` || origin === `http://localhost:${PORT}`;
-    if (req.method !== "POST" || !allowed) {
-      res.writeHead(403, { "content-type": TYPES[".json"] });
-      res.end(JSON.stringify({ ok: false, error: "forbidden" }));
-      return;
-    }
-    let body = "";
-    req.on("data", (c) => {
-      body += c;
-      if (body.length > 1024) req.destroy();
-    });
-    req.on("end", async () => {
-      let target = null;
-      try {
-        target = JSON.parse(body).pane;
-      } catch {
-        target = null;
-      }
-      const out = await focusPane(target);
-      res.writeHead(out.ok ? 200 : 400, { "content-type": TYPES[".json"], "cache-control": "no-store" });
-      res.end(JSON.stringify(out));
     });
     return;
   }

@@ -13,7 +13,6 @@ const PATHS = {
   branch: ["circle|6,18,3", "circle|6,6,3", "circle|18,6,3", "path|M9 6h5a4 4 0 0 1 4 4v1M6 9v6"],
   terminal: ["path|M4 17l5-5-5-5", "path|M12 19h8"],
   arrow: ["path|M5 12h14", "path|M13 6l6 6-6 6"],
-  jump: ["path|M7 17L17 7", "path|M9 7h8v8"],
   close: ["path|M6 6l12 12", "path|M18 6L6 18"],
   info: ["circle|12,12,9", "path|M12 11v5", "path|M12 8h.01"],
   alert: ["path|M12 4l9 16H3z", "path|M12 10v4", "path|M12 17h.01"],
@@ -197,7 +196,6 @@ function AgentCard({ agent, onOpen }) {
               .filter(Boolean)
               .join(" · "),
           ),
-          agent.pane ? h(JumpLink, { key: "j", pane: agent.pane }) : null,
         ],
         title: agent.name ?? agent.title ?? agent.pane,
 
@@ -280,47 +278,6 @@ function ClosedCard({ agent, onOpen }) {
         h("span", { className: "fleet-card__go" }, h(Icon, { name: "arrow", size: 14 })),
       ),
     ),
-  );
-}
-
-async function jumpTo(pane, setState) {
-  setState("going");
-  try {
-    const r = await fetch("/api/focus", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ pane }),
-    });
-    const d = await r.json();
-    setState(d.ok ? "done" : "failed");
-  } catch {
-    setState("failed");
-  }
-  setTimeout(() => setState("idle"), 2000);
-}
-
-function JumpLink({ pane, label }) {
-  const [state, setState] = useState("idle");
-  if (!pane) return null;
-  return h(
-    "button",
-    {
-      className: label ? "fleet-jump fleet-jump--wide" : "fleet-jump",
-      type: "button",
-      "data-state": state,
-      disabled: state === "going",
-      "aria-label": `Jump to pane ${pane} in herdr`,
-      title: `Jump to ${pane}`,
-      onClick: (e) => {
-        e.stopPropagation();
-        jumpTo(pane, setState);
-      },
-      onKeyDown: (e) => e.stopPropagation(),
-    },
-    label
-      ? h("span", null, { idle: "jump to pane", going: "jumping", done: "focused", failed: "failed" }[state])
-      : null,
-    h(Icon, { name: "jump", size: label ? 14 : 13 }),
   );
 }
 
@@ -485,7 +442,6 @@ function Activity({ agent, onClose }) {
           h("div", { className: "pv-label" }, `// ${agent.repo ?? "unknown repository"}`),
           h("h2", null, agent.name ?? agent.title ?? agent.pane),
         ),
-        agent.pane ? h(JumpLink, { pane: agent.pane, label: true }) : null,
         h(
           "button",
           { className: "fleet-x", type: "button", onClick: onClose, "aria-label": "Close" },
