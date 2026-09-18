@@ -1,5 +1,5 @@
-id = "herdr-agents-fleet"
-name = "Agents Fleet"
+id = "agents.fleet"
+name = "agents.fleet"
 version = "0.1.0"
 min_herdr_version = "0.7.0"
 description = "agents.fleet - a status page for every coding agent on this machine"
