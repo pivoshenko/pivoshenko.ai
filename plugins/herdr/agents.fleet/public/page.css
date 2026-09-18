@@ -531,6 +531,14 @@ body {
   color: var(--accent);
 }
 
+.fleet-turn[data-role="agent"] .fleet-turn__who {
+  color: var(--green);
+}
+
+.fleet-turn[data-role="tool"] .fleet-turn__who {
+  color: var(--peach);
+}
+
 .fleet-turn__at {
   margin-left: auto;
   color: var(--fg-faint);
@@ -553,6 +561,12 @@ body {
 .fleet-fold {
   display: grid;
   gap: var(--space-2);
+}
+
+/* inside the panel a heading is structure, not an accent channel */
+.fleet-panel__body .pv-section__slash,
+.fleet-panel__body .fleet-used > .pv-label {
+  color: var(--fg-default);
 }
 
 .fleet-fold .pv-section {
