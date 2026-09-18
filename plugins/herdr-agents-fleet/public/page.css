@@ -9,10 +9,16 @@
   --edge: max(var(--page-gutter), calc((100vw - var(--page-max)) / 2 + var(--page-gutter)));
 }
 
+html {
+  /* the viewport reads this off the root, not off body - and the crust keeps any
+     elastic overscroll the colour of the footer rather than a lighter band */
+  overscroll-behavior-y: none;
+  background: var(--crust);
+}
+
 body {
   margin: 0;
   background: var(--bg-canvas);
-  overscroll-behavior-y: none;
   color: var(--fg-default);
   font-family: var(--font-mono);
   font-size: 14px;
