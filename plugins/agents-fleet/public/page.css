@@ -467,6 +467,7 @@ body {
 
 .fleet-finished {
   margin-top: var(--space-12);
+  margin-bottom: var(--space-16);
 }
 
 .fleet-finished .fleet-board {
