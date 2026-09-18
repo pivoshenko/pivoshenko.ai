@@ -108,7 +108,7 @@ body {
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: var(--space-6) 0 var(--space-8);
+  padding: var(--space-6) 0 var(--space-4);
 }
 
 .fleet-hero__field {
@@ -154,7 +154,7 @@ body {
 
 .fleet-main {
   flex: 1 0 auto;
-  padding: var(--space-8) 0 var(--space-16);
+  padding: var(--space-4) 0 var(--space-16);
 }
 
 .fleet-block + .fleet-block {
