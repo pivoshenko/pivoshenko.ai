@@ -319,6 +319,32 @@ function Conversation({ turns }) {
   );
 }
 
+function ToolList({ lines }) {
+  return h(
+    "div",
+    { className: "fleet-used" },
+    h(
+      "div",
+      { className: "fleet-talk" },
+      lines.map((l, i) =>
+        h(
+          "div",
+          { key: i, className: "fleet-turn", "data-role": l.cmd ? "tool" : "note" },
+          l.cmd
+            ? h(
+                "div",
+                { className: "fleet-turn__who" },
+                h(Icon, { name: "terminal", size: 12 }),
+                h("span", null, l.cmd.split(/\s{2,}/)[0]),
+              )
+            : null,
+          h("p", { className: "fleet-turn__text" }, l.cmd ? l.cmd.split(/\s{2,}/).slice(1).join(" ") : l.out),
+        ),
+      ),
+    ),
+  );
+}
+
 function UsedList({ label, items, empty }) {
   return h(
     "div",
@@ -358,7 +384,7 @@ function Activity({ agent, onClose }) {
 
   const finished = Array.isArray(agent.wrote);
   const subs = agent.subagents ?? [];
-  const [showTools, setShowTools] = useState(true);
+  const [showTools, setShowTools] = useState(false);
   const [showTalk, setShowTalk] = useState(true);
 
   const lines = [];
@@ -462,30 +488,22 @@ function Activity({ agent, onClose }) {
         h(
           Fold,
           {
-            label: finished ? "produced" : "tool calls",
-            count: finished ? agent.wrote.length + agent.edited.length : agent.recent?.length ?? 0,
-            open: showTools,
-            onToggle: () => setShowTools((v) => !v),
-          },
-        h(P.TerminalWindow, {
-          title: finished
-            ? agent.wrote.length + agent.edited.length
-              ? "written and edited"
-              : "tool mix"
-            : "newest first",
-          lines,
-          prompt: h(Icon, { name: "prompt", size: 12 }),
-        }),
-        ),
-        h(
-          Fold,
-          {
             label: "conversation",
             count: (agent.turns ?? []).length,
             open: showTalk,
             onToggle: () => setShowTalk((v) => !v),
           },
           h(Conversation, { turns: agent.turns ?? [] }),
+        ),
+        h(
+          Fold,
+          {
+            label: finished ? "produced" : "tool calls",
+            count: finished ? agent.wrote.length + agent.edited.length : agent.recent?.length ?? 0,
+            open: showTools,
+            onToggle: () => setShowTools((v) => !v),
+          },
+          h(ToolList, { lines }),
         ),
         h(UsedList, { label: "skills used", items: skills, empty: "no skill invoked in this session" }),
         h(UsedList, { label: "mcp servers used", items: mcps, empty: "no mcp server called in this session" }),
