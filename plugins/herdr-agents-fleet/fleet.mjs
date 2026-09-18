@@ -690,30 +690,6 @@ const READERS = new Set(["claude", "codex", "pi"]);
 
 const STATUS = new Set(["working", "idle", "blocked", "done", "unknown"]);
 
-const PANE_ID = /^[A-Za-z0-9_-]{1,32}:[A-Za-z0-9_-]{1,32}$/;
-
-export async function focusPane(target) {
-  if (typeof target !== "string" || !PANE_ID.test(target)) {
-    return { ok: false, error: "bad pane id" };
-  }
-  const herd = await herdrSnapshot();
-  if (!herd.available) return { ok: false, error: herd.reason ?? "no herdr server" };
-  const known = herd.agents.some((a) => a.pane_id === target);
-  if (!known) return { ok: false, error: "no agent in that pane" };
-
-  return new Promise((resolve) => {
-    execFile(HERDR, ["agent", "focus", target], { timeout: 5000 }, (err, stdout) => {
-      if (err) return resolve({ ok: false, error: err.message });
-      try {
-        const d = JSON.parse(stdout);
-        resolve({ ok: true, pane: d.result?.agent?.pane_id ?? target });
-      } catch {
-        resolve({ ok: true, pane: target });
-      }
-    });
-  });
-}
-
 export async function collect() {
   const herd = await herdrSnapshot();
   const index = indexTranscripts();
