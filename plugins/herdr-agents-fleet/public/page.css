@@ -310,7 +310,7 @@ body {
 }
 
 .fleet-panel {
-  width: min(760px, 100%);
+  width: min(1100px, 100%);
   background: var(--bg-surface);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
