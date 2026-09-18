@@ -623,9 +623,9 @@ function App() {
         { className: "fleet-hero__field", "aria-hidden": true },
         h(P.Contours, {
           variant: "topo",
-          scale: 0.1,
-          cell: 10,
-          levels: 18,
+          scale: 0.08,
+          cell: 11,
+          levels: 10,
           interactive: true,
           ripple: true,
           mask: "bottom",
