@@ -2,24 +2,25 @@ const h = React.createElement;
 const { useState, useEffect, useMemo, useRef, useCallback } = React;
 const P = window.Pivoshenko;
 
-const PATHS = {
-
-  blocked: ["circle|12,12,9", "path|M10 9v6", "path|M14 9v6"],
-
-  working: ["path|M21 12a9 9 0 1 1-4.5-7.79"],
-  done: ["circle|12,12,9", "path|M8.5 12.5l2.5 2.5 4.5-5"],
-  idle: ["circle|12,12,9"],
-  stale: ["circle|12,12,9", "path|M12 7.5v4.5l3 1.5"],
-  branch: ["circle|6,18,3", "circle|6,6,3", "circle|18,6,3", "path|M9 6h5a4 4 0 0 1 4 4v1M6 9v6"],
-  terminal: ["path|M4 17l5-5-5-5", "path|M12 19h8"],
-  arrow: ["path|M5 12h14", "path|M13 6l6 6-6 6"],
-  close: ["path|M6 6l12 12", "path|M18 6L6 18"],
-  info: ["circle|12,12,9", "path|M12 11v5", "path|M12 8h.01"],
-  alert: ["path|M12 4l9 16H3z", "path|M12 10v4", "path|M12 17h.01"],
+// lucide icons, called by name - vendor/lucide.js exposes every icon as [tag, attrs] pairs
+const ICONS = {
+  blocked: "CirclePause",
+  working: "LoaderCircle",
+  done: "CircleCheck",
+  idle: "Circle",
+  stale: "Clock",
+  branch: "GitBranch",
+  terminal: "Terminal",
+  arrow: "ArrowRight",
+  close: "X",
+  info: "Info",
+  alert: "TriangleAlert",
+  prompt: "ChevronRight",
+  top: "ArrowUp",
 };
 
 function Icon({ name, size = 16, spin = false, className }) {
-  const parts = PATHS[name];
+  const parts = window.lucide?.[ICONS[name] ?? name];
   if (!parts) return null;
   return h(
     "svg",
@@ -36,14 +37,7 @@ function Icon({ name, size = 16, spin = false, className }) {
       "aria-hidden": true,
       focusable: false,
     },
-    parts.map((p, i) => {
-      const [kind, spec] = p.split("|");
-      if (kind === "circle") {
-        const [cx, cy, r] = spec.split(",");
-        return h("circle", { key: i, cx, cy, r });
-      }
-      return h("path", { key: i, d: spec });
-    }),
+    parts.map(([tag, attrs], i) => h(tag, { key: i, ...attrs })),
   );
 }
 
@@ -480,7 +474,7 @@ function Activity({ agent, onClose }) {
               : "tool mix"
             : "newest first",
           lines,
-          prompt: "❯",
+          prompt: h(Icon, { name: "prompt", size: 12 }),
         }),
         ),
         h(
@@ -660,7 +654,7 @@ function App() {
               onChange: setQ,
               label: "Filter",
               placeholder: "Name, title, tool, branch",
-              prompt: "❯",
+              prompt: h(Icon, { name: "prompt", size: 12 }),
             }),
           ),
           h(P.Dropdown, {
@@ -761,7 +755,7 @@ function App() {
       email: "contact@pivoshenko.dev",
     }),
 
-    h(P.BackToTop, { accent: "blue" }),
+    h(P.BackToTop, { accent: "blue", glyph: h(Icon, { name: "top", size: 14 }) }),
 
     opened ? h(Activity, { agent: opened, onClose: close }) : null,
   );

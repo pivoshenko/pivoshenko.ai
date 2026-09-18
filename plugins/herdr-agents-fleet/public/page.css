@@ -42,6 +42,18 @@ body {
   flex: none;
 }
 
+/* the design system sized these slots for a text glyph, an svg needs centring */
+.pv-menu__check,
+.pv-menu__caret,
+.pv-field__ps,
+.pv-term__ps,
+.pv-top__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .fleet-i--spin {
     animation: fleet-spin 2s linear infinite;

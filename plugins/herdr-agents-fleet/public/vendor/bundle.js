@@ -6,6 +6,15 @@
 
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
 
+  /* local: lucide icons by name, replacing the text glyphs this bundle shipped with */
+  function lucide(name, size) {
+    var parts = window.lucide && window.lucide[name];
+    if (!parts) return null;
+    return h("svg", { width: size || 14, height: size || 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
+      "stroke-width": 1.5, "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true", focusable: "false" },
+      parts.map(function (part, i) { return h(part[0], Object.assign({ key: i }, part[1])); }));
+  }
+
   /* ── value noise (3D) for the contour field ── */
   function makeNoise(seed) {
     var p = new Uint8Array(512), s = (seed | 0) || 7;
@@ -415,14 +424,14 @@
         onClick: function () { setOpen(!open); } },
         props.icon ? h("span", { className: "pv-menu__icon", "aria-hidden": "true" }, props.icon) : null,
         h("span", { className: "pv-menu__value" }, current ? current.label : props.label || "Menu"),
-        h("span", { className: "pv-menu__caret", "aria-hidden": "true" }, "▾")),
+        h("span", { className: "pv-menu__caret", "aria-hidden": "true" }, lucide("ChevronDown", 13))),
       open ? h("div", { className: "pv-menu__panel", role: select ? "listbox" : "menu", style: props.width ? { minWidth: props.width } : null },
         items.map(function (it, i) {
           if (it.separator) return h("div", { key: "s" + i, className: "pv-menu__sep", role: "separator" });
           if (it.heading) return h("div", { key: "h" + i, className: "pv-menu__heading pv-label" }, it.heading);
           var selected = select && it.value !== undefined && it.value === props.value;
           var kids = [
-            select ? h("span", { key: "c", className: "pv-menu__check", "aria-hidden": "true" }, selected ? "✓" : "") : null,
+            select ? h("span", { key: "c", className: "pv-menu__check", "aria-hidden": "true" }, selected ? lucide("Check", 12) : null) : null,
             h("span", { key: "l", className: "pv-menu__label" }, it.label),
             it.meta ? h("span", { key: "m", className: "pv-menu__meta pv-meta" }, it.meta) : null
           ];
@@ -580,7 +589,7 @@
       h("div", { className: "pv-term__bar" }, h("i"), h("i"), h("i"), h("span", { className: "pv-term__title" }, props.title || "~")),
       h("pre", { className: "pv-term__body" },
         lines.map(function (l, i) {
-          if (l.cmd != null) return h("div", { key: i }, h("span", { className: "pv-term__ps" }, (props.prompt || "❯") + " "), h("span", { className: "pv-term__cmd" }, l.cmd));
+          if (l.cmd != null) return h("div", { key: i }, h("span", { className: "pv-term__ps" }, props.prompt || lucide("ChevronRight", 12)), " ", h("span", { className: "pv-term__cmd" }, l.cmd));
           return h("div", { key: i, className: l.tone ? "pv-term__" + l.tone : undefined }, l.out);
         }),
         props.children));
