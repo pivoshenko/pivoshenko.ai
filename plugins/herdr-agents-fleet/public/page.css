@@ -182,11 +182,6 @@ body {
   }
 }
 
-.fleet-col[data-quiet="true"] .fleet-col__glyph,
-.fleet-col[data-quiet="true"] .pv-card__glyph {
-  color: var(--fg-faint);
-}
-
 .fleet-col__head {
   display: flex;
   gap: var(--space-2);
