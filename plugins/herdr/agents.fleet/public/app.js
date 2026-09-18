@@ -275,10 +275,10 @@ function ClosedCard({ agent, onOpen }) {
   );
 }
 
-function Fold({ label, count, open, onToggle, children }) {
+function Fold({ label, count, open, onToggle, accent, children }) {
   return h(
     "div",
-    { className: "fleet-fold" },
+    { className: "fleet-fold", "data-accent": accent },
     h(P.SectionHeading, {
       title: label,
       count,
@@ -345,11 +345,16 @@ function ToolList({ lines }) {
   );
 }
 
-function UsedList({ label, items, empty }) {
+function UsedList({ label, items, empty, accent }) {
   return h(
     "div",
-    { className: "fleet-used" },
-    h("div", { className: "pv-label" }, "// " + label),
+    { className: "fleet-used", "data-accent": accent },
+    h(
+      "div",
+      { className: "pv-label fleet-used__head" },
+      h("span", { className: "fleet-used__slash" }, "//"),
+      " " + label,
+    ),
     items.length
       ? h(
           "div",
@@ -492,6 +497,7 @@ function Activity({ agent, onClose }) {
             count: (agent.turns ?? []).length,
             open: showTalk,
             onToggle: () => setShowTalk((v) => !v),
+            accent: "blue",
           },
           h(Conversation, { turns: agent.turns ?? [] }),
         ),
@@ -502,11 +508,12 @@ function Activity({ agent, onClose }) {
             count: finished ? agent.wrote.length + agent.edited.length : agent.recent?.length ?? 0,
             open: showTools,
             onToggle: () => setShowTools((v) => !v),
+            accent: "peach",
           },
           h(ToolList, { lines }),
         ),
-        h(UsedList, { label: "skills used", items: skills, empty: "no skill invoked in this session" }),
-        h(UsedList, { label: "mcp servers used", items: mcps, empty: "no mcp server called in this session" }),
+        h(UsedList, { label: "skills used", items: skills, accent: "teal", empty: "no skill invoked in this session" }),
+        h(UsedList, { label: "mcp servers used", items: mcps, accent: "lavender", empty: "no mcp server called in this session" }),
         h(
           "dl",
           { className: "fleet-kv" },
