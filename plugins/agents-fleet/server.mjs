@@ -8,6 +8,8 @@ const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "public");
 const PORT = Number(process.env.FLEET_PORT ?? 7777);
 const POLL_MS = Number(process.env.FLEET_POLL_MS ?? 1500);
 
+const GRACE_MS = Number(process.env.FLEET_HERDR_GRACE_MS ?? 30_000);
+
 const TYPES = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -20,10 +22,33 @@ const TYPES = {
 const clients = new Set();
 let last = "";
 
+let herdrSeen = false;
+let herdrLostAt = null;
+
+function outliveHerdr(fleet) {
+
+  if (fleet.herdr?.available) {
+    herdrSeen = true;
+    herdrLostAt = null;
+    return;
+  }
+
+  if (!herdrSeen) return;
+  if (herdrLostAt === null) {
+    herdrLostAt = Date.now();
+    return;
+  }
+  if (Date.now() - herdrLostAt < GRACE_MS) return;
+  process.stdout.write(`herdr gone for ${Math.round(GRACE_MS / 1000)}s, shutting down\n`);
+  process.exit(0);
+}
+
 async function tick() {
   let payload;
   try {
-    payload = JSON.stringify(await collect());
+    const fleet = await collect();
+    outliveHerdr(fleet);
+    payload = JSON.stringify(fleet);
   } catch (e) {
     payload = JSON.stringify({ ts: new Date().toISOString(), agents: [], counts: {}, error: e.message });
   }
