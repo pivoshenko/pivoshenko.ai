@@ -805,6 +805,8 @@ function App() {
       email: "contact@pivoshenko.dev",
     }),
 
+    h(P.BackToTop, { accent: "peach" }),
+
     opened ? h(Activity, { agent: opened, onClose: close }) : null,
   );
 }
