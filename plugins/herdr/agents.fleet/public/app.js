@@ -575,7 +575,6 @@ function App() {
   const counts = fleet?.counts ?? {};
   const ctxTotal = agents.reduce((n, a) => n + (a.contextTokens ?? 0), 0);
   const totals = fleet?.totals ?? {};
-  const repoCount = (fleet?.repos ?? []).length;
   const opened = agents.find((a) => a.id === open) ?? closed.find((c) => c.id === open) ?? null;
 
   return h(
@@ -633,12 +632,6 @@ function App() {
             label: "tokens",
             hint: "billed, all sessions",
             accent: "teal",
-          }),
-          h(P.Stat, {
-            value: repoCount,
-            label: "repositories",
-            hint: `${fleet?.dirs ?? 0} directories`,
-            accent: "lavender",
           }),
         ),
       ),
