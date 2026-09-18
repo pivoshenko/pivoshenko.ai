@@ -563,10 +563,14 @@ body {
   gap: var(--space-2);
 }
 
-/* inside the panel a heading is structure, not an accent channel */
-.fleet-panel__body .pv-section__slash,
-.fleet-panel__body .fleet-used > .pv-label {
+/* in the panel the slash carries the section's colour, the words stay plain */
+.fleet-panel__body .pv-section__title,
+.fleet-panel__body .fleet-used__head {
   color: var(--fg-default);
+}
+
+.fleet-used__slash {
+  color: var(--accent);
 }
 
 .fleet-fold .pv-section {
