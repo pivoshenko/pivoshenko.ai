@@ -136,9 +136,13 @@ body {
   padding-top: 0;
 }
 
+.fleet-hero .pv-stats {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
 .fleet-hero .pv-stat__value {
   color: var(--accent);
-  font-size: clamp(28px, 2.6vw, 42px);
+  font-size: clamp(30px, 2.9vw, 46px);
   line-height: 1.16;
 }
 
