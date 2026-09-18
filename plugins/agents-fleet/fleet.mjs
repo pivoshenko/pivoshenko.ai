@@ -519,11 +519,13 @@ function apply(s, d) {
   }
 }
 
-function deriveStatus(state, idleMs) {
-  if (idleMs == null || idleMs > ACTIVE_MS) return "idle";
+function deriveStatus(state, idleMs, orphaned) {
+
+  const quiet = orphaned ? "stale" : "idle";
+  if (idleMs == null || idleMs > ACTIVE_MS) return quiet;
   if (state.lastKind === "tool_use" || state.lastKind === "tool_result") return "working";
   if (state.lastKind === "user") return "working";
-  return "idle";
+  return quiet;
 }
 
 const summaries = new Map();
@@ -726,7 +728,7 @@ export async function collect() {
       ? STATUS.has(pane.agent_status)
         ? pane.agent_status
         : "unknown"
-      : deriveStatus(t, idleMs);
+      : deriveStatus(t, idleMs, herd.available);
 
     const cwd = t.cwd ?? pane?.cwd ?? null;
 
@@ -807,7 +809,7 @@ export async function collect() {
     }
   }
 
-  const rank = { blocked: 0, working: 1, done: 2, idle: 3, unknown: 4 };
+  const rank = { blocked: 0, working: 1, done: 2, idle: 3, stale: 4, unknown: 5 };
   agents.sort(
     (x, y) =>
       (rank[x.status] ?? 9) - (rank[y.status] ?? 9) ||
@@ -837,7 +839,7 @@ export async function collect() {
   }
   closed.sort((a, b) => Date.parse(b.endedAt) - Date.parse(a.endedAt));
 
-  const counts = { total: agents.length, working: 0, idle: 0, blocked: 0, done: 0, unknown: 0 };
+  const counts = { total: agents.length, working: 0, idle: 0, blocked: 0, done: 0, stale: 0, unknown: 0 };
   for (const a of agents) counts[a.status] = (counts[a.status] ?? 0) + 1;
 
   return {
