@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Martian+Mono:wght@400;500;600;700;800&display=swap");
+/* local: the Google Fonts @import was dropped - vendor/fonts.css serves both faces from disk */
 
 /* ── base ─────────────────────────────────────────── */
 :root { --accent: var(--accent-primary); }
