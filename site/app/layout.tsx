@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <SiteLayout
       brand="pivoshenko.ai"
-      accent="peach"
+      accent="lavender"
       navLinks={navLinks}
       afterShell={<SpeedInsights />}
     >

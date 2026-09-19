@@ -10,5 +10,5 @@ export default createOgImage({
   title: 'AI Workspace',
   subtitle: 'Curated AI skills, MCPs, instructions and plugins',
   domain: 'ai.pivoshenko.dev',
-  accent: 'peach',
+  accent: 'lavender',
 })
