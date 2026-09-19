@@ -48,6 +48,23 @@ export type Instruction = {
   updated_at?: string
 }
 
+export type Plugin = {
+  id: string
+  slug: string
+  host: string
+  name: string
+  version: string
+  description: string
+  platforms: string[]
+  source: string
+  sourceLabel: string
+  path: string
+  preview?: string
+  local: boolean
+  tags: string[]
+  updated_at?: string
+}
+
 export type KasettoConfig = {
   agent: string[]
   instructions?: Array<{
@@ -89,6 +106,69 @@ function deriveInstructionTags(slug: string, sourceLabel: string): string[] {
   for (const t of INSTRUCTION_TAGS[slug] ?? []) tags.add(t)
   for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
   return Array.from(tags)
+}
+
+// A herdr-plugin.toml is a flat manifest: bare scalars at the top level and
+// arrays of strings. Nothing here needs a TOML dependency, and the [[sections]]
+// below the scalars are of no interest to the site
+function parseManifest(toml: string): Record<string, string | string[]> {
+  const out: Record<string, string | string[]> = {}
+  for (const line of toml.split(/\r?\n/)) {
+    if (line.startsWith('[')) break
+    const m = line.match(/^\s*([A-Za-z_][\w-]*)\s*=\s*(.+?)\s*$/)
+    if (!m) continue
+    const [, key, raw] = m
+    out[key] = raw.startsWith('[')
+      ? Array.from(raw.matchAll(/"([^"]*)"/g), (v) => v[1])
+      : raw.replace(/^"(.*)"$/, '$1')
+  }
+  return out
+}
+
+const capitalize = (text: string) =>
+  text.charAt(0).toUpperCase() + text.slice(1)
+
+function readLocalPlugins(): Plugin[] {
+  const pluginsDir = join(ROOT, 'plugins')
+  if (!existsSync(pluginsDir)) return []
+  const out: Plugin[] = []
+  for (const host of readdirSync(pluginsDir)) {
+    const hostDir = join(pluginsDir, host)
+    if (!statSync(hostDir).isDirectory()) continue
+    for (const slug of readdirSync(hostDir)) {
+      const manifest = join(hostDir, slug, `${host}-plugin.toml`)
+      if (!existsSync(manifest)) continue
+      const data = parseManifest(readFileSync(manifest, 'utf8'))
+      const str = (key: string) =>
+        typeof data[key] === 'string' ? (data[key] as string) : ''
+      const preview = `${host}_${slug.replace(/\./g, '_')}_preview.png`
+      out.push({
+        id: `plugin:${host}:${slug}`,
+        slug,
+        host,
+        name: str('name') || slug,
+        version: str('version'),
+        // Manifests prefix the description with the plugin's own name, which
+        // the card already shows a line above
+        description: capitalize(
+          str('description').replace(
+            new RegExp(`^${str('name') || slug}\\s+-\\s+`),
+            '',
+          ),
+        ),
+        platforms: Array.isArray(data.platforms) ? data.platforms : [],
+        source: LOCAL_SOURCE,
+        sourceLabel: LOCAL_LABEL,
+        path: `plugins/${host}/${slug}`,
+        preview: existsSync(join(ROOT, 'assets', preview))
+          ? `/previews/${preview}`
+          : undefined,
+        local: true,
+        tags: [host, ...(Array.isArray(data.platforms) ? data.platforms : [])],
+      })
+    }
+  }
+  return out
 }
 
 function readKasetto(): KasettoConfig {
@@ -290,11 +370,23 @@ function readExternalMcps(
   return out
 }
 
-export function loadCatalog() {
+export type Catalog = ReturnType<typeof readCatalog>
+
+// The catalog is a build-time projection of the repository and never changes within a
+// build, so the layout and the page can both ask for it without re-walking
+let cached: Catalog | undefined
+
+export function loadCatalog(): Catalog {
+  cached ??= readCatalog()
+  return cached
+}
+
+function readCatalog() {
   const config = readKasetto()
   const localSkills = readLocalSkills()
   const localMcps = readLocalMcps()
   const localInstructions = readLocalInstructions()
+  const plugins = readLocalPlugins()
   const archivedSkills = readLocalSkills('archive/skills', true).sort(
     byUpdatedAtDesc,
   )
@@ -326,6 +418,7 @@ export function loadCatalog() {
     skills,
     mcps,
     instructions,
+    plugins,
     archivedSkills,
     archivedInstructions,
     sources: Array.from(
