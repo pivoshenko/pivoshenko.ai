@@ -1,3 +1,4 @@
+import { CatalogHero } from '@/components/catalog-hero'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import {
   SiteLayout,
@@ -11,12 +12,23 @@ export const metadata = siteMetadata({
   brand: 'pivoshenko.ai',
   title: 'pivoshenko.ai',
   titleTemplate: '%s - pivoshenko.ai',
-  description: 'Curated AI skills and MCPs.',
+  description: 'Curated AI skills, MCPs, instructions and plugins.',
   ogTitle: 'AI Workspace',
-  ogDescription: 'Curated AI skills and MCPs',
+  ogDescription: 'Curated AI skills, MCPs, instructions and plugins',
 })
 
 export const viewport = siteViewport
+
+// The nav doubles as the page's table of contents - Nav scroll-spies any link
+// whose href is a fragment, so these four ids have to exist in the catalog
+const navLinks = [
+  { href: '#filters', label: 'Filters' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#mcps', label: 'MCPs' },
+  { href: '#instructions', label: 'Instructions' },
+  { href: '#plugins', label: 'Plugins' },
+  { href: '#archived', label: 'Archived' },
+]
 
 export default function RootLayout({
   children,
@@ -24,7 +36,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <SiteLayout brand="pivoshenko.ai" afterShell={<SpeedInsights />}>
+    <SiteLayout
+      brand="pivoshenko.ai"
+      accent="peach"
+      navLinks={navLinks}
+      hero={<CatalogHero />}
+      afterShell={<SpeedInsights />}
+    >
       {children}
     </SiteLayout>
   )
