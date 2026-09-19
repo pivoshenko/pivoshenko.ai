@@ -36,7 +36,7 @@ The content is the product. The site is a viewer for it.
 One directory per skill under `skills/`, each with a `SKILL.md` and optional `references/`, `scripts/`, `assets/`, `preview/` subdirectories. `SKILL.md` holds instructions only - any artifact an agent copies out or matches its output against (body template, report format, worker brief, task shape) belongs in `references/` and is linked by relative path, because `SKILL.md` loads in full on every trigger while a reference is read only when its step runs. The rule is in `CONTRIBUTING.md`. The `SKILL.md` frontmatter is the contract the site and Kasetto both read, enforced by `just lint-skills` - copy its shape from an existing skill:
 
 - `description` is a routing document, not a summary - it must enumerate the literal phrases that should trigger the skill, and name the boundary against any neighbouring skill it could be confused with
-- `tags` drives the site's filter UI; local skills use frontmatter tags, external ones fall back to the lookup tables in `site/lib/external-tags.ts`
+- `tags` drives the site's filter UI; local skills use frontmatter tags, external ones fall back to the lookup tables in `site/lib/external-tags.ts`. `just lint-skills` warns when a named external skill matches neither table - it would otherwise render as a card with no chips and be unreachable by any filter
 - `updated_at` is the site's primary sort key, newest first
 
 Body style across existing skills is terse and imperative: an `## Flow` of numbered steps, `->` for consequence, bolded section refs, and a `Why -> ...` clause attached to any rule whose reason is non-obvious. Match it rather than writing prose.
