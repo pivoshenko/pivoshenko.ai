@@ -19,7 +19,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "lucide-react": "^0.577.0",
     "next": "^16.3.5",
-    "pivoshenko.ui": "github:pivoshenko/pivoshenko.ui#v0.11.0",
+    "pivoshenko.ui": "github:pivoshenko/pivoshenko.ui#v0.11.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "yaml": "^2.9.1"
