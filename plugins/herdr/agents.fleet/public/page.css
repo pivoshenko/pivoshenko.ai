@@ -4,7 +4,7 @@
 
 :root {
   --page-max: 1600px;
-  --card-h: 232px;
+  --card-h: 264px;
   --page-gutter: clamp(var(--space-4), 3vw, var(--space-12));
   --edge: max(var(--page-gutter), calc((100vw - var(--page-max)) / 2 + var(--page-gutter)));
 }
@@ -249,6 +249,10 @@ body {
   -webkit-line-clamp: 1;
   line-clamp: 1;
   overflow: hidden;
+
+  /* overflow: hidden zeroes the automatic minimum size, so the column would
+     otherwise crush these to a sliver whenever the foot wraps */
+  flex: none;
 }
 
 .fleet-card .pv-card__foot {
