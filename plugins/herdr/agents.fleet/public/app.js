@@ -509,8 +509,8 @@ function Activity({ agent, onClose }) {
           },
           h(ToolList, { lines }),
         ),
-        h(UsedList, { label: "skills used", items: skills, empty: "no skill invoked in this session" }),
-        h(UsedList, { label: "mcp servers used", items: mcps, empty: "no mcp server called in this session" }),
+        h(UsedList, { label: "skills used", items: skills, empty: "No skills" }),
+        h(UsedList, { label: "mcp servers used", items: mcps, empty: "No MCPs called" }),
         h(
           "dl",
           { className: "fleet-kv" },
