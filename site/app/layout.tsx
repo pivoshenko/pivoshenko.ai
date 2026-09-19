@@ -1,4 +1,3 @@
-import { CatalogHero } from '@/components/catalog-hero'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import {
   SiteLayout,
@@ -19,15 +18,13 @@ export const metadata = siteMetadata({
 
 export const viewport = siteViewport
 
-// The nav doubles as the page's table of contents - Nav scroll-spies any link
-// whose href is a fragment, so these four ids have to exist in the catalog
+// Three catalog routes plus the landing's plugin section. Nav scroll-spies a
+// fragment entry, but only while the reader is on the route it belongs to
 const navLinks = [
-  { href: '#filters', label: 'Filters' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#mcps', label: 'MCPs' },
-  { href: '#instructions', label: 'Instructions' },
-  { href: '#plugins', label: 'Plugins' },
-  { href: '#archived', label: 'Archived' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/mcps', label: 'MCPs' },
+  { href: '/instructions', label: 'Instructions' },
+  { href: '/#plugins', label: 'Plugins' },
 ]
 
 export default function RootLayout({
@@ -40,7 +37,6 @@ export default function RootLayout({
       brand="pivoshenko.ai"
       accent="peach"
       navLinks={navLinks}
-      hero={<CatalogHero />}
       afterShell={<SpeedInsights />}
     >
       {children}
