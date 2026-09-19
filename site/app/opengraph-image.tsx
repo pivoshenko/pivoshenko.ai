@@ -8,6 +8,7 @@ export const runtime = 'edge'
 export default createOgImage({
   brand: 'pivoshenko.ai',
   title: 'AI Workspace',
-  subtitle: 'Curated AI skills and MCPs',
+  subtitle: 'Curated AI skills, MCPs, instructions and plugins',
   domain: 'ai.pivoshenko.dev',
+  accent: 'peach',
 })
