@@ -25,6 +25,15 @@ export type Skill = {
   updated_at?: string
 }
 
+export type McpServer = {
+  name: string
+  transport: 'http' | 'stdio'
+  /** Endpoint for http, or the launched binary for stdio */
+  target: string
+  /** Placeholder names only - Kasetto substitutes the real secrets on sync */
+  secrets: string[]
+}
+
 export type Mcp = {
   id: string
   name: string
@@ -32,6 +41,9 @@ export type Mcp = {
   sourceLabel: string
   local: boolean
   tags: string[]
+  servers: McpServer[]
+  /** The definition as published, for the config panel */
+  config?: string
   updated_at?: string
 }
 
@@ -206,11 +218,38 @@ function readLocalSkills(baseDir = 'skills', archived = false): Skill[] {
   })
 }
 
+// Secrets in a definition are Kasetto placeholders (${kst_*}) rather than
+// literals, so the config is safe to publish as written
+function readServers(config: string): McpServer[] {
+  let parsed: {
+    mcpServers?: Record<
+      string,
+      { url?: string; command?: string; args?: string[]; headers?: unknown }
+    >
+  }
+  try {
+    parsed = JSON.parse(config)
+  } catch {
+    return []
+  }
+  return Object.entries(parsed.mcpServers ?? {}).map(([name, server]) => ({
+    name,
+    transport: server.url ? ('http' as const) : ('stdio' as const),
+    target: server.url ?? [server.command, ...(server.args ?? [])].join(' '),
+    secrets: Array.from(
+      new Set(
+        Array.from(config.matchAll(/\$\{([A-Za-z0-9_]+)\}/g), (m) => m[1]),
+      ),
+    ),
+  }))
+}
+
 function readLocalMcps(): Mcp[] {
   const mcpsDir = join(ROOT, 'mcps')
   const entries = readdirSync(mcpsDir).filter((name) => name.endsWith('.json'))
   return entries.map((file) => {
     const name = file.replace(/\.json$/, '')
+    const config = readFileSync(join(mcpsDir, file), 'utf8').trimEnd()
     return {
       id: `mcp:${name}`,
       name,
@@ -218,6 +257,8 @@ function readLocalMcps(): Mcp[] {
       sourceLabel: LOCAL_LABEL,
       local: true,
       tags: deriveMcpTags(name, LOCAL_LABEL),
+      servers: readServers(config),
+      config,
     }
   })
 }
@@ -352,6 +393,7 @@ function readExternalMcps(
         sourceLabel: label,
         local: false,
         tags: [],
+        servers: [],
       })
       continue
     }
@@ -364,6 +406,7 @@ function readExternalMcps(
         sourceLabel: label,
         local: false,
         tags: deriveMcpTags(name, label),
+        servers: [],
       })
     }
   }
