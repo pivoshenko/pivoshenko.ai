@@ -1,17 +1,14 @@
 import type { Instruction, Mcp, Skill } from '@/lib/data'
+import { GitFork, Plug, ScrollText, Sparkles } from 'lucide-react'
+import type { CatalogEntry } from 'pivoshenko.ui'
 
-// One shape for every kind of catalog item, so a card, a dialog and a filter
-// only ever read one thing
-export type Entry = {
-  id: string
-  kind: 'skill' | 'mcp' | 'instruction'
-  name: string
-  description: string
-  path: string
-  href: string
-  tags: string[]
-  local: boolean
-  archived?: boolean
+// Where an entry comes from is the thing worth reading at a glance; what kind
+// it is, the section it sits in already says
+function icon(kind: 'skill' | 'mcp' | 'instruction', local: boolean) {
+  const Icon = local
+    ? { skill: Sparkles, mcp: Plug, instruction: ScrollText }[kind]
+    : GitFork
+  return <Icon size={18} strokeWidth={2} aria-hidden="true" />
 }
 
 // We know where our own files sit; an external entry names a repository whose
@@ -28,57 +25,57 @@ function locate(
     : { path: item.sourceLabel, href: item.source }
 }
 
-export function skillEntry(skill: Skill): Entry {
+export function skillEntry(skill: Skill): CatalogEntry {
   return {
     id: skill.id,
-    kind: 'skill',
     name: skill.name,
     description: skill.description,
     tags: skill.tags,
     local: skill.local,
+    icon: icon('skill', skill.local),
     ...locate(skill, `skills/${skill.slug}`),
   }
 }
 
-export function instructionEntry(instruction: Instruction): Entry {
+export function instructionEntry(instruction: Instruction): CatalogEntry {
   return {
     id: instruction.id,
-    kind: 'instruction',
     name: instruction.name,
     description: instruction.description,
     tags: instruction.tags,
     local: instruction.local,
+    icon: icon('instruction', instruction.local),
     ...locate(instruction, `instructions/${instruction.slug}.md`),
   }
 }
 
-export function mcpEntry(mcp: Mcp): Entry {
+export function mcpEntry(mcp: Mcp): CatalogEntry {
   return {
     id: mcp.id,
-    kind: 'mcp',
     name: mcp.name,
     description: mcp.servers
       .map((server) => `${server.transport} - ${server.target}`)
       .join('\n'),
     tags: mcp.tags,
     local: mcp.local,
+    icon: icon('mcp', mcp.local),
     ...locate(mcp, `mcps/${mcp.name}.json`),
   }
 }
 
-export function archivedEntry(item: Skill | Instruction): Entry {
+export function archivedEntry(item: Skill | Instruction): CatalogEntry {
   const isSkill = item.id.startsWith('skill:')
   const leaf = isSkill
     ? `archive/skills/${item.slug}`
     : `archive/instructions/${item.slug}.md`
   return {
     id: item.id,
-    kind: isSkill ? 'skill' : 'instruction',
     name: item.name,
     description: item.description,
     tags: item.tags,
     local: item.local,
-    archived: true,
+    muted: true,
+    icon: icon(isSkill ? 'skill' : 'instruction', item.local),
     // archived content is always ours, so it always resolves to a real path
     ...locate({ ...item, local: true }, leaf),
   }
