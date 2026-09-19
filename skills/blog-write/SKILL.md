@@ -49,7 +49,7 @@ Information = DAG. A section may only use concepts established by earlier sectio
 
 ### 4. Draft, Section by Section
 
-Load `pivoshenko-brand/references/voice.md` first (that skill's directory, not this one) - that file owns the voice. Non-negotiables from it:
+Voice non-negotiables:
 
 - Paragraphs 1-3 lines, never more; a paragraph that grows -> split
 - Rhythm: claim, claim, claim, beat
@@ -61,7 +61,7 @@ One section at a time. Each section carries >=1 author-only artifact (number, er
 
 1. **Structure** - DAG still holds after drafting drift; every section still earns its edge to the thesis
 2. **Anti-slop** - run `references/anti-slop.md`: kill throat-clearing intro, summary outro, rule-of-three padding, hedge stacks, "it's not X - it's Y"
-3. **Voice** - smell test from `pivoshenko-brand/references/voice.md`: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
+3. **Voice** - smell test: notebook entry not pitch; survives chopping in half; loses nothing if adjectives deleted
 4. **Facts** - every number/command/claim traces to user, vault, or repo. Untraceable -> cut or ask
 
 ### 6. Ship

@@ -30,8 +30,6 @@ The two rules below are **house style, not AI tells**. They run on every pass, o
 
 Both are defaults, not laws. "punctuation only", "leave the casing", "don't touch my headings" -> honor it for that pass and note in the findings table which convention was skipped. A file with a documented style guide of its own outranks both (see the exceptions under each).
 
-pivoshenko surfaces follow `pivoshenko-brand` - sentence-case headings and unicode arrows, and that guide outranks these conventions.
-
 ### Punctuation -> Plain ASCII
 
 - Em/en dash (—, –), spaced ` — `, double ` -- ` -> replace, order of preference: period > comma > colon > parentheses > restructure
