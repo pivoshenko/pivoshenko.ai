@@ -10,13 +10,13 @@ format:
 lint: lint-skills lint-mcps lint-instructions lint-next
 
 lint-skills:
-    node scripts/lint-skills.mjs
+    python3 scripts/lint_skills.py
 
 lint-mcps:
-    node scripts/lint-mcps.mjs
+    python3 scripts/lint_mcps.py
 
 lint-instructions:
-    node scripts/lint-instructions.mjs
+    python3 scripts/lint_instructions.py
 
 lint-next:
     pnpm -C site lint
