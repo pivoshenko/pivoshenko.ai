@@ -7,8 +7,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "node scripts/sync-previews.mjs && next dev --turbopack",
+    "build": "node scripts/sync-previews.mjs && next build",
     "start": "next start",
     "lint": "biome lint .",
     "format": "biome format . --write",
