@@ -6,7 +6,7 @@ export const contentType = 'image/png'
 export const runtime = 'edge'
 
 export default createOgImage({
-  brand: 'pivoshenko.ai',
+  brand: 'Volodymyr Pivoshenko',
   title: 'AI Workspace',
   subtitle: 'Curated AI skills, MCPs, instructions and plugins',
   domain: 'ai.pivoshenko.dev',
