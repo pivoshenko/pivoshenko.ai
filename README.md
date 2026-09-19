@@ -43,7 +43,7 @@ source: https://github.com/pivoshenko/pivoshenko.ai/blob/main/kasetto.yaml
 
 ## Plugins
 
-[`plugins/`](plugins) holds agent-host plugins, one directory per host, so far only [`plugins/herdr`](plugins/herdr) for [Herdr](https://herdr.dev): workflow tools that run as real processes rather than prompt fragments. Kasetto does not distribute them - it knows only skills, MCPs, and instructions - so nothing under `plugins/` appears in [`kasetto.yaml`](kasetto.yaml) and nothing syncs it. The site ignores the directory too, since it reads `skills/`, `mcps/`, and `instructions/` by name.
+[`plugins/`](plugins) holds agent-host plugins, one directory per host, so far only [`plugins/herdr`](plugins/herdr) for [Herdr](https://herdr.dev): workflow tools that run as real processes rather than prompt fragments. Kasetto does not distribute them - it knows only skills, MCPs, and instructions - so nothing under `plugins/` appears in [`kasetto.yaml`](kasetto.yaml) and nothing syncs it. The site does read the directory, though: it parses each plugin's `<host>-plugin.toml` manifest and gives plugins their own section of the catalog, with the preview screenshot from [`assets/`](assets) when one is there.
 
 They are installed by Herdr itself, listed one per line in [`herdr.plugins`](https://github.com/pivoshenko/pivoshenko.dotfiles/blob/main/herdr.plugins) in [`pivoshenko.dotfiles`](https://github.com/pivoshenko/pivoshenko.dotfiles) and applied by `just install-herdr-plugins`:
 
