@@ -1,15 +1,25 @@
 import type { Instruction, Mcp, Skill } from '@/lib/data'
-import { groupOf } from '@/lib/domains'
-import { GitFork, Plug, ScrollText, Sparkles } from 'lucide-react'
+import { domainOf, groupOf } from '@/lib/domains'
+import { GitFork, Plug, ScrollText } from 'lucide-react'
 import type { CatalogEntry } from 'pivoshenko.ui'
+import { EXTERNAL_ICON, FALLBACK_ICON, domainIcon } from './domain-icon'
+
+function glyph(Icon: typeof FALLBACK_ICON) {
+  return <Icon size={18} strokeWidth={2} aria-hidden="true" />
+}
 
 // Where an entry comes from is the thing worth reading at a glance; what kind
 // it is, the section it sits in already says
-function icon(kind: 'skill' | 'mcp' | 'instruction', local: boolean) {
-  const Icon = local
-    ? { skill: Sparkles, mcp: Plug, instruction: ScrollText }[kind]
-    : GitFork
-  return <Icon size={18} strokeWidth={2} aria-hidden="true" />
+function icon(kind: 'mcp' | 'instruction', local: boolean) {
+  return glyph(local ? { mcp: Plug, instruction: ScrollText }[kind] : GitFork)
+}
+
+// A skill takes its domain's icon, so every card in a sub-section carries the
+// same mark and no two sub-sections carry the same one
+function skillIcon(skill: Skill) {
+  if (!skill.local) return glyph(EXTERNAL_ICON)
+  const domain = domainOf(skill)
+  return glyph(domain ? domainIcon[domain] : FALLBACK_ICON)
 }
 
 // We know where our own files sit; an external entry names a repository whose
@@ -34,7 +44,7 @@ export function skillEntry(skill: Skill): CatalogEntry {
     tags: skill.tags,
     local: skill.local,
     group: groupOf(skill),
-    icon: icon('skill', skill.local),
+    icon: skillIcon(skill),
     ...locate(skill, `skills/${skill.slug}`),
   }
 }
@@ -77,7 +87,8 @@ export function archivedEntry(item: Skill | Instruction): CatalogEntry {
     tags: item.tags,
     local: item.local,
     muted: true,
-    icon: icon(isSkill ? 'skill' : 'instruction', item.local),
+    // an archived skill has no live domain to inherit from
+    icon: isSkill ? glyph(FALLBACK_ICON) : icon('instruction', item.local),
     // archived content is always ours, so it always resolves to a real path
     ...locate({ ...item, local: true }, leaf),
   }
