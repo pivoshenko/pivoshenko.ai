@@ -49,6 +49,8 @@ One Markdown file per rule under `instructions/`, same frontmatter shape minus t
 
 One JSON file per server under `mcps/`, each a bare `{"mcpServers": {...}}` block. Secrets are Kasetto placeholders (`${kst_github_token}`), never literals.
 
+The site reads each definition rather than just its filename: `readServers()` in `site/lib/data.ts` derives a transport (`http` when the server has a `url`, else `stdio`), a target, and the placeholder names it references, and `/mcps` draws those as a map and shows the raw file in a config dialog. Because the secrets are placeholders, publishing the file verbatim is safe - a literal would leak.
+
 Note the asymmetry: `site/lib/data.ts` lists **every** `mcps/*.json` as local, while Kasetto only distributes the ones named in `kasetto.yaml`. A file sitting in the directory but missing from the config appears on the site without ever being synced.
 
 ### Plugins
@@ -65,13 +67,29 @@ Retired content, mirroring the live layout (`archive/skills/`, `archive/instruct
 
 ## Site Architecture
 
-`site/lib/data.ts` is the piece to read first. At build time it walks **up out of `site/`** (`ROOT = join(process.cwd(), '..')`) and reads the repository itself: it parses `kasetto.yaml`, globs local skill/instruction frontmatter and MCP JSON, synthesizes entries for external sources (a `"*"` entry becomes one wildcard card), drops externals whose slug already exists locally, and sorts everything by `updated_at`. `loadCatalog()` returns the whole catalog in one object - skills, MCPs, instructions and plugins - memoized behind a module-level cache, because `app/layout.tsx` and `app/page.tsx` both ask for it within a build.
+`site/lib/data.ts` is the piece to read first. At build time it walks **up out of `site/`** (`ROOT = join(process.cwd(), '..')`) and reads the repository itself: it parses `kasetto.yaml`, globs local skill/instruction frontmatter and MCP JSON, reads each MCP definition's servers and raw config, walks `plugins/`, synthesizes entries for external sources (a `"*"` entry becomes one wildcard card), drops externals whose slug already exists locally, and sorts everything by `updated_at`. `loadCatalog()` returns the whole catalog in one object, memoized behind a module-level cache, because several route segments ask for it within a build.
+
+### Routes
+
+Four, all statically prerendered:
+
+- `/` - the landing, and the only page with no catalog on it. Hero, `components/principles.tsx`, `components/browse.tsx`, and the plugin showcases. It carries no cards: principles are an editorial three-up over a rule, browse is a row list, and the plugin's screenshot is cropped to a 16/10 frame with a fade rather than shown whole
+- `/skills` - the skills catalog plus archived skills
+- `/mcps` - `components/mcp-map.tsx` over the server catalog
+- `/instructions` - the instructions catalog plus archived instructions
+
+### Shared Pieces
+
+- `components/entry.ts` - the `Entry` shape every card, dialog and filter reads, plus one builder per kind. `locate()` is the rule that our own files resolve to a path and a `tree/main` link while an external entry stops at the repository, whose layout is not ours to know
+- `components/entry-catalog.tsx` - the only client component of any size. Filters (search, source, tags, reset), the own/external split, the archived block, and the card dialog. The filter bar hides itself below thirteen entries unless `filters` says otherwise; search and source AND together, tags OR within themselves
+- `components/catalog-hero.tsx` - the full-bleed band each route opens with
+- `components/mcp-map.tsx` - the hub-and-spoke diagram. Links are one SVG underneath, nodes are real `<button>`s on top, and a `md:` gate swaps the ring for a list rather than measuring the viewport in JS
 
 Consequences worth knowing:
 
 - The site is a build-time projection of the repository, so content edits only show up after a rebuild
-- `app/page.tsx` is a server component that calls `loadCatalog()` and hands the whole catalog to `components/catalog.tsx`, still the only client component, which owns all tag filtering. It renders four groups - Skills, MCPs, Instructions, Plugins - plus a collapsed Archived group at the end. The first three split internally into an own card grid and a per-source block of externals; Plugins is a stack of `components/plugin-showcase.tsx` slabs instead
-- `app/layout.tsx` carries the page's table of contents in its `navLinks`, and `Nav` scroll-spies any link whose `href` is a fragment. The four nav hrefs and the four group ids in `catalog.tsx` are one contract - renaming or adding a group means editing both, or a nav entry silently goes dead. The layout also owns the hero, `components/catalog-hero.tsx`, which is a server component and reads its counters straight from `loadCatalog()`
+- `PageShell` gives `main` no width of its own. A page alternates full-bleed bands (`Hero`, a canvas) with `PageBody`, which is the constrained container. A page that forgets `PageBody` runs edge to edge
+- `app/layout.tsx` owns the nav for every route. A `/#fragment` entry is scroll-spied by `Nav` **only while the reader is on that route**, so the landing's section ids and those hrefs are one contract - renaming a section means editing both, or a nav entry silently goes dead
 - Vercel builds with `site/` as the project root, which still leaves the full repository checked out one level up
 
 ## Conventions
