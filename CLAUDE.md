@@ -17,7 +17,7 @@ Two halves, and it matters which one a change belongs to:
 
 - **Content** - `skills/`, `mcps/`, `instructions/`, `archive/`, and `kasetto.yaml`. Markdown and JSON, no build step, consumed by Kasetto
 - **Site** - `site/`, a Next.js app that reads the content at build time and renders it
-- **Scripts** - `scripts/`, zero-dependency Node linters that check the content contract. They run from the repo root, which has no `package.json`, so they cannot import anything from `site/node_modules`
+- **Scripts** - `scripts/`, stdlib-only Python 3 linters that check the content contract. They run from the repo root with whatever `python3` is on PATH, so there is no virtualenv, lockfile or third-party import - the hand-rolled frontmatter and `kasetto.yaml` parsers in `lib.py` exist for that reason. Each linter is run as `python3 scripts/lint_<kind>.py`, which puts `scripts/` on `sys.path` so `lib` resolves
 
 The content is the product. The site is a viewer for it.
 

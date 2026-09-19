@@ -60,7 +60,7 @@ Concrete examples, API sketches, UI mockups, or references are helpful when rele
 
 ### Local Development
 
-This repository's `site/` directory is a Next.js application managed with pnpm and linted/formatted with Biome, all orchestrated through `just`.
+This repository's `site/` directory is a Next.js application managed with pnpm and linted/formatted with Biome, all orchestrated through `just`. The content linters under `scripts/` are stdlib-only Python 3, so a `python3` on PATH is the only extra thing you need.
 
 This project uses [`just`](https://github.com/casey/just) as its task runner. Run `just --list` for the full set; these are the ones you need day to day:
 
