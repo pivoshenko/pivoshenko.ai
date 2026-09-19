@@ -1,3 +1,4 @@
+import { PluginPreview } from '@/components/plugin-preview'
 import type { Plugin } from '@/lib/data'
 import { ArrowUpRight, Blocks } from 'lucide-react'
 import { FeatureSlab } from 'pivoshenko.ui'
@@ -49,12 +50,10 @@ export function PluginShowcase({ plugin }: ShowcaseProps) {
       }
       media={
         plugin.preview ? (
-          // the capture already carries a window chrome, so it needs no frame
-          <img
+          <PluginPreview
             src={plugin.preview}
-            alt={`${plugin.name} running`}
-            loading="lazy"
-            className="block w-full"
+            name={plugin.name}
+            host={plugin.host}
           />
         ) : (
           <span className="border-card block aspect-[16/10] w-full rounded-lg border bg-crust" />
