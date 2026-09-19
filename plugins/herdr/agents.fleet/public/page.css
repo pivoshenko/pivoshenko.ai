@@ -481,6 +481,15 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
+/* the bundle picks these for a chip on bg-canvas - on the raised fill they drop under 4.5:1 at 12px */
+.pv-tag {
+  color: var(--fg-muted);
+}
+
+.pv-tag__count {
+  color: var(--overlay2);
+}
+
 .fleet-used__none {
   margin: 0;
   color: var(--fg-faint);
