@@ -1,9 +1,7 @@
-import { CatalogHero } from '@/components/catalog-hero'
 import { archivedEntry, instructionEntry } from '@/components/entry'
-import { EntryCatalog } from '@/components/entry-catalog'
 import { loadCatalog } from '@/lib/data'
 import type { Metadata } from 'next'
-import { PageBody } from 'pivoshenko.ui'
+import { Catalog, HeroBand, PageBody } from 'pivoshenko.ui'
 
 export const metadata: Metadata = {
   title: 'Instructions',
@@ -12,23 +10,15 @@ export const metadata: Metadata = {
 
 export default function InstructionsPage() {
   const catalog = loadCatalog()
-  const entries = catalog.instructions.map(instructionEntry)
 
   return (
     <>
-      <CatalogHero
-        title={<span className="fg-title">Instructions</span>}
-        counters={[
-          { label: 'own', value: entries.filter((e) => e.local).length },
-          { label: 'external', value: entries.filter((e) => !e.local).length },
-          { label: 'archived', value: catalog.archivedInstructions.length },
-        ]}
-      />
+      <HeroBand title={<span className="fg-title">Instructions</span>} />
       <PageBody>
-        <EntryCatalog
+        <Catalog
           id="instructions"
           title="Instructions"
-          entries={entries}
+          entries={catalog.instructions.map(instructionEntry)}
           archived={catalog.archivedInstructions.map(archivedEntry)}
         />
       </PageBody>

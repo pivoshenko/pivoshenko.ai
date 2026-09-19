@@ -1,16 +1,15 @@
 import { Browse } from '@/components/browse'
-import { CatalogHero } from '@/components/catalog-hero'
 import { PluginShowcase } from '@/components/plugin-showcase'
 import { Principles } from '@/components/principles'
 import { loadCatalog } from '@/lib/data'
-import { PageBody, SectionHeader } from 'pivoshenko.ui'
+import { HeroBand, PageBody, SectionHeader } from 'pivoshenko.ui'
 
 export default function HomePage() {
   const catalog = loadCatalog()
 
   return (
     <>
-      <CatalogHero
+      <HeroBand
         title={
           <>
             <span className="fg-title">pivoshenko</span>
@@ -57,7 +56,7 @@ export default function HomePage() {
             rewrite the parts that do not fit, make them yours.
           </p>
         </div>
-      </CatalogHero>
+      </HeroBand>
 
       <PageBody className="space-y-12">
         <Principles />
