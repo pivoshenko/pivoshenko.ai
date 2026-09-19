@@ -1,6 +1,7 @@
 import { archivedEntry, skillEntry } from '@/components/entry'
 import { SkillMap } from '@/components/skill-map'
 import { loadCatalog } from '@/lib/data'
+import { byGroup } from '@/lib/domains'
 import type { Metadata } from 'next'
 import { Catalog, HeroBand, PageBody } from 'pivoshenko.ui'
 
@@ -21,7 +22,7 @@ export default function SkillsPage() {
           id="skills"
           title="Skills"
           layout="cards"
-          entries={catalog.skills.map(skillEntry)}
+          entries={byGroup(catalog.skills).map(skillEntry)}
           archived={catalog.archivedSkills.map(archivedEntry)}
         />
       </PageBody>

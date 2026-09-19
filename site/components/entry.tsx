@@ -1,4 +1,5 @@
 import type { Instruction, Mcp, Skill } from '@/lib/data'
+import { groupOf } from '@/lib/domains'
 import { GitFork, Plug, ScrollText, Sparkles } from 'lucide-react'
 import type { CatalogEntry } from 'pivoshenko.ui'
 
@@ -32,6 +33,7 @@ export function skillEntry(skill: Skill): CatalogEntry {
     description: skill.description,
     tags: skill.tags,
     local: skill.local,
+    group: groupOf(skill),
     icon: icon('skill', skill.local),
     ...locate(skill, `skills/${skill.slug}`),
   }
