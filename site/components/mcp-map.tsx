@@ -64,7 +64,7 @@ export function McpMap({ mcps }: McpMapProps) {
       },
       {
         id: 'transport',
-        label: 'transport',
+        label: 'Transport',
         nodes: present.map((transport) => {
           const count = entries.filter(
             (mcp) => mcp.servers[0].transport === transport,
@@ -81,7 +81,7 @@ export function McpMap({ mcps }: McpMapProps) {
       },
       {
         id: 'servers',
-        label: 'servers',
+        label: 'Servers',
         grow: true,
         nodes: entries.map((mcp) => ({
           id: `m:${mcp.name}`,
