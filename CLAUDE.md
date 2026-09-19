@@ -76,7 +76,7 @@ Four, all statically prerendered:
 - `/` - the landing, and the only page with no catalog on it. Hero, `components/principles.tsx`, `components/browse.tsx`, and the plugin showcases. It carries no cards: principles are an editorial three-up over a rule, browse is a row list, and the plugin's screenshot is cropped to a 16/10 frame with a fade rather than shown whole
 - `/skills` - the skills catalog plus archived skills
 - `/mcps` - `components/mcp-map.tsx` over the server catalog
-- `/instructions` - the instructions catalog plus archived instructions
+- `/instructions` - `components/instruction-highlights.tsx` over the instructions, plus an archived block of the same shape. Editorial `Highlights` rather than a catalog: no filters, no dialog, each rule a numbered title, its guardrail line and a link to the file
 
 ### Shared Pieces
 

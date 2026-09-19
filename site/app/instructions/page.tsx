@@ -1,7 +1,7 @@
-import { archivedEntry, instructionEntry } from '@/components/entry'
+import { InstructionHighlights } from '@/components/instruction-highlights'
 import { loadCatalog } from '@/lib/data'
 import type { Metadata } from 'next'
-import { Catalog, HeroBand, PageBody } from 'pivoshenko.ui'
+import { HeroBand, PageBody } from 'pivoshenko.ui'
 
 export const metadata: Metadata = {
   title: 'Instructions',
@@ -15,12 +15,21 @@ export default function InstructionsPage() {
     <>
       <HeroBand title={<span className="fg-title">Instructions</span>} />
       <PageBody>
-        <Catalog
-          id="instructions"
-          title="Instructions"
-          entries={catalog.instructions.map(instructionEntry)}
-          archived={catalog.archivedInstructions.map(archivedEntry)}
-        />
+        <div className="space-y-10">
+          <InstructionHighlights
+            id="instructions"
+            title="Instructions"
+            instructions={catalog.instructions}
+          />
+          {catalog.archivedInstructions.length > 0 && (
+            <InstructionHighlights
+              id="archived"
+              title="Archived"
+              instructions={catalog.archivedInstructions}
+              archived
+            />
+          )}
+        </div>
       </PageBody>
     </>
   )
