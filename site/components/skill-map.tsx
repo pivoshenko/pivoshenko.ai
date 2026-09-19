@@ -17,15 +17,7 @@ import {
 import type { FlowColumn, FlowLink } from 'pivoshenko.ui'
 import { Dialog, FlowMap, Tag, TagButton, Tags } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
-
-const domainIcon: Record<Domain, LucideIcon> = {
-  git: GitBranch,
-  spec: SquareCheck,
-  writing: PenLine,
-  cloud: Cloud,
-  macos: Laptop,
-  agents: Bot,
-}
+import { domainIcon } from './domain-icon'
 
 type SkillMapProps = {
   skills: Skill[]
