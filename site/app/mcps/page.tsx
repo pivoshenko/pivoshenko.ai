@@ -23,7 +23,6 @@ export default function McpsPage() {
           id="mcps"
           title="Servers"
           entries={catalog.mcps.map(mcpEntry)}
-          min="240px"
         />
       </PageBody>
     </>

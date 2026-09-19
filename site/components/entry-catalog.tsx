@@ -12,13 +12,14 @@ import {
   SearchX,
   Sparkles,
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import {
-  Card,
-  CardGrid,
   Dialog,
   EmptyState,
+  List,
   Menu,
   MenuItem,
+  Row,
   SearchField,
   SectionHeader,
   Tag,
@@ -34,8 +35,6 @@ type EntryCatalogProps = {
   title: string
   entries: Entry[]
   archived?: Entry[]
-  /** Minimum card track width; the row fits as many as the container allows */
-  min?: string
   /** A handful of entries reads faster unfiltered than it does behind a bar */
   filters?: boolean
 }
@@ -45,7 +44,6 @@ export function EntryCatalog({
   title,
   entries,
   archived = [],
-  min = '340px',
   filters: withFilters,
 }: EntryCatalogProps) {
   const [active, setActive] = useState<Set<string>>(new Set())
@@ -127,7 +125,6 @@ export function EntryCatalog({
                 label={hasExternal ? 'own' : undefined}
                 count={own.length}
                 entries={own}
-                min={min}
                 onOpen={setOpened}
               />
             )}
@@ -136,7 +133,6 @@ export function EntryCatalog({
                 label="external"
                 count={external.length}
                 entries={external}
-                min={min}
                 onOpen={setOpened}
               />
             )}
@@ -159,11 +155,11 @@ export function EntryCatalog({
           {!showArchived ? null : shownArchived.length === 0 ? (
             <NoMatches />
           ) : (
-            <CardGrid min={min}>
+            <List lead="1.75rem">
               {shownArchived.map((entry) => (
-                <ItemCard key={entry.id} entry={entry} onOpen={setOpened} />
+                <EntryRow key={entry.id} entry={entry} onOpen={setOpened} />
               ))}
-            </CardGrid>
+            </List>
           )}
         </section>
       )}
@@ -179,51 +175,46 @@ export function EntryCatalog({
 
 // == Cards ==
 
-const glyphs: Record<Entry['kind'], ReactNode> = {
-  skill: <Sparkles size={14} strokeWidth={2} aria-hidden="true" />,
-  mcp: <Plug size={14} strokeWidth={2} aria-hidden="true" />,
-  instruction: <ScrollText size={14} strokeWidth={2} aria-hidden="true" />,
+const glyphs: Record<Entry['kind'], LucideIcon> = {
+  skill: Sparkles,
+  mcp: Plug,
+  instruction: ScrollText,
 }
 
 // Where an entry comes from is the thing worth reading at a glance; what kind
 // it is, the section it sits in already says
-function glyphFor(entry: Entry): ReactNode {
-  return entry.local ? (
-    glyphs[entry.kind]
-  ) : (
-    <GitFork size={14} strokeWidth={2} aria-hidden="true" />
-  )
+function glyphFor(entry: Entry, size = 14): ReactNode {
+  const Icon = entry.local ? glyphs[entry.kind] : GitFork
+  return <Icon size={size} strokeWidth={2} aria-hidden="true" />
 }
 
 function Block({
   label,
   count,
   entries,
-  min,
   onOpen,
 }: {
   label?: string
   count: number
   entries: Entry[]
-  min: string
   onOpen: (entry: Entry) => void
 }) {
   return (
     <div className="space-y-4">
       {label && <SubHead label={label} count={count} />}
-      <CardGrid min={min}>
+      <List lead="1.75rem">
         {entries.map((entry) => (
-          <ItemCard key={entry.id} entry={entry} onOpen={onOpen} />
+          <EntryRow key={entry.id} entry={entry} onOpen={onOpen} />
         ))}
-      </CardGrid>
+      </List>
     </div>
   )
 }
 
-// The card is a trigger and nothing else. Everything wordy - the description,
-// the filterable tags, the source link - lives in the dialog it opens, so a
-// grid of sixty reads as a list rather than a wall
-function ItemCard({
+// A row, not a card. Sixty near-identical boxes read as a wall, and the card
+// was mostly chrome once the description moved into the dialog - a row gives
+// the description the horizontal room it wanted all along
+function EntryRow({
   entry,
   onOpen,
 }: {
@@ -231,19 +222,24 @@ function ItemCard({
   onOpen: (entry: Entry) => void
 }) {
   return (
-    <Card
-      glyph={glyphFor(entry)}
-      title={entry.name}
-      eyebrow={entry.path}
+    <Row
       onClick={() => onOpen(entry)}
       className={entry.archived ? 'opacity-70' : undefined}
-    >
-      <Tags className="mt-3">
-        {entry.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </Tags>
-    </Card>
+      lead={
+        <span aria-hidden="true" className="text-accent">
+          {glyphFor(entry, 18)}
+        </span>
+      }
+      title={<span className="block truncate">{entry.name}</span>}
+      desc={<span className="line-clamp-1">{entry.description}</span>}
+      trail={
+        <Tags className="hidden justify-end md:flex">
+          {entry.tags.map((tag) => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
+        </Tags>
+      }
+    />
   )
 }
 
@@ -475,11 +471,13 @@ function ToggleButton({
   )
 }
 
+// the slash is teal here, not the site accent: a section heading and the
+// sub-heading under it should not read as the same rank
 function SubHead({ label, count }: { label: string; count: number }) {
   return (
     <div className="flex items-center gap-3">
       <span className="type-label fg-subtle">
-        <span aria-hidden="true" className="text-accent">
+        <span aria-hidden="true" className="text-teal">
           {'//'}
         </span>{' '}
         {label}
