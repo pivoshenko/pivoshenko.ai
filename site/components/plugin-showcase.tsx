@@ -54,27 +54,22 @@ export function PluginShowcase({ plugin }: ShowcaseProps) {
         </a>
       </div>
 
-      {/* No frame of our own: the screenshot already carries a window chrome,
-          and a border around it reads as two */}
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        tabIndex={-1}
-        aria-hidden="true"
-        className="group block overflow-hidden rounded-md"
-      >
+      {/* Not a link: the path above already points at the same place, and a
+          second one carrying only an image is a duplicate with nothing for a
+          screen reader to read. No frame of our own either - the screenshot
+          already carries a window chrome, and a border around it reads as two */}
+      <div className="overflow-hidden rounded-md">
         {plugin.preview ? (
           <img
             src={plugin.preview}
-            alt=""
+            alt={`${plugin.name} running`}
             loading="lazy"
-            className="block w-full opacity-90 transition-opacity duration-base ease-out group-hover:opacity-100"
+            className="block w-full"
           />
         ) : (
           <span className="border-card block aspect-[16/10] w-full rounded-lg border bg-crust" />
         )}
-      </a>
+      </div>
     </article>
   )
 }
