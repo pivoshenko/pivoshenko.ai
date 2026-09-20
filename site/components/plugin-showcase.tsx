@@ -51,7 +51,9 @@ export function PluginShowcase({ plugin }: ShowcaseProps) {
       media={
         plugin.preview ? (
           <PluginPreview
-            src={plugin.preview}
+            src={plugin.preview.src}
+            width={plugin.preview.width}
+            height={plugin.preview.height}
             name={plugin.name}
             host={plugin.host}
           />

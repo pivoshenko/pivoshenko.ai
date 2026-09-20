@@ -21,6 +21,7 @@ export const viewport = siteViewport
 // Three catalog routes plus the landing's plugin section. Nav scroll-spies a
 // fragment entry, but only while the reader is on the route it belongs to
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/skills', label: 'Skills' },
   { href: '/mcps', label: 'MCPs' },
   { href: '/instructions', label: 'Instructions' },
@@ -36,6 +37,7 @@ export default function RootLayout({
     <SiteLayout
       brand="pivoshenko.ai"
       accent="lavender"
+      subAccent="blue"
       navLinks={navLinks}
       afterShell={<SpeedInsights />}
     >

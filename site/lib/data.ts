@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
+import { imageSize } from 'image-size'
 import { parse as parseYaml } from 'yaml'
 import {
   INSTRUCTION_TAGS,
@@ -9,6 +10,16 @@ import {
 } from './external-tags'
 
 const ROOT = join(process.cwd(), '..')
+
+// next/image needs the intrinsic size up front to reserve the box and pick a
+// srcset. The source PNG is on disk at build time, so read it from there rather
+// than shipping a manifest alongside the copies sync-previews.mjs makes
+function previewOf(file: string) {
+  const source = join(ROOT, 'assets', file)
+  if (!existsSync(source)) return undefined
+  const { width, height } = imageSize(readFileSync(source))
+  return { src: `/previews/${file}`, width, height }
+}
 const LOCAL_SOURCE = 'https://github.com/pivoshenko/pivoshenko.ai'
 const LOCAL_LABEL = 'pivoshenko/pivoshenko.ai'
 
@@ -71,7 +82,7 @@ export type Plugin = {
   source: string
   sourceLabel: string
   path: string
-  preview?: string
+  preview?: { src: string; width: number; height: number }
   local: boolean
   tags: string[]
   updated_at?: string
@@ -172,9 +183,7 @@ function readLocalPlugins(): Plugin[] {
         source: LOCAL_SOURCE,
         sourceLabel: LOCAL_LABEL,
         path: `plugins/${host}/${slug}`,
-        preview: existsSync(join(ROOT, 'assets', preview))
-          ? `/previews/${preview}`
-          : undefined,
+        preview: previewOf(preview),
         local: true,
         tags: [host, ...(Array.isArray(data.platforms) ? data.platforms : [])],
       })
