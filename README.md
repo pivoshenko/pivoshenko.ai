@@ -59,6 +59,8 @@ This is the one exception to the rule that content here is Markdown and JSON wit
 
 [`plugins/herdr/agents.fleet`](plugins/herdr/agents.fleet) is a status page for every coding agent on the machine: a board of who is working, who is waiting on you, and what each one is doing right now, plus what closed agents produced.
 
+![agents.fleet](assets/herdr_agents_fleet_preview.png)
+
 ## Rules
 
 Reusable agent rules, the behavioral guardrails that aren't project-specific, live in [`instructions/`](instructions), one Markdown file per rule. Kasetto distributes them as its **instruction** asset kind: each is transformed into the target agent's native instruction file (`CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, ...) and merged in as a managed block, so hand edits and other rules survive a re-sync.
