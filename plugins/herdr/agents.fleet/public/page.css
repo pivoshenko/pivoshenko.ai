@@ -266,6 +266,26 @@ body {
   border-radius: var(--radius-lg);
 }
 
+/* the vendored card lifts on hover but stops at a neutral border - the catalog
+   cards on the site take the accent, and here that accent is the agent's status */
+.fleet-hit:hover .fleet-card,
+.fleet-hit:focus-visible .fleet-card {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-rest), var(--shadow-lift);
+  transform: translateY(-2px);
+
+  /* the bloom reads one fixed accent from the token set, so a yellow-bordered
+     card would otherwise glow blue underneath it */
+  --accent-glow: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* the click lands the card again - the lift is what it was picked up by */
+.fleet-hit:active .fleet-card {
+  transform: translateY(0);
+  box-shadow: var(--shadow-rest);
+  transition-duration: var(--duration-fast);
+}
+
 .fleet-card__now {
   display: flex;
   gap: var(--space-2);
@@ -315,6 +335,11 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .fleet-hit:hover .fleet-card__go {
+    transform: none;
+  }
+
+  .fleet-hit:hover .fleet-card,
+  .fleet-hit:focus-visible .fleet-card {
     transform: none;
   }
 }
