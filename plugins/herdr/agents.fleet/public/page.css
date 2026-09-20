@@ -249,10 +249,20 @@ body {
   -webkit-line-clamp: 1;
   line-clamp: 1;
   overflow: hidden;
+}
 
-  /* overflow: hidden zeroes the automatic minimum size, so the column would
-     otherwise crush these to a sliver whenever the foot wraps */
+/* overflow: hidden zeroes the automatic minimum size, so the column would
+   otherwise crush these to a sliver whenever the foot wraps */
+.fleet-card .pv-card__top,
+.fleet-card .pv-card__desc {
   flex: none;
+}
+
+/* the title is a flex item of the row it shares with the glyph, so without a
+   floor of its own a long agent name runs past the card edge instead of
+   clamping */
+.fleet-card .pv-card__title {
+  min-width: 0;
 }
 
 .fleet-card .pv-card__foot {
