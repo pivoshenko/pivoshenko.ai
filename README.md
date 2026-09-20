@@ -59,7 +59,7 @@ This is the one exception to the rule that content here is Markdown and JSON wit
 
 [`plugins/herdr/agents.fleet`](plugins/herdr/agents.fleet) is a status page for every coding agent on the machine: a board of who is working, who is waiting on you, and what each one is doing right now, plus what closed agents produced.
 
-![agents.fleet](assets/herdr_agents_fleet_preview.png)
+![agents.fleet](assets/preview_herdr_agents_fleet.png)
 
 ## Rules
 
