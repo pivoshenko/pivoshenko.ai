@@ -233,7 +233,7 @@ def site_tag_keys(root, table):
     return {
         m.group(1)
         for m in re.finditer(
-            r"^\s+'?([A-Za-z0-9/._-]+)'?:\s*\[", text[start:end], re.M
+            r"^\s+'?([A-Za-z0-9/._-]+)'?:\s*\[", text[start:end], re.MULTILINE
         )
     }
 
