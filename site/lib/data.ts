@@ -153,7 +153,7 @@ function readLocalPlugins(): Plugin[] {
       const data = parseManifest(readFileSync(manifest, 'utf8'))
       const str = (key: string) =>
         typeof data[key] === 'string' ? (data[key] as string) : ''
-      const preview = `${host}_${slug.replace(/\./g, '_')}_preview.png`
+      const preview = `preview_${host}_${slug.replace(/\./g, '_')}.png`
       out.push({
         id: `plugin:${host}:${slug}`,
         slug,
