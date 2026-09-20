@@ -69,4 +69,4 @@ The `instructions/` files **are** the source for my global rules. Kasetto syncs 
 
 ## Archive
 
-[`archive/`](archive) holds what used to be part of the synced setup and got retired. Kasetto only pulls from `skills/`, `mcps/`, and `instructions/`, so moving something here takes it out of the agent config while keeping it readable in git. The site lists it in a separate **archived** section instead of dropping it silently.
+[`archive/`](archive) holds what used to be part of the synced setup and got retired. Kasetto only pulls from `skills/`, `mcps/`, and `instructions/`, so moving something here takes it out of the agent config while keeping it readable in git.
