@@ -289,6 +289,141 @@ function Fold({ label, count, open, onToggle, children }) {
   );
 }
 
+// the panel renders the markdown agents actually write - code spans, bold, links,
+// lists, fences and pipe tables; anything else falls through as plain text
+const MD_INLINE = /(`+)([^`]+?)\1|\*\*([\s\S]+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
+
+function mdInline(text, id) {
+  const out = [];
+  let last = 0;
+  let n = 0;
+  let m;
+  MD_INLINE.lastIndex = 0;
+  while ((m = MD_INLINE.exec(text))) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    const key = `${id}-${n++}`;
+    if (m[2] != null) out.push(h("code", { key }, m[2]));
+    else if (m[3] != null) out.push(h("b", { key }, m[3]));
+    else out.push(h("a", { key, href: m[5], target: "_blank", rel: "noreferrer" }, m[4]));
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
+function mdCells(line) {
+  return line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((c) => c.trim());
+}
+
+function isRule(line) {
+  return Boolean(line) && /^[\s|:-]+$/.test(line) && line.includes("-") && line.includes("|");
+}
+
+function mdRender(text) {
+  const lines = String(text).split("\n");
+  const out = [];
+  const para = [];
+  let i = 0;
+  let n = 0;
+
+  const flush = () => {
+    if (!para.length) return;
+    const key = `p${n++}`;
+    out.push(h("p", { key, className: "fleet-md__p" }, mdInline(para.join(" "), key)));
+    para.length = 0;
+  };
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (!line.trim()) {
+      flush();
+      i += 1;
+      continue;
+    }
+
+    if (/^\s*```/.test(line)) {
+      flush();
+      i += 1;
+      const body = [];
+      while (i < lines.length && !/^\s*```/.test(lines[i])) body.push(lines[i++]);
+      i += 1;
+      out.push(h("pre", { key: `f${n++}`, className: "fleet-md__pre" }, h("code", null, body.join("\n"))));
+      continue;
+    }
+
+    const head = line.match(/^\s*(#{1,6})\s+(.*)$/);
+    if (head) {
+      flush();
+      const key = `h${n++}`;
+      out.push(h("div", { key, className: "fleet-md__h" }, mdInline(head[2], key)));
+      i += 1;
+      continue;
+    }
+
+    if (line.includes("|") && isRule(lines[i + 1])) {
+      flush();
+      const head = mdCells(line);
+      i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].includes("|")) rows.push(mdCells(lines[i++]));
+      out.push(
+        h(
+          "div",
+          { key: `t${n++}`, className: "fleet-md__scroll" },
+          h(
+            "table",
+            { className: "fleet-md__table" },
+            h("thead", null, h("tr", null, head.map((c, x) => h("th", { key: x }, mdInline(c, `th${x}`))))),
+            h(
+              "tbody",
+              null,
+              rows.map((r, y) =>
+                h("tr", { key: y }, r.map((c, x) => h("td", { key: x }, mdInline(c, `td${y}-${x}`)))),
+              ),
+            ),
+          ),
+        ),
+      );
+      continue;
+    }
+
+    const bullet = /^\s*[-*+]\s+/;
+    const number = /^\s*\d+[.)]\s+/;
+    const marker = bullet.test(line) ? bullet : number.test(line) ? number : null;
+    if (marker) {
+      flush();
+      const items = [];
+      while (i < lines.length && marker.test(lines[i])) items.push(lines[i++].replace(marker, ""));
+      const key = `l${n++}`;
+      out.push(
+        h(
+          marker === bullet ? "ul" : "ol",
+          { key, className: "fleet-md__list" },
+          items.map((it, x) => h("li", { key: x }, mdInline(it, `${key}-${x}`))),
+        ),
+      );
+      continue;
+    }
+
+    para.push(line);
+    i += 1;
+  }
+
+  flush();
+  return out;
+}
+
+function Markdown({ text, className }) {
+  const nodes = useMemo(() => mdRender(text ?? ""), [text]);
+  return h("div", { className: ["fleet-md", className].filter(Boolean).join(" ") }, nodes);
+}
+
 function Conversation({ turns }) {
   return h(
     "div",
@@ -311,7 +446,7 @@ function Conversation({ turns }) {
                   h("span", null, t.role),
                   t.at ? h("span", { className: "fleet-turn__at" }, clock(t.at)) : null,
                 ),
-                h("p", { className: "fleet-turn__text" }, t.text),
+                h(Markdown, { text: t.text, className: "fleet-turn__text" }),
               ),
             ),
         )

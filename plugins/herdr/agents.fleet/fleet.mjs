@@ -190,6 +190,21 @@ function toolArg(input = {}) {
   return String(v).replace(/\s+/g, " ").trim().slice(0, 160);
 }
 
+// turns keep their line structure so the panel can render the markdown; only runs of
+// spaces and blank lines are squeezed
+function prose(text) {
+  return String(text)
+    .replace(/\r\n?/g, "\n")
+    .replace(/[^\S\n]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function flat(text) {
+  return String(text).replace(/\s+/g, " ").trim();
+}
+
 function speech(d) {
   if (d.isMeta) return null;
   const msg = d.message ?? {};
@@ -209,7 +224,7 @@ function speech(d) {
       if (b.type === "image") hasImage = true;
     }
   }
-  text = text.replace(/\s+/g, " ").trim();
+  text = prose(text);
   if (!text && hasImage) text = "[image]";
   if (!text) return null;
   return {
@@ -254,13 +269,11 @@ function applyCodex(s, d) {
   if (kind !== "response_item") return;
 
   if (q.type === "message" && Array.isArray(q.content)) {
-    const text = q.content
-      .map((b) => (b && typeof b === "object" ? b.text ?? "" : ""))
-      .join(" ")
-      .replace(/\s+/g, " ")
-      .trim();
-    if (q.role === "user" && !s.title && text) s.title = text.slice(0, 80);
-    if (q.role === "user") s.prompt = text.slice(0, 400);
+    const text = prose(
+      q.content.map((b) => (b && typeof b === "object" ? b.text ?? "" : "")).join("\n"),
+    );
+    if (q.role === "user" && !s.title && text) s.title = flat(text).slice(0, 80);
+    if (q.role === "user") s.prompt = flat(text).slice(0, 400);
     if (text) {
       s.turns.push({
         role: q.role === "user" ? "you" : "agent",
@@ -346,7 +359,7 @@ function applyPi(s, d) {
       }
     }
   }
-  text = text.replace(/\s+/g, " ").trim();
+  text = prose(text);
 
   if (m.role === "toolResult") {
     s.lastKind = "tool_result";
@@ -354,8 +367,8 @@ function applyPi(s, d) {
   }
   if (!text) return;
   if (m.role === "user") {
-    s.prompt = text.slice(0, 400);
-    if (!s.title) s.title = text.slice(0, 80);
+    s.prompt = flat(text).slice(0, 400);
+    if (!s.title) s.title = flat(text).slice(0, 80);
     s.lastKind = "user";
   } else {
     s.lastKind = "assistant_text";

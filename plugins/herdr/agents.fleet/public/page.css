@@ -611,6 +611,78 @@ body {
   color: var(--fg-default);
 }
 
+.fleet-md {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fleet-md__p,
+.fleet-md__list {
+  margin: 0;
+}
+
+.fleet-md__list {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-4);
+}
+
+.fleet-md__h {
+  color: var(--fg-default);
+  font-weight: 600;
+}
+
+.fleet-md code {
+  padding: 0 4px;
+  border-radius: var(--radius-sm);
+  background: var(--surface0);
+  color: var(--fg-default);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.fleet-md a {
+  color: var(--accent);
+}
+
+.fleet-md__pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--mantle);
+}
+
+.fleet-md__pre code {
+  padding: 0;
+  background: none;
+  white-space: pre;
+}
+
+/* a wide table scrolls inside the turn rather than stretching the panel */
+.fleet-md__scroll {
+  overflow-x: auto;
+}
+
+.fleet-md__table {
+  border-collapse: collapse;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.fleet-md__table th,
+.fleet-md__table td {
+  padding: 2px var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.fleet-md__table th {
+  color: var(--fg-default);
+}
+
 .fleet-fold {
   display: grid;
   gap: var(--space-2);
