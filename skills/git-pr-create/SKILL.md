@@ -10,7 +10,7 @@ description: >-
   explicitly local framing ("commit this", "save my work", "ship this locally") stops at a commit.
   Pushes the branch and opens the PR immediately without asking for confirmation.
 tags: [git, github]
-updated_at: 2026-09-17
+updated_at: 2026-09-25
 ---
 
 # Git PR Create
@@ -45,7 +45,7 @@ Open GitHub PR for current branch. No confirm.
      | `feat` | `type: enhancement` -> `enhancement` -> `feature` |
      | `fix` | `type: bug` -> `bug` |
      | `docs` | `type: documentation` -> `documentation` -> `docs` |
-     | `perf` | `type: enhancement` -> `performance` -> `enhancement` |
+     | `perf` | `performance` -> `type: enhancement` -> `enhancement` |
      | `refactor` / `chore` / `build` / `ci` | `type: maintenance` -> `maintenance` -> `chore` |
      | `test` | `type: maintenance` -> `tests` -> `test` |
      | breaking change in commits/body | `type: breaking` -> `breaking-change` -> `breaking` |
