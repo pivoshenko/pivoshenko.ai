@@ -2,7 +2,7 @@
 name: Andrej Karpathy Workflow
 description: "Guardrail against coding before thinking: assume nothing, build the smallest thing, verify it."
 tags: [meta, workflow]
-updated_at: 2026-09-13
+updated_at: 2026-09-25
 ---
 
 # Andrej Karpathy Workflow
@@ -16,10 +16,9 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
-- State your assumptions explicitly. If uncertain, ask
-- If multiple interpretations exist, present them - don't pick silently
+- State your assumptions explicitly, then build on them
+- Readings that lead to materially different work -> name them and ask. Otherwise take the one a careful colleague would and say which you took
 - If a simpler approach exists, say so. Push back when warranted
-- If something is unclear, stop. Name what's confusing. Ask
 
 ## Simplicity First
 
@@ -58,15 +57,6 @@ Transform tasks into verifiable goals:
 - "Fix the bug" -> "Write a test that reproduces it, then make it pass"
 - "Refactor X" -> "Ensure tests pass before and after"
 
-For multi-step tasks, state a brief plan:
-```
-1. [Step] -> verify: [check]
-2. [Step] -> verify: [check]
-3. [Step] -> verify: [check]
-```
+For multi-step tasks, name the check that proves each step done.
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
-## Signals
-
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
