@@ -118,3 +118,4 @@ mcps:
       - vercel
       - cloudflare
       - logfire
+      - kaggle
