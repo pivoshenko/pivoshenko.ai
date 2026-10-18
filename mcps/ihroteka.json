@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "ihroteka": {
-      "url": "https://ihroteka.com/mcp/mcp",
+      "url": "https://ihroteka.com/mcp",
       "type": "http",
       "headers": {
         "Authorization": "Bearer ${kst_ihroteka_token}"
