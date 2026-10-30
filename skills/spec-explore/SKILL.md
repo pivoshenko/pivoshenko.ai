@@ -36,7 +36,7 @@ question -> read the codebase -> converge -> hand to `spec-propose`.
 
 Read first, in roughly this order, stopping when the picture is enough to ask a sharp question:
 
-- The entry points and module layout - `CLAUDE.md`, `README`, the directory the user named
+- The entry points and module layout - `AGENTS.md`, `README`, the directory the user named
 - The code that already does the nearest thing. Grep the nouns the user used, not the ones you would use
 - The tests around it. They state the current contract more honestly than the source does
 - Config, the justfile, package scripts - they name the verify commands a later stage will need

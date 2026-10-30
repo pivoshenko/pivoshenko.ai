@@ -14,15 +14,12 @@ updated_at: 2026-09-13
 The docs and specs checked into the repo you are working in, never `~/.claude/CLAUDE.md`. Consider each one that exists:
 
 - `README.md` - what the project is, how to install, run, and configure it, the layout and feature overview a newcomer reads first
-- `CLAUDE.md` - the agent-facing map: commands, conventions, architecture, gotchas
-- `AGENTS.md` - usually a symlink to `CLAUDE.md`, so one edit covers both
+- `AGENTS.md` - the agent-facing map: commands, conventions, architecture, gotchas
 - `CONTRIBUTING.md` - the contributor workflow: setup, command table, commit and branch rules, the pre-PR gate
 - Any other project documentation present - `docs/`, ADRs, runbooks, package-level READMEs in a monorepo
 - The spec the work came from, which carries mechanics of its own -> **Specs**
 
-Check the symlink with `ls -l AGENTS.md` before touching it. Symlink -> edit `CLAUDE.md` only, never write the same change twice and never replace the link with a copy. A real separate file -> it gets its own edit.
-
-Route each correction to the file that owns it instead of repeating it everywhere: install and usage -> README, agent conventions and architecture -> `CLAUDE.md`, contributor workflow -> `CONTRIBUTING.md`. One change can make several of them wrong at once, but only edit the ones that actually are.
+Route each correction to the file that owns it instead of repeating it everywhere: install and usage -> README, agent conventions and architecture -> `AGENTS.md`, contributor workflow -> `CONTRIBUTING.md`. One change can make several of them wrong at once, but only edit the ones that actually are.
 
 ## Specs
 
