@@ -72,7 +72,7 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 | `just lint-skills` | Validates every `SKILL.md` in `skills/` and `archive/skills/` |
 | `just lint-mcps` | Validates every server definition in `mcps/` against `kasetto.yaml` |
 | `just lint-instructions` | Validates every rule in `instructions/` and `archive/instructions/` |
-| `just lint-next` | Lints `site/` with Biome without changing files |
+| `just lint-next` | Lints `site/` with Biome and typechecks it without changing files |
 | `just test` | Skips while the `.no-tests` sentinel file is present; without it the recipe fails, prompting you to add tests |
 | `just check` | Runs `lint`, then `test`, then `build` in sequence |
 | `just update` | Updates `site/` dependencies with pnpm |
