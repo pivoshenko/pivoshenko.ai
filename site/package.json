@@ -10,9 +10,9 @@
     "dev": "node scripts/sync-previews.mjs && next dev --turbopack",
     "build": "node scripts/sync-previews.mjs && next build",
     "start": "next start",
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "check": "biome check . --write"
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
