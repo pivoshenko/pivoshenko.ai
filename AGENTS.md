@@ -5,11 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Read First
 
 - `instructions/` is the source of truth for the author's **global** agent rules - Kasetto syncs each file into `~/.claude/CLAUDE.md` as a managed block, so editing one changes how every agent session behaves, everywhere. Higher-stakes than a skill edit
-- A malformed frontmatter block, or a skill directory without a `SKILL.md`, breaks the whole site build in `pivoshenko.sites`, not just one card
+- A malformed frontmatter block, or a skill directory without a `SKILL.md`, breaks the whole ai.pivoshenko.dev build, not just one card
 
 ## What This Repository Is
 
-A catalog of agent **skills**, **MCPs**, and **instructions**, distributed to local agent configs by [Kasetto](https://github.com/pivoshenko/kasetto). The catalog is rendered at `ai.pivoshenko.dev` by a site that lives elsewhere (see Site). The README has the full picture.
+A catalog of agent **skills**, **MCPs**, and **instructions**, distributed to local agent configs by [Kasetto](https://github.com/pivoshenko/kasetto). The catalog is rendered at `ai.pivoshenko.dev` by a separate site. The README has the full picture.
 
 It is a content-only repository. The parts:
 
@@ -52,16 +52,6 @@ Note the asymmetry: the site lists **every** `mcps/*.json` as local, while Kaset
 ### kasetto.yaml
 
 Declares what gets pulled where. Local skills and instructions use `source: https://github.com/pivoshenko/pivoshenko.ai` with `"*"`, so anything added under `skills/` or `instructions/` is picked up without editing the config. MCPs are named one by one. External entries pin a repository, optional `sub-dir` and `branch`, and an explicit skill list.
-
-## Site
-
-The site lives in the private `pivoshenko.sites` monorepo under `sites/ai`. At build time it reads `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` and `tags.json` from this repository: locally by copying the sibling checkout, on Vercel by shallow-cloning this public repo. The Vercel project is not connected to this repository. A push to `main` touching those paths triggers `.github/workflows/deploy.yaml`, which calls the Vercel deploy hook stored as the `VERCEL_DEPLOY_HOOK` secret.
-
-Consequences worth knowing:
-
-- Content edits only show up after that rebuild
-- `skills/` entries are sorted by `updated_at`, newest first
-- The frontmatter shape and `tags.json` are contracts the site parses, so changing them means changing the monorepo too
 
 ## Conventions
 

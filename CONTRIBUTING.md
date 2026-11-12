@@ -60,7 +60,7 @@ Concrete examples, API sketches, UI mockups, or references are helpful when rele
 
 ### Local Development
 
-This repository is content only. The content linters under `scripts/` are stdlib-only Python 3, so a `python3` on PATH is the only thing you need. The site that renders the catalog lives in the private `pivoshenko.sites` monorepo.
+This repository is content only. The content linters under `scripts/` are stdlib-only Python 3, so a `python3` on PATH is the only thing you need.
 
 This project uses [`just`](https://github.com/casey/just) as its task runner. Run `just --list` for the full set; these are the ones you need day to day:
 
@@ -106,7 +106,7 @@ Workflows live in `.github/workflows`:
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
 | CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just` and Python 3.14; lints the catalog, then runs tests |
-| Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` or `tags.json`, `workflow_dispatch` | Single `deploy` job on `ubuntu-24.04-arm` that calls the Vercel deploy hook (`VERCEL_DEPLOY_HOOK` secret) to rebuild `ai.pivoshenko.dev` |
+| Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` or `tags.json`, `workflow_dispatch` | Rebuilds `ai.pivoshenko.dev` |
 
 CI must be green before a pull request is merged.
 
