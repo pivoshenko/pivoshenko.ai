@@ -60,28 +60,21 @@ Concrete examples, API sketches, UI mockups, or references are helpful when rele
 
 ### Local Development
 
-This repository's `site/` directory is a Next.js application managed with pnpm and linted/formatted with Biome, all orchestrated through `just`. The content linters under `scripts/` are stdlib-only Python 3, so a `python3` on PATH is the only extra thing you need.
+This repository is content only. The content linters under `scripts/` are stdlib-only Python 3, so a `python3` on PATH is the only thing you need. The site that renders the catalog lives in the private `pivoshenko.sites` monorepo.
 
 This project uses [`just`](https://github.com/casey/just) as its task runner. Run `just --list` for the full set; these are the ones you need day to day:
 
 | Command | What it does |
 | --- | --- |
-| `just install` | Installs `site/` dependencies with pnpm |
-| `just format` | Formats `site/` and applies Biome's safe lint fixes in place |
-| `just lint` | Runs every linter: the three content linters, then `lint-next` |
+| `just lint` | Runs the three content linters |
 | `just lint-skills` | Validates every `SKILL.md` in `skills/` and `archive/skills/` |
 | `just lint-mcps` | Validates every server definition in `mcps/` against `kasetto.yaml` |
 | `just lint-instructions` | Validates every rule in `instructions/` and `archive/instructions/` |
-| `just lint-next` | Lints `site/` with Biome and typechecks it without changing files |
 | `just test` | Skips while the `.no-tests` sentinel file is present; without it the recipe fails, prompting you to add tests |
-| `just check` | Runs `lint`, then `test`, then `build` in sequence |
-| `just update` | Updates `site/` dependencies with pnpm |
-| `just build` | Builds the Next.js site |
-| `just run-dev-server` | Starts the Next.js dev server |
-| `just run-prod-server` | Builds the site, then starts the Next.js production server |
+| `just check` | Runs `lint`, then `test` in sequence |
 
 1. Fork the repository and clone your fork locally
-2. Create a branch following the naming pattern below and run `just install`
+2. Create a branch following the naming pattern below
 3. Make your changes and run `just check` before opening a pull request
 
 > [!IMPORTANT]
@@ -112,7 +105,8 @@ Workflows live in `.github/workflows`:
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just`, pnpm, and Node 24 with the pnpm cache keyed on `site/pnpm-lock.yaml`; installs the site's dependencies, then lints the catalog and the site, tests, and builds it |
+| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just` and Python 3.14; lints the catalog, then runs tests |
+| Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `archive/` or `kasetto.yaml`, `workflow_dispatch` | Single `deploy` job on `ubuntu-24.04-arm` that calls the Vercel deploy hook (`VERCEL_DEPLOY_HOOK` secret) to rebuild `ai.pivoshenko.dev` |
 
 CI must be green before a pull request is merged.
 

@@ -14,7 +14,7 @@ def parse_frontmatter(md):
     Deliberately supports only the YAML forms this repo actually uses: plain
     scalars, double-quoted scalars, folded `>-` blocks and inline `[a, b]` lists.
     Anything else is reported rather than guessed at, so the linter can never
-    disagree silently with the `yaml` parser the site build uses.
+    disagree silently with the `yaml` parser the site build uses (in the `pivoshenko.sites` monorepo).
     """
     m = _BLOCK.match(md)
     if not m:
@@ -192,50 +192,6 @@ def kasetto_mcp_names(root):
         if m:
             names.add(m.group(1))
     return names
-
-
-def kasetto_external_skills(root):
-    """Return (source_label, skill) for every explicitly named external skill.
-
-    A `"*"` entry names no skills, and the local source is this repository, so
-    neither can be checked against the site's tag tables.
-    """
-    out = []
-    inside = False
-    source = None
-    for line in (root / "kasetto.yaml").read_text(encoding="utf-8").splitlines():
-        if re.match(r"^[a-z_]+:", line):
-            inside = line.startswith("skills:")
-            source = None
-            continue
-        if not inside:
-            continue
-        m = re.match(r"^\s+-?\s*source:\s*(\S+)", line)
-        if m:
-            source = m.group(1).replace("https://github.com/", "")
-            continue
-        m = re.match(r"^\s+-\s+([a-z0-9][a-z0-9-]*)\s*$", line)
-        if m and source and source != "pivoshenko/pivoshenko.ai":
-            out.append((source, m.group(1)))
-    return out
-
-
-def site_tag_keys(root, table):
-    """Keys of a lookup table in site/lib/external-tags.ts.
-
-    The site is TypeScript and these linters are stdlib-only, so the table is
-    read as text rather than executed - the same reason the frontmatter and
-    kasetto parsers here are hand-rolled.
-    """
-    text = (root / "site/lib/external-tags.ts").read_text(encoding="utf-8")
-    start = text.index(table)
-    end = text.index("\n}", start)
-    return {
-        m.group(1)
-        for m in re.finditer(
-            r"^\s+'?([A-Za-z0-9/._-]+)'?:\s*\[", text[start:end], re.MULTILINE
-        )
-    }
 
 
 # == Reporting ==

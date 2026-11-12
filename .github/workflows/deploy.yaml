@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "skills/**"
+      - "mcps/**"
+      - "instructions/**"
+      - "archive/**"
+      - "kasetto.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Rebuild ai.pivoshenko.dev
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" > /dev/null
