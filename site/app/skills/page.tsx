@@ -17,7 +17,7 @@ export default function SkillsPage() {
     <>
       <HeroBand title={<span className="fg-title">Skills</span>} />
       <PageBody className="space-y-10">
-        <SkillMap skills={catalog.skills} />
+        <SkillMap skills={catalog.skills.filter((skill) => skill.local)} />
         <Catalog
           id="skills"
           title="Skills"

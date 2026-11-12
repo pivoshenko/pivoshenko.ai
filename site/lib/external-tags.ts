@@ -100,9 +100,6 @@ export const SOURCE_TAGS: Record<string, string[]> = {
   'hashicorp/agent-skills': ['terraform'],
 }
 
-// external instruction sources only; local ones use frontmatter `tags`
-export const INSTRUCTION_TAGS: Record<string, string[]> = {}
-
 export const MCP_TAGS: Record<string, string[]> = {
   github: ['git', 'github'],
   vercel: ['vercel', 'deploy'],

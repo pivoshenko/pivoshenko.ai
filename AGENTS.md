@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `instructions/` is the source of truth for the author's **global** agent rules - Kasetto syncs each file into `~/.claude/CLAUDE.md` as a managed block, so editing one changes how every agent session behaves, everywhere. Higher-stakes than a skill edit
 - `AGENTS.md` is a symlink to this file, so any edit here is also the AGENTS.md edit - never replace the symlink with a copy
-- Styling and config are inherited from the pinned `pivoshenko.ui` package, whose own `AGENTS.md` documents the design-token and semantic helper-class vocabulary - read that rather than inferring the contract from the markup here. A site picks its accent with `SiteLayout`'s `accent` prop (`peach` here), never by overriding colours locally. Never add a local override to fix something that belongs upstream - fix it upstream and bump the pinned tag. `just update` will not move the pin, because it is a git ref rather than a version range
+- Styling and config are inherited from the pinned `pivoshenko.ui` package, whose own `AGENTS.md` documents the design-token and semantic helper-class vocabulary - read that rather than inferring the contract from the markup here. A site picks its accent with `SiteLayout`'s `accent` prop (`lavender` here), never by overriding colours locally. Never add a local override to fix something that belongs upstream - fix it upstream and bump the pinned tag. `just update` will not move the pin, because it is a git ref rather than a version range
 - A malformed frontmatter block, or a skill directory without a `SKILL.md`, breaks the whole site build, not just one card
 
 ## What This Repository Is
@@ -73,17 +73,17 @@ Retired content, mirroring the live layout (`archive/skills/`, `archive/instruct
 
 Four, all statically prerendered:
 
-- `/` - the landing, and the only page with no catalog on it. Hero, `components/principles.tsx`, `components/browse.tsx`, and the plugin showcases. It carries no cards: principles are an editorial three-up over a rule, browse is a row list, and the plugin's screenshot is cropped to a 16/10 frame with a fade rather than shown whole
+- `/` - the landing, and the only page with no catalog on it. Hero, `components/principles.tsx` and `components/browse.tsx`. It carries no cards: principles are an editorial three-up over a rule, and browse is a row list
 - `/skills` - the skills catalog plus archived skills
 - `/mcps` - `components/mcp-map.tsx` over the server catalog
 - `/instructions` - `components/instruction-highlights.tsx` over the instructions, plus an archived block of the same shape. Editorial `Highlights` rather than a catalog: no filters, no dialog, each rule a numbered title, its guardrail line and a link to the file
 
 ### Shared Pieces
 
-- `components/entry.ts` - the `Entry` shape every card, dialog and filter reads, plus one builder per kind. `locate()` is the rule that our own files resolve to a path and a `tree/main` link while an external entry stops at the repository, whose layout is not ours to know
-- `components/entry-catalog.tsx` - the only client component of any size. Filters (search, source, tags, reset), the own/external split, the archived block, and the card dialog. The filter bar hides itself below thirteen entries unless `filters` says otherwise; search and source AND together, tags OR within themselves
-- `components/catalog-hero.tsx` - the full-bleed band each route opens with
-- `components/mcp-map.tsx` - the hub-and-spoke diagram. Links are one SVG underneath, nodes are real `<button>`s on top, and a `md:` gate swaps the ring for a list rather than measuring the viewport in JS
+- `components/entry.tsx` - the builders (`skillEntry`, `mcpEntry`, `archivedEntry`) that return pivoshenko.ui's `CatalogEntry`, the shape every card, dialog and filter reads. `locate()` is the rule that our own files resolve to a path and a `tree/main` link while an external entry stops at the repository, whose layout is not ours to know
+- Filters, the own/external split, the archived block and the card dialog live in pivoshenko.ui's `Catalog`, not here. The filter bar hides itself below thirteen entries unless `filters` says otherwise; search and source AND together, tags OR within themselves
+- Every route opens with pivoshenko.ui's `HeroBand`
+- `components/skill-map.tsx` and `components/mcp-map.tsx` - both delegate to pivoshenko.ui's `FlowMap`. Skill-map gets only our own skills, so the client payload carries no external ones
 
 Consequences worth knowing:
 

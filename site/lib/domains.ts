@@ -57,7 +57,7 @@ export function byGroup(skills: Skill[]): Skill[] {
   return [...skills].sort((a, b) => {
     const ga = groupOf(a)
     const gb = groupOf(b)
-    if (ga === gb) return a.name.localeCompare(b.name)
+    if (ga === gb) return 0
     const ra = rank.get(ga) ?? 100
     const rb = rank.get(gb) ?? 100
     if (ra !== rb) return ra - rb

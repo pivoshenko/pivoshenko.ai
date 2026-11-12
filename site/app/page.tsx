@@ -1,8 +1,7 @@
 import { Browse } from '@/components/browse'
-import { PluginShowcase } from '@/components/plugin-showcase'
 import { Principles } from '@/components/principles'
 import { loadCatalog } from '@/lib/data'
-import { HeroBand, PageBody, SectionHeader } from 'pivoshenko.ui'
+import { HeroBand, PageBody } from 'pivoshenko.ui'
 
 export default function HomePage() {
   const catalog = loadCatalog()
@@ -12,15 +11,14 @@ export default function HomePage() {
       <HeroBand
         title={
           <>
-            <span className="fg-title">pivoshenko</span>
-            <span className="fg-muted">.</span>
-            <span className="text-accent">ai</span>
+            <span className="fg-title">AI </span>
+            <span className="text-accent">Hub</span>
           </>
         }
         lead={
           <>
-            My personal AI workspace with curated skills, MCPs, instructions and
-            plugins, managed by{' '}
+            My personal AI workspace with curated skills, MCPs and instructions,
+            managed by{' '}
             <a
               href="https://kasetto.dev"
               target="_blank"
@@ -35,7 +33,6 @@ export default function HomePage() {
           { label: 'skills', value: catalog.skills.length },
           { label: 'mcps', value: catalog.mcps.length },
           { label: 'instructions', value: catalog.instructions.length },
-          { label: 'plugins', value: catalog.plugins.length },
         ]}
       >
         <div className="type-body fg-body mt-4 space-y-3">
@@ -86,15 +83,6 @@ export default function HomePage() {
             },
           ]}
         />
-
-        <section id="plugins" className="scroll-mt-24 space-y-2">
-          <SectionHeader title="Plugins" count={catalog.plugins.length} />
-          <div className="space-y-16 pt-4">
-            {catalog.plugins.map((plugin) => (
-              <PluginShowcase key={plugin.id} plugin={plugin} />
-            ))}
-          </div>
-        </section>
       </PageBody>
     </>
   )

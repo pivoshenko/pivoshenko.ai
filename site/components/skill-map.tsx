@@ -2,20 +2,9 @@
 
 import type { Skill } from '@/lib/data'
 import { type Domain, groupByDomain } from '@/lib/domains'
-import {
-  ArrowUpRight,
-  Bot,
-  Cloud,
-  Cpu,
-  GitBranch,
-  Laptop,
-  type LucideIcon,
-  PenLine,
-  Sparkles,
-  SquareCheck,
-} from 'lucide-react'
+import { ArrowUpRight, Cpu, Sparkles } from 'lucide-react'
 import type { FlowColumn, FlowLink } from 'pivoshenko.ui'
-import { Dialog, FlowMap, Tag, TagButton, Tags } from 'pivoshenko.ui'
+import { Dialog, FlowMap, Tag, Tags } from 'pivoshenko.ui'
 import { useMemo, useState } from 'react'
 import { domainIcon } from './domain-icon'
 
@@ -27,10 +16,7 @@ type SkillMapProps = {
 // skills: a column that tall stops being a diagram and starts being a list,
 // and the page already has a list underneath
 export function SkillMap({ skills }: SkillMapProps) {
-  const groups = useMemo(
-    () => groupByDomain(skills.filter((skill) => skill.local)),
-    [skills],
-  )
+  const groups = useMemo(() => groupByDomain(skills), [skills])
 
   const [domain, setDomain] = useState<Domain | undefined>(
     () => groups[0]?.domain,

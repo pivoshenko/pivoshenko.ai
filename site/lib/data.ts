@@ -1,25 +1,10 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { imageSize } from 'image-size'
 import { parse as parseYaml } from 'yaml'
-import {
-  INSTRUCTION_TAGS,
-  MCP_TAGS,
-  SKILL_TAGS,
-  SOURCE_TAGS,
-} from './external-tags'
+import { MCP_TAGS, SKILL_TAGS, SOURCE_TAGS } from './external-tags'
 
 const ROOT = join(process.cwd(), '..')
 
-// next/image needs the intrinsic size up front to reserve the box and pick a
-// srcset. The source PNG is on disk at build time, so read it from there rather
-// than shipping a manifest alongside the copies sync-previews.mjs makes
-function previewOf(file: string) {
-  const source = join(ROOT, 'assets', file)
-  if (!existsSync(source)) return undefined
-  const { width, height } = imageSize(readFileSync(source))
-  return { src: `/previews/${file}`, width, height }
-}
 const LOCAL_SOURCE = 'https://github.com/pivoshenko/pivoshenko.ai'
 const LOCAL_LABEL = 'pivoshenko/pivoshenko.ai'
 
@@ -55,7 +40,6 @@ export type Mcp = {
   servers: McpServer[]
   /** The definition as published, for the config panel */
   config?: string
-  updated_at?: string
 }
 
 export type Instruction = {
@@ -71,37 +55,11 @@ export type Instruction = {
   updated_at?: string
 }
 
-export type Plugin = {
-  id: string
-  slug: string
-  host: string
-  name: string
-  version: string
-  description: string
-  platforms: string[]
-  source: string
-  sourceLabel: string
-  path: string
-  preview?: { src: string; width: number; height: number }
-  local: boolean
-  tags: string[]
-  updated_at?: string
-}
-
 export type KasettoConfig = {
-  agent: string[]
-  instructions?: Array<{
-    source: string
-    instructions: '*' | string[]
-  }>
   skills: Array<{
     source: string
     'sub-dir'?: string
     skills: '*' | string[]
-  }>
-  mcps: Array<{
-    source: string
-    mcps: '*' | string[]
   }>
 }
 
@@ -117,79 +75,15 @@ function labelForSource(source: string): string {
   return m[1].replace(/\.git$/, '')
 }
 
-function deriveSkillTags(slug: string, sourceLabel: string): string[] {
+function deriveTags(
+  table: Record<string, string[]>,
+  slug: string,
+  sourceLabel: string,
+): string[] {
   const tags = new Set<string>()
-  for (const t of SKILL_TAGS[slug] ?? []) tags.add(t)
+  for (const t of table[slug] ?? []) tags.add(t)
   for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
   return Array.from(tags)
-}
-
-function deriveInstructionTags(slug: string, sourceLabel: string): string[] {
-  const tags = new Set<string>()
-  for (const t of INSTRUCTION_TAGS[slug] ?? []) tags.add(t)
-  for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
-  return Array.from(tags)
-}
-
-// A herdr-plugin.toml is a flat manifest: bare scalars at the top level and
-// arrays of strings. Nothing here needs a TOML dependency, and the [[sections]]
-// below the scalars are of no interest to the site
-function parseManifest(toml: string): Record<string, string | string[]> {
-  const out: Record<string, string | string[]> = {}
-  for (const line of toml.split(/\r?\n/)) {
-    if (line.startsWith('[')) break
-    const m = line.match(/^\s*([A-Za-z_][\w-]*)\s*=\s*(.+?)\s*$/)
-    if (!m) continue
-    const [, key, raw] = m
-    out[key] = raw.startsWith('[')
-      ? Array.from(raw.matchAll(/"([^"]*)"/g), (v) => v[1])
-      : raw.replace(/^"(.*)"$/, '$1')
-  }
-  return out
-}
-
-const capitalize = (text: string) =>
-  text.charAt(0).toUpperCase() + text.slice(1)
-
-function readLocalPlugins(): Plugin[] {
-  const pluginsDir = join(ROOT, 'plugins')
-  if (!existsSync(pluginsDir)) return []
-  const out: Plugin[] = []
-  for (const host of readdirSync(pluginsDir)) {
-    const hostDir = join(pluginsDir, host)
-    if (!statSync(hostDir).isDirectory()) continue
-    for (const slug of readdirSync(hostDir)) {
-      const manifest = join(hostDir, slug, `${host}-plugin.toml`)
-      if (!existsSync(manifest)) continue
-      const data = parseManifest(readFileSync(manifest, 'utf8'))
-      const str = (key: string) =>
-        typeof data[key] === 'string' ? (data[key] as string) : ''
-      const preview = `preview_${host}_${slug.replace(/\./g, '_')}.png`
-      out.push({
-        id: `plugin:${host}:${slug}`,
-        slug,
-        host,
-        name: str('name') || slug,
-        version: str('version'),
-        // Manifests prefix the description with the plugin's own name, which
-        // the card already shows a line above
-        description: capitalize(
-          str('description').replace(
-            new RegExp(`^${str('name') || slug}\\s+-\\s+`),
-            '',
-          ),
-        ),
-        platforms: Array.isArray(data.platforms) ? data.platforms : [],
-        source: LOCAL_SOURCE,
-        sourceLabel: LOCAL_LABEL,
-        path: `plugins/${host}/${slug}`,
-        preview: previewOf(preview),
-        local: true,
-        tags: [host, ...(Array.isArray(data.platforms) ? data.platforms : [])],
-      })
-    }
-  }
-  return out
 }
 
 function readKasetto(): KasettoConfig {
@@ -220,7 +114,7 @@ function readLocalSkills(baseDir = 'skills', archived = false): Skill[] {
       archived,
       tags: frontmatterTags.length
         ? frontmatterTags
-        : deriveSkillTags(slug, LOCAL_LABEL),
+        : deriveTags(SKILL_TAGS, slug, LOCAL_LABEL),
       updated_at:
         typeof data.updated_at === 'string' ? data.updated_at : undefined,
     }
@@ -247,7 +141,10 @@ function readServers(config: string): McpServer[] {
     target: server.url ?? [server.command, ...(server.args ?? [])].join(' '),
     secrets: Array.from(
       new Set(
-        Array.from(config.matchAll(/\$\{([A-Za-z0-9_]+)\}/g), (m) => m[1]),
+        Array.from(
+          JSON.stringify(server).matchAll(/\$\{([A-Za-z0-9_]+)\}/g),
+          (m) => m[1],
+        ),
       ),
     ),
   }))
@@ -265,18 +162,11 @@ function readLocalMcps(): Mcp[] {
       source: LOCAL_SOURCE,
       sourceLabel: LOCAL_LABEL,
       local: true,
-      tags: deriveMcpTags(name, LOCAL_LABEL),
+      tags: deriveTags(MCP_TAGS, name, LOCAL_LABEL),
       servers: readServers(config),
       config,
     }
   })
-}
-
-function deriveMcpTags(name: string, sourceLabel: string): string[] {
-  const tags = new Set<string>()
-  for (const t of MCP_TAGS[name] ?? []) tags.add(t)
-  for (const t of SOURCE_TAGS[sourceLabel] ?? []) tags.add(t)
-  return Array.from(tags)
 }
 
 function readLocalInstructions(
@@ -303,49 +193,11 @@ function readLocalInstructions(
       archived,
       tags: frontmatterTags.length
         ? frontmatterTags
-        : deriveInstructionTags(slug, LOCAL_LABEL),
+        : deriveTags({}, slug, LOCAL_LABEL),
       updated_at:
         typeof data.updated_at === 'string' ? data.updated_at : undefined,
     }
   })
-}
-
-function readExternalInstructions(
-  config: KasettoConfig,
-  localSlugs: Set<string>,
-): Instruction[] {
-  const out: Instruction[] = []
-  for (const entry of config.instructions ?? []) {
-    const label = labelForSource(entry.source)
-    if (label === LOCAL_LABEL) continue
-    if (entry.instructions === '*') {
-      out.push({
-        id: `instruction:wildcard:${label}`,
-        slug: '*',
-        name: 'all instructions',
-        description: `All instructions published in ${label}`,
-        source: entry.source,
-        sourceLabel: label,
-        local: false,
-        tags: deriveInstructionTags('*', label),
-      })
-      continue
-    }
-    for (const slug of entry.instructions) {
-      if (localSlugs.has(slug)) continue
-      out.push({
-        id: `instruction:${label}:${slug}`,
-        slug,
-        name: slug,
-        description: '',
-        source: entry.source,
-        sourceLabel: label,
-        local: false,
-        tags: deriveInstructionTags(slug, label),
-      })
-    }
-  }
-  return out
 }
 
 function readExternalSkills(
@@ -365,7 +217,7 @@ function readExternalSkills(
         source: entry.source,
         sourceLabel: label,
         local: false,
-        tags: deriveSkillTags('*', label),
+        tags: deriveTags(SKILL_TAGS, '*', label),
       })
       continue
     }
@@ -379,43 +231,7 @@ function readExternalSkills(
         source: entry.source,
         sourceLabel: label,
         local: false,
-        tags: deriveSkillTags(slug, label),
-      })
-    }
-  }
-  return out
-}
-
-function readExternalMcps(
-  config: KasettoConfig,
-  localNames: Set<string>,
-): Mcp[] {
-  const out: Mcp[] = []
-  for (const entry of config.mcps) {
-    const label = labelForSource(entry.source)
-    if (label === LOCAL_LABEL) continue
-    if (entry.mcps === '*') {
-      out.push({
-        id: `mcp:wildcard:${label}`,
-        name: 'all mcps',
-        source: entry.source,
-        sourceLabel: label,
-        local: false,
-        tags: [],
-        servers: [],
-      })
-      continue
-    }
-    for (const name of entry.mcps) {
-      if (localNames.has(name)) continue
-      out.push({
-        id: `mcp:${label}:${name}`,
-        name,
-        source: entry.source,
-        sourceLabel: label,
-        local: false,
-        tags: deriveMcpTags(name, label),
-        servers: [],
+        tags: deriveTags(SKILL_TAGS, slug, label),
       })
     }
   }
@@ -438,7 +254,6 @@ function readCatalog() {
   const localSkills = readLocalSkills()
   const localMcps = readLocalMcps()
   const localInstructions = readLocalInstructions()
-  const plugins = readLocalPlugins()
   const archivedSkills = readLocalSkills('archive/skills', true).sort(
     byUpdatedAtDesc,
   )
@@ -450,34 +265,15 @@ function readCatalog() {
     config,
     new Set(localSkills.map((s) => s.slug)),
   )
-  const externalMcps = readExternalMcps(
-    config,
-    new Set(localMcps.map((m) => m.name)),
-  )
-  const externalInstructions = readExternalInstructions(
-    config,
-    new Set(localInstructions.map((i) => i.slug)),
-  )
 
   const skills = [...localSkills, ...externalSkills].sort(byUpdatedAtDesc)
-  const mcps = [...localMcps, ...externalMcps].sort(byUpdatedAtDesc)
-  const instructions = [...localInstructions, ...externalInstructions].sort(
-    byUpdatedAtDesc,
-  )
 
   return {
-    config,
     skills,
-    mcps,
-    instructions,
-    plugins,
+    mcps: localMcps,
+    instructions: localInstructions.sort(byUpdatedAtDesc),
     archivedSkills,
     archivedInstructions,
-    sources: Array.from(
-      new Set(
-        [...skills, ...mcps, ...instructions].map((item) => item.sourceLabel),
-      ),
-    ).sort(),
   }
 }
 

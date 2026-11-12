@@ -7,7 +7,7 @@ export const contentType = 'image/png'
 export default createOgImage({
   brand: 'Volodymyr Pivoshenko',
   title: 'AI Workspace',
-  subtitle: 'Curated AI skills, MCPs, instructions and plugins',
+  subtitle: 'Curated AI skills, MCPs and instructions',
   domain: 'ai.pivoshenko.dev',
   accent: 'lavender',
 })

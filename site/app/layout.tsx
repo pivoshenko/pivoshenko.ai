@@ -11,21 +11,16 @@ export const metadata = siteMetadata({
   brand: 'pivoshenko.ai',
   title: 'pivoshenko.ai',
   titleTemplate: '%s - pivoshenko.ai',
-  description: 'Curated AI skills, MCPs, instructions and plugins.',
-  ogTitle: 'AI Workspace',
-  ogDescription: 'Curated AI skills, MCPs, instructions and plugins',
+  description: 'Curated AI skills, MCPs and instructions.',
 })
 
 export const viewport = siteViewport
 
-// Three catalog routes plus the landing's plugin section. Nav scroll-spies a
-// fragment entry, but only while the reader is on the route it belongs to
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/skills', label: 'Skills' },
   { href: '/mcps', label: 'MCPs' },
   { href: '/instructions', label: 'Instructions' },
-  { href: '/#plugins', label: 'Plugins' },
 ]
 
 export default function RootLayout({
@@ -39,6 +34,7 @@ export default function RootLayout({
       accent="lavender"
       subAccent="blue"
       navLinks={navLinks}
+      field="lake"
       afterShell={<SpeedInsights />}
     >
       {children}
