@@ -9,6 +9,7 @@ on:
       - "instructions/**"
       - "archive/**"
       - "kasetto.yaml"
+      - "tags.json"
   workflow_dispatch:
 
 permissions:

@@ -1,3 +1,4 @@
+import json
 import re
 import sys
 from datetime import date, datetime
@@ -192,6 +193,37 @@ def kasetto_mcp_names(root):
         if m:
             names.add(m.group(1))
     return names
+
+
+def kasetto_external_skills(root):
+    """Return (source_label, skill) for every explicitly named external skill.
+
+    A `"*"` entry names no skills, and the local source is this repository, so
+    neither can be checked against the tag tables in `tags.json`.
+    """
+    out = []
+    inside = False
+    source = None
+    for line in (root / "kasetto.yaml").read_text(encoding="utf-8").splitlines():
+        if re.match(r"^[a-z_]+:", line):
+            inside = line.startswith("skills:")
+            source = None
+            continue
+        if not inside:
+            continue
+        m = re.match(r"^\s+-?\s*source:\s*(\S+)", line)
+        if m:
+            source = m.group(1).replace("https://github.com/", "")
+            continue
+        m = re.match(r"^\s+-\s+([a-z0-9][a-z0-9-]*)\s*$", line)
+        if m and source and source != "pivoshenko/pivoshenko.ai":
+            out.append((source, m.group(1)))
+    return out
+
+
+def tag_table_keys(root, table):
+    """Keys of one table in `tags.json`, which the ai site reads at build."""
+    return set(json.loads((root / "tags.json").read_text(encoding="utf-8"))[table])
 
 
 # == Reporting ==

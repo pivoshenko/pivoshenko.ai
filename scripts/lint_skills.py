@@ -7,7 +7,9 @@ from lib import (
     Report,
     check_fields,
     check_punctuation,
+    kasetto_external_skills,
     parse_frontmatter,
+    tag_table_keys,
 )
 
 ROOT = Path.cwd()
@@ -67,5 +69,17 @@ for base in ["skills", "archive/skills"]:
                 rel = str(file.relative_to(ROOT))
                 report.file(rel)
                 check_punctuation(rel, file.read_text(encoding="utf-8"), report)
+
+# An external skill with no tag from either table renders as a card with no
+# chips and cannot be filtered - invisible unless somebody happens to look
+by_skill = tag_table_keys(ROOT, "skills")
+by_source = tag_table_keys(ROOT, "sources")
+local = {p.name for p in (ROOT / "skills").iterdir() if p.is_dir()}
+
+for source, skill in kasetto_external_skills(ROOT):
+    if skill in local or skill in by_skill or source in by_source:
+        continue
+    report.file("tags.json")
+    report.warn(f"{source}/{skill} has no tags, it renders unfiltered")
 
 report.finish(count, "skills")
