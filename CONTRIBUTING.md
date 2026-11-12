@@ -67,9 +67,9 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 | Command | What it does |
 | --- | --- |
 | `just lint` | Runs the three content linters |
-| `just lint-skills` | Validates every `SKILL.md` in `skills/` and `archive/skills/` |
+| `just lint-skills` | Validates every `SKILL.md` in `skills/` |
 | `just lint-mcps` | Validates every server definition in `mcps/` against `kasetto.yaml` |
-| `just lint-instructions` | Validates every rule in `instructions/` and `archive/instructions/` |
+| `just lint-instructions` | Validates every rule in `instructions/` |
 | `just test` | Skips while the `.no-tests` sentinel file is present; without it the recipe fails, prompting you to add tests |
 | `just check` | Runs `lint`, then `test` in sequence |
 
@@ -106,7 +106,7 @@ Workflows live in `.github/workflows`:
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
 | CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just` and Python 3.14; lints the catalog, then runs tests |
-| Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `archive/` or `kasetto.yaml`, `workflow_dispatch` | Single `deploy` job on `ubuntu-24.04-arm` that calls the Vercel deploy hook (`VERCEL_DEPLOY_HOOK` secret) to rebuild `ai.pivoshenko.dev` |
+| Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` or `tags.json`, `workflow_dispatch` | Single `deploy` job on `ubuntu-24.04-arm` that calls the Vercel deploy hook (`VERCEL_DEPLOY_HOOK` secret) to rebuild `ai.pivoshenko.dev` |
 
 CI must be green before a pull request is merged.
 

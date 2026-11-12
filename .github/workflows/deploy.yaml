@@ -7,7 +7,6 @@ on:
       - "skills/**"
       - "mcps/**"
       - "instructions/**"
-      - "archive/**"
       - "kasetto.yaml"
       - "tags.json"
   workflow_dispatch:

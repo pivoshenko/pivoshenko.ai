@@ -13,7 +13,7 @@ A catalog of agent **skills**, **MCPs**, and **instructions**, distributed to lo
 
 It is a content-only repository. The parts:
 
-- **Content** - `skills/`, `mcps/`, `instructions/`, `archive/`, and `kasetto.yaml`. Markdown and JSON, no build step, consumed by Kasetto. `plugins/` sits alongside them as content the site renders but Kasetto never touches, and is the one executable thing here
+- **Content** - `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` and `tags.json`. Markdown and JSON, no build step, consumed by Kasetto and the site. Retired content is deleted rather than kept aside - git history holds it
 - **Scripts** - `scripts/`, stdlib-only Python 3 linters that check the content contract. They run from the repository root with whatever `python3` is on PATH, so there is no virtualenv, lockfile or third-party import - the hand-rolled frontmatter and `kasetto.yaml` parsers in `lib.py` exist for that reason. Each linter is run as `python3 scripts/lint_<kind>.py`, which puts `scripts/` on `sys.path` so `lib` resolves
 
 The content is the product. The site is a viewer for it, and it is not in this repository.
@@ -49,27 +49,19 @@ The site derives a transport (`http` when the server has a `url`, else `stdio`),
 
 Note the asymmetry: the site lists **every** `mcps/*.json` as local, while Kasetto only distributes the ones named in `kasetto.yaml`. A file sitting in the directory but missing from the config appears on the site without ever being synced.
 
-### Plugins
-
-One directory per agent host under `plugins/`, then one per plugin (`plugins/<host>/<slug>/`), each carrying a `<host>-plugin.toml` manifest. Kasetto does not distribute plugins - it knows only skills, MCPs and instructions - so `plugins/` never appears in `kasetto.yaml`, nothing syncs it, and no content linter covers it. The site also renders it from the repository checkout. A plugin is paired with `assets/preview_<host>_<slug>.png`, dots in the slug replaced by underscores, when that file exists. The install story is the README's.
-
 ### kasetto.yaml
 
 Declares what gets pulled where. Local skills and instructions use `source: https://github.com/pivoshenko/pivoshenko.ai` with `"*"`, so anything added under `skills/` or `instructions/` is picked up without editing the config. MCPs are named one by one. External entries pin a repository, optional `sub-dir` and `branch`, and an explicit skill list.
 
-### archive/
-
-Retired content, mirroring the live layout (`archive/skills/`, `archive/instructions/`, `archive/scripts/`). Kasetto never reads it, so moving a skill or instruction here needs no `kasetto.yaml` edit - the local entries are wildcards scoped to the live directories. Retiring an MCP also means dropping its name from the config. The site renders `archive/` in a separate archived section; retiring something means moving it here and explaining why in the README's Archive list, not deleting it.
-
 ## Site
 
-The site lives in the private `pivoshenko.sites` monorepo under `sites/ai`. At build time it reads `skills/`, `mcps/`, `instructions/`, `archive/` and `kasetto.yaml` from this repository: locally by copying the sibling checkout, on Vercel by shallow-cloning this public repo. The Vercel project is not connected to this repository. A push to `main` touching those paths triggers `.github/workflows/deploy.yaml`, which calls the Vercel deploy hook stored as the `VERCEL_DEPLOY_HOOK` secret.
+The site lives in the private `pivoshenko.sites` monorepo under `sites/ai`. At build time it reads `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` and `tags.json` from this repository: locally by copying the sibling checkout, on Vercel by shallow-cloning this public repo. The Vercel project is not connected to this repository. A push to `main` touching those paths triggers `.github/workflows/deploy.yaml`, which calls the Vercel deploy hook stored as the `VERCEL_DEPLOY_HOOK` secret.
 
 Consequences worth knowing:
 
 - Content edits only show up after that rebuild
-- `archive/` is rendered in a separate archived section, and `skills/` entries are sorted by `updated_at`, newest first
-- The frontmatter shape, tags and the `plugins/` layout are contracts the site parses, so changing them means changing the monorepo too
+- `skills/` entries are sorted by `updated_at`, newest first
+- The frontmatter shape and `tags.json` are contracts the site parses, so changing them means changing the monorepo too
 
 ## Conventions
 

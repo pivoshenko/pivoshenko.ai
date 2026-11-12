@@ -13,12 +13,9 @@ def slugify(name):
     return re.sub(r"^-|-$", "", re.sub(r"[^a-z0-9]+", "-", name.lower()))
 
 
-for base in ["instructions", "archive/instructions"]:
-    directory = ROOT / base
-    if not directory.exists():
-        continue
-    live = base == "instructions"
-
+base = "instructions"
+directory = ROOT / base
+if directory.exists():
     for entry in sorted(p.name for p in directory.iterdir()):
         if entry.startswith("."):
             continue
@@ -42,15 +39,12 @@ for base in ["instructions", "archive/instructions"]:
 
         check_fields(data, report, TODAY)
 
-        # Conventions apply to live rules only: archive is frozen, so drift there
-        # is a fact about the past rather than something to fix
-        if live:
-            name = data.get("name")
-            if isinstance(name, str) and slugify(name) != slug:
-                report.warn(f'"name" is "{name}" but the file is "{entry}"')
-            description = data.get("description")
-            if isinstance(description, str) and not re.match(r"^Guardrail\b", description):
-                report.warn('"description" does not open with "Guardrail", the house convention')
-            check_punctuation(rel, text, report)
+        name = data.get("name")
+        if isinstance(name, str) and slugify(name) != slug:
+            report.warn(f'"name" is "{name}" but the file is "{entry}"')
+        description = data.get("description")
+        if isinstance(description, str) and not re.match(r"^Guardrail\b", description):
+            report.warn('"description" does not open with "Guardrail", the house convention')
+        check_punctuation(rel, text, report)
 
 report.finish(count, "instructions")

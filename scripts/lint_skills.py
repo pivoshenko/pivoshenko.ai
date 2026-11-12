@@ -27,12 +27,9 @@ def markdown_files(directory):
     return out
 
 
-for base in ["skills", "archive/skills"]:
-    directory = ROOT / base
-    if not directory.exists():
-        continue
-    live = base == "skills"
-
+base = "skills"
+directory = ROOT / base
+if directory.exists():
     for entry in sorted(p.name for p in directory.iterdir()):
         if entry.startswith("."):
             continue
@@ -63,12 +60,10 @@ for base in ["skills", "archive/skills"]:
         if isinstance(name, str) and name != entry:
             report.err(f'"name" is "{name}" but the directory is "{entry}"')
 
-        # Live prose only: archive is frozen, so style drift there is not actionable
-        if live:
-            for file in markdown_files(path):
-                rel = str(file.relative_to(ROOT))
-                report.file(rel)
-                check_punctuation(rel, file.read_text(encoding="utf-8"), report)
+        for file in markdown_files(path):
+            rel = str(file.relative_to(ROOT))
+            report.file(rel)
+            check_punctuation(rel, file.read_text(encoding="utf-8"), report)
 
 # An external skill with no tag from either table renders as a card with no
 # chips and cannot be filtered - invisible unless somebody happens to look
