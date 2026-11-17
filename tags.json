@@ -38,10 +38,6 @@
     "implement": [
       "engineering"
     ],
-    "handoff": [
-      "engineering",
-      "agents"
-    ],
     "startup-design": [
       "startup"
     ],
@@ -81,10 +77,6 @@
     "emil-design-eng": [
       "frontend",
       "design"
-    ],
-    "herdr": [
-      "terminal",
-      "ai"
     ],
     "cloudflare": [
       "cloudflare"
@@ -286,18 +278,8 @@
     "create-viz": [
       "data"
     ],
-    "explore-data": [
-      "data"
-    ],
-    "statistical-analysis": [
-      "data"
-    ],
     "validate-data": [
       "data"
-    ],
-    "write-query": [
-      "data",
-      "sql"
     ]
   },
   "sources": {

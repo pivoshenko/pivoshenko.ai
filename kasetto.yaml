@@ -55,7 +55,6 @@ skills:
     sub-dir: skills/productivity
     skills:
       - grilling
-      - handoff
 
   - source: https://github.com/mattpocock/skills
     sub-dir: skills/engineering
@@ -87,11 +86,6 @@ skills:
     skills:
       - impeccable
 
-  - source: https://github.com/herdrdev/herdr
-    sub-dir: skills
-    skills:
-      - herdr
-
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
     skills:
@@ -107,9 +101,6 @@ skills:
       - analyze
       - build-dashboard
       - create-viz
-      - explore-data
-      - statistical-analysis
-      - write-query
 
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
