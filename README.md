@@ -16,6 +16,7 @@ This repository is managed with [Kasetto](https://github.com/pivoshenko/kasetto)
 - Locally authored MCP definitions, see [`mcps/`](mcps)
 - Locally authored instructions (`CLAUDE.md` / `AGENTS.md` / `.cursor/rules` ... rule fragments), see [`instructions/`](instructions)
 - External skills, MCPs, and instructions, see [`kasetto.yaml`](kasetto.yaml)
+- Claude Code plugins enabled from a plugin marketplace, see `plugins:` in [`kasetto.yaml`](kasetto.yaml)
 
 ## Main Principles
 

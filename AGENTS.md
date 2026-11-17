@@ -51,7 +51,7 @@ Note the asymmetry: the site lists **every** `mcps/*.json` as local, while Kaset
 
 ### kasetto.yaml
 
-Declares what gets pulled where. Local skills and instructions use `source: https://github.com/pivoshenko/pivoshenko.ai` with `"*"`, so anything added under `skills/` or `instructions/` is picked up without editing the config. MCPs are named one by one. External entries pin a repository, optional `sub-dir` and `branch`, and an explicit skill list.
+Declares what gets pulled where. Local skills and instructions use `source: https://github.com/pivoshenko/pivoshenko.ai` with `"*"`, so anything added under `skills/` or `instructions/` is picked up without editing the config. MCPs are named one by one. External entries pin a repository, optional `sub-dir` and `branch`, and an explicit skill list. Plugins are named one by one under `plugins:` against a Claude Code plugin marketplace repository; Kasetto copies no plugin files, it only enables `<plugin>@<marketplace>` in the agent's settings and the agent installs it.
 
 ## Conventions
 

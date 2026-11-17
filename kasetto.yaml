@@ -120,3 +120,8 @@ mcps:
       - logfire
       - kaggle
       - ihroteka
+
+plugins:
+  - source: https://github.com/cursor/plugins
+    plugins:
+      - pstack
