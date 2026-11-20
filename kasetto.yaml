@@ -111,6 +111,8 @@ mcps:
       - logfire
       - kaggle
       - ihroteka
+      - superlogical
+      - motherduck
 
 plugins:
   - source: https://github.com/cursor/plugins
