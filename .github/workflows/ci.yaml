@@ -1,9 +1,9 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches: ["main"]
-  pull_request:
   workflow_dispatch:
 
 concurrency:
@@ -30,6 +30,9 @@ jobs:
 
       - name: Run linters
         run: just lint
+
+      - name: Run audit
+        run: just audit
 
       - name: Run tests
         run: just test
