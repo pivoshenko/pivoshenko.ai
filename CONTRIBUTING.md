@@ -70,6 +70,7 @@ This project uses [`just`](https://github.com/casey/just) as its task runner. Ru
 | `just lint-skills` | Validates every `SKILL.md` in `skills/` |
 | `just lint-mcps` | Validates every server definition in `mcps/` against `kasetto.yaml` |
 | `just lint-instructions` | Validates every rule in `instructions/` |
+| `just audit` | No-op: the linters are stdlib-only, so there are no third-party dependencies to check |
 | `just test` | Skips while the `.no-tests` sentinel file is present; without it the recipe fails, prompting you to add tests |
 | `just check` | Runs `lint`, then `test` in sequence |
 
@@ -105,7 +106,7 @@ Workflows live in `.github/workflows`:
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| CI | Push to `main`, pull requests, `workflow_dispatch` | Single `ci` job on `ubuntu-24.04-arm` using `just` and Python 3.14; lints the catalog, then runs tests |
+| CI | Push to `main`, pull requests, `workflow_dispatch` | `ci` runs on `ubuntu-24.04-arm` using `just` and Python 3.14; lints the catalog, runs `just audit` as a step right after linting, then runs tests; there is no separate audit job |
 | Deploy | Push to `main` touching `skills/`, `mcps/`, `instructions/`, `kasetto.yaml` or `tags.json`, `workflow_dispatch` | Rebuilds `ai.pivoshenko.dev` |
 
 CI must be green before a pull request is merged.
