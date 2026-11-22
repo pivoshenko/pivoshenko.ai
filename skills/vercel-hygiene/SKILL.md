@@ -1,8 +1,8 @@
 ---
 name: vercel-hygiene
-description: Audit and harden the 5 pivoshenko brand sites on Vercel (pivoshenko.dev, pivoshenko.ai, pivoshenko.theme, pivoshenko.startpage, pivoshenko.wallpapers), team `pivoshenko`. Read-only sweep -> per-site report (ok/attention/action) -> confirmed fixes. Emphasizes security headers and analytics coverage. Use when the user says "audit vercel", "check vercel hygiene", "harden the sites", "vercel security", "check analytics coverage", "vercel health check", or wants a periodic once-over of the Vercel setup. Delegates perf/cost -> `vercel-optimize`, CLI ops and deployments -> `vercel-cli` (or the `mcp__vercel__deploy_to_vercel` tool).
+description: Audit and harden the 5 pivoshenko brand sites on Vercel (pivoshenko.dev, pivoshenko.ai, pivoshenko.theme, pivoshenko.startpage, pivoshenko.wallpapers), team `pivoshenko`. Read-only sweep -> per-site report (ok/attention/action) -> confirmed fixes. Emphasizes security headers and analytics coverage. Use when the user says "audit vercel", "check vercel hygiene", "harden the sites", "vercel security", "check analytics coverage", "vercel health check", or wants a periodic once-over of the Vercel setup. Delegates perf/cost -> `vercel-optimize`, CLI ops and deployments -> `vercel-cli` (or the `mcp__vercel__create_deployment` tool).
 tags: [vercel, nextjs, deploy]
-updated_at: 2026-11-12
+updated_at: 2026-11-22
 ---
 
 # Vercel Hygiene
@@ -129,7 +129,7 @@ Actions are derived from what the sweep found, not from a fixed list. The recurr
 
 - Cost analysis, bundle size, perf budgets -> `vercel-optimize`
 - CLI ops (`vercel env`, `vercel domains`, `vercel link`) -> `vercel-cli`
-- Triggering/managing deployments -> `vercel-cli` (CLI) or `mcp__vercel__deploy_to_vercel` (MCP)
+- Triggering/managing deployments -> `vercel-cli` (CLI) or `mcp__vercel__create_deployment` (MCP)
 
 ## Rules
 
