@@ -8,7 +8,7 @@ description: >-
   starting work is `git-issue-create`'s. Creates and checks out the branch immediately without asking
   for confirmation.
 tags: [git]
-updated_at: 2026-09-13
+updated_at: 2026-11-22
 ---
 
 # Git Branch Create
@@ -25,7 +25,7 @@ Make + checkout new branch. No confirm.
    - Base = the detected default branch unless the user explicitly says "off this branch" / "from here" -> then use current. Skip step 4's fetch; go to step 5 "off current" variant. Being on a feature branch alone is not that signal
 4. Exists? `git show-ref --verify --quiet refs/heads/<name>` -> 0 = stop, surface conflict, no overwrite. Why -> `checkout -b` errors anyway, but check early so message is clean + no half-state
 5. Create:
-   - Off `<base>` (default): `git fetch origin <base>` + `git checkout -b <name> origin/<base>`
+   - Off `<base>` (default): `git fetch origin <base>` + `git checkout -b <name> --no-track origin/<base>`. Why `--no-track` -> otherwise the branch tracks `origin/<base>`, and a plain `git push` refuses because the names differ
    - No remote -> `git checkout -b <name> <base>` (local ref; skip the fetch). Local `<base>` absent too (unborn repo) -> `git checkout -b <name>` off `HEAD`
    - Off current: `git checkout -b <name>` (no fetch, no remote ref - current HEAD is the base)
 6. Print branch + base
