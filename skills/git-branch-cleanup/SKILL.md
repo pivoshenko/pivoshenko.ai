@@ -2,7 +2,7 @@
 name: git-branch-cleanup
 description: Delete local git branches whose remote tracking branch is gone or whose changes are already merged into the base branch. Use when the user asks to clean up branches, prune branches, delete stale branches, or /git-branch-cleanup. Also trigger on "tidy git branches", "remove old branches", "I'm done with these branches", "branch graveyard", or whenever the user complains about local branch clutter. Reports what will be deleted and asks before deleting anything.
 tags: [git]
-updated_at: 2026-09-17
+updated_at: 2026-11-22
 ---
 
 # Git Branch Cleanup
@@ -22,11 +22,12 @@ Prune locals = merged OR remote gone. Destructive -> preview + confirm.
      git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads \
        | awk '$2 == "[gone]" {print $1}'
      ```
-   - **Merged**: fully merged into the remote base (step 1 already fetched + pruned)
+   - **Merged**: own work, fully merged into the remote base (step 1 already fetched + pruned). Run this skill's script from inside the target repo:
      ```
-     git branch --merged origin/<base> --format='%(refname:short)'
+     bash <skill-dir>/scripts/merged.sh origin/<base>
      ```
-   - No remote -> compare against the local `<base>` (`git branch --merged <base>`) and skip the **Gone** bucket entirely (no upstreams can exist)
+     Why not bare `git branch --merged` -> it also lists a branch created a minute ago with no commits. The script leaves out what it can't tell apart from that, e.g. fast-forward merged work whose reflog expired -> never add those back by hand
+   - No remote -> compare against the local `<base>` (`bash <skill-dir>/scripts/merged.sh <base>`) and skip the **Gone** bucket entirely (no upstreams can exist)
    - Note: squash-merged PRs leave no merge commit, so they won't appear in **Merged**. Closing the PR deletes the remote -> they show up in **Gone** instead. The Gone bucket is the catch-all for PR-merged work
    - Union. **Exclude**:
      - Current
