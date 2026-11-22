@@ -139,13 +139,6 @@
       "python",
       "ai"
     ],
-    "supabase": [
-      "supabase"
-    ],
-    "supabase-postgres-best-practices": [
-      "supabase",
-      "sql"
-    ],
     "motherduck-connect": [
       "motherduck",
       "data"
@@ -311,9 +304,6 @@
     "pydantic/skills": [
       "python"
     ],
-    "supabase/agent-skills": [
-      "supabase"
-    ],
     "motherduckdb/agent-skills": [
       "motherduck"
     ],
@@ -340,10 +330,6 @@
     "logfire": [
       "observability",
       "python"
-    ],
-    "supabase": [
-      "supabase",
-      "sql"
     ]
   }
 }
