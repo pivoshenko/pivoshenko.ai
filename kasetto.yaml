@@ -1,6 +1,11 @@
 agent:
   - claude-code
 
+plugins:
+  - source: https://github.com/cursor/plugins
+    plugins:
+      - pstack
+
 instructions:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     instructions: "*"
@@ -9,67 +14,19 @@ skills:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     skills: "*"
 
-  - source: https://github.com/anthropics/skills
-    skills:
-      - canvas-design
-      - doc-coauthoring
-      - skill-creator
-
-  - source: https://github.com/ferdinandobons/startup-skill
-    skills:
-      - startup-design
-      - startup-competitors
-      - startup-positioning
-      - startup-pitch
-
   - source: https://github.com/cloudflare/skills
     skills:
       - cloudflare
       - web-perf
-
-  - source: https://github.com/vercel/next.js
-    branch: canary
-    skills:
-      - next-dev-loop
-      - next-cache-components-optimizer
-      - next-cache-components-adoption
 
   - source: https://github.com/vercel-labs/agent-skills
     skills:
       - vercel-optimize
       - web-design-guidelines
 
-  - source: https://github.com/vercel/vercel
-    skills:
-      - vercel-cli
-
   - source: https://github.com/vercel/components.build
     skills:
       - building-components
-
-  - source: https://github.com/apollographql/skills
-    skills:
-      - rust-best-practices
-
-  - source: https://github.com/mattpocock/skills
-    sub-dir: skills/productivity
-    skills:
-      - grilling
-
-  - source: https://github.com/mattpocock/skills
-    sub-dir: skills/engineering
-    skills:
-      - codebase-design
-      - diagnosing-bugs
-      - domain-modeling
-      - implement
-      - improve-codebase-architecture
-      - prototype
-
-  - source: https://github.com/fastapi/fastapi
-    sub-dir: fastapi/.agents/skills
-    skills:
-      - fastapi
 
   - source: https://github.com/pydantic/skills
     sub-dir: skills
@@ -77,14 +34,8 @@ skills:
       - building-pydantic-ai-agents
       - logfire-instrumentation
       - logfire-query
-      - logfire-ui
       - pydantic-ai-harness
       - pydantic
-
-  - source: https://github.com/pbakaus/impeccable
-    sub-dir: .claude/skills
-    skills:
-      - impeccable
 
   - source: https://github.com/anthropics/knowledge-work-plugins
     sub-dir: engineering/skills
@@ -95,13 +46,6 @@ skills:
       - tech-debt
       - testing-strategy
 
-  - source: https://github.com/anthropics/knowledge-work-plugins
-    sub-dir: data/skills
-    skills:
-      - analyze
-      - build-dashboard
-      - create-viz
-
 mcps:
   - source: https://github.com/pivoshenko/pivoshenko.ai
     mcps:
@@ -111,10 +55,4 @@ mcps:
       - logfire
       - kaggle
       - ihroteka
-      - superlogical
       - motherduck
-
-plugins:
-  - source: https://github.com/cursor/plugins
-    plugins:
-      - pstack
