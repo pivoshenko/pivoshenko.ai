@@ -2,7 +2,7 @@
 name: blog-write
 description: Write and edit blog posts for pivoshenko.dev - interrogate for raw material, outline as a dependency graph, confirm sections, draft section-by-section, run the local anti-slop edit passes (references/anti-slop.md), ship as MDX. Use when the user says "write a blog post", "draft a post about X", "edit/revise/improve this article", "tighten this draft", "turn this into a post", "publish to my blog", or shares notes/an experience meant for pivoshenko.dev. The goal is bespoke practitioner writing, not generic AI prose.
 tags: [writing, blog]
-updated_at: 2026-11-12
+updated_at: 2026-11-22
 ---
 
 # Blog Write
@@ -54,6 +54,9 @@ Voice non-negotiables:
 - Paragraphs 1-3 lines, never more; a paragraph that grows -> split
 - Rhythm: claim, claim, claim, beat
 - First person singular; lowercase brand/tool names; `posts` never `articles`
+- Refuse hype: `game-changing`, `revolutionary`, `world-class`, `cutting-edge`
+- Refuse vague value: `solutions`, `seamless`, `empower`, `unlock`, `delight`
+- Refuse filler: `simply`, `just`, `basically`, `actually`
 
 One section at a time. Each section carries >=1 author-only artifact (number, error, config, decision + why). Section has none -> back to step 1 for that section, not into generalities.
 
