@@ -24,6 +24,10 @@ skills:
       - vercel-optimize
       - web-design-guidelines
 
+  - source: https://github.com/vercel/vercel
+    skills:
+      - vercel-cli
+
   - source: https://github.com/vercel/components.build
     skills:
       - building-components
