@@ -57,6 +57,7 @@ mcps:
       - vercel
       - cloudflare
       - logfire
+      - grafana
       - kaggle
       - ihroteka
       - motherduck

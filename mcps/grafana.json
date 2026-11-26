@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "grafana": {
+      "url": "https://mcp.grafana.com/mcp",
+      "type": "http"
+    }
+  }
+}

@@ -330,6 +330,9 @@
     "logfire": [
       "observability",
       "python"
+    ],
+    "grafana": [
+      "observability"
     ]
   }
 }
